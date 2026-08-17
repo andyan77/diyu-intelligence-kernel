@@ -1,0 +1,57 @@
+{
+  "snapshot_id": "SNAP-INTD02-0001",
+  "brand_id": "fixture-brand-01",
+  "_fixture_note": {
+    "案例真源": "B.4.1/INT-D02｜快速模式与增强模式（B_三个核心模块智能验收合同.md「B.4.1 Intent Intelligence」→「INT-D02｜快速模式与增强模式」整节）——只引用，不复述判分口径",
+    "素材真源": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §3 包2 P13「10%羊绒风衣式大衣」条；逐字段来源见各字段 source",
+    "考点（只述初始条件，不写答案）": "本快照只负责造出 B.4.1/INT-D02「输入」原文「商品基本事实存在，但缺少影响表达的账号人格或品牌信息。」这一初始条件：P13 商品基本事实在场，人设 / 账号 / 品牌信息不在场。快速模式与增强模式两族允许答案在 B.4.1/INT-D02「允许答案族」，禁止结果在 B.4.1/INT-D02「禁止结果」，本文件不复述、不预写。",
+    "两份 Manifest 共用": "manifest.quick.draft.yaml 与 manifest.enhanced.draft.yaml 共用本快照（两份的 context_snapshot_id 均写 SNAP-INTD02-0001）；两份仅 execution_mode 不同，冻结时 snapshot_hash 必须逐字相同（该「共用同一快照」口径属草案起草口径、B 未就本案例规定 → OQ-INT-D02-01）。",
+    "故意缺失清单（显式 MISSING，禁补）": [
+      "persona（人设/账号人格）——B.4.1/INT-D02「输入」点名「缺少影响表达的账号人格」；数据包 §5 包4 存在 R01/R02，本快照刻意不带入。B.4.1/INT-D02「禁止结果」明禁「编造创始人背景」",
+      "video_account（视频号账号事实）——B.4.1/INT-D02「输入」点名「账号人格」的承载对象；数据包 §6 包5 存在，本快照刻意不带入。B.4.1/INT-D02「禁止结果」明禁「编造…账号关系」",
+      "brand（品牌定位/价值主张/调性/禁用表达清单/商业硬约束）——B.4.1/INT-D02「输入」点名「缺少…品牌信息」；数据包 §2 包1 存在，本快照刻意不带入。B.4.1/INT-D02「禁止结果」明禁「编造…品牌禁语」",
+      "audience（受众事实）——B.4.1/INT-D02「输入」未点名；数据包 §4 包3 存在但本快照未带入，如实登记为缺失，不冒充在场",
+      "business_goal——B.4.1/INT-D02 全段未交代商业目标；快照不带入（禁补），详见下方待确认项",
+      "product.lining（里料）——素材侧故意缺失：数据包 P13 原文「缺失【截图 IMG_0684】」，禁补"
+    ],
+    "照抄纪律": "成分/价格/款号/尺码一字不改（价格另存 raw_text 保留截图原文「3980元」）；product 块与 INT-D01 / INT-D03 三份快照逐字一致；数组化仅用于 面料成分 与 尺码范围（数据包本身即分项列举），其余字段保留数据包原句。真实品牌名不得出现；brand_id 固定 fixture-brand-01。",
+    "待确认（PENDING，冻结前须裁决，不得默认已通过）": [
+      "business_goal 缺位与 QUICK 侧可跑性冲突：B.4.1/INT-D02「输入」只声明缺「账号人格或品牌信息」，对商业目标只字未提，故本快照未带入（无真源，禁补）。但 contracts/OD-03_阻断性最小上下文字段清单.md 一、#2 把 business_goal 列为 BLOCKING，而 A.4.2 规定「BLOCKING 缺失在任何模式都进入 NEEDS_INPUT」——若运行侧照 OD-03 判定，QUICK 侧也会直接进 NEEDS_INPUT，B.4.1/INT-D02「允许答案族」的快速模式答案族（非阻断缺失时允许继续）将无从考察。是否由 task_statement「为这件羊绒大衣制作春节前视频号内容。」隐含解析出目标、或另行冻结目标，B 未规定 → 须 Founder/IA-0 裁决。",
+      "product.inventory=800 件 与 product.lifecycle_stage=库存消化期：数据包 P13 自带商品字段（均标【虚构-剧本】），按任务书「P13 商品事实照抄」在场；本案例 B.4.1/INT-D02 整节未涉及库存，保留与否影响低于 INT-D01，但三份快照 product 块须保持逐字一致 → 若 INT-D01 处裁定剔除，此处须同步。",
+      "snapshot_hash 不在本文件内自证：由快照构建工具计算后回填两份 Manifest；任何一次快照正文改动都使既有回填值过期，必须同批重算。",
+      "_fixture_note 属夹具元数据、不属事实层；整份 JSON 是否原样下发给被测模块，B/A 均未规定 → 冻结前须确认剥离口径。"
+    ],
+    "hard_rules 说明": "B.4.1/INT-D02 整节无「冻结事实」块、未列任何规则或禁令对象；本案例的品牌信息按 B.4.1/INT-D02「输入」属故意缺失，挂规则会使「编造创始人背景、账号关系或品牌禁语」这条禁止结果无从判定。故 hard_rules 为空数组，不凭空断言 rule_id/version（对应 OQ-INT-D02-02）。现状更新（本轮核对）：Founder 2026-08-17 预裁决③ 的 R-FB01-001 已落盘 contracts/rules/R-FB01-001.yaml（version 1、status ACTIVE，同目录另有 R-BDD01-001/002），原「该对象尚未落盘、contracts/rules/ 为空目录」的陈述已失效；是否给本案例补挂规则属改考卷内容，由 IA-0 裁决。"
+  },
+  "facts": {
+    "product": {
+      "product_id": "P13",
+      "name": {"value": "10%羊绒风衣式大衣", "source": "夹具虚构（剧本）"},
+      "category": {"value": "10羊绒版", "source": "截图 IMG_0684"},
+      "sku": {"value": "1G9971081", "source": "截图 IMG_0684"},
+      "price": {"value": 3980, "currency": "CNY", "raw_text": "3980元", "as_of": "2026-08-17", "source": "截图 IMG_0684"},
+      "material": {
+        "value": [
+          "黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）",
+          "米色面料:90.3%绵羊毛 9.7%山羊绒（连接线除外）",
+          "晓雾灰面料:90.8%绵羊毛 9.2%山羊绒（连接线除外）",
+          "云烟灰面料:90.1%绵羊毛 9.9%山羊绒（连接线除外）"
+        ],
+        "source": "截图 IMG_0684"
+      },
+      "lining": {"value": null, "status": "MISSING", "source": "截图 IMG_0684", "note": "数据包 P13 原文「里料｜缺失【截图 IMG_0684】」——截图未出现或被遮挡，属素材侧故意缺失，禁补"},
+      "style_attributes": {"value": "大翻领、廓形肩线、H型风衣式；袖口可调节袖袢；宽边长腰带", "source": "截图 IMG_0674、截图 IMG_0677、截图 IMG_0680"},
+      "selling_points": {"value": "同页展示敞开穿与收腰穿两种方式；提供黑色、米色、晓雾灰、云烟灰四种面料成分", "source": "截图 IMG_0677、截图 IMG_0684"},
+      "size_range": {"value": ["150/76A/XS", "155/80A/S", "160/84A/M", "165/88A/L", "170/92A/XL"], "source": "截图 IMG_0684"},
+      "lifecycle_stage": {"value": "库存消化期", "source": "夹具虚构（剧本）"},
+      "inventory": {"value": 800, "unit": "件", "source": "夹具虚构（剧本）"},
+      "image_refs": {"value": "IMG_0672、IMG_0675—IMG_0682、IMG_0683、IMG_0684；共享图同时关联 P12", "source": "截图 IMG_0672、截图 IMG_0684"}
+    },
+    "persona": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "B.4.1/INT-D02「输入」「缺少影响表达的账号人格」；数据包 §5 包4（R01 沈岚 / R02 许澄）存在，本快照刻意不带入。B.4.1/INT-D02「禁止结果」明禁「编造创始人背景」——暂定人设只能标 ASSUMPTION，不得写成事实"},
+    "video_account": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "数据包 §6 包5 视频号账号事实存在，本快照刻意不带入。B.4.1/INT-D02「禁止结果」明禁「编造…账号关系」"},
+    "brand": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "B.4.1/INT-D02「输入」「缺少…品牌信息」；品牌定位/价值主张/说话调性/禁用表达清单/商业硬约束一概不在场。数据包 §2 包1 存在，本快照刻意不带入。B.4.1/INT-D02「禁止结果」明禁「编造…品牌禁语」"},
+    "audience": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "B.4.1/INT-D02「输入」未点名；数据包 §4 包3（A01/A02）存在但本快照未带入，如实登记为缺失"},
+    "business_goal": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "B.4.1/INT-D02 全段未交代商业目标，无真源可抄 → 不带入、不补写。与 OD-03 BLOCKING 判定的冲突见 _fixture_note 待确认项"}
+  },
+  "hard_rules": []
+}

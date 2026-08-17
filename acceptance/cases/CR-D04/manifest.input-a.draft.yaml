@@ -12,14 +12,14 @@ case_id: CR-D04
 case_version: "v0.1"
 
 prd_version: "v0.1"
-data_contract_version: "v0.1"
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"
 
-# 规划名：快照尚未构建（本案例目录下无 fixtures/；对照 acceptance/cases/BD-D01/fixtures/context_snapshot.json 才是已落盘实体）。
+# 规划名：快照尚未构建（本案例目录下无 fixtures/；对照 acceptance/cases/BD-D01/fixtures/context_snapshot.json 才是已落盘实体）。（08-17 已失效：快照已落盘 acceptance/cases/CR-D04/fixtures/context_snapshot_a.json，snapshot_hash 已回填）
 # 三份变体各用一份快照（-0001 输入 A / -0002 输入 B / -0003 输入 C），因三条输入的视觉材料本身不同（B:637/639/641）；
 # 三份快照的素材差异与 hash 由 IA-0 构建时定（OQ-CR-D04-03；hash 回填见 OQ-CR-D01-06）
 context_snapshot_id: "SNAP-CRD04-0001"
-snapshot_hash: "PENDING_SNAPSHOT_BUILD"
+snapshot_hash: "sha256:12b927191639cf9b7ced388bca2ca03b2d4a69b52f96b60605721df82eea345a"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # 逐字照抄 B:637（仅去除 Markdown 粗体标记 **，未改字）；另两条输入见 manifest.input-b / input-c.draft.yaml。
 # 最终逐运行任务陈述是否即照此冻结 → IA-0 裁决（OQ-CR-D04-02）
@@ -30,10 +30,15 @@ task_statement: |-
 execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 
 # B.4.3/CR-D04 无「冻结事实」小节，未给任何规则编号（「品牌禁用表达」只出现在允许答案族 B:648，「品牌硬规则」只出现在禁止结果 B:656）；
-# contracts/rules/ 当前为空目录（全仓唯一落盘的规则对象是 acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 R-BDD01-001/002）
+# contracts/rules/ 当前为空目录（全仓唯一落盘的规则对象是 acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 R-BDD01-001/002）（08-17 已失效：contracts/rules/ 现已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三条 RuleRecord）
 # → 空数组，不凭空断言 object_id/version（OQ-CR-D01-04，四份 CR 草案同一处）。
 # 另：本案例映射 SYS-03 且主要失败标签含 SYS_RULE_VIOLATION（B:667），无硬规则对象则 B:656 该条禁止结果不可判 → IA-0 必须先补规则（OQ-CR-D04-04）
-hard_rule_refs: []
+hard_rule_refs:
+  # 【08-17 回填】上行「contracts/rules/ 当前为空目录」已失效：R-FB01-001 已落盘 contracts/rules/R-FB01-001.yaml
+  #   （Founder 预裁决③；词表唯一真源 = acceptance/detectors/forbidden_lexicon.yaml）。
+  #   本案例登记依据：B:648 允许答案族明文「三种输入都遵守品牌禁用表达和商品事实」。
+  #   仍未关闭的部分：B:656「视觉创意覆盖品牌硬规则」所指的其余品牌硬规则 B 未具名，不凭空登记（OQ-CR-D04-04 该半仍挂 IA-0）。
+  - {object_type: RuleRecord, object_id: R-FB01-001, version: 1, brand_id: fixture-brand-01}
 
 # contracts/schemas/ 下不存在任何 Creative 输出 Schema，且本文件 module_contract_versions.creative 仍为 PENDING_BUILD
 # → 不写看似已存在的版本号（OQ-CR-D01-05，四份 CR 草案同一处）

@@ -121,6 +121,7 @@
   },
 
   "persona_card": {
+    "persona_ref": "人物标识：逐字写企业事实中该人设的 persona_id 原值，不得另造编号",
     "speaker_identity": "谁来说：身份与立场",
     "voice_traits": ["说话特征"],
     "audience_relationship": "与受众的关系",
@@ -163,6 +164,7 @@
     "full_voiceover": "完整口播全文，可直接照读",
     "voice_traits": ["声音特征"],
     "pace": "整体语速与节奏说明",
+    "emotion": "整体情绪基调",
     "cues": [
       {
         "position": "在口播全文中的位置（引用该处原文片段）",
@@ -254,7 +256,7 @@
 - [ ] 人设卡的 `forbidden_styles` 在口播和评论回复里没有被违反？
 - [ ] 所有硬规则逐条对照过，没有触线表达？
 - [ ] 所有假设都写进 `assumptions` 而不是混进确定陈述？
-- [ ] 所有商品引用写的是企业事实中的 `product_id` 原值，受众引用写的是 `audience_id`，规则引用带上了 `rule_id` 与 `version`？
+- [ ] 所有商品引用写的是企业事实中的 `product_id` 原值，受众引用写的是 `audience_id`，人物引用（`persona_card.persona_ref`）写的是 `persona_id` 原值，规则引用带上了 `rule_id` 与 `version`？
 - [ ] 没有任何百分比评分、爆款概率或销量保证？
 - [ ] 全文为中文（简体），除字段名与枚举值外没有中英混排？
 - [ ] `</thinking>` 之后的输出是且只是一个合法 JSON 对象？
@@ -271,8 +273,8 @@
 - 两阶段结果合并为同一 `E2EComparisonEnvelope` 后再做最终匿名裁判（B.2.3）。Envelope 由 runner 组装，**不由基线模型输出**：
   `decision_output_ref` / `frozen_selection_ref` / `creative_package_ref` / `selected_candidate_id` / `package_section_count: 9` / `output_contract_version`。
 - 匿名处理按 B.2.5 执行（随机 X / Y 标签、相同外层展示格式、随机排列、揭晓前冻结裁判原始选择）；匿名处理不得修改业务内容。
-- **`<thinking>` 块的处置（草案提案，PENDING_IA0，OQ-BASELINE-06）**：模型可选输出的 `<thinking>…</thinking>` 块由 runner 在**进入 B.2.5 匿名处理之前整块剥离**，剥离后的 JSON 才是参与比较与判分的输出；`<thinking>` 块不得进入 `E2EComparisonEnvelope`。剥离范围与「该块不属 B.2.5『匿名处理不得修改业务内容』所指的业务内容」这一认定，须写入 `anonymity_procedure.md` 并两侧同规则；Founder 未在 IA-0 裁决前，本条不得视为已生效。
-- **失败处置（草案提案，PENDING_IA0，OQ-BASELINE-07）**：基线侧出现 `FORMAT_INVALID` / `SCHEMA_INVALID`、输出被 `max_tokens` 截断或调用超时时，默认口径为**零重试**——B.2.4 明文「阶段 D 和阶段 C 各允许一次受控直接调用；除此之外不得增加隐藏迭代」：该次调用照实记录（次数、Token、成本、延迟按 B.2.2），该侧本案例记 FAILED，不得由 runner 私下追加任何重试。笛语侧 PRE-03-M 的有界重试（B:244）自身限定「当前里程碑模块」，不适用于基线侧。若 Founder 认为基线侧应享有对称重试预算，**那等于修改 B.2.4 考试条件，必须走 B.8.1 版本升级 + 双侧重跑**，不能由本文件自行约定——是否立项，见 OQ-BASELINE-07。与阶段 D §4 同一条规则，两阶段不得各行其是。
+- **`<thinking>` 块的处置（Founder 2026-08-17 预裁决⑤ 已定：允许 `<thinking>` 块、匿名前剥离；《裁决台账》08-17 行；OQ-BASELINE-06）**：模型可选输出的 `<thinking>…</thinking>` 块由 runner 在**进入 B.2.5 匿名处理之前整块剥离**，剥离后的 JSON 才是参与比较与判分的输出；`<thinking>` 块不得进入 `E2EComparisonEnvelope`。剥离范围与「该块不属 B.2.5『匿名处理不得修改业务内容』所指的业务内容」这一认定，须写入 `anonymity_procedure.md` 并两侧同规则（该文件 §8 P-14 尚未回填本预裁决，**冻结前必须同步**）。本条口径与 `e2e_interaction_contract.md` §5 第 3 行一致。
+- **失败处置（Founder 2026-08-17 预裁决④ 已定：基线零重试、不动 B 合同，整场对称重跑合法；《裁决台账》08-17 行；OQ-BASELINE-07）**：基线侧出现 `FORMAT_INVALID` / `SCHEMA_INVALID`、输出被 `max_tokens` 截断或调用超时时，默认口径为**零重试**——B.2.4 明文「阶段 D 和阶段 C 各允许一次受控直接调用；除此之外不得增加隐藏迭代」：该次调用照实记录（次数、Token、成本、延迟按 B.2.2），该侧本案例记 FAILED，不得由 runner 私下追加任何重试。笛语侧 PRE-03-M 的有界重试（B:244）属 B.3「进入智能验收前的最低运行检查」（B:235「这些检查只判断系统能否安全进入智能验收，不参与智能能力评分」；B:253「任一最低运行检查失败时，不得进入正式端到端 A/B」），自身限定「当前里程碑模块」，**对两侧均不构成端到端阶段调用的重试预算**——A/B 端到端阶段两侧一律各 1 次调用、零重试。整场（两侧对称）重跑合法，按 B.2.1「升级案例版本并重新运行两侧」（B:165）执行，不得只重跑单侧。若后续仍要给任一侧对称重试预算，**那等于修改 B.2.4 考试条件，必须走 B.8.1 版本升级 + 双侧重跑**，不能由本文件自行约定。与阶段 D §4 及 `e2e_interaction_contract.md` §5 第 2 行同一条规则，两阶段不得各行其是。
 
 ## 5. 字段来源对照表（可审计溯源）
 
@@ -281,10 +283,10 @@
 | 九部分顶层结构（`content_brief` … `comment_operation_package`） | B.2.3 「同一九部分制作包 Schema」；部分名与最小内容来自 PRD 7.2；最小必填字段来自 A.8 | 冻结要求 |
 | `content_brief` 子字段 | A.8：`business_goal, audience_refs, core_proposition, product_refs, non_negotiable_fact_refs, rule_refs`（已剔除 `decision_selection_ref` / `decision_bundle_ref`——属笛语内部 VersionedRef，B.2.3 不要求基线伪造） | **PENDING_IA0**（OQ-BASELINE-12）：外部可见子集需确认 |
 | `creative_strategy` 子字段 | A.8 逐字 | 冻结要求 |
-| `persona_card` 子字段 | A.8（已剔除 `persona_ref`——内部 VersionedRef；A.3.5 `persona_id` 未在本外部 Schema 出现） | **PENDING_IA0**（OQ-BASELINE-12） |
-| `video_script` 子字段 | A.8（已剔除段内 `trace_refs`——内部） | 冻结要求 |
+| `persona_card` 子字段 | A.8（A:755）：`persona_ref, speaker_identity, voice_traits[], audience_relationship, belief_expression, forbidden_styles[]`。`persona_ref` 按与 `product_ref` **同一降级规则**（B:203：不要求基线伪造笛语内部 Run / Artifact / Trace ID；`persona_id` 是业务标识不是内部追踪 ID）写为 **A.3.5 `persona_id` 原值**，与 `e2e_output_contract.md` §1「人物（Persona）」行 / §3.3 落点说明**同批取同一口径** | `persona_ref` 落点**已定**（两侧一致）；九部分其余外部可见子集仍为 **PENDING_IA0**（OQ-BASELINE-12） |
+| `video_script` 子字段 | A.8（A:756）：`target_duration_seconds`、`segments[]`，每段含 `start_second, end_second, visual, spoken_text, product_refs, emotion`（已剔除段内 `trace_refs`——内部）。**`segment_id`：A:756 未列该字段**，为承接 `storyboard.shots[].script_segment_ref` 由**共同输出合同设立**（`e2e_output_contract.md` §3.4；与顶层 `risks` / `basis_entries` 同类处理：A 中无对应落点、据 B / 承接需要设立），**两侧同用** | A.8 已列子字段为**冻结要求**；`segment_id` 的具体书写形式为 **PENDING_IA0**（OQ-BASELINE-13，随 `e2e_output_contract.md` §7 第 8 条同批定稿） |
 | `storyboard` 子字段 | A.8 逐字 | 冻结要求 |
-| `voice_package` 子字段 | A.8（A:757 VoicePackage）：`full_voiceover, voice_traits[], pace, cues[]`；Cue 枚举 `PAUSE / EMPHASIZE / SLOW_DOWN / SPEED_UP` 逐字来自 A.8。**PRD 7.2（PRD:609）为 Voice Package 明列的最小内容是「完整口播、停顿、强调、语速和情绪」，其中「情绪」在 A.8 VoicePackage 中无对应字段**——本文件按 A.8 起草、未自造字段，差异不静默丢弃，登记为待裁 | Cue 条目内 `position` / `note` 为 **PENDING_IA0**（OQ-BASELINE-13，A.8 未展开 Cue 内部字段）；「情绪」是否补入为 **PENDING_IA0**（OQ-BASELINE-11） |
+| `voice_package` 子字段 | A.8（A:758 VoicePackage）：`full_voiceover, voice_traits[], pace, emotion（情绪）, cues[]`；Cue 枚举 `PAUSE / EMPHASIZE / SLOW_DOWN / SPEED_UP` 逐字来自 A.8。`emotion` 为 **A v0.2 已补入**（A:758；A.0 修订记录 A:11：Founder 2026-08-17 裁决补该字段，对齐 PRD 7.2「完整口播、停顿、强调、语速和情绪」PRD:609），本文件按**预裁决⑦**同批补入，与 `e2e_output_contract.md` §3.6 一致 | `emotion` **已定**（预裁决⑦，OQ-BASELINE-11）；Cue 条目内 `position` / `note` 仍为 **PENDING_IA0**（OQ-BASELINE-13，A.8 未展开 Cue 内部字段） |
 | `audio_direction` 子字段 | A.8 逐字 | 冻结要求 |
 | `product_placement` 子字段 | A.8 逐字 | 冻结要求 |
 | `comment_operation_package` 子字段 | A.8：`pinned_comment, faq_items[], official_responses[], prohibited_claim_refs[]` | `faq_items` / `official_responses` 条目内部字段为 **PENDING_IA0**（OQ-BASELINE-13，A.8 未展开） |
@@ -292,12 +294,24 @@
 | `production_risks` | B.2.3 明列；A.7.2 同名字段 | 冻结要求 |
 | `assumptions` | B.2.3 明列；「显式标记假设与不确定性」来自 PRD 7.3 第 6 条 / A.1.4 | 条目内部字段（`assumption_id` / `missing_input` / `impact_if_wrong`）为 **PENDING_IA0**（OQ-BASELINE-13，B / A 未为外部展示合同展开） |
 | `confidence` | B.2.3 明列；结构逐字来自 A.2.5 ConfidenceStatement | 冻结要求 |
-| 全部引用字段的书写形式（`audience_refs` / `product_refs` / `non_negotiable_fact_refs` / `rule_refs` / `prohibited_claim_refs` / 段内 `product_refs` / `placements[].product_ref`） | 商品用 A.3.2 `product_id`；受众用 A.3.4 `audience_id`；硬规则用 A.9.1 `rule_id` + `version`。**事实条目标识：B 与 A 均未为外部展示合同规定其形式**，本文件只要求「照抄企业事实中的原有标识、不得另造」。人物引用：A.8 PersonaCard 的 `persona_ref` 已按 B.2.3 剔除，故本外部 Schema 无 `persona_id` 落点；若共同输出合同后续补入，必须用 A.3.5 `persona_id` | **PENDING_IA0**（OQ-BASELINE-05）：事实引用书写形式随共同输出合同定稿；两侧写法一致是 B.2.5「相同外层展示格式」的前置 |
-| 输出语言 = 中文（简体） | **B 未规定输出语言**；本文件按 B.2.5「使用相同外层展示格式」取两侧同一语言口径，避免语言或中英混排差异构成来源指纹 | **PENDING_IA0**（OQ-BASELINE-09）：须确认笛语侧同为中文（简体），且与阶段 D 同口径 |
-| `<thinking>` 块（不进入输出合同） | **B 未规定**；本文件按 B.2.4「不得故意写弱」补足草稿空间（对照 B:181 笛语侧可多模块多次调用把推理外化） | **PENDING_IA0**（OQ-BASELINE-06）：方案与剥离口径由 Founder 在 IA-0 裁决 |
+| 全部引用字段的书写形式（`audience_refs` / `product_refs` / `non_negotiable_fact_refs` / `rule_refs` / `prohibited_claim_refs` / 段内 `product_refs` / `placements[].product_ref`） | 商品用 A.3.2 `product_id`；受众用 A.3.4 `audience_id`；硬规则用 A.9.1 `rule_id` + `version`。**事实条目标识：B 与 A 均未为外部展示合同规定其形式**，本文件只要求「照抄企业事实中的原有标识、不得另造」。人物引用：A.8 PersonaCard 的 `persona_ref` 按 B:203 同一降级规则写 **A.3.5 `persona_id` 原值**（落点 = `persona_card.persona_ref`，与 `e2e_output_contract.md` §1 同口径） | **PENDING_IA0**（OQ-BASELINE-05）：事实引用书写形式随共同输出合同定稿；两侧写法一致是 B.2.5「相同外层展示格式」的前置 |
+| 输出语言 = 中文（简体） | **B 未规定输出语言**；本文件按 B.2.5「使用相同外层展示格式」取两侧同一语言口径，避免语言或中英混排差异构成来源指纹 | **预裁决已定**（Founder 2026-08-17；OQ-BASELINE-09 已标 ✅预裁决 08-17，《裁决台账》08-17 行）：两侧同为中文（简体），字段名与枚举值保持英文原样；与阶段 D §5 及 `e2e_interaction_contract.md` §5 第 4 行同口径 |
+| `<thinking>` 块（不进入输出合同） | **B 未规定**；本文件按 B.2.4「不得故意写弱」补足草稿空间（对照 B:181 笛语侧可多模块多次调用把推理外化） | **预裁决⑤已定**（Founder 2026-08-17「允许 `<thinking>` 块、匿名前剥离」，《裁决台账》08-17 行；OQ-BASELINE-06）：剥离范围与「不属 B.2.5 业务内容」的认定待 `anonymity_procedure.md` §8 P-14 同批回填 |
 | 多模态输入通道（§2 表下声明） | B.2.2（B:172）「相同商品图片和其他输入材料」；与阶段 D §2 同源同句 | **PENDING_IA0**（OQ-BASELINE-10）：阶段 C、阶段 D 与笛语侧三方通道一致性须核验 |
-| 输出纪律第 1–7 条 | A.8「一致性约束」1–7 + PRD 7.3 完整性与可用性 1–7 | 属"相同最终输出合同"，两侧同发（B.2.4） |
+| 输出纪律第 1 条（承接已选候选） | A.8 一致性约束第 1 条（A:765）+ PRD 7.3 第 3 条 | 属"相同最终输出合同"，两侧同发（B.2.4） |
+| 输出纪律第 2 条（不得虚构） | A.8 一致性约束第 5 条（A:769）+ PRD 7.3 第 2 条 | 同上 |
+| 输出纪律第 3 条（视觉建议只用有图片来源的信息） | A.8 一致性约束第 6 条（A:770） | 同上 |
+| 输出纪律第 4 条（人格一致） | A.8 一致性约束第 2 条（A:766）+ PRD 7.3 第 4 条 | 同上 |
+| 输出纪律第 5 条（分镜挂得住脚本） | A.8 一致性约束第 3 条（A:767）+ PRD 7.3 第 5 条 | 同上 |
+| 输出纪律第 6 条（商品只来自当前商品池） | A.8 一致性约束第 4 条（A:768） | 同上 |
+| 输出纪律第 7 条（假设与不确定性显式标记） | PRD 7.3 第 6 条 | 同上 |
+| 输出纪律第 8 条（不做伪精确） | B.1.2「不设置综合总分」（B:46-50：不采用综合总分、自动审美评分、数百格打分矩阵）；置信度三级结构见 A.2.5 | 同上 |
+| 输出纪律第 9 条（不做承诺） | A.6.3 约束末条（A:668）「不输出爆款概率、销量保证或因果承诺」 | 同上 |
+| 输出纪律第 10 条（不写小红书笔记体） | A.8 一致性约束第 7 条（A:771） | 同上 |
+| 输出纪律第 11 条（九部分全部存在且关键字段非空） | PRD 7.3 第 1 条（PRD:620）「九个顶层部分全部存在」 | 同上 |
 | 九部分人工可用标准表 | PRD 7.2「人工可用标准」列逐字 | 冻结要求 |
+
+**A.8 一致性约束第 8 条**（A:772「Schema 和硬规则通过后，仍必须由人判断是否值得实际制作」）属**人审环节**、不构成对模型的输出纪律，故不落 Prompt 正文——其落点是 B.2.5 匿名判分与 Founder / Reviewer 人审（`anonymity_procedure.md`）。**PRD 7.3 第 7 条**（硬规则校验通过）同属 runner / 检测器侧校验，不写成模型自述条款。
 
 **已刻意不要求基线输出的字段**（A.7.2 / A.8 有、但属笛语内部）：`artifact` / `ArtifactEnvelope`、`parent_references`、`decision_selection_ref`、`decision_bundle_ref`、`context_snapshot_ref`、`package_artifact_refs`、`validation`（笛语侧自校验四态）、`trace_bundle`、`MarkdownExportManifest`。理由：B.2.3「不要求基线伪造笛语内部 Run、Artifact 或 Trace ID」+「不能增加只对一侧可见的业务内容」。
 
@@ -305,16 +319,16 @@
 
 > 每条编号 `OQ-BASELINE-xx` 供中央待裁清单汇编引用；本文件不自建登记文件。
 
-1. 九部分各自的**外部可见子字段集**定稿（内部 VersionedRef 一律剔除，两侧显示口径必须一致）。（OQ-BASELINE-12）
-2. `voice_package.cues[]`、`comment_operation_package.faq_items[]` / `official_responses[]`、`assumptions[]` 的条目内部字段定稿。（OQ-BASELINE-13）
+1. 九部分各自的**外部可见子字段集**定稿（内部 VersionedRef 一律剔除，两侧显示口径必须一致）。其中 `persona_card.persona_ref` 一项**已定**：按 B:203 同一降级规则写 A.3.5 `persona_id` 原值，与 `e2e_output_contract.md` §1 / §3.3 同批取同一口径，不再是两侧差异项。（OQ-BASELINE-12）
+2. `voice_package.cues[]`、`comment_operation_package.faq_items[]` / `official_responses[]`、`assumptions[]` 的条目内部字段定稿，**并含 `video_script.segments[].segment_id` 的书写形式**（A.8 / B 均未展开或未列该字段；`segment_id` 的设立依据见 `e2e_output_contract.md` §3.4）——与该文件 §7 第 8 条同一项，两侧必须同批同稿。（OQ-BASELINE-13）
 3. `target_duration_seconds` 是否由案例统一给定（写进 `{{task_statement}}` 或硬规则），还是由模型自定——影响两侧可比性。（OQ-BASELINE-14）
-4. `voice_package` 是否补入 PRD 7.2 明列而 A.8 未展开的「情绪」字段——补则两侧同补并写进共同输出合同，不补则明确记为 PRD 与 A 之间的既有差异。（OQ-BASELINE-11）
+4. `voice_package.emotion`（情绪）：**已按预裁决⑦补入**（A v0.2 / A:758；Founder 2026-08-17，《裁决台账》08-17 行），与 `e2e_output_contract.md` §3.6 同批冻结——本条口径已定，仅待同批升版。（OQ-BASELINE-11）
 5. 阶段 C 多模态输入通道与阶段 D、笛语侧三方一致性核验（同一通道、同一批材料、同一顺序）。（OQ-BASELINE-10）
 6. 全部引用字段的书写形式定稿——事实条目标识尤其未定；两侧写法一致是 B.2.5「相同外层展示格式」的前置。（OQ-BASELINE-05）
-7. `<thinking>` 块方案由 Founder 在 IA-0 裁决：本文件已按「允许 `<thinking>` 块、runner 在匿名化前整块剥离」起草，剥离范围与「不属 B.2.5 业务内容」的认定须写入 `anonymity_procedure.md`，两侧同规则。（OQ-BASELINE-06）
-8. 基线侧 `FORMAT_INVALID` / 截断 / 超时的处置规则（§4 已给对称提案）由 Founder 裁决，两侧同规则并写入 Case Manifest。（OQ-BASELINE-07）
+7. `<thinking>` 块：**预裁决⑤已定**（Founder 2026-08-17「允许 `<thinking>` 块、匿名前剥离」，《裁决台账》08-17 行）——口径已定，仅待 `anonymity_procedure.md` §8 P-14 同步回填「剥离范围 + 不属 B.2.5 业务内容」的认定 + 同批升版。（OQ-BASELINE-06）
+8. 基线侧 `FORMAT_INVALID` / 截断 / 超时的处置：**预裁决④已定**（Founder 2026-08-17「基线零重试、不动 B 合同，整场对称重跑合法」，《裁决台账》08-17 行）——口径已定，仅待写入 Case Manifest + 同批升版。（OQ-BASELINE-07）
 9. 与 `anonymity_procedure.md` 的衔接确认：阶段 D 输出 → B.2.5 匿名（X / Y）→ 选择冻结 → 回流为本阶段 `{{selected_candidate}}`；衔接口径以 `anonymity_procedure.md` 自身声明为准，本文件不复述。（OQ-BASELINE-08）
-10. 输出语言口径确认：本文件写死中文（简体），须确认笛语侧与阶段 D 同口径。（OQ-BASELINE-09）
+10. 输出语言：**预裁决已定**（两侧中文（简体），字段名与枚举值保持英文原样；OQ-BASELINE-09 已标 ✅预裁决 08-17，《裁决台账》08-17 行）——与阶段 D、`e2e_interaction_contract.md` §5 第 4 行同口径，仅待同批升版。（OQ-BASELINE-09）
 11. `output_contract_version` 取值，写入 Case Manifest 的 `e2e_output_contract_version` / `e2e_interaction_contract_version`（B.2.1）——与阶段 D §6 同一项，两阶段必须同值。（OQ-BASELINE-15）
 12. 模型供应商、模型版本、生成参数、allowed_tools 定格并写入 Case Manifest（OD-02 厂商组合已裁决（台账 08-17），版本 / 参数于 IA-0 定格——本项指后者，见《裁决台账》）。
 13. Founder 签字，状态由 `PENDING_IA0` 改为 `FROZEN`，版本由 `v0.1-draft` 升为 `v1.0`。

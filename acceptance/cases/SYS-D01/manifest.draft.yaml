@@ -18,16 +18,16 @@
 # - e2e_* 与 baseline_prompt_versions：本案例为模块诊断案例（B.4），非端到端匿名 A/B（B.5），故取 null。
 # - output_schema_version：B 未给版本号，contracts/schemas/ 内各 Schema 文件也未声明版本号；
 #   现值沿用同批草案口径、无真源背书，须于 IA-0 定格（见 OPEN_QUESTIONS OQ-SYS-D01-04）。
-# - context_snapshot_id：规划名；acceptance/cases/SYS-D01/ 下尚无 fixtures/，快照未构建、hash 无法计算
+# - context_snapshot_id：规划名；acceptance/cases/SYS-D01/ 下尚无 fixtures/，快照未构建、hash 无法计算（08-17 已失效：快照已落盘 acceptance/cases/SYS-D01/fixtures/context_snapshot.json，snapshot_hash 已回填）
 #   （见 OPEN_QUESTIONS OQ-SYS-D01-05）。
 
 case_id: SYS-D01
 case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；草案态由文件名 .draft.yaml + 本文件头 DRAFT 注释 + approved_by 表达，不进版本号
 prd_version: "v0.1"                           # 版本基线见 M0-EP01_文档版本一致性声明.md 一、现行版本基线
-data_contract_version: "v0.1"                 # 同上（附录 A v0.1）
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"           # 同上（附录 B v0.3）
-context_snapshot_id: "SNAP-SYSD01-0001"       # 规划名，快照尚未构建（OQ-SYS-D01-05）
-snapshot_hash: "PENDING_SNAPSHOT_BUILD"       # 快照构建后回填（B:139 字段为 string）
+context_snapshot_id: "SNAP-SYSD01-0001"       # 规划名，快照尚未构建（OQ-SYS-D01-05）（08-17 已失效：快照已落盘 acceptance/cases/SYS-D01/fixtures/context_snapshot.json）
+snapshot_hash: "sha256:c9f0dff6aa3e87c908759ce7d27d4b03885bda0bfe552baff795927897ef5281"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "PENDING_IA0_TASK_STATEMENT——B.4.4/SYS-D01 无「输入」引文亦无「能力问题」原句；待 Founder 于 IA-0 冻结制作使用者提出的那一个明确局部问题原文（OQ-SYS-D01-01）。"
 execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 hard_rule_refs: []                            # B 未在本案例冻结规则对象；contracts/rules/ 亦无落盘对象（OQ-SYS-D01-03）

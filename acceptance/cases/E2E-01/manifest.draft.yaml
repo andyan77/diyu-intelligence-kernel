@@ -24,20 +24,26 @@
 #   （见 OPEN_QUESTIONS OQ-E2E-01-04）。
 # - output_schema_version：B 未给版本号，contracts/schemas/ 内各 Schema 文件也未声明版本号；
 #   现值沿用同批草案口径、无真源背书，须于 IA-0 定格（见 OPEN_QUESTIONS OQ-E2E-01-05）。
-# - context_snapshot_id：规划名；本案例目录下尚无 fixtures/，快照未构建、hash 无法计算；
+# - context_snapshot_id：规划名；本案例目录下尚无 fixtures/，快照未构建、hash 无法计算；（08-17 已失效：快照已落盘 acceptance/cases/E2E-01/fixtures/context_snapshot.json，snapshot_hash 已回填）
 #   且 B:731「Persona 和 VideoAccountFacts 按 Manifest 冻结」所指的两类事实在 B.2.1 字段表
 #   （B:132-162）中无对应字段，落点待确认（见 OPEN_QUESTIONS OQ-E2E-01-06）。
 
 case_id: E2E-01
 case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；草案态由文件名 .draft.yaml + 本文件头 DRAFT 注释 + approved_by 表达，不进版本号
 prd_version: "v0.1"                           # 版本基线见 M0-EP01_文档版本一致性声明.md 一、现行版本基线
-data_contract_version: "v0.1"                 # 同上（附录 A v0.1）
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"           # 同上（附录 B v0.3）
-context_snapshot_id: "SNAP-E2E01-0001"        # 规划名，快照尚未构建；E2E-02 复用同一 ID（B:748）
-snapshot_hash: "PENDING_SNAPSHOT_BUILD"       # 快照构建后回填；须与 E2E-02 逐字相同（B:748「相同企业事实」）
+context_snapshot_id: "SNAP-E2E01-0001"        # 规划名，快照尚未构建；E2E-02 复用同一 ID（B:748）（08-17 已失效：快照已落盘 acceptance/cases/E2E-01/fixtures/context_snapshot.json）
+snapshot_hash: "sha256:89fd2ee6aae8bc97cf5c5fa01d90452da310e6be7a114b4a59765f566de09376"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "高端品牌羊绒大衣库存 800 件，请在限定周期内通过视频号内容促进销售，不得低价叫卖。"  # Founder 2026-08-17 批准定稿（台账）
 execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
-hard_rule_refs: []                            # B:729 有禁令文字但 contracts/rules/ 无落盘规则对象，待注册后回填（OQ-E2E-01-03）
+hard_rule_refs:                            # B:729 有禁令文字但 contracts/rules/ 无落盘规则对象，待注册后回填（OQ-E2E-01-03）（08-17 已失效：contracts/rules/ 现已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三条 RuleRecord）
+  # 【08-17 回填】上行「contracts/rules/ 目前无任何 RuleRecord 落盘对象」已失效：R-FB01-001 已落盘
+  #   contracts/rules/R-FB01-001.yaml（Founder 预裁决③；词表唯一真源 = acceptance/detectors/forbidden_lexicon.yaml，
+  #   其 low_price_selling 组即由 BD-D01 冻结的 forbidden_expression=LOW_PRICE_SELLING 派生）。
+  #   本案例登记依据：B:729 核心事实明文「禁止低价叫卖」。OQ-E2E-01-03 就此关闭。
+  #   不登记 R-BDD01-001/002：该两条 source_ref 指向 BD-D01 案例夹具，且 R-BDD01-002 为 BD-D01 专有的降级分支规则（scope: TASK）。
+  - {object_type: RuleRecord, object_id: R-FB01-001, version: 1, brand_id: fixture-brand-01}
 output_schema_version: "v0.1"                 # 无真源背书，IA-0 定格（OQ-E2E-01-05）
 brand_memory_state: "DISABLED"                # B.1.4（B:95）：首轮验收关闭 Brand Memory
 approved_brand_memory_refs: []                # B.2.2（B:179）：DISABLED 时引用列表必须为空

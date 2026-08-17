@@ -12,13 +12,13 @@ case_id: CR-D01
 case_version: "v0.1"
 
 prd_version: "v0.1"
-data_contract_version: "v0.1"
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"
 
-# 规划名：快照尚未构建（本案例目录下无 fixtures/；对照 acceptance/cases/BD-D01/fixtures/context_snapshot.json 才是已落盘实体）。
+# 规划名：快照尚未构建（本案例目录下无 fixtures/；对照 acceptance/cases/BD-D01/fixtures/context_snapshot.json 才是已落盘实体）。（08-17 已失效：快照已落盘 acceptance/cases/CR-D01/fixtures/context_snapshot.json，snapshot_hash 已回填）
 # 两份变体共用同一快照与同一 hash（B:520「使用相同商品、商业目标和已选候选」）；hash 于 IA-0 构建快照后回填（OQ-CR-D01-06）
 context_snapshot_id: "SNAP-CRD01-0001"
-snapshot_hash: "PENDING_SNAPSHOT_BUILD"
+snapshot_hash: "sha256:360122081672b5f4307d72ac06275d9f8cbd648ed41b0da8f524a6ba041f77e7"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # 逐字引自 B:520 与本次运行的人设分支 B:523（含列表符号，未改字）；另一分支 B:522 见 manifest.persona-owner.draft.yaml。
 # B 把两种人设写在同一句「分别切换」指令下，逐运行任务陈述的最终措辞由 IA-0 定（OQ-CR-D01-02）

@@ -10,10 +10,10 @@
 case_id: INT-D01
 case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；草案态由文件名 .draft.yaml + 本文件头 DRAFT 注释 + approved_by 占位表达，不进版本号
 prd_version: "v0.1"                           # M0-EP01 文档版本一致性声明：主 PRD v0.1 EFFECTIVE
-data_contract_version: "v0.1"                 # M0-EP01：附录 A 模块接口与核心数据字典 v0.1 EFFECTIVE
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"           # M0-EP01：附录 B 三个核心模块智能验收合同 v0.3 EFFECTIVE
-context_snapshot_id: "SNAP-INTD01-0001"       # 规划名，快照尚未构建（仓库内无对应 fixtures）
-snapshot_hash: "PENDING_SNAPSHOT_BUILD"       # 快照构建后填入；快照前置条件照抄 B:278「商品存在，但未提供新品曝光、库存激活、转化或品牌建设目标。」——快照若带入任一商业目标，本案例考点（模糊目标）即失效
+context_snapshot_id: "SNAP-INTD01-0001"       # 规划名，快照尚未构建（仓库内无对应 fixtures）（08-17 已失效：快照已落盘 acceptance/cases/INT-D01/fixtures/context_snapshot.json）
+snapshot_hash: "sha256:1c68ee6101a905fdbe0e1d6b5cec5e855d80604ea5e2471c60f3ed1d0508173c"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "帮我推广羊绒大衣。"          # 照抄 B:276「输入」引文，一字不改
 execution_mode: ENHANCED  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 hard_rule_refs: []                            # B.4.1/INT-D01（B:270-303）无"冻结事实"块、未列任何规则/禁令对象；仓库中真实落盘的规则对象目前仅 BD-D01 fixtures 的 R-BDD01-001/002，本案例不得凭空断言 object_id/version。IA-0 冻结的品牌事实若附带硬规则，须在此回填 → OQ-INT-D01-03

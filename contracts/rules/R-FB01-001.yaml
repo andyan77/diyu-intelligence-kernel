@@ -1,0 +1,34 @@
+# RuleRecord 实例｜字段结构逐字照抄 A.9.1（A_模块接口与核心数据字典.md「## A.9.1 RuleRecord」）——A.9.1 之外的字段一个不加。
+# 落盘依据：OPEN_QUESTIONS.md 文首「预裁决（Founder 2026-08-17）」第③项——
+#   「品牌禁语立 RuleRecord（R-FB01-001，词表以 detectors 为唯一运营真源）」；
+#   IA-0_冻结签字包.md 三、B 类建设项「contracts/rules/ RuleRecord 注册表首批落盘（品牌禁语清单 → 规则对象）」。
+# 词表边界（本文件不复制词条）：唯一运营真源 = acceptance/detectors/forbidden_lexicon.yaml。
+#   该词表属考卷区资产，改词表 = 改考卷（走 C.6.3 审批）；本规则正文只做指针，词表变更不需要改本文件正文，
+#   但构成规则内容变更 → 按 contracts/README.md「改动 = 改考试条件」升 version + Founder 签字 + B.9 双侧回归。
+#   已知差异（如实登记、不自行合并）：衡叙集夹具数据包 包1「禁用表达清单」10 条与 detectors 词表 13 条不完全重合
+#   （词表另有 false_scarcity 组，包1 另有「绝绝子/显贵/高级感」）；预裁决③ 已指定 detectors 为唯一运营真源，
+#   执行侧不生成第三份合并清单。
+# target_path 取值口径（A.9.1 未规定取值域，本注册表统一口径，见 R-BDD01-001/002 同注）：
+#   `*` = 适用于被测 Artifact 全文本面——与 acceptance/detectors/checks.py `forbidden_expression` 的实现一致
+#   （该检测器用 _texts(output) 对整份输出做全量文本扫描，不限定字段）；
+#   若 IA-0 另定 target_path 取值域，本字段随规则版本升级，不静默改写。
+rule_id: R-FB01-001
+brand_id: fixture-brand-01
+version: 1
+# BRAND：品牌级禁用表达，适用于该品牌全部任务与全部输出，不随单次任务变化
+scope: BRAND
+effect: PROHIBIT
+target_path: "*"
+statement: "禁止在任何输出中使用 fixture-brand-01 的品牌禁用表达；词表唯一真源为 acceptance/detectors/forbidden_lexicon.yaml（含 low_price_selling 与 false_scarcity 两组），本规则正文不复制词条；词表命中即违规，规则内容以该文件当前版本为准。"
+source_ref:
+  source_id: SRC-FB01-001
+  brand_id: fixture-brand-01
+  # FOUNDER_CONFIRMATION（A.2.3 七枚举之一）：本规则的成立与词表真源指向均出自 Founder 2026-08-17 预裁决第③项
+  source_type: FOUNDER_CONFIRMATION
+  locator: "acceptance/cases/OPEN_QUESTIONS.md#预裁决（Founder 2026-08-17）第③项"
+  captured_at: "2026-08-17T00:00:00Z"
+  # null（A.2.3 允许）：locator 指向的 OPEN_QUESTIONS.md 是 append-only 登记册，其余条目回填会改变文件哈希，
+  #   对其取 checksum 会立即失效并制造假红；不写伪值。
+  checksum: null
+status: ACTIVE
+effective_at: "2026-08-17T00:00:00Z"

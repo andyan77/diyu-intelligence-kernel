@@ -1,0 +1,51 @@
+{
+  "snapshot_id": "SNAP-CRD02-0001",
+  "brand_id": "fixture-brand-01",
+  "_fixture_note": "CR-D02（B.4.3/CR-D02「视频号语法与决策承接」整节）运行快照，对应 acceptance/cases/CR-D02/manifest.draft.yaml。｜内容＝商品事实 P13（数据包·包2）＋品牌事实（数据包·包1）。B.4.3/CR-D02「输入」原文「冻结一个由 Founder / Reviewer 选定的 Business Decision」不在本快照内，落在同目录 frozen_decision_selection.json——那里只写版本化引用与选择记录，候选内容的唯一真源仍是 acceptance/cases/BD-D01/fixtures/output_good.json，本仓不做第二份拷贝。｜事实唯一素材源＝衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md，逐字段标来源，截图事实照抄不改。｜数据包内部不一致（照抄不修，留待裁决）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归 P12，P13「关联图片编号」亦不含 IMG_0674。｜词表差异（照抄不修）：包1「禁用表达清单」10 词与 acceptance/detectors/forbidden_lexicon.yaml 不完全重合——包1 独有「绝绝子」「显贵」「高级感」，词表独有「跳楼价」「亏本价」及 false_scarcity 组 4 词；按 Founder 预裁决③，词表是运营真源，包1 清单是品牌事实原文。｜本案例不考视觉理解；image_refs 仅为编号引用，图片实体不在仓库。",
+  "facts": {
+    "business_goal": {
+      "value": "PENDING_BUSINESS_GOAL_IA0",
+      "source": "值不可得：B.4.3/CR-D02 整节未给 business_goal；数据包无此字段。可追溯线索（仅供 Founder 裁决参考，未写成值）：本案例冻结的 C1 候选出自 ART-BDD01-OUT-GOOD，该 Bundle 的上游快照 SNAP-BDD01-0001 记 business_goal=INVENTORY_ACTIVATION——跨快照沿用属推断，不猜、不自动继承"
+    },
+    "product": {
+      "product_id": "P13",
+      "name": {"value": "10%羊绒风衣式大衣", "source": "夹具虚构-剧本"},
+      "category": {"value": "10羊绒版", "source": "截图 IMG_0684"},
+      "sku": {"value": "1G9971081", "source": "截图 IMG_0684"},
+      "price": {"value": 3980, "currency": "CNY", "as_of": "2026-08-17", "raw_text": "3980元", "source": "截图 IMG_0684（数据包字段名「吊牌价」，截图原文「3980元」）"},
+      "material": {"value": ["黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）", "米色面料:90.3%绵羊毛 9.7%山羊绒（连接线除外）", "晓雾灰面料:90.8%绵羊毛 9.2%山羊绒（连接线除外）", "云烟灰面料:90.1%绵羊毛 9.9%山羊绒（连接线除外）"], "source": "截图 IMG_0684"},
+      "lining": {"value": null, "status": "MISSING", "source": "截图 IMG_0684（数据包「里料」记为「缺失」——故意缺失，不补写）"},
+      "style_attributes": {"value": ["大翻领", "廓形肩线", "H型风衣式", "袖口可调节袖袢", "宽边长腰带"], "source": "截图 IMG_0674 / 截图 IMG_0677 / 截图 IMG_0680（IMG_0674 的归属不一致见 _fixture_note）"},
+      "selling_points": {"value": ["同页展示敞开穿与收腰穿两种方式", "提供黑色、米色、晓雾灰、云烟灰四种面料成分"], "source": "截图 IMG_0677 / 截图 IMG_0684"},
+      "size_range": {"value": ["150/76A/XS", "155/80A/S", "160/84A/M", "165/88A/L", "170/92A/XL"], "source": "截图 IMG_0684"},
+      "lifecycle_stage": {"value": "库存消化期", "source": "夹具虚构-剧本"},
+      "inventory": {"value": 800, "unit": "件", "source": "夹具虚构-剧本"},
+      "image_refs": {
+        "value": ["IMG_0672", "IMG_0675", "IMG_0676", "IMG_0677", "IMG_0678", "IMG_0679", "IMG_0680", "IMG_0681", "IMG_0682", "IMG_0683", "IMG_0684"],
+        "source": "截图 IMG_0672 / 截图 IMG_0684（数据包 P13「关联图片编号」原文：IMG_0672、IMG_0675—IMG_0682、IMG_0683、IMG_0684；共享图同时关联 P12。区间按数据包 §1 图片归组表逐张核对后展开，未新增未登记编号）",
+        "image_asset_status": "PENDING_IMAGE_ASSET_M3",
+        "image_asset_note": "真实图片文件不在本仓库（全仓无 IMG_*.jpg/png 资产，2026-08-17 实测）；本字段只是编号引用，不得据此声称已完成视觉观察"
+      }
+    },
+    "brand": {
+      "brand_id": "fixture-brand-01",
+      "brand_name": {"value": "衡叙集（虚构）", "source": "模拟"},
+      "positioning": {"value": "服务 30—45 岁、需要在工作与日常之间切换的城市女性；中高端日常女装，主做有结构但不过度强势的外套、裤装、针织与半裙", "source": "模拟"},
+      "values": {"value": ["先讲商品解决什么、牺牲什么，再谈是否值得买", "一件衣服应能进入真实生活，并在不同场景中被反复使用", "尊重具体身形、通勤方式、照料责任与预算，不把消费者简化成年龄标签", "内容以事实、判断和可验证细节建立信任，不靠密集促销维持关系", "保留个人表达，但不过度追逐短期流行"], "source": "模拟"},
+      "tone": {"value": ["稳、具体、有判断、留余地", "像一位长期做商品和门店的人对熟客解释选择，不喊口号，不催促成交"], "source": "模拟"},
+      "target_customer_summary": {"value": "她愿意为版型、面料与长期使用付合理溢价，但要求品牌把依据和不适合之处说清楚", "source": "模拟"},
+      "forbidden_expressions": {"value": ["清仓", "甩卖", "白菜价", "闭眼入", "全网最低", "不买就亏", "秒杀", "绝绝子", "显贵", "高级感"], "source": "模拟（数据包·包1「禁用表达清单」；与 detectors 词表的差异见 _fixture_note）"},
+      "commercial_constraints": {"value": ["公开成交价原则上不得低于吊牌价 8 折；例外必须有书面授权、起止时间和适用库存", "同一款出现两个价格且无法解释时，内容不得发布，必须保留冲突并进入人工裁决", "面料、款号、尺码和价格没有截图或业务真源时，不得补写", "促销内容连续发布不得超过 2 条，第三条必须回到商品解释、穿衣问题或真实门店观察"], "source": "模拟"},
+      "audience_refs": {"value": [], "status": "NOT_INCLUDED", "source": "本任务未把数据包·包3 受众事实纳入 CR-D02 快照；不自造引用"}
+    }
+  },
+  "hard_rules": [
+    {
+      "rule_id": "R-FB01-001",
+      "version": 1,
+      "statement": "禁止在任何输出中使用 fixture-brand-01 的品牌禁用表达；词表唯一真源为 acceptance/detectors/forbidden_lexicon.yaml（含 low_price_selling 与 false_scarcity 两组），本规则正文不复制词条；词表命中即违规，规则内容以该文件当前版本为准。",
+      "status": "ACTIVE",
+      "source": "Founder 2026-08-17 预裁决③（acceptance/cases/OPEN_QUESTIONS.md 文首）。规则对象已落盘 contracts/rules/R-FB01-001.yaml（version 1、status ACTIVE），本条 statement / version / status 照抄该注册表正文，不自铸；CR-D02 Manifest 的 hard_rule_refs 仍为 []（OQ-CR-D01-04），回填不在本任务范围"
+    }
+  ]
+}

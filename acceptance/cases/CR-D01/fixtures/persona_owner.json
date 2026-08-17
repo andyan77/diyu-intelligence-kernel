@@ -1,0 +1,12 @@
+{
+  "_fixture_note": "CR-D01 人设切换项之一：品牌主理人一侧（B.4.3/CR-D01 主理人侧），对应 acceptance/cases/CR-D01/manifest.persona-owner.draft.yaml。事实照抄衡叙集夹具数据包 v1.0·包 4「R01｜品牌主理人：沈岚」，全字段来源＝【模拟】（数据包口径）。｜本文件刻意不入 SNAP-CRD01-0001：两份运行 Manifest 共用同一 context_snapshot_id 与同一 snapshot_hash（B.4.3/CR-D01 同快照要求），人设是唯一声明切换项，写进快照会使两份运行无法同快照同 hash。｜「绝不使用的表达」在数据包中以中文引号包裹，本文件按词表口径去掉外层引号、词句本身一字未改；「公开表达过的信念」是引语，保留原引号与句末句号。｜字段名对齐 A.3.5 PersonaFacts；PersonaFacts 对象与 version 尚未落盘（contracts/ 无该对象），故本文件不写 version、不自造 VersionedRef。",
+  "persona_id": "R01",
+  "brand_id": "fixture-brand-01",
+  "persona_label": {"value": "品牌主理人：沈岚", "source": "模拟（数据包·包4 R01 小节标题）"},
+  "identity": {"value": "衡叙集虚构品牌主理人，44 岁；负责商品取舍、定价边界和门店反馈复盘", "source": "模拟"},
+  "voice_traits": {"value": ["句子不快，先把问题和条件说清，再给判断", "常用门店试穿、退换原因、面料取舍和一件衣服穿了多久来举例", "很少直接下购买指令"], "source": "模拟"},
+  "beliefs": {"value": ["“衣服先要进入生活，才有资格谈风格。”", "“不适合你的商品，说清楚比卖出去更重要。”", "“价格要能回到面料、结构、工时和使用次数，而不是回到一串形容词。”"], "source": "模拟"},
+  "audience_relationship": {"value": "把观众视为长期熟客和共同判断者；允许观众带着不同体型、预算和生活阶段反驳她，不用“教育消费者”的姿态压过真实反馈", "source": "模拟"},
+  "forbidden_styles": {"value": ["姐妹们冲", "闭眼买", "谁穿谁好看", "全网最低", "错过后悔"], "source": "模拟（数据包·包4 R01「绝不使用的表达」；与 acceptance/detectors/forbidden_lexicon.yaml 的交集为「全网最低」「错过后悔」，其余三条本词表未收，差异照抄不修）"},
+  "speaker_constraints": {"value": ["不做高频叫卖直播", "不在无法核对款号、价格、成分时讲商品结论", "每条视频最多讲一个核心判断", "避免过度磨皮和改变服装真实色彩的滤镜"], "source": "模拟"}
+}

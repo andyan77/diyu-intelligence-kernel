@@ -16,13 +16,13 @@ case_version: "v0.1"
 
 # 以下三行版本取自 M0-EP01_文档版本一致性声明.md「一、现行版本基线」：主 PRD v0.1 / 附录 A v0.1 / 附录 B v0.3
 prd_version: "v0.1"
-data_contract_version: "v0.1"
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"
 
 # 规划名，与已有夹具 acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 snapshot_id 一致（未改动该夹具）
 context_snapshot_id: "SNAP-BDD01-0001"
-# 哈希于 IA-0 冻结快照时回填
-snapshot_hash: "PENDING_SNAPSHOT_BUILD"
+# 哈希于 IA-0 冻结快照时回填（08-17 已回填，见下行；IA-0 当天只需复算核对，不再重算）
+snapshot_hash: "sha256:2ebd66f06d85f2c419739818b2b153941f3fd53a993b486a2b8e7d9126b6dd5d"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # B.4.2/BD-D01 未给「输入」原文，不填看似合理的假值；能力问题（B:408）属评委视角，禁止下发给模型。
 # 实际下发两侧的业务任务原文由 Founder 在 IA-0 冻结（见 OQ-BD-D01-02）。

@@ -10,13 +10,13 @@ case_version: "v0.1"
 
 # 以下三行版本取自 M0-EP01_文档版本一致性声明.md「一、现行版本基线」：主 PRD v0.1 / 附录 A v0.1 / 附录 B v0.3
 prd_version: "v0.1"
-data_contract_version: "v0.1"
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"
 
-# 规划名：BD-D03 尚无 fixtures/ 夹具，本草案不创建；机器现在读到的是一个尚不存在的快照 ID。
+# 规划名：BD-D03 尚无 fixtures/ 夹具，本草案不创建；机器现在读到的是一个尚不存在的快照 ID。（08-17 已失效：快照已落盘 acceptance/cases/BD-D03/fixtures/context_snapshot.json，snapshot_hash 已回填）
 # B:480 只说明「提供品牌定位、受众、场景和商业目标」，四项的具体取值 B 未给 → 由 Founder 在 IA-0 建快照时冻结（见 OQ-BD-D03-02）。
 context_snapshot_id: "SNAP-BDD03-0001"
-snapshot_hash: "PENDING_SNAPSHOT_BUILD"
+snapshot_hash: "sha256:d790c899b006b2b562cfc0d6206207841ad22f8859e5521e566ef30e2658ef50"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # 照抄 B.4.2/BD-D03「输入」小节（B:478 标题）原句 B:480，一字不改
 task_statement: "商品为荧光绿色裤装，并提供品牌定位、受众、场景和商业目标。"

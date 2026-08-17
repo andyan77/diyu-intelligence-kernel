@@ -12,13 +12,13 @@ case_version: "v0.1"
 
 # 以下三行版本取自 M0-EP01_文档版本一致性声明.md「一、现行版本基线」：主 PRD v0.1 / 附录 A v0.1 / 附录 B v0.3
 prd_version: "v0.1"
-data_contract_version: "v0.1"
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"
 
-# 规划名：BD-D02 尚无 fixtures/ 夹具，本草案不创建；机器现在读到的是一个尚不存在的快照 ID。
+# 规划名：BD-D02 尚无 fixtures/ 夹具，本草案不创建；机器现在读到的是一个尚不存在的快照 ID。（08-17 已失效：快照已落盘 acceptance/cases/BD-D02/fixtures/context_snapshot.json，snapshot_hash 已回填）
 # B:447「商品池只有三个商品」属该快照的事实层内容，由 IA-0 建快照时冻结（见 OQ-BD-D02-03）。
 context_snapshot_id: "SNAP-BDD02-0001"
-snapshot_hash: "PENDING_SNAPSHOT_BUILD"
+snapshot_hash: "sha256:d2935ff95d78483490e00c847bf904755105d0636bc828a9ead6f6d237f75d58"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # B.4.2/BD-D02 未给任务原文（无「输入」小节、无「能力问题」小节）→ 不填看似合理的假值。
 # 用户任务原文（B:447 语义中的「做十套穿搭」请求）由 Founder 在 IA-0 冻结（见 OQ-BD-D02-02）。

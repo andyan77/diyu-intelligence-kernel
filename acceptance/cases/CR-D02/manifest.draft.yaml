@@ -12,13 +12,13 @@ case_id: CR-D02
 case_version: "v0.1"
 
 prd_version: "v0.1"
-data_contract_version: "v0.1"
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"
 
-# 规划名：快照尚未构建（本案例目录下无 fixtures/；对照 acceptance/cases/BD-D01/fixtures/context_snapshot.json 才是已落盘实体）；
+# 规划名：快照尚未构建（本案例目录下无 fixtures/；对照 acceptance/cases/BD-D01/fixtures/context_snapshot.json 才是已落盘实体）；（08-17 已失效：快照已落盘 acceptance/cases/CR-D02/fixtures/context_snapshot.json，snapshot_hash 已回填）
 # hash 于 IA-0 构建快照后回填（OQ-CR-D01-06，四份 CR 草案同一处）
 context_snapshot_id: "SNAP-CRD02-0001"
-snapshot_hash: "PENDING_SNAPSHOT_BUILD"
+snapshot_hash: "sha256:8334a7fe58401c66653cbd5a247ebb9eba118056032eed2834e9d35cc7f4320c"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # B:552 那句是运行前置动作（冻结一份 Business Decision），不是下发给被测 Creative 模块的任务指令；
 # B.4.3/CR-D02 未给模块任务原文 → 不填看似合理的假值，置 PENDING，由 IA-0 依 B 语义补齐（OQ-CR-D02-02）

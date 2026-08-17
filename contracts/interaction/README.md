@@ -9,9 +9,11 @@
 |---|---|---|---|---|
 | `baseline_prompt_stage_D.md` | 基线侧**阶段 D（商业候选）**的 Prompt 全文、输入占位符契约、输出 JSON 字段合同、字段来源对照 | B.2.3 阶段 D 外部输出 Schema；B.2.4 基线定义与"不得故意写弱" | v0.1-draft | **PENDING_IA0** |
 | `baseline_prompt_stage_C.md` | 基线侧**阶段 C（制作交付包）**的 Prompt 全文、输入占位符契约、九部分输出合同、字段来源对照 | B.2.3 阶段 C 九部分制作包 Schema + production_risks / assumptions / confidence；B.2.4 "阶段 C 只可接收本侧已经匿名冻结的候选选择" | v0.1-draft | **PENDING_IA0** |
-| `README.md` | 本说明：三份文件的关系、版本口径、冻结纪律 | B.2.2 / B.2.3 / B.2.4；Gate IA-0（B.8） | v0.1-draft | **PENDING_IA0** |
+| `e2e_interaction_contract.md` | **两阶段共同交互合同**（B:992 三件套第 ① 件）：两侧共同的两阶段时序、输入契约、两侧同规则条款（调用预算 / 零重试 / `<thinking>` 剥离 / 输出语言 / 工具边界 / Brand Memory / 不伪造内部标识）、Envelope 组装责任 | B.2.2 / B.2.3（B:183-204）/ B.2.4 / B.2.5；Gate IA-0（B:992） | v0.1-draft | **PENDING_IA0** |
+| `e2e_output_contract.md` | **共同输出合同**（B:992 三件套第 ② 件）：阶段 D 外部展示 Schema 逐项（B:187）、阶段 C 九部分逐项（PRD 7.2 含第九项 Comment Operation Package）、引用书写形式、剔除清单、`E2EComparisonEnvelope` 取值来源 | B.2.3（B:187 / B:191 / B:194-200）；PRD 7.2 / 7.3；A.6.2 / A.6.3 / A.7.2 / A.8 | v0.1-draft | **PENDING_IA0** |
+| `README.md` | 本说明：本目录文件的关系、版本口径、冻结纪律 | B.2.2 / B.2.3 / B.2.4；Gate IA-0（B.8） | v0.1-draft | **PENDING_IA0** |
 
-本目录同时存在 `anonymity_procedure.md`（B.2.5 匿名判分流程，v0.1-draft / PENDING_IA0），由另一任务落盘，**不属本 README 所述三份文件**；其与本目录的衔接点是：阶段 D 输出交给它做匿名与选择冻结，冻结结果再回流为阶段 C 的 `{{selected_candidate}}`。以该文件自身声明为准，本 README 不复述其内容。
+本目录同时存在 `anonymity_procedure.md`（B.2.5 匿名判分流程，v0.1-draft / PENDING_IA0），由另一任务落盘，**不属上表所列文件**；其与本目录的衔接点是：阶段 D 输出交给它做匿名与选择冻结，冻结结果再回流为阶段 C 的 `{{selected_candidate}}`。以该文件自身声明为准，本 README 不复述其内容。
 
 ### 三条 B 条款各管什么
 
@@ -36,21 +38,23 @@
 
 ## 2. 版本口径
 
-- 本目录三份文件当前统一为 **v0.1-draft**，状态 **PENDING_IA0**。
+- 本目录**全部五份文件**（两份共同合同 + 两份基线 Prompt + 本 README）当前统一为 **v0.1-draft**，状态 **PENDING_IA0**；`anonymity_procedure.md` 同为 v0.1-draft / PENDING_IA0，由另一任务维护。
 - **draft 不得用于正式 A/B 取证。** 当前状态下运行只能作为工程联调，其结果不构成 B 意义上的验收证据。
 - 冻结后：版本升为 `v1.0`，状态改为 `FROZEN`，并写入 Case Manifest 的
-  `baseline_prompt_versions.decision_stage` / `baseline_prompt_versions.creative_stage`（B.2.1）。
-- 两份 Prompt 内的 `PENDING_IA0` 标记逐条列在各自 §6「冻结前待办」，并各自带 `OQ-BASELINE-xx` 编号供中央待裁清单汇编引用；**全部关闭前不得改状态**。本目录不自建待裁登记文件。
+  `baseline_prompt_versions.decision_stage` / `baseline_prompt_versions.creative_stage`、
+  `e2e_interaction_contract_version`（B:146）/ `e2e_output_contract_version`（B:147，与 `E2EComparisonEnvelope.output_contract_version` 同值）（B.2.1）。
+- 两份 Prompt 内的 `PENDING_IA0` 标记逐条列在各自 §6「冻结前待办」，两份共同合同的逐条列在各自 §9 / §7「冻结前待办」；全部沿用 `acceptance/cases/OPEN_QUESTIONS.md` 的既有 `OQ-BASELINE-xx` / `OQ-ANON-xx` 编号，不新造编号；**全部关闭前不得改状态**。本目录不自建待裁登记文件。
 
 ## 3. IA-0 冻结纪律
 
 Gate IA-0（B.8）要求「两阶段共同交互合同、输出合同和基线 Prompt 已冻结」。据此：
 
 1. **冻结前**：本目录文件可自由修改，但每次修改须同步更新受影响文件的 §6 待办清单。
-2. **冻结动作的前置 = Gate IA-0 三件套齐备**。B:992 要求的是**三件**：① 两阶段**共同交互合同**文件；② **共同输出合同**文件；③ **基线 Prompt**（本目录两份）。本目录当前只落盘了第 ③ 件，① ② 两件仍是 §4 的已知缺口。据此：
-   - **§4 已知缺口表中「是否为 IA-0 冻结前置」列标「是」的行必须全部清零**；缺任一件，**不得执行冻结动作、不得把状态改为 `FROZEN`、不得宣告 IA-0 通过**；
-   - 三件齐备且两份 Prompt §6 待办全部关闭后，才执行：Founder 签字 → 本目录三份文件同批升版 → 状态改 `FROZEN` → 写入 Case Manifest。
-   - 注意区分两个「三」：**B:992 的三件套**是合同层面的三类文件；**本目录的三份文件**（§1 表格）只是其中第 ③ 件加本说明。二者不可互相顶替。
+2. **冻结动作的前置 = Gate IA-0 三件套齐备**。B:992 要求的是**三件**：① 两阶段**共同交互合同**文件（`e2e_interaction_contract.md`）；② **共同输出合同**文件（`e2e_output_contract.md`）；③ **基线 Prompt**（本目录两份）。**三件均已落盘，全部为 v0.1-draft / PENDING_IA0——「已落盘」≠「已冻结」**。据此：
+   - **§4 已知缺口表中「是否为 IA-0 冻结前置」列标「是」的行必须全部清零**；任一行未清零，**不得执行冻结动作、不得把状态改为 `FROZEN`、不得宣告 IA-0 通过**；
+   - 三件齐备**且**四份文件的冻结前待办全部关闭（两份 Prompt §6、`e2e_interaction_contract.md` §9、`e2e_output_contract.md` §7）后，才执行：Founder 签字 → 本目录文件同批升版 → 状态改 `FROZEN` → 写入 Case Manifest。
+   - **同批纪律**：三件套必须同批升版、同批冻结；四份文件之间任何已登记的口径差异必须在同一批次内消除，不得一件冻结、另一件仍带差异。**已登记的两处差异（`persona_card.persona_ref` 落点、`voice_package.emotion`）已于本批消除**——两侧现同写 `persona_ref` = A.3.5 `persona_id` 原值、同带 `emotion`（见 `e2e_output_contract.md` §3.3 / §3.6 与 `baseline_prompt_stage_C.md` §4 / §5 / §6）。
+   - 注意区分两个「三」：**B:992 的三件套**是合同层面的三类文件（① ② 各一份 + ③ 两份 = 共四份文件）；**本 README** 不计入其中，只是目录说明。二者不可互相顶替。
 3. **冻结后的任何改动 = 改考试条件**（B.2.2「同条件」的一部分，见 `contracts/README.md`），必须同时满足：
    - **版本升级**（不得原地覆盖——B.2.1「确需修改时，必须升级案例版本并重新运行两侧」）；
    - **Founder 签字**；
@@ -59,19 +63,23 @@ Gate IA-0（B.8）要求「两阶段共同交互合同、输出合同和基线 P
 4. **绝对禁止**（B.2.1 / Gate IA-0 最后一条）：**不得在查看结果后修改**事实、裁判问题、允许答案、禁止结果或通过条件；不得依据已看到的结果反向修改本目录任何 Prompt。
 5. IA-0 通过只表示**验收条件可以执行**，不表示能力已经成立（B.8）。
 
-## 4. 已知缺口（本目录尚未入驻的文件）
+## 4. 已知缺口（IA-0 冻结前置状态表）
 
 | 缺口 | 说明 | 影响 | 是否为 IA-0 冻结前置 |
 |---|---|---|---|
-| 共同外部**交互**合同文件 | B.2.3 的外部交互口径目前只以「两份基线 Prompt 各自声明」的形式存在，尚无一份两侧共用的独立合同文件 | 两份 Prompt §5 中标 `PENDING_IA0` 的字段名（如阶段 D 承载四类依据的 `basis_entries`）必须与该共同合同对齐后才能冻结 | **是**——B:992 三件套之一（OQ-BASELINE-16） |
-| 共同外部**输出**合同文件 | 阶段 D 外部 Schema 与阶段 C 九部分包 Schema 的两侧共用定义未单独落盘；`output_contract_version` 无取值来源 | 阶段 D 顶层 `risks` 与候选级 `risks` 的分工、全部引用字段书写形式、`output_contract_version` 都挂在这份文件上 | **是**——B:992 三件套之一（OQ-BASELINE-16 / 04 / 05 / 15） |
-| 基线 Prompt（本目录两份） | 已落盘，状态 `PENDING_IA0`，§6 待办未清零 | 待办未清零即冻结 = 把未定条件冻死 | **是**——B:992 三件套之一，且需 §6 全部关闭 |
-| 笛语侧对应文件 | 本目录当前只有基线侧 Prompt；笛语侧走模块编排，不使用 Prompt 文件，但其内部对象 → 外部展示 Schema 的转换器需可审计 | 影响 B.2.3「不能增加只对一侧可见的业务内容」的可验证性；顶层 `risks` 分工与 ref 书写形式必须与该转换器一次性定死 | 否——不属 B:992 三件套；但 OQ-BASELINE-04 / 05 关闭前，任何案例不得进入正式 A/B |
+| 共同外部**交互**合同文件 | **已落盘 v0.1-draft**：`e2e_interaction_contract.md`（PENDING_IA0）。承载两阶段时序、输入契约、两侧同规则条款与 Envelope 组装责任 | 文件已在位，**尚未冻结**；其 §9 待办（含 `anonymity_procedure.md` §8 的 P-02 / P-09 / P-14 预裁决回填、笛语侧转换器对齐）未清零前不得冻结 | **是**——B:992 三件套之一；**落盘已完成，冻结未完成**（OQ-BASELINE-16） |
+| 共同外部**输出**合同文件 | **已落盘 v0.1-draft**：`e2e_output_contract.md`（PENDING_IA0）。阶段 D 逐项（B:187）、阶段 C 九部分逐项（PRD 7.2）、引用书写形式、剔除清单、Envelope 取值来源均已定义 | 文件已在位，**尚未冻结**；`output_contract_version` 仍无取值（OQ-BASELINE-15）。原与阶段 C 基线 Prompt 的两处差异（`persona_card.persona_ref` 落点 OQ-BASELINE-12 / 05、`voice_package.emotion` OQ-BASELINE-11）**已两侧同批消除**，现存待办见该文件 §7 | **是**——B:992 三件套之一；**落盘已完成，冻结未完成**（OQ-BASELINE-16 / 04 / 05 / 15） |
+| 基线 Prompt（本目录两份） | **已落盘 v0.1-draft**，状态 `PENDING_IA0`，§6 待办未清零 | 待办未清零即冻结 = 把未定条件冻死。`persona_ref`、`emotion` 两处差异**已按 `e2e_output_contract.md` §7 第 6 / 7 条同批消除**；预裁决④（基线零重试）⑤（`<thinking>` 匿名前剥离）⑦（`emotion`）与 OQ-BASELINE-09（输出语言，✅预裁决 08-17）已回填两份 Prompt §4 / §5 / §6，剩余待办以各自 §6 为准 | **是**——B:992 三件套之一，且需 §6 全部关闭 |
+| 笛语侧对应文件 | 本目录当前只有基线侧 Prompt；笛语侧走模块编排，不使用 Prompt 文件，但其内部对象 → 外部展示 Schema 的转换器需可审计 | 影响 B.2.3「不能增加只对一侧可见的业务内容」的可验证性；顶层 `risks` 分工与 ref 书写形式必须与该转换器一次性定死 | **是**——本项虽不属 B:992 三件套，但已由 `e2e_output_contract.md` §7 第 12 条、`e2e_interaction_contract.md` §9 第 4 条列为**冻结前待办**，受 §3 第 2 条闸门 ① ② 共同约束；随 OQ-BASELINE-02 / 04 / 05 关闭。在此之前任何案例不得进入正式 A/B |
 | 模型条件定格 | OD-02 厂商组合已裁决（台账 08-17），版本 / 参数于 IA-0 定格——本行指后者；正式版本 / 参数 / 基线 Prompt 冻结时一并经 Founder 签字（见《裁决台账》） | Case Manifest 的 `model_provider` / `model_name` / `model_version` / `generation_parameters_hash` 仍为空 | **是**——B:993「模型条件已确定」 |
-| 裁判与匿名流程 | `anonymity_procedure.md` 已落盘（v0.1-draft / PENDING_IA0），由另一任务维护；本目录两份 Prompt 的 `<thinking>` 块剥离口径需并入该文件 | `<thinking>` 剥离范围与「不属 B.2.5 业务内容」的认定未确认前，两份 Prompt 的思考空间方案不生效 | **是**——B:994「裁判与匿名流程已确定」（OQ-BASELINE-06 / 08） |
+| 裁判与匿名流程 | `anonymity_procedure.md` 已落盘（v0.1-draft / PENDING_IA0），由另一任务维护；两份 Prompt 与 `e2e_interaction_contract.md` §5 第 3 行的 `<thinking>` 块剥离口径需并入该文件；预裁决⑤⑥（允许并在匿名前剥离 / 阶段 D 与终审独立随机 / 揭盲后禁回改）尚未回填该文件 §8 的 P-14 / P-02 / P-09 | `<thinking>` 剥离范围与「不属 B.2.5 业务内容」的认定未确认前，两份 Prompt 的思考空间方案不生效 | **是**——B:994「裁判与匿名流程已确定」（OQ-BASELINE-06 / 08） |
+| E2E 三份 Manifest 的两个合同版本字段与注释指针 | `acceptance/cases/E2E-01 / E2E-02 / E2E-03` 三份 `manifest.draft.yaml` 的 `e2e_interaction_contract_version` / `e2e_output_contract_version` 仍为 `"PENDING_IA0"`，注释仍写「共同交互/输出合同文件尚不存在（`contracts/interaction/README.md:63`）」 | **双重失效**：两份合同现已落盘（「尚不存在」已过时），且所指的 `README.md:63` 行号随本 README 改版早已错位、不再指向本缺口表 | **是**——三份 Manifest 属考卷区，**本目录文件不代改**，随 OQ-BASELINE-15 / 16 同批修订（已登记于 `e2e_interaction_contract.md` §7 末与 §9 第 7 条） |
 
 ## 5. 相关文件
 
+- `e2e_interaction_contract.md`｜B:992 三件套第 ① 件：两阶段共同交互合同
+- `e2e_output_contract.md`｜B:992 三件套第 ② 件：共同输出合同（外部展示 Schema）
+- `anonymity_procedure.md`｜B.2.5 匿名判分流程（另一任务维护）
 - `../README.md`｜contracts/ 总说明（考试条件区改动规则）
 - `../schemas/case_manifest.schema.json`｜Case Manifest（B.2.1）
 - `../schemas/business_decision_bundle.schema.json`｜笛语侧阶段 D 内部对象（A.6.2），**非**本目录的外部展示 Schema

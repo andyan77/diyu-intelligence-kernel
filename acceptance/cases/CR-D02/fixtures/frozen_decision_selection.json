@@ -1,0 +1,34 @@
+{
+  "_fixture_note": "CR-D02（B.4.3/CR-D02，B.4.3/CR-D02「冻结一个由 Founder / Reviewer 选定的 Business Decision」）的被冻结选择记录，同时回答 OQ-CR-D02-03「这条版本化引用写到哪里」——落点＝本文件（Case Manifest 字段表 B.2.1 无承接字段）。｜防两处真源：本文件只写 VersionedRef 引用与选择记录，不复制任何候选内容；C1 候选的正文唯一真源是 acceptance/cases/BD-D01/fixtures/output_good.json 的 candidate_options[0]。｜性质声明（防假绿）：这是夹具虚构-剧本的冻结动作，不是 Founder 的真实裁决；selected_by_role 取 A.6.4 唯一允许枚举值 FOUNDER_REVIEWER 以满足结构约束，不表示真有人裁过。rationale 置 null——数据包与 B 都没有裁决理由原文，不编造。｜字段名与约束对齐 A.6.4 DecisionSelection。",
+  "selection_id": "SEL-CRD02-0001",
+  "version": 1,
+  "brand_id": "fixture-brand-01",
+  "task_id": "TASK-BDD01-001",
+  "_task_id_note": "沿用被选 Bundle 自身的 task_id（acceptance/cases/BD-D01/fixtures/output_good.json → artifact.task_id）；选择记录不另起任务号，不自造新 id",
+  "decision_bundle_ref": {
+    "object_type": "BusinessDecisionBundle",
+    "object_id": "ART-BDD01-OUT-GOOD",
+    "version": 1,
+    "brand_id": "fixture-brand-01"
+  },
+  "selected_candidate_id": "C1",
+  "_candidate_source_pointer": "acceptance/cases/BD-D01/fixtures/output_good.json → candidate_options[0]（candidate_id=C1，title「主理人信任路线」）。候选正文一律回读该文件，本文件不复制、不摘抄策略正文",
+  "review_ref": {
+    "object_type": "ReviewRecord",
+    "object_id": "PENDING_REVIEW_RECORD_IA0",
+    "version": null,
+    "brand_id": "fixture-brand-01"
+  },
+  "_review_ref_note": "A.6.4 要求 review_ref 指向 action=SELECT_CANDIDATE、target_artifact_ref=decision_bundle_ref 且 selected_candidate_id 相同的 ReviewRecord（A.9.4 另要求 termination_reason 为空、edit_severity=NONE）。该 ReviewRecord 对象在本仓尚未落盘，且本任务只指定 frozen_decision_selection.json 一个文件，不新建 ReviewRecord 夹具——故此处显式挂起，不自造一个「已存在」的 review_id/version",
+  "selected_by_role": "FOUNDER_REVIEWER",
+  "selected_at": "2026-08-17T00:00:00Z",
+  "_selected_at_note": "与 BD-D01 夹具同一时间戳基线（output_good.json / intent_execution_plan.frozen.json 均为 2026-08-17T00:00:00Z）；非真实裁决时刻",
+  "rationale": null,
+  "context_snapshot_ref": {
+    "object_type": "ContextSnapshot",
+    "object_id": "SNAP-CRD02-0001",
+    "version": 1,
+    "brand_id": "fixture-brand-01"
+  },
+  "_context_snapshot_ref_note": "A.6.4 DecisionSelection 字段表本身不含 context_snapshot_ref；此项为夹具便利指针，指向本案例运行快照（同目录 context_snapshot.json）。注意：被选 Bundle 自身引用的是 SNAP-BDD01-0001（另一快照），两者不是同一份——A.7.1 CreativeContentRequest 同时要 decision_selection_ref / decision_bundle_ref / context_snapshot_ref，跨快照承接是否合法由 IA-0 裁决，本文件只如实并列，不合并、不改写"
+}

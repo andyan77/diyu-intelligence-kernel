@@ -1,0 +1,32 @@
+# RuleRecord 实例｜字段结构逐字照抄 A.9.1（A_模块接口与核心数据字典.md「## A.9.1 RuleRecord」）——A.9.1 之外的字段一个不加。
+# 落盘依据：OPEN_QUESTIONS.md 文首「预裁决（Founder 2026-08-17）」第③项——「BD-D01「一组规则」=现有 2 条」
+#   （B:404 原文说「另冻结一组规则」是复数，Founder 预裁决把这一组定格为现有 2 条，关闭 OQ-BD-D01-04）；
+#   OQ-BD-D01-03 要求把只存在于夹具快照 hard_rules[] 的两条升格为正式规则对象。
+# statement 照抄来源：acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 hard_rules[1].statement，一字不改。
+#   该夹具属硬禁止改动范围，本次未做任何修改。
+# 上游真源：B.4.2/BD-D01「两候选降级分支」——「另冻结一组规则，使第三条原本可能的促销路径明确违反高端品牌禁令」。
+# target_path 取值口径（A.9.1 未规定取值域，本注册表统一口径）：
+#   本规则判的是候选的商业路径本身（促销让利路线），落点为 A.6.3 BusinessCandidate 的必填字段 `strategy`；
+#   落盘先例：acceptance/cases/BD-D01/fixtures/output_good.json 的
+#   blocked_candidate_diagnostics[].blocking_rule_results[].target_path = "strategy"。
+rule_id: R-BDD01-002
+brand_id: fixture-brand-01
+version: 1
+# TASK：B:404 明文把这条限定在「两候选降级分支」——它只服务 BD-D01 这场运行的降级条件
+#   （目的是让 candidate_count_status=DEGRADED_TWO 成立），不是品牌常设禁令 → TASK（A.9.1 四枚举之一）
+scope: TASK
+effect: PROHIBIT
+target_path: "strategy"
+statement: "促销让利路径违反高端品牌禁令（两候选降级分支冻结规则）"
+source_ref:
+  source_id: SRC-BDD01-002
+  brand_id: fixture-brand-01
+  # SYSTEM_RECORD（A.2.3 七枚举之一）：statement 的逐字来源是仓库内已落盘的案例夹具记录
+  source_type: SYSTEM_RECORD
+  locator: "acceptance/cases/BD-D01/fixtures/context_snapshot.json#/hard_rules/1"
+  captured_at: "2026-08-17T00:00:00Z"
+  # 文件原始字节 sha256（区别于 Manifest 的 snapshot_hash——后者是规范化 JSON 的 sha256，见 tools/freeze_gate.py）
+  checksum: "sha256:5156015eeb396b0ddf7b2d655ae1ce33136981c33b8c9b3fcdbffdf023a8bd70"
+# 夹具 hard_rules[1].status = "ACTIVE"，照抄
+status: ACTIVE
+effective_at: "2026-08-17T00:00:00Z"

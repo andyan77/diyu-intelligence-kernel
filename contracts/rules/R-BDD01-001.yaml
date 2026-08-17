@@ -1,0 +1,34 @@
+# RuleRecord 实例｜字段结构逐字照抄 A.9.1（A_模块接口与核心数据字典.md「## A.9.1 RuleRecord」）——A.9.1 之外的字段一个不加。
+# 落盘依据：OPEN_QUESTIONS.md 文首「预裁决（Founder 2026-08-17）」第③项——「BD-D01「一组规则」=现有 2 条」
+#   （即本文件 R-BDD01-001 与 R-BDD01-002，不多不少，关闭 OQ-BD-D01-04 的条数争议）；
+#   OQ-BD-D01-03 要求把只存在于夹具快照 hard_rules[] 的两条升格为正式规则对象。
+# statement 照抄来源：acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 hard_rules[0].statement，一字不改。
+#   该夹具属硬禁止改动范围，本次未做任何修改（升格 = 新建规则对象，不动夹具）。
+# 上游真源：B.4.2/BD-D01「冻结事实」块 `forbidden_expression: - LOW_PRICE_SELLING`。
+# target_path 取值口径（A.9.1 未规定取值域，本注册表统一口径）：
+#   `*` = 适用于被测 Artifact 全文本面。低价叫卖属表达层禁令，不限于某一字段；
+#   acceptance/detectors/checks.py `forbidden_expression` 亦对整份输出做全量文本扫描。
+#   落盘评估先例（HardRuleResult 记录「在哪一处判过」，与本规则声明的「适用范围」不冲突）：
+#   acceptance/cases/BD-D01/fixtures/output_good.json 的 candidate_options[].hard_rule_results[].target_path = "strategy"。
+rule_id: R-BDD01-001
+brand_id: fixture-brand-01
+version: 1
+# BRAND：B.4.2/BD-D01 把 forbidden_expression 与 brand_positioning: HIGH_END 并列冻结在同一「冻结事实」块，
+#   属品牌定位派生的表达禁令，非单次任务专有 → BRAND（A.9.1 四枚举之一）
+scope: BRAND
+effect: PROHIBIT
+target_path: "*"
+statement: "禁止低价叫卖表达（forbidden_expression: LOW_PRICE_SELLING）"
+source_ref:
+  source_id: SRC-BDD01-001
+  brand_id: fixture-brand-01
+  # SYSTEM_RECORD（A.2.3 七枚举之一）：statement 的逐字来源是仓库内已落盘的案例夹具记录，
+  #   既非品牌运营方输入，也非上传文档；Founder 侧的授权（组=2 条）另见本文件头注。
+  source_type: SYSTEM_RECORD
+  locator: "acceptance/cases/BD-D01/fixtures/context_snapshot.json#/hard_rules/0"
+  captured_at: "2026-08-17T00:00:00Z"
+  # 文件原始字节 sha256（区别于 Manifest 的 snapshot_hash——后者是规范化 JSON 的 sha256，见 tools/freeze_gate.py）
+  checksum: "sha256:5156015eeb396b0ddf7b2d655ae1ce33136981c33b8c9b3fcdbffdf023a8bd70"
+# 夹具 hard_rules[0].status = "ACTIVE"，照抄
+status: ACTIVE
+effective_at: "2026-08-17T00:00:00Z"

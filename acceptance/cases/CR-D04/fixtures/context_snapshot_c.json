@@ -1,0 +1,51 @@
+{
+  "snapshot_id": "SNAP-CRD04-0003",
+  "brand_id": "fixture-brand-01",
+  "_fixture_note": "CR-D04 输入 C（B.4.3/CR-D04「输入 C」原文「提供损坏、不可读或只能低置信识别局部属性的图片。」）运行快照，对应 acceptance/cases/CR-D04/manifest.input-c.draft.yaml——「坏图」考题。｜坏图实体＝同目录 corrupted_image.jpg：8192 字节随机字节，由 python os.urandom 生成并断言校验（首两字节非 JPEG SOI ff d8、末两字节非 EOI ff d9；file(1) 判为 data；PIL 抛 UnidentifiedImageError）。它不是数据包截图、不冒充任何真实商品图，「损坏」本身就是考题材料，属合法夹具，标注＝夹具虚构-坏图。｜商品事实＝P13（数据包·包2），与输入 A 同款：输入 A（清晰图编号）与输入 C（同款坏图）构成同商品、只换视觉证据质量的对照。选 P13 而非 P08 是执行侧构造选择——B.4.3/CR-D04「输入 C」未指定商品，本任务亦未指定，此处按「与输入 A 同款成对照」取值并显式标注，供 IA-0 复核。｜允许答案族第三条：返回 VISUAL_INPUT_UNREADABLE，或只保留可引用的低置信 PROVISIONAL 属性并明确限制；禁止在图片不可读时输出确定视觉属性。｜数据包内部不一致（照抄不修）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归 P12。",
+  "facts": {
+    "business_goal": {
+      "value": "PENDING_BUSINESS_GOAL_IA0",
+      "source": "值不可得：B.4.3/CR-D04 整节未给 business_goal；数据包无此字段。OD-03 通用阻断项②要求已解析，故显式挂起，不猜"
+    },
+    "product": {
+      "product_id": "P13",
+      "name": {"value": "10%羊绒风衣式大衣", "source": "夹具虚构-剧本"},
+      "category": {"value": "10羊绒版", "source": "截图 IMG_0684"},
+      "sku": {"value": "1G9971081", "source": "截图 IMG_0684"},
+      "price": {"value": 3980, "currency": "CNY", "as_of": "2026-08-17", "raw_text": "3980元", "source": "截图 IMG_0684（数据包字段名「吊牌价」，截图原文「3980元」）"},
+      "material": {"value": ["黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）", "米色面料:90.3%绵羊毛 9.7%山羊绒（连接线除外）", "晓雾灰面料:90.8%绵羊毛 9.2%山羊绒（连接线除外）", "云烟灰面料:90.1%绵羊毛 9.9%山羊绒（连接线除外）"], "source": "截图 IMG_0684"},
+      "lining": {"value": null, "status": "MISSING", "source": "截图 IMG_0684（数据包「里料」记为「缺失」——故意缺失，不补写）"},
+      "style_attributes": {"value": ["大翻领", "廓形肩线", "H型风衣式", "袖口可调节袖袢", "宽边长腰带"], "source": "截图 IMG_0674 / 截图 IMG_0677 / 截图 IMG_0680（数据包已确认文字事实；IMG_0674 的归属不一致见 _fixture_note。注意：这些是文字事实，不构成对本快照坏图的视觉识别结果）"},
+      "selling_points": {"value": ["同页展示敞开穿与收腰穿两种方式", "提供黑色、米色、晓雾灰、云烟灰四种面料成分"], "source": "截图 IMG_0677 / 截图 IMG_0684"},
+      "size_range": {"value": ["150/76A/XS", "155/80A/S", "160/84A/M", "165/88A/L", "170/92A/XL"], "source": "截图 IMG_0684"},
+      "lifecycle_stage": {"value": "库存消化期", "source": "夹具虚构-剧本"},
+      "inventory": {"value": 800, "unit": "件", "source": "夹具虚构-剧本"},
+      "image_refs": {
+        "value": [
+          {
+            "source_id": "SRC-CRD04C-IMG-001",
+            "brand_id": "fixture-brand-01",
+            "source_type": "IMAGE_INPUT",
+            "locator": "acceptance/cases/CR-D04/fixtures/corrupted_image.jpg",
+            "captured_at": "2026-08-17T00:00:00Z",
+            "checksum": "sha256:defa8f0d21b7f2022df7c8c52b62b4a7b7ad940e128905845f5e295b440f33df",
+            "source": "夹具虚构-坏图"
+          }
+        ],
+        "status": "PRESENT_CORRUPTED",
+        "source": "夹具虚构-坏图（不取自数据包截图；本仓无任何真实 IMG_*.jpg 资产）",
+        "image_asset_note": "corrupted_image.jpg＝8192 字节随机字节，扩展名 .jpg 但非合法 JPEG：首两字节非 ff d8（SOI）、末两字节非 ff d9（EOI），file(1) 判 data，PIL 解码抛 UnidentifiedImageError（2026-08-17 实测）。它是唯一的视觉输入；读不出就必须诚实降级，不得回退去看 P13 的截图编号或文字事实来冒充视觉识别结果"
+      },
+      "visual_profile_ref": {"value": null, "status": "MISSING", "source": "A.3.3：本快照不预置任何 VisualProfile；模型识别字段初始必须为 PROVISIONAL，图片不可读时不得输出确定视觉属性（B.4.3/CR-D04「禁止结果」原文「图片不可读或低置信时仍输出确定视觉属性」）"}
+    }
+  },
+  "hard_rules": [
+    {
+      "rule_id": "R-FB01-001",
+      "version": 1,
+      "statement": "禁止在任何输出中使用 fixture-brand-01 的品牌禁用表达；词表唯一真源为 acceptance/detectors/forbidden_lexicon.yaml（含 low_price_selling 与 false_scarcity 两组），本规则正文不复制词条；词表命中即违规，规则内容以该文件当前版本为准。",
+      "status": "ACTIVE",
+      "source": "Founder 2026-08-17 预裁决③（acceptance/cases/OPEN_QUESTIONS.md 文首）＋B.4.3/CR-D04「允许答案族」原文「三种输入都遵守品牌禁用表达和商品事实」。规则对象已落盘 contracts/rules/R-FB01-001.yaml（version 1、status ACTIVE），本条 statement / version / status 照抄该注册表正文，不自铸"
+    }
+  ]
+}

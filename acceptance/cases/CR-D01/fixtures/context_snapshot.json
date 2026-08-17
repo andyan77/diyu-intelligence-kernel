@@ -1,0 +1,50 @@
+{
+  "snapshot_id": "SNAP-CRD01-0001",
+  "brand_id": "fixture-brand-01",
+  "_fixture_note": "CR-D01（B.4.3/CR-D01 整节）两份运行 Manifest（manifest.persona-owner.draft.yaml / manifest.persona-buyer.draft.yaml）共用本快照与同一 snapshot_hash（B.4.3/CR-D01「输入」原文「使用相同商品、商业目标和已选候选，分别切换：」）。人设是两份 Manifest 的唯一声明切换项，故不入本快照，独立落在同目录 persona_owner.json（包4/R01 沈岚）与 persona_buyer.json（包4/R02 许澄）——人设若写进快照内容，两份运行就无法共用同一 snapshot_id 与同一 hash。｜事实唯一素材源＝衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md（下称数据包），逐字段标来源，截图事实照抄不改，数据包标注的【虚构-剧本】【模拟】按原口径归类。｜数据包内部不一致（照抄不修，留待裁决）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归给 P12（全羊毛风衣式大衣），P13「关联图片编号」也不含 IMG_0674。｜张力（留待裁决）：数据包·包5 记「主出镜人＝沈岚，关联 R01」，而 CR-D01 的买手侧运行由 R02 许澄出镜；R02 出镜限制含「不替主理人宣布价格政策或库存处置」，两者是否冲突由 Founder/IA-0 判。｜本案例不考视觉理解；image_refs 仅为编号引用，图片实体不在仓库。",
+  "facts": {
+    "business_goal": {
+      "value": "PENDING_BUSINESS_GOAL_IA0",
+      "source": "值不可得：B.4.3/CR-D01「输入」只要求两次运行使用「相同商业目标」，未指定具体目标；数据包无此字段。OD-03 通用阻断项②要求 business_goal 已解析，故此处显式挂起，不猜、不沿用 BD-D01 的 INVENTORY_ACTIVATION"
+    },
+    "product": {
+      "product_id": "P13",
+      "name": {"value": "10%羊绒风衣式大衣", "source": "夹具虚构-剧本"},
+      "category": {"value": "10羊绒版", "source": "截图 IMG_0684"},
+      "sku": {"value": "1G9971081", "source": "截图 IMG_0684"},
+      "price": {"value": 3980, "currency": "CNY", "as_of": "2026-08-17", "raw_text": "3980元", "source": "截图 IMG_0684（数据包字段名「吊牌价」，截图原文「3980元」）"},
+      "material": {"value": ["黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）", "米色面料:90.3%绵羊毛 9.7%山羊绒（连接线除外）", "晓雾灰面料:90.8%绵羊毛 9.2%山羊绒（连接线除外）", "云烟灰面料:90.1%绵羊毛 9.9%山羊绒（连接线除外）"], "source": "截图 IMG_0684"},
+      "lining": {"value": null, "status": "MISSING", "source": "截图 IMG_0684（数据包「里料」记为「缺失」——故意缺失，不补写）"},
+      "style_attributes": {"value": ["大翻领", "廓形肩线", "H型风衣式", "袖口可调节袖袢", "宽边长腰带"], "source": "截图 IMG_0674 / 截图 IMG_0677 / 截图 IMG_0680（IMG_0674 的归属不一致见 _fixture_note）"},
+      "selling_points": {"value": ["同页展示敞开穿与收腰穿两种方式", "提供黑色、米色、晓雾灰、云烟灰四种面料成分"], "source": "截图 IMG_0677 / 截图 IMG_0684"},
+      "size_range": {"value": ["150/76A/XS", "155/80A/S", "160/84A/M", "165/88A/L", "170/92A/XL"], "source": "截图 IMG_0684"},
+      "lifecycle_stage": {"value": "库存消化期", "source": "夹具虚构-剧本"},
+      "inventory": {"value": 800, "unit": "件", "source": "夹具虚构-剧本"},
+      "image_refs": {
+        "value": ["IMG_0672", "IMG_0675", "IMG_0676", "IMG_0677", "IMG_0678", "IMG_0679", "IMG_0680", "IMG_0681", "IMG_0682", "IMG_0683", "IMG_0684"],
+        "source": "截图 IMG_0672 / 截图 IMG_0684（数据包 P13「关联图片编号」原文：IMG_0672、IMG_0675—IMG_0682、IMG_0683、IMG_0684；共享图同时关联 P12。区间 IMG_0675—IMG_0682 按数据包 §1 图片归组表逐张核对后展开，未新增未登记编号）",
+        "image_asset_status": "PENDING_IMAGE_ASSET_M3",
+        "image_asset_note": "真实图片文件不在本仓库（全仓无 IMG_*.jpg/png 资产，2026-08-17 实测）；本字段只是编号引用，不得据此声称已完成视觉观察"
+      }
+    },
+    "video_account": {
+      "account_id": {"value": null, "status": "PENDING_IA0", "source": "数据包·包5 未给账号编号；A.3.6 account_id 为 R（必填），标识由 IA-0 定，不自造"},
+      "platform": {"value": "WECHAT_VIDEO", "source": "A.3.6 系统固定 + OD-03 通用阻断项④（本期仅视频号）"},
+      "account_name": {"value": "衡叙集·穿衣判断（虚构）", "source": "模拟"},
+      "positioning": {"value": "面向城市女性的服装选择与真实穿着决策账号：以商品事实、场景试穿和明确取舍，回答“为什么选、怎么穿、何时不选”", "source": "模拟"},
+      "content_style": {"value": ["稳口吻、熟关系、低剪辑刺激", "以一件商品或一个穿衣问题为单集单位，画面保留面料近景、正侧背面、动作和必要的事实卡", "促销只作为业务事实，不作为内容主线"], "source": "模拟"},
+      "audience_relationship": {"value": "不是销售话术广播站，而是长期衣橱判断伙伴；欢迎观众提交通勤、久坐、身形变化、颜色尝试和门店试穿问题，并允许后续视频修正上一集判断", "source": "模拟"},
+      "primary_persona_ref": {"value": "沈岚，关联 R01 品牌主理人", "source": "模拟（版本化引用待 PersonaFacts 对象落盘后回填，本文件不自造 version）"},
+      "expression_boundaries": {"value": ["未核对款号、成分、尺码、价格和库存时不得下商品结论", "价格冲突必须同时展示并标记“待裁决”，不得选择性隐藏", "不把模特效果等同于所有人效果", "不使用焦虑、羞耻、年龄贬低或身材贬低推动成交", "不把私域关系简化为连续促销"], "source": "模拟"}
+    }
+  },
+  "hard_rules": [
+    {
+      "rule_id": "R-FB01-001",
+      "version": 1,
+      "statement": "禁止在任何输出中使用 fixture-brand-01 的品牌禁用表达；词表唯一真源为 acceptance/detectors/forbidden_lexicon.yaml（含 low_price_selling 与 false_scarcity 两组），本规则正文不复制词条；词表命中即违规，规则内容以该文件当前版本为准。",
+      "status": "ACTIVE",
+      "source": "Founder 2026-08-17 预裁决③（acceptance/cases/OPEN_QUESTIONS.md 文首）：品牌禁语立 RuleRecord R-FB01-001，词表以 detectors 为唯一运营真源。规则对象已落盘 contracts/rules/R-FB01-001.yaml（version 1、status ACTIVE），本条 statement / version / status 照抄该注册表正文，不自铸；CR-D01 两份 Manifest 的 hard_rule_refs 仍为 []（OQ-CR-D01-04），回填不在本任务范围"
+    }
+  ]
+}

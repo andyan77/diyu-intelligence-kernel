@@ -14,13 +14,18 @@
 case_id: INT-D02
 case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；草案态由文件名 .draft.yaml + 本文件头 DRAFT 注释 + approved_by 占位表达，不进版本号
 prd_version: "v0.1"                           # M0-EP01 文档版本一致性声明：主 PRD v0.1 EFFECTIVE
-data_contract_version: "v0.1"                 # M0-EP01：附录 A 模块接口与核心数据字典 v0.1 EFFECTIVE
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"           # M0-EP01：附录 B 三个核心模块智能验收合同 v0.3 EFFECTIVE
-context_snapshot_id: "SNAP-INTD02-0001"       # 规划名，快照尚未构建（仓库内无对应 fixtures）；两份 Manifest 共用同一快照 id 属草案起草口径，B 未就本案例规定 → OQ-INT-D02-01
-snapshot_hash: "PENDING_SNAPSHOT_BUILD"       # 快照构建后填入；快照前置条件照抄 B:313「商品基本事实存在，但缺少影响表达的账号人格或品牌信息。」——快照若带入账号人格/品牌信息，本案例考点即失效
+context_snapshot_id: "SNAP-INTD02-0001"       # 规划名，快照尚未构建（仓库内无对应 fixtures）；两份 Manifest 共用同一快照 id 属草案起草口径，B 未就本案例规定 → OQ-INT-D02-01（08-17 已失效：快照已落盘 acceptance/cases/INT-D02/fixtures/context_snapshot.json）
+snapshot_hash: "sha256:2f038bc21405df3072d9ecbe5333055c1e778fb139698e7b4c1cbe569a9a0c68"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "为这件羊绒大衣制作春节前视频号内容。"   # 照抄 B:311「输入」引文，一字不改
 execution_mode: ENHANCED                      # 本份的声明切换项；真源 B:325「增强模式：」（B.4.1/INT-D02 允许答案族分两族）
-hard_rule_refs: []                            # B.4.1/INT-D02（B:305-347）无"冻结事实"块、未列任何规则/禁令对象；仓库中真实落盘的规则对象目前仅 BD-D01 fixtures 的 R-BDD01-001/002，本案例不得凭空断言 object_id/version。caveat：B:333 禁止结果点名「编造创始人背景、账号关系或品牌禁语」，IA-0 冻结的品牌事实若把禁语清单登记成硬规则对象，须在此回填 → OQ-INT-D02-02
+hard_rule_refs:                            # B.4.1/INT-D02（B:305-347）无"冻结事实"块、未列任何规则/禁令对象；仓库中真实落盘的规则对象目前仅 BD-D01 fixtures 的 R-BDD01-001/002，本案例不得凭空断言 object_id/version。caveat：B:333 禁止结果点名「编造创始人背景、账号关系或品牌禁语」，IA-0 冻结的品牌事实若把禁语清单登记成硬规则对象，须在此回填 → OQ-INT-D02-02（08-17 已失效：contracts/rules/ 现已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三条 RuleRecord）
+  # 【08-17 回填】上行 caveat 的兑现条件已满足：Founder 预裁决③「品牌禁语立 RuleRecord」已落盘
+  #   contracts/rules/R-FB01-001.yaml（词表唯一真源 = acceptance/detectors/forbidden_lexicon.yaml）。
+  #   本案例登记依据：B:333 禁止结果明文点名「编造创始人背景、账号关系或品牌禁语」——品牌禁语为本案例明文涉及项。
+  #   OQ-INT-D02-02 就此关闭。不登记 R-BDD01-001/002：该两条 source_ref 指向 BD-D01 案例夹具，跨案例引用会把 BD-D01 考点带入本案例。
+  - {object_type: RuleRecord, object_id: R-FB01-001, version: 1, brand_id: fixture-brand-01}
 output_schema_version: "v0.1"                 # 占位值：contracts/schemas/intent_execution_plan.schema.json 未声明版本号，B 也未规定诊断案例的输出合同版本 →（三案例同问）OQ-INT-D01-05
 brand_memory_state: DISABLED                  # B:95「首轮验收关闭 Brand Memory。」
 approved_brand_memory_refs: []                # B:179「DISABLED 时引用列表必须为空。」
