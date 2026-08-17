@@ -1,0 +1,104 @@
+{
+  "snapshot_id": "SNAP-HXJ-0001",
+  "task_id": "TASK-HXJ-0001",
+  "brand_id": "BRAND_HENGXUJI",
+  "version": 1,
+  "created_at": "2026-08-17T10:30:00+08:00",
+  "brand_facts_ref": {
+    "object_type": "BrandFacts",
+    "object_id": "FS-BRAND-HENGXUJI-0001",
+    "version": 1,
+    "brand_id": "BRAND_HENGXUJI"
+  },
+  "product_facts_refs": [
+    {
+      "object_type": "ProductFacts",
+      "object_id": "FS-PRODUCT-P01-0001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    },
+    {
+      "object_type": "ProductFacts",
+      "object_id": "FS-PRODUCT-P13-0001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    }
+  ],
+  "audience_facts_refs": [
+    {
+      "object_type": "AudienceFacts",
+      "object_id": "FS-AUD-A01-0001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    }
+  ],
+  "persona_facts_refs": [
+    {
+      "object_type": "PersonaFacts",
+      "object_id": "FS-PERSONA-R01-0001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    }
+  ],
+  "video_account_facts_ref": {
+    "object_type": "VideoAccountFacts",
+    "object_id": "FS-VIDEOACCOUNT-HXJ-0001",
+    "version": 3,
+    "brand_id": "BRAND_HENGXUJI"
+  },
+  "active_rule_refs": [
+    {
+      "object_type": "RuleRecord",
+      "object_id": "R-BDD01-001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    },
+    {
+      "object_type": "RuleRecord",
+      "object_id": "R-BDD01-002",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    },
+    {
+      "object_type": "RuleRecord",
+      "object_id": "R-FB01-001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    }
+  ],
+  "approved_brand_memory_refs": [],
+  "input_source_refs": [
+    {
+      "source_id": "SRC-BRANDPACK-0001",
+      "brand_id": "BRAND_HENGXUJI",
+      "source_type": "WECHAT_MESSAGE",
+      "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实",
+      "captured_at": "2026-08-17T09:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-PRODUCT-P13-0001",
+      "brand_id": "BRAND_HENGXUJI",
+      "source_type": "PRODUCT_DATA_FILE",
+      "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md P13 10%羊绒风衣式大衣 商品事实表",
+      "captured_at": "2026-08-17T09:10:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-IMG-0684",
+      "brand_id": "BRAND_HENGXUJI",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0684",
+      "captured_at": "2026-08-17T09:12:00+08:00",
+      "checksum": null
+    }
+  ],
+  "snapshot_hash": "sha256:3f0a9c1d5e2b47a8c6f1904bd7e35a2c8b0d64f19e7c35ab21d84f60c9e5723a",
+  "_fixture_note": {
+    "violation": "反例2｜枚举违约（一处，本 Schema 真能拦住）：整份实例与 context_snapshot.ok1.json 逐字相同，唯独 input_source_refs[0].source_type 由 BRAND_OPERATOR_INPUT 改成 WECHAT_MESSAGE——该值不在 A.2.3（A 行 128-157）SourceRef.source_type 七枚举 [BRAND_OPERATOR_INPUT, FOUNDER_CONFIRMATION, UPLOADED_DOCUMENT, PRODUCT_DATA_FILE, IMAGE_INPUT, MODEL_EXTRACTION, SYSTEM_RECORD] 内。该违约经 input_source_refs.items → common.defs.json#/definitions/SourceRef 跨文件 $ref 穿透判定，同时实测 RefResolver 解析生效。除此一处外全份合法（不掺语义违约充数）。",
+    "expected_error_substr": "'WECHAT_MESSAGE' is not one of ['BRAND_OPERATOR_INPUT', 'FOUNDER_CONFIRMATION', 'UPLOADED_DOCUMENT', 'PRODUCT_DATA_FILE', 'IMAGE_INPUT', 'MODEL_EXTRACTION', 'SYSTEM_RECORD']",
+    "delta_keys_vs_ok1": [
+      "~input_source_refs"
+    ]
+  }
+}

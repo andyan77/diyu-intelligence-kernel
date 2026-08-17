@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "product_facts.schema.json",
+  "title": "ProductFacts",
+  "$comment": "照抄 A.3.2（A 行 245-273）；FactSetEnvelope（A 行 218-229）以 allOf 平铺共享，信封字段与对象自有字段同处一层；内联 Money / Quantity（A 行 263-273）已在 common.defs.json 落为 Money / Quantity 定义，此处只 $ref 不重复内联",
+  "allOf": [
+    {
+      "$ref": "common.defs.json#/definitions/FactSetEnvelope"
+    },
+    {
+      "type": "object",
+      "$comment": "A.3.2 表内 13 个字段：R=product_id / name / category；C=sku / price / inventory / material / style_attributes / selling_points / image_refs；O=size_range / lifecycle_stage / visual_profile_ref。C 类条件依赖任务上下文（价格相关任务、库存激活任务、视觉理解任务、快速模式），本对象内无法用 JSON Schema 条件式表达，全部在字段 description 写明并外包给确定性谓词（C.3 资产④）",
+      "required": [
+        "product_id",
+        "name",
+        "category"
+      ],
+      "properties": {
+        "product_id": {
+          "type": "string",
+          "description": "A 行 249：string | R | 默认来源=系统或商品文件 | 缺失处理=阻断。阻断行为本身（缺失即不得进入下一节点）由状态机与确定性谓词承担（C.3 资产④）。"
+        },
+        "sku": {
+          "description": "A 行 250：FactValue<string> | C | 默认来源=商品文件、人工 | 缺失处理=可无 SKU，但必须有 product_id。条件必填：仅当业务侧存在 SKU 时；「必须有 product_id」一半已由本 Schema 的 required 保证，另一半（可无 SKU 不算违约）即体现为本字段不进 required。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueString"
+            }
+          ]
+        },
+        "name": {
+          "description": "A 行 251：FactValue<string> | R | 默认来源=商品文件、人工 | 缺失处理=不得自动命名为事实。「不得自动命名为事实」是来源级约束（不得由模型生成的名称落为 status=CONFIRMED），需按 source_refs 与 status 组合判定，外包给确定性谓词（C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueString"
+            }
+          ]
+        },
+        "category": {
+          "description": "A 行 252：FactValue<string> | R | 默认来源=商品文件、人工 | 缺失处理=影响表达与视觉判断。A 全文未给 category 枚举，不得自造枚举值。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueString"
+            }
+          ]
+        },
+        "price": {
+          "description": "A 行 253：FactValue<Money> | C | 默认来源=商品文件、人工 | 缺失处理=价格相关任务需要。条件必填：价格相关任务（是否属价格相关任务取决于 IntentExecutionPlan，本对象内不可判，外包给确定性谓词，C.3 资产④）。另 A 行 180「库存、价格等时效性事实必须有单位和 as_of」：单位由 Money.currency 结构必填保证；as_of 落 FactValue.as_of 还是 Money.as_of，A 行 180 与 A 行 267 并存未指明，非空判定外包给确定性谓词。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueMoney"
+            }
+          ]
+        },
+        "inventory": {
+          "description": "A 行 254：FactValue<Quantity> | C | 默认来源=商品文件、人工 | 缺失处理=库存激活任务需要。条件必填：库存激活任务（INVENTORY_ACTIVATION 类任务，本对象内不可判，外包给确定性谓词，C.3 资产④）。A 行 180 的「单位和 as_of」由 Quantity.unit / Quantity.as_of 结构必填保证（A 行 269-272 中 as_of 非可空）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueQuantity"
+            }
+          ]
+        },
+        "material": {
+          "description": "A 行 255：FactValue<string[]> | C | 默认来源=吊牌、文件、人工 | 缺失处理=未确认时禁止材质功效表达。条件必填：材质相关任务。「未确认时禁止材质功效表达」是下游生成物的表述层约束（status≠CONFIRMED 时下游文案不得出现材质功效句），跨对象判定，外包给确定性谓词（C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "style_attributes": {
+          "description": "A 行 256：FactValue<string[]> | C | 默认来源=人工、资料抽取 | 缺失处理=可在快速模式缺失。条件必填：非快速模式（增强模式）；模式取自运行 Manifest，本对象内不可判，外包给确定性谓词（C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "selling_points": {
+          "description": "A 行 257：FactValue<string[]> | C | 默认来源=人工、商品资料 | 缺失处理=只使用已确认卖点。「只使用已确认卖点」约束的是下游消费方（只可取 status=CONFIRMED 的条目），不是本对象结构，外包给确定性谓词（C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "image_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "common.defs.json#/definitions/SourceRef"
+          },
+          "description": "A 行 258：SourceRef[] | C | 默认来源=商品图片 | 缺失处理=视觉理解时需要。条件必填：视觉理解任务。注意此字段是 SourceRef[] 而非 FactValue，A 行 258 原文如此，未包 FactValue 信封。A.3.3（A 行 296）「无图片时为 MISSING，不依据商品名称补写颜色、版型或纹理」约束的是 VisualProfile 侧字段状态，不是本字段结构，外包给确定性谓词（C.3 资产④）。"
+        },
+        "size_range": {
+          "description": "A 行 259：FactValue<string[]> | O | 默认来源=商品文件、人工 | 缺失处理=非尺码任务可缺失。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "lifecycle_stage": {
+          "description": "A 行 260：FactValue<string> | O | 默认来源=人工、商品文件 | 缺失处理=新品或库存任务建议提供。A 全文未给 lifecycle_stage 枚举，不得自造枚举值。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueString"
+            }
+          ]
+        },
+        "visual_profile_ref": {
+          "description": "A 行 261：VersionedRef | O | 默认来源=视觉理解输出 | 缺失处理=缺失时不得虚构视觉细节。「不得虚构视觉细节」约束下游生成物（本字段缺失时下游不得出现颜色/版型/纹理断言），跨对象判定，外包给确定性谓词（C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/VersionedRef"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

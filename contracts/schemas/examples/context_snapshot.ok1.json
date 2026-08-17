@@ -1,0 +1,98 @@
+{
+  "_note": "合法实例：A.4.3 ContextSnapshot 全十四字段（A 行 397-415），一个不多一个不少。取材＝衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md（虚构品牌「衡叙集」）；brand_id 统一 BRAND_HENGXUJI 与 examples/ 兄弟族语料一致（A 行 82 单品牌不变式在示例语料层成立）。acceptance/cases 考卷夹具用 fixture-brand-01，属另一语料域，形状对齐待 Founder 批准改考卷后单独施工。",
+  "snapshot_id": "SNAP-HXJ-0001",
+  "task_id": "TASK-HXJ-0001",
+  "brand_id": "BRAND_HENGXUJI",
+  "version": 1,
+  "created_at": "2026-08-17T10:30:00+08:00",
+  "brand_facts_ref": {
+    "object_type": "BrandFacts",
+    "object_id": "FS-BRAND-HENGXUJI-0001",
+    "version": 1,
+    "brand_id": "BRAND_HENGXUJI"
+  },
+  "product_facts_refs": [
+    {
+      "object_type": "ProductFacts",
+      "object_id": "FS-PRODUCT-P01-0001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    },
+    {
+      "object_type": "ProductFacts",
+      "object_id": "FS-PRODUCT-P13-0001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    }
+  ],
+  "audience_facts_refs": [
+    {
+      "object_type": "AudienceFacts",
+      "object_id": "FS-AUD-A01-0001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    }
+  ],
+  "persona_facts_refs": [
+    {
+      "object_type": "PersonaFacts",
+      "object_id": "FS-PERSONA-R01-0001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    }
+  ],
+  "video_account_facts_ref": {
+    "object_type": "VideoAccountFacts",
+    "object_id": "FS-VIDEOACCOUNT-HXJ-0001",
+    "version": 3,
+    "brand_id": "BRAND_HENGXUJI"
+  },
+  "active_rule_refs": [
+    {
+      "object_type": "RuleRecord",
+      "object_id": "R-BDD01-001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    },
+    {
+      "object_type": "RuleRecord",
+      "object_id": "R-BDD01-002",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    },
+    {
+      "object_type": "RuleRecord",
+      "object_id": "R-FB01-001",
+      "version": 1,
+      "brand_id": "BRAND_HENGXUJI"
+    }
+  ],
+  "approved_brand_memory_refs": [],
+  "input_source_refs": [
+    {
+      "source_id": "SRC-BRANDPACK-0001",
+      "brand_id": "BRAND_HENGXUJI",
+      "source_type": "BRAND_OPERATOR_INPUT",
+      "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实",
+      "captured_at": "2026-08-17T09:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-PRODUCT-P13-0001",
+      "brand_id": "BRAND_HENGXUJI",
+      "source_type": "PRODUCT_DATA_FILE",
+      "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md P13 10%羊绒风衣式大衣 商品事实表",
+      "captured_at": "2026-08-17T09:10:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-IMG-0684",
+      "brand_id": "BRAND_HENGXUJI",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0684",
+      "captured_at": "2026-08-17T09:12:00+08:00",
+      "checksum": null
+    }
+  ],
+  "snapshot_hash": "sha256:3f0a9c1d5e2b47a8c6f1904bd7e35a2c8b0d64f19e7c35ab21d84f60c9e5723a"
+}

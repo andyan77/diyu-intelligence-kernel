@@ -1,0 +1,136 @@
+{
+  "fact_set_id": "FS-AUD-HXJ-A01-v1",
+  "fact_type": "AudienceFacts",
+  "brand_id": "BRD_HENGXUJI",
+  "version": 1,
+  "schema_version": "1.0.0",
+  "updated_at": "2026-08-17T10:00:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "audience_id": "AUD_A01",
+  "label": {
+    "value": "稳态通勤者",
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC_FIXTURE_AUD_A01",
+        "brand_id": "BRD_HENGXUJI",
+        "source_type": "UPLOADED_DOCUMENT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#称呼",
+        "captured_at": "2026-08-17T09:30:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:30:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "age_range": {
+    "value": {
+      "min": 33,
+      "max": 42,
+      "unit": "岁"
+    },
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC_FIXTURE_AUD_A01",
+        "brand_id": "BRD_HENGXUJI",
+        "source_type": "UPLOADED_DOCUMENT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#年龄段",
+        "captured_at": "2026-08-17T09:30:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:30:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "occupation_or_lifestyle": {
+    "value": [
+      "品牌、咨询、教育、行政管理或专业服务岗位",
+      "工作日需要见同事和客户，下班后常直接接孩子、赴家宴或处理家庭事务",
+      "衣服通常早上一次穿定，白天没有时间反复更换"
+    ],
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC_FIXTURE_AUD_A01",
+        "brand_id": "BRD_HENGXUJI",
+        "source_type": "UPLOADED_DOCUMENT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#职业与生活方式",
+        "captured_at": "2026-08-17T09:30:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:30:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "pain_points": {
+    "value": [
+      "上午会议要有边界感，晚上接孩子又不想显得过度正式，硬挺西装常在第二个场景里变得突兀",
+      "通勤单程 40—60 分钟，久坐后裤腰勒、腹部褶皱和膝盖鼓包比镜子里的第一眼更影响体验",
+      "体重一年内上下浮动 3—5 公斤，不愿每次变化都重买一套裤装",
+      "线上详情页经常只说面料名称，不说里料、重量、清洗和容易出现的问题，收到货后才发现不适合高频穿",
+      "已有很多“单看好看”的衣服，真正缺的是能与现有鞋、包、裤装连续搭配的中坚款"
+    ],
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC_FIXTURE_AUD_A01",
+        "brand_id": "BRD_HENGXUJI",
+        "source_type": "UPLOADED_DOCUMENT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#真实痛点",
+        "captured_at": "2026-08-17T09:30:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:30:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "purchase_reasons": {
+    "value": [
+      "版型能同时处理会议、通勤、接送和周末轻社交",
+      "品牌明确解释面料、里料、尺码和长期穿着代价",
+      "一件外套能与已有衣橱形成至少三套稳定组合",
+      "不用抢、不靠倒计时，也能获得一致价格与专业服务",
+      "主理人愿意公开说“不适合谁”，降低试错成本"
+    ],
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC_FIXTURE_AUD_A01",
+        "brand_id": "BRD_HENGXUJI",
+        "source_type": "UPLOADED_DOCUMENT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#购买理由",
+        "captured_at": "2026-08-17T09:30:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:30:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "objections": {
+    "value": [
+      "羊毛、亚麻或混纺面料是否难打理，真实使用频率会不会低",
+      "宽松版型是否只是模特图成立，自己久坐或含胸时会不会失去轮廓",
+      "价格高于普通通勤装时，结构和面料差异是否足以支持长期复穿"
+    ],
+    "status": "PROVISIONAL",
+    "source_refs": [
+      {
+        "source_id": "SRC_FIXTURE_AUD_A01_OBJ",
+        "brand_id": "BRD_HENGXUJI",
+        "source_type": "MODEL_EXTRACTION",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#常见顾虑",
+        "captured_at": "2026-08-17T09:30:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:30:00+08:00",
+    "confidence": "MEDIUM",
+    "uncertainty_reason": "来源为 MODEL_EXTRACTION，按 A.2.3 只能产生 PROVISIONAL 值；尚未经品牌运营者逐条确认"
+  }
+}
