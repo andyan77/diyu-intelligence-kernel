@@ -25,7 +25,7 @@ case_id: SYS-D01
 case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；草案态由文件名 .draft.yaml + 本文件头 DRAFT 注释 + approved_by 表达，不进版本号
 prd_version: "v0.1"                           # 版本基线见 M0-EP01_文档版本一致性声明.md 一、现行版本基线
 data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
-acceptance_contract_version: "v0.3"           # 同上（附录 B v0.3）
+acceptance_contract_version: "v0.4"           # 同上（附录 B v0.3）
 context_snapshot_id: "SNAP-SYSD01-0001"       # 规划名，快照尚未构建（OQ-SYS-D01-05）（08-17 已失效：快照已落盘 acceptance/cases/SYS-D01/fixtures/context_snapshot.json）
 snapshot_hash: "sha256:f2c23c26907a4d0b165514b328364c48c064ef1e54335295365420b88335752d"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "已批准的内容包中，当前拍摄场景不可用——请只做必要的局部调整，不得改变已选商业方向。"  # Founder 2026-08-17 IA-0 裁决定稿（SYS-D01 取 B 三例之首）

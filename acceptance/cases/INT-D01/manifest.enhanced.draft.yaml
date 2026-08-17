@@ -11,7 +11,7 @@ case_id: INT-D01
 case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；草案态由文件名 .draft.yaml + 本文件头 DRAFT 注释 + approved_by 占位表达，不进版本号
 prd_version: "v0.1"                           # M0-EP01 文档版本一致性声明：主 PRD v0.1 EFFECTIVE
 data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
-acceptance_contract_version: "v0.3"           # M0-EP01：附录 B 三个核心模块智能验收合同 v0.3 EFFECTIVE
+acceptance_contract_version: "v0.4"           # M0-EP01：附录 B 三个核心模块智能验收合同 v0.3 EFFECTIVE
 context_snapshot_id: "SNAP-INTD01-0001"       # 规划名，快照尚未构建（仓库内无对应 fixtures）（08-17 已失效：快照已落盘 acceptance/cases/INT-D01/fixtures/context_snapshot.json）
 snapshot_hash: "sha256:dfe6c6a9d94ecd4b8e97ea3033a60e8969cc091e82ac3bfd5e3d6c87b9aabcf3"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "帮我推广羊绒大衣。"          # 照抄 B:276「输入」引文，一字不改

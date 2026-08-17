@@ -7,7 +7,7 @@
 | 文档编号 | DIYU-MVP-V3-A |
 | 版本 | v0.2 |
 | 状态 | **EFFECTIVE（已批准生效）** |
-| 批准 | Founder（Faye）2026-08-17 批准；生效基线 = 主 PRD v0.1 + 附录 A v0.2（当日补情绪字段修订）+ 附录 B v0.3（当日标签补登修订）三份一并生效，历次当日修订均经 Founder 批准 |
+| 批准 | Founder（Faye）2026-08-17 批准；生效基线 = 主 PRD v0.1 + 附录 A v0.2（当日补情绪字段修订）+ 附录 B v0.4（当日两次标签补登修订，末次为 M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID）三份一并生效，历次当日修订均经 Founder 批准 |
 | v0.1→v0.2 修订 | Founder 2026-08-17 裁决：VoicePackage 补「emotion（情绪）」字段，对齐主 PRD 7.2 Voice Package 最小内容（完整口播、停顿、强调、语速和情绪）；其余条款不变。裁决记录见《裁决台账》 |
 | 文档属性 | 主 PRD 的规范性接口与数据附录 |
 | 上位文档 | PRD_笛语智能核_MVP_V3.0_v0.1.md |

@@ -13,7 +13,7 @@ case_version: "v0.1"
 
 prd_version: "v0.1"
 data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
-acceptance_contract_version: "v0.3"
+acceptance_contract_version: "v0.4"
 
 # 规划名：快照尚未构建（本案例目录下无 fixtures/；对照 acceptance/cases/BD-D01/fixtures/context_snapshot.json 才是已落盘实体）。（08-17 已失效：快照已落盘 acceptance/cases/CR-D04/fixtures/context_snapshot_b.json，snapshot_hash 已回填）
 # 三份变体各用一份快照（-0001 输入 A / -0002 输入 B / -0003 输入 C），因三条输入的视觉材料本身不同（B:637/639/641）；

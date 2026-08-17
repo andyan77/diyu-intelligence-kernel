@@ -17,7 +17,7 @@ case_version: "v0.1"
 # 以下三行版本取自 M0-EP01_文档版本一致性声明.md「一、现行版本基线」：主 PRD v0.1 / 附录 A v0.1 / 附录 B v0.3
 prd_version: "v0.1"
 data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
-acceptance_contract_version: "v0.3"
+acceptance_contract_version: "v0.4"
 
 # 规划名，与已有夹具 acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 snapshot_id 一致（未改动该夹具）
 context_snapshot_id: "SNAP-BDD01-0001"

@@ -5,11 +5,12 @@
 | 项目 | 内容 |
 |---|---|
 | 文档编号 | DIYU-MVP-V3-B |
-| 版本 | v0.3 |
+| 版本 | v0.4 |
 | 状态 | **EFFECTIVE（已批准生效）** |
-| 批准 | Founder（Faye）2026-08-17 批准；生效基线 = 主 PRD v0.1 + 附录 A v0.2（当日补情绪字段修订）+ 附录 B v0.3（当日标签补登修订）三份一并生效，历次当日修订均经 Founder 批准 |
+| 批准 | Founder（Faye）2026-08-17 批准；生效基线 = 主 PRD v0.1 + 附录 A v0.2（当日补情绪字段修订）+ 附录 B v0.4（当日两次标签补登修订，末次为 M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID）三份一并生效，历次当日修订均经 Founder 批准 |
 | v0.1→v0.2 修订 | Founder 2026-08-17 裁决（OD-04）：制作判断由 Founder 以制作视角承担，取消外部制作裁判角色——修订 B.5.2 与 Gate IA-3 对应条文；其余条款不变。修订依据与风险知悉记录见《裁决台账》 |
 | v0.2→v0.3 修订 | Founder 2026-08-17 裁决：B.6.2 补登失败标签 BD_SCOPE_MISREPRESENTED，修复 BD-D02 引用了未登记标签的缺陷；其余条款不变。裁决记录见《裁决台账》 |
+| v0.3→v0.4 修订 | Founder 2026-08-17 裁决（M0 收口修复批次）：B.6.4 补登失败标签 EVAL_BLINDING_PROCEDURE_INVALID 并列入自动阻断清单，一枚关闭匿名流程 P-05（双窗口间隔/独立作答违规）、P-08（B.2.5 匿名处理违规）、P-11 残余（赋值记录齐全但真实性不可证）三处标签缺口；其余条款不变。裁决记录见《裁决台账》 |
 | 适用产品 | 笛语智能核 MVP V3.0 |
 | 关联主文档 | PRD_笛语智能核_MVP_V3.0_v0.1.md |
 | 关联数据合同 | A_模块接口与核心数据字典.md |
@@ -925,6 +926,7 @@ NO_MATERIAL_DIFFERENCE 不能证明 MVP 价值。
 | EVAL_CONDITION_MISMATCH | A/B 条件不一致 |
 | EVAL_BLINDING_BROKEN | 裁判提交前知道来源 |
 | EVAL_EVIDENCE_INCOMPLETE | 原始结果、评审或修改证据缺失 |
+| EVAL_BLINDING_PROCEDURE_INVALID | 匿名/盲测程序性违规：双窗口间隔或独立作答违规、匿名处理违反 B.2.5（改动业务内容或两侧外层格式不同）、赋值记录齐全但真实性不可证；该次盲测运行作废、不得作为 IA-4 证据，只能按 B.8.1 修复后按相同条件重测 |
 
 以下失败一经出现，自动阻断相应里程碑，不能由其他案例抵消：
 
@@ -937,7 +939,8 @@ NO_MATERIAL_DIFFERENCE 不能证明 MVP 价值。
 - SYS_CROSS_BRAND_LEAK；
 - SYS_UNAPPROVED_MEMORY_USED；
 - EVAL_CONDITION_MISMATCH；
-- EVAL_BLINDING_BROKEN。
+- EVAL_BLINDING_BROKEN；
+- EVAL_BLINDING_PROCEDURE_INVALID。
 
 ---
 
