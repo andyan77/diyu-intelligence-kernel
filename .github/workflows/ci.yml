@@ -1,0 +1,87 @@
+# 笛语智能核 · M0 门禁 CI（P0-5「可传播门禁」；施工真源 M0收口修复批次_执行规格.md §二 P0-5）
+#
+# 为什么要有它（外部审查 BLOCK-05）：本地钩子不随 clone 分发，且 `git commit --no-verify` 一句就能绕过。
+# 门禁只有跑在**服务端、且绕不过去**的地方才算数。本工作流就是那一处。
+#
+# 与本地的关系：CI **不另起一套判据**——它跑的就是本地那一条命令 `python3 tools/check_m0.py`，
+# 逐字一致。两边口径必须同源：CI 里另写一串 pytest/自定义断言 = 第二套考卷，本地绿 CI 红（或反过来）
+# 时没人说得清谁对。要改判绿口径，改 tools/check_m0.py 一处，两边同步生效。
+#
+# ⚠ 本文件**不能**自己给自己设分支保护。「main required check + 分支保护」是 GitHub 仓库设置
+# （Settings → Branches → Branch protection rules），必须由仓库管理员在网页端手动开一次，
+# 勾选 required status check = 下面的 job 名 **check_m0**（job 名与 name 都钉成这个串，就是为了给它引用）。
+# 在管理员点下那一步之前，本工作流只是"会跑并会报红"，**不构成**"红了就合不进去"的强制力——
+# 这条差别必须在 P0-6 回执里如实写明，不得用"CI 已就位"一句盖过去。
+#
+# 残余面（诚实披露，别把本文件读成"门禁已全覆盖"）：
+#   · C.2 隔离门（一个 commit 不得同时改 kernel/ 与 acceptance/|contracts/）目前**只在本地钩子**里，
+#     本工作流没有复刻它——复刻需要按 push/PR 两种事件分别求 base ref 做 diff，属另一件事，
+#     未做就是未做，不在此处假装已覆盖；
+#   · 冻结门**运行态**按 M0 设计必然红（PENDING_BUILD），故不计入 check_m0 判绿条件，CI 同理；
+#   · CI 绿 ≠ Founder 已签字 ≠ 案例质量合格（口径见 tools/check_m0.py 文件头「诚实边界」）。
+#
+# 供应链残余面（诚实披露，**未做就是未做**）：
+#   · `pip install` **未**加 --require-hashes：那要求把传递依赖（attrs / pyrsistent / six /
+#     setuptools）连同哈希一起钉死，而 requirements.txt 明写"不代为钉死未经实测的传递依赖"
+#     （钉死未实测的东西 = 凭空宣称已验证）。两条纪律冲突，本批次选择保留后者并在此披露；
+#     要补 --require-hashes，须先把传递依赖在干净环境实测一轮，属独立一件事。
+#   · pip / setuptools 自身**未**钉版；python-version: '3.10' 解析到当轮最新 patch，
+#     不是钉死的解释器——本地取证用的是 3.10.12，两边 patch 号可能不同。
+#   · 本工作流**未启用任何缓存**（setup-python 无 cache 输入、无 actions/cache 步），缓存投毒面为零。
+
+name: M0 门禁
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # 管理员手动复跑取证用：出 P0-6 回执时需要能对着某个 ref 再跑一次，没有它就只能靠推空提交触发。
+  workflow_dispatch:
+
+# 最小权限：本工作流只读代码，不写仓库、不发包、不动 issue。
+permissions:
+  contents: read
+
+# 同一分支上后来的推送取消先前仍在跑的：既省重复消耗，也避免两轮结论以不定顺序回写状态，
+# 让"这个 SHA 到底是绿还是红"变成时序问题。
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # job id 与 name 都是 check_m0：分支保护的 required status check 按这个串引用，改名会让保护规则失配。
+  check_m0:
+    name: check_m0
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # third-party action 一律钉 **commit SHA**，不用可变 tag：tag 可以被重新指向另一个提交，
+      # 那等于让别人在我们的 CI 里执行任意代码——而这条 CI 正是"绕不过去的那道门"。
+      # 下面两个 SHA 是 2026-08-17 从 GitHub API 解析 tag 得到的实值（非凭记忆填写），已核验确为
+      # 该仓库中存在的提交；注释里的 v4 / v5 只是给人看的可读标签，生效的是 SHA。
+      # 升级动作 = 重新解析新 tag 的 SHA 并同批改注释，不得只改注释。
+      - name: 取代码
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          # fetch-depth: 0 取全历史。默认的 1 只有一个提交，freeze_gate / check_m0 归属行里那个
+          # SHA 在浅克隆里无从复查。另需在 P0-6 回执里写明：pull_request 事件下 checkout 检出的是
+          # 临时 merge commit，那个 SHA **不存在于仓库历史**，要引用请用 push 事件或 workflow_dispatch 那轮。
+          fetch-depth: 0
+
+      # 基线解释器与 requirements.txt 头部注释同源：3.10。两边必须一起改。
+      # 注意 '3.10' 会解析到当轮最新 patch，不是钉死的解释器（见文件头「供应链残余面」）。
+      - name: 装 Python 3.10
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.10'
+
+      # 钉版安装。不加 --upgrade、不放宽 ==：requirements.txt 钉的就是 M0 全部运行证据的取证条件。
+      - name: 装钉版依赖
+        run: pip install -r requirements.txt
+
+      # 与本地自测命令**逐字一致**的那一条。它自己会打印 CHECK_M0_GREEN / CHECK_M0_RED 与归属块，
+      # 非 0 退出即 job 红。不要在这里追加 `|| true` 之类的兜底——那等于把门禁关掉还留个绿勾。
+      - name: 跑 M0 门禁
+        run: python3 tools/check_m0.py
