@@ -1,0 +1,67 @@
+# DRAFT——PENDING 字段于 IA-0 冻结时补齐并经 Founder 签字生效
+# 案例真源：B.4.3/CR-D02｜视频号语法与决策承接（B:546-580，只引用不复述）
+# 字段定义真源：B.2.1（B:127-165，含 B:165「不得在查看结果后修改事实、裁判问题、允许答案、禁止结果或通过条件」）
+#   + contracts/schemas/case_manifest.schema.json
+# 运行数：B.4.3/CR-D02 只有一组输入 → 本案例共 1 份运行 Manifest（B.2.1 B:129「每个正式案例运行前必须冻结一份 Case Manifest」）。
+# 前置条件（不是任务陈述）：B:552「冻结一个由 Founder / Reviewer 选定的 Business Decision。」是运行前必须先完成的动作；
+#   该被冻结对象的 VersionedRef（object_id / version）在 IA-0 冻结前不存在，本草案不编造（OQ-CR-D02-03）。
+
+case_id: CR-D02
+# 与 acceptance/cases/BD-D01/case.yaml 的 v0.1 对齐；草案态由文件名 .draft.yaml、本文件头 DRAFT 注释与 approved_by 表达，不进版本号
+case_version: "v0.1"
+
+prd_version: "v0.1"
+data_contract_version: "v0.1"
+acceptance_contract_version: "v0.3"
+
+# 规划名：快照尚未构建（本案例目录下无 fixtures/；对照 acceptance/cases/BD-D01/fixtures/context_snapshot.json 才是已落盘实体）；
+# hash 于 IA-0 构建快照后回填（OQ-CR-D01-06，四份 CR 草案同一处）
+context_snapshot_id: "SNAP-CRD02-0001"
+snapshot_hash: "PENDING_SNAPSHOT_BUILD"
+
+# B:552 那句是运行前置动作（冻结一份 Business Decision），不是下发给被测 Creative 模块的任务指令；
+# B.4.3/CR-D02 未给模块任务原文 → 不填看似合理的假值，置 PENDING，由 IA-0 依 B 语义补齐（OQ-CR-D02-02）
+task_statement: "PENDING_TASK_STATEMENT_IA0"
+
+# B.4.3/CR-D02 未声明 execution_mode；本值为占位（无 B 依据），IA-0 由 Founder 裁决（见 OPEN_QUESTIONS OQ-CR-D02-01）
+execution_mode: QUICK
+
+# B.4.3/CR-D02 无「冻结事实」小节，未给任何规则编号；contracts/rules/ 当前为空目录
+# （全仓唯一落盘的规则对象是 acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 R-BDD01-001/002）
+# → 空数组，不凭空断言 object_id/version；IA-0 注册规则对象后回填（OQ-CR-D01-04，四份 CR 草案同一处）
+hard_rule_refs: []
+
+# contracts/schemas/ 下不存在任何 Creative 输出 Schema，且本文件 module_contract_versions.creative 仍为 PENDING_BUILD
+# → 不写看似已存在的版本号（OQ-CR-D01-05，四份 CR 草案同一处）
+output_schema_version: "PENDING_IA0"
+
+# B.1.4（B:95）：首轮验收关闭 Brand Memory；schema allOf（真源 B.2.2 B:179）：DISABLED 时引用列表必须为空
+brand_memory_state: "DISABLED"
+approved_brand_memory_refs: []
+
+# 诊断案例（B.4），非 B.5 端到端匿名 A/B → 按 B.2.1（B:146-150）的 string|null 取 null（不适用）
+e2e_interaction_contract_version: null
+e2e_output_contract_version: null
+baseline_prompt_versions:
+  decision_stage: null
+  creative_stage: null
+
+diyu_build_version: "PENDING_BUILD"
+module_contract_versions:
+  intent: "PENDING_BUILD"
+  business_decision: "PENDING_BUILD"
+  creative: "PENDING_BUILD"
+
+# OD-02 厂商组合已裁决（裁决台账 08-17：Qwen + DeepSeek 组合，多模态用 Qwen 系列），版本/参数于 IA-0 定格——占位指后者。
+# model_version 与同组三字段同取 PENDING_OD02_IA0（原 null 会被「冻结前 grep PENDING 扫未填项」漏掉）
+model_provider: "PENDING_OD02_IA0"
+model_name: "PENDING_OD02_IA0"
+model_version: "PENDING_OD02_IA0"
+generation_parameters_hash: "PENDING_OD02_IA0"
+
+# B.2.2（B:178）只禁「任一侧使用未声明的搜索或知识库」，并未规定 allowed_tools 必须为空；
+# B.4.3/CR-D02 未明文允许任何工具 → 草案取空数组作保守占位，待 IA-0 确认（OQ-CR-D01-07，四份 CR 草案同一处）
+allowed_tools: []
+
+approved_by: "PENDING_FOUNDER_SIGNATURE_IA0"
+approved_at: "PENDING_FOUNDER_SIGNATURE_IA0"

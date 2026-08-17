@@ -1,0 +1,65 @@
+# DRAFT——PENDING 字段于 IA-0 冻结时补齐并经 Founder 签字生效
+# 案例真源：B.4.2/BD-D02｜有限商品池不得补写（B:441-472，只引用不复述）
+# 字段定义真源：B.2.1（B:127-165）+ contracts/schemas/case_manifest.schema.json
+# 待裁编号说明：本文件注释中的 OQ-BD-D02-xx 为待裁决项编号，中央清单由主循环汇编，本文件不落中央清单。
+# 缺引文声明：B.4.2/BD-D02 全段既无「输入」小节也无「能力问题」小节；B:447 那句在「冻结事实」小节（B:445 标题），
+#   属第三人称快照事实，不是下发给两侧模型的任务原文 → task_statement 置 PENDING（见 OQ-BD-D02-02）。
+case_id: BD-D02
+
+# 与同批 BD 案例一致；草案态由文件名 .draft.yaml + 本文件头 DRAFT 注释 + approved_by/approved_at 占位表达，不写进版本号。
+case_version: "v0.1"
+
+# 以下三行版本取自 M0-EP01_文档版本一致性声明.md「一、现行版本基线」：主 PRD v0.1 / 附录 A v0.1 / 附录 B v0.3
+prd_version: "v0.1"
+data_contract_version: "v0.1"
+acceptance_contract_version: "v0.3"
+
+# 规划名：BD-D02 尚无 fixtures/ 夹具，本草案不创建；机器现在读到的是一个尚不存在的快照 ID。
+# B:447「商品池只有三个商品」属该快照的事实层内容，由 IA-0 建快照时冻结（见 OQ-BD-D02-03）。
+context_snapshot_id: "SNAP-BDD02-0001"
+snapshot_hash: "PENDING_SNAPSHOT_BUILD"
+
+# B.4.2/BD-D02 未给任务原文（无「输入」小节、无「能力问题」小节）→ 不填看似合理的假值。
+# 用户任务原文（B:447 语义中的「做十套穿搭」请求）由 Founder 在 IA-0 冻结（见 OQ-BD-D02-02）。
+task_statement: "PENDING_TASK_STATEMENT_IA0"
+
+# B.4.2/BD-D02 未声明 execution_mode；本值为占位（无 B 依据），IA-0 由 Founder 裁决（见 OPEN_QUESTIONS OQ-BD-D02-01）
+execution_mode: QUICK
+
+# B.4.2/BD-D02「冻结事实」（B:445-447）只陈述商品池规模与用户要求，未列具名规则/禁令；
+# contracts/rules/ 目录当前只有 .gitkeep，无任何 RuleRecord 对象 → 空数组，不凭空铸造规则身份。
+# 保留 caveat：IA-0 冻结的品牌事实若附带硬规则（如品牌禁语清单），需在此回填 hard_rule_refs（见 OQ-BD-D02-04）。
+hard_rule_refs: []
+
+# 案例输出合同 = contracts/schemas/business_decision_bundle.schema.json；该 schema 文件本身未标注版本号，
+# 此处 v0.1 沿用附录 A v0.1（schema 照抄 A.6.2/A.6.3）→ 待 IA-0 确认，见 OQ-BD-D02-05
+output_schema_version: "v0.1"
+
+# B.1.4（B:95）：首轮验收关闭 Brand Memory；B.2.2（B:179）：DISABLED 时引用列表必须为空
+brand_memory_state: "DISABLED"
+approved_brand_memory_refs: []
+
+# 诊断案例（非 B.5.1 E2E），两阶段交互/输出合同不适用
+e2e_interaction_contract_version: null
+e2e_output_contract_version: null
+baseline_prompt_versions:
+  decision_stage: null
+  creative_stage: null
+
+diyu_build_version: "PENDING_BUILD"
+module_contract_versions:
+  intent: "PENDING_BUILD"
+  business_decision: "PENDING_BUILD"
+  creative: "PENDING_BUILD"
+
+# OD-02 厂商组合已裁决（台账 08-17），版本/参数于 IA-0 定格——占位指后者
+model_provider: "PENDING_OD02_IA0"
+model_name: "PENDING_OD02_IA0"
+model_version: "PENDING_OD02_IA0"
+generation_parameters_hash: "PENDING_OD02_IA0"
+
+# B.2.2（B:178）：不允许任一侧使用未声明的搜索或知识库；B.4.2/BD-D02 未明文允许任何工具 → 空数组
+allowed_tools: []
+
+approved_by: "PENDING_FOUNDER_SIGNATURE_IA0"
+approved_at: "PENDING_FOUNDER_SIGNATURE_IA0"

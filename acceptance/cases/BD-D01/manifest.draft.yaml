@@ -1,0 +1,74 @@
+# DRAFT——PENDING 字段于 IA-0 冻结时补齐并经 Founder 签字生效
+# 案例真源：B.4.2/BD-D01｜高端品牌的库存与价值冲突（B:390-439，只引用不复述）
+# 字段定义真源：B.2.1（B:127-165）+ contracts/schemas/case_manifest.schema.json
+# 待裁编号说明：本文件注释中的 OQ-BD-D01-xx 为待裁决项编号，中央清单由主循环汇编，本文件不落中央清单。
+# 缺引文声明：B.4.2/BD-D01 全段无「输入」小节；B:408 那句属「能力问题」（B:406 小节标题，人工裁判视角），
+#   按 B.2.2（B:173「相同业务任务」）与 B.2.3（B:187「两侧接收同一 Snapshot、任务和规则」），
+#   评委视角的诊断问句不得当作下发给两侧模型的任务原文 → task_statement 置 PENDING（见 OQ-BD-D01-02）。
+# 运行份数：B.4.2/BD-D01 未声明本案例需多次运行；B:404「两候选降级分支」是否构成需另冻结一份 Manifest 的
+#   第二次运行，本草案不自决（现有夹具 SNAP-BDD01-0001 已把基线禁令与降级分支规则合并冻结在同一份快照）→ OQ-BD-D01-05。
+case_id: BD-D01
+
+# 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；草案态由文件名 .draft.yaml +
+# 本文件头 DRAFT 注释 + approved_by/approved_at 占位表达，不写进版本号。
+case_version: "v0.1"
+
+# 以下三行版本取自 M0-EP01_文档版本一致性声明.md「一、现行版本基线」：主 PRD v0.1 / 附录 A v0.1 / 附录 B v0.3
+prd_version: "v0.1"
+data_contract_version: "v0.1"
+acceptance_contract_version: "v0.3"
+
+# 规划名，与已有夹具 acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 snapshot_id 一致（未改动该夹具）
+context_snapshot_id: "SNAP-BDD01-0001"
+# 哈希于 IA-0 冻结快照时回填
+snapshot_hash: "PENDING_SNAPSHOT_BUILD"
+
+# B.4.2/BD-D01 未给「输入」原文，不填看似合理的假值；能力问题（B:408）属评委视角，禁止下发给模型。
+# 实际下发两侧的业务任务原文由 Founder 在 IA-0 冻结（见 OQ-BD-D01-02）。
+task_statement: "PENDING_TASK_STATEMENT_IA0"
+
+# B.4.2/BD-D01 未声明 execution_mode；本值为占位（无 B 依据），IA-0 由 Founder 裁决（见 OPEN_QUESTIONS OQ-BD-D01-01）
+execution_mode: QUICK
+
+# 规则对象现状（不假绿）：R-BDD01-001 / R-BDD01-002 目前只落在夹具快照
+#   acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 hard_rules[]；contracts/rules/ 目录当前只有 .gitkeep，
+#   无独立 A.9.1 RuleRecord 对象，version: 1 无来源对象可核 → 见 OQ-BD-D01-03。本草案不新增、不改动该夹具。
+hard_rule_refs:
+  # B:399-400 冻结事实 forbidden_expression: - LOW_PRICE_SELLING → 夹具 hard_rules[0] rule_id=R-BDD01-001
+  - {object_type: RuleRecord, object_id: R-BDD01-001, version: 1, brand_id: fixture-brand-01}
+  # B:404 两候选降级分支：原文是「另冻结一**组**规则」（复数），此处只落 1 条；条数与拆分粒度见 OQ-BD-D01-04
+  #   → 夹具 hard_rules[1] rule_id=R-BDD01-002
+  - {object_type: RuleRecord, object_id: R-BDD01-002, version: 1, brand_id: fixture-brand-01}
+
+# 案例输出合同 = case.yaml 指向的 contracts/schemas/business_decision_bundle.schema.json；
+# 该 schema 文件本身未标注版本号，此处 v0.1 沿用附录 A v0.1（schema 照抄 A.6.2/A.6.3）→ 待 IA-0 确认，见 OQ-BD-D01-06
+output_schema_version: "v0.1"
+
+# B.1.4（B:95）：首轮验收关闭 Brand Memory；B.2.2（B:179）：DISABLED 时引用列表必须为空
+brand_memory_state: "DISABLED"
+approved_brand_memory_refs: []
+
+# 诊断案例（非 B.5.1 E2E），两阶段交互/输出合同不适用
+e2e_interaction_contract_version: null
+e2e_output_contract_version: null
+baseline_prompt_versions:
+  decision_stage: null
+  creative_stage: null
+
+diyu_build_version: "PENDING_BUILD"
+module_contract_versions:
+  intent: "PENDING_BUILD"
+  business_decision: "PENDING_BUILD"
+  creative: "PENDING_BUILD"
+
+# OD-02 厂商组合已裁决（台账 08-17），版本/参数于 IA-0 定格——占位指后者
+model_provider: "PENDING_OD02_IA0"
+model_name: "PENDING_OD02_IA0"
+model_version: "PENDING_OD02_IA0"
+generation_parameters_hash: "PENDING_OD02_IA0"
+
+# B.2.2（B:178）：不允许任一侧使用未声明的搜索或知识库；B.4.2/BD-D01 未明文允许任何工具 → 空数组
+allowed_tools: []
+
+approved_by: "PENDING_FOUNDER_SIGNATURE_IA0"
+approved_at: "PENDING_FOUNDER_SIGNATURE_IA0"

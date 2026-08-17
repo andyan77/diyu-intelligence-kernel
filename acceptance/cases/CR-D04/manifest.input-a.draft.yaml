@@ -1,0 +1,71 @@
+# DRAFT——PENDING 字段于 IA-0 冻结时补齐并经 Founder 签字生效
+# 案例真源：B.4.3/CR-D04｜视觉证据与硬规则（B:633-667，只引用不复述）
+# 字段定义真源：B.2.1（B:127-165，含 B:165「不得在查看结果后修改事实、裁判问题、允许答案、禁止结果或通过条件」）
+#   + contracts/schemas/case_manifest.schema.json
+# 运行拆分：B.2.1（B:129）「每个正式案例运行前必须冻结一份 Case Manifest」；B:637/639/641 是三条互斥输入（有图 / 无图 / 图不可读）
+#   → 本案例共 3 份运行 Manifest（manifest.input-a / input-b / input-c.draft.yaml），缺任一份不得计为齐套（是否照此签三份由 IA-0 确认：OQ-CR-D04-02）。
+# 本份 = 输入 A（B:637）；三份除 task_statement 与 context_snapshot_id 外全部字段一致。
+
+case_id: CR-D04
+# 与 acceptance/cases/BD-D01/case.yaml 的 v0.1 对齐；草案态由文件名 .draft.yaml、本文件头 DRAFT 注释与 approved_by 表达，不进版本号
+case_version: "v0.1"
+
+prd_version: "v0.1"
+data_contract_version: "v0.1"
+acceptance_contract_version: "v0.3"
+
+# 规划名：快照尚未构建（本案例目录下无 fixtures/；对照 acceptance/cases/BD-D01/fixtures/context_snapshot.json 才是已落盘实体）。
+# 三份变体各用一份快照（-0001 输入 A / -0002 输入 B / -0003 输入 C），因三条输入的视觉材料本身不同（B:637/639/641）；
+# 三份快照的素材差异与 hash 由 IA-0 构建时定（OQ-CR-D04-03；hash 回填见 OQ-CR-D01-06）
+context_snapshot_id: "SNAP-CRD04-0001"
+snapshot_hash: "PENDING_SNAPSHOT_BUILD"
+
+# 逐字照抄 B:637（仅去除 Markdown 粗体标记 **，未改字）；另两条输入见 manifest.input-b / input-c.draft.yaml。
+# 最终逐运行任务陈述是否即照此冻结 → IA-0 裁决（OQ-CR-D04-02）
+task_statement: |-
+  输入 A： 提供清晰商品图片。
+
+# B.4.3/CR-D04 未声明 execution_mode；本值为占位（无 B 依据），IA-0 由 Founder 裁决（见 OPEN_QUESTIONS OQ-CR-D04-01）
+execution_mode: QUICK
+
+# B.4.3/CR-D04 无「冻结事实」小节，未给任何规则编号（「品牌禁用表达」只出现在允许答案族 B:648，「品牌硬规则」只出现在禁止结果 B:656）；
+# contracts/rules/ 当前为空目录（全仓唯一落盘的规则对象是 acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 R-BDD01-001/002）
+# → 空数组，不凭空断言 object_id/version（OQ-CR-D01-04，四份 CR 草案同一处）。
+# 另：本案例映射 SYS-03 且主要失败标签含 SYS_RULE_VIOLATION（B:667），无硬规则对象则 B:656 该条禁止结果不可判 → IA-0 必须先补规则（OQ-CR-D04-04）
+hard_rule_refs: []
+
+# contracts/schemas/ 下不存在任何 Creative 输出 Schema，且本文件 module_contract_versions.creative 仍为 PENDING_BUILD
+# → 不写看似已存在的版本号（OQ-CR-D01-05，四份 CR 草案同一处）
+output_schema_version: "PENDING_IA0"
+
+# B.1.4（B:95）：首轮验收关闭 Brand Memory；schema allOf（真源 B.2.2 B:179）：DISABLED 时引用列表必须为空
+brand_memory_state: "DISABLED"
+approved_brand_memory_refs: []
+
+# 诊断案例（B.4），非 B.5 端到端匿名 A/B → 按 B.2.1（B:146-150）的 string|null 取 null（不适用）
+e2e_interaction_contract_version: null
+e2e_output_contract_version: null
+baseline_prompt_versions:
+  decision_stage: null
+  creative_stage: null
+
+diyu_build_version: "PENDING_BUILD"
+module_contract_versions:
+  intent: "PENDING_BUILD"
+  business_decision: "PENDING_BUILD"
+  creative: "PENDING_BUILD"
+
+# OD-02 厂商组合已裁决（裁决台账 08-17：Qwen + DeepSeek 组合，多模态用 Qwen 系列），版本/参数于 IA-0 定格——占位指后者。
+# model_version 与同组三字段同取 PENDING_OD02_IA0（原 null 会被「冻结前 grep PENDING 扫未填项」漏掉）。
+# 本案例含商品图片输入，B.2.1 只给一组 model_* 字段，多模态模型是否另记一行 model_name → IA-0 裁决（OQ-CR-D04-05）
+model_provider: "PENDING_OD02_IA0"
+model_name: "PENDING_OD02_IA0"
+model_version: "PENDING_OD02_IA0"
+generation_parameters_hash: "PENDING_OD02_IA0"
+
+# B.2.2（B:178）只禁「任一侧使用未声明的搜索或知识库」，并未规定 allowed_tools 必须为空；
+# B.4.3/CR-D04 未明文允许任何工具 → 草案取空数组作保守占位，待 IA-0 确认（OQ-CR-D01-07，四份 CR 草案同一处）
+allowed_tools: []
+
+approved_by: "PENDING_FOUNDER_SIGNATURE_IA0"
+approved_at: "PENDING_FOUNDER_SIGNATURE_IA0"
