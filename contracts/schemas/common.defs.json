@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "公共定义，逐条照抄附录 A；本文件属 contracts/ 考试条件区，改动走版本升级",
+  "definitions": {
+    "VersionedRef": {
+      "type": "object",
+      "$comment": "A: VersionedRef——模块之间不允许只传递可变对象 ID",
+      "required": ["object_type", "object_id", "version", "brand_id"],
+      "properties": {
+        "object_type": {"type": "string"},
+        "object_id": {"type": "string"},
+        "version": {"type": "integer"},
+        "brand_id": {"type": "string"}
+      }
+    },
+    "ConfidenceStatement": {
+      "type": "object",
+      "$comment": "A: 只三级置信度，不输出伪精确百分比",
+      "required": ["level", "basis", "limiting_factors"],
+      "properties": {
+        "level": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+        "basis": {"type": "array", "items": {"type": "string"}},
+        "limiting_factors": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "TraceEntry": {
+      "type": "object",
+      "required": ["trace_id", "trace_type", "statement"],
+      "properties": {
+        "trace_id": {"type": "string"},
+        "trace_type": {"enum": ["FACT", "RULE", "ASSUMPTION", "MODEL_JUDGMENT"]},
+        "statement": {"type": "string"},
+        "source_refs": {"type": "array"},
+        "object_refs": {"type": "array"},
+        "target_paths": {"type": "array", "items": {"type": "string"}},
+        "supporting_trace_refs": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["HIGH", "MEDIUM", "LOW", null]}
+      }
+    },
+    "TraceBundle": {
+      "type": "object",
+      "$comment": "A.9.2",
+      "required": ["trace_bundle_id", "brand_id", "entries"],
+      "properties": {
+        "trace_bundle_id": {"type": "string"},
+        "brand_id": {"type": "string"},
+        "target_artifact_ref": {"$ref": "#/definitions/VersionedRef"},
+        "entries": {"type": "array", "items": {"$ref": "#/definitions/TraceEntry"}}
+      }
+    },
+    "ArtifactEnvelope": {
+      "type": "object",
+      "$comment": "A.9.3",
+      "required": ["artifact_id", "artifact_type", "version", "schema_version", "brand_id", "task_id", "context_snapshot_ref", "source_run_id", "review_status", "created_at", "created_by"],
+      "properties": {
+        "artifact_id": {"type": "string"},
+        "artifact_type": {"type": "string"},
+        "version": {"type": "integer"},
+        "schema_version": {"type": "string"},
+        "brand_id": {"type": "string"},
+        "task_id": {"type": "string"},
+        "context_snapshot_ref": {"$ref": "#/definitions/VersionedRef"},
+        "source_run_id": {"type": "string"},
+        "parent_references": {"type": "array", "items": {"type": "object", "properties": {"object_ref": {"$ref": "#/definitions/VersionedRef"}, "relation": {"enum": ["DERIVED_FROM", "SELECTED_FROM", "REVISES"]}}}},
+        "review_status": {"enum": ["PENDING", "APPROVED", "CHANGES_REQUESTED"]},
+        "created_at": {"type": "string"},
+        "created_by": {"enum": ["SYSTEM", "BRAND_OPERATOR", "FOUNDER_REVIEWER"]}
+      }
+    },
+    "ContextRequirement": {
+      "type": "object",
+      "$comment": "A.4.2",
+      "required": ["field_path", "purpose", "availability", "impact"],
+      "properties": {
+        "field_path": {"type": "string"},
+        "purpose": {"type": "string"},
+        "availability": {"enum": ["AVAILABLE", "MISSING", "CONFLICTING"]},
+        "impact": {"enum": ["BLOCKING", "QUALITY_REDUCING"]},
+        "resolution_question": {"type": ["string", "null"]},
+        "related_source_refs": {"type": "array"}
+      }
+    },
+    "HardRuleResult": {
+      "type": "object",
+      "$comment": "A: Rule Engine 只负责明确硬规则；BLOCK 的 Artifact 不得进入下一人工节点",
+      "required": ["rule_ref", "target_path", "result", "explanation"],
+      "properties": {
+        "rule_ref": {"$ref": "#/definitions/VersionedRef"},
+        "target_ref": {"anyOf": [{"$ref": "#/definitions/VersionedRef"}, {"type": "null"}]},
+        "target_path": {"type": "string"},
+        "result": {"enum": ["PASS", "BLOCK"]},
+        "explanation": {"type": "string"}
+      }
+    }
+  }
+}

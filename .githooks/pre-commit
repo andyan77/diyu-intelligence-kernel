@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# C.2 唯一硬门：一个 commit 不得同时修改 kernel/（考生）与 acceptance/ 或 contracts/（考卷/考试条件）
+staged=$(git diff --cached --name-only)
+echo "$staged" | grep -q  '^kernel/'                && k=1 || k=0
+echo "$staged" | grep -qE '^(acceptance|contracts)/' && e=1 || e=0
+if [ "$k" = "1" ] && [ "$e" = "1" ]; then
+  echo "REJECT [C.2 隔离门] 同一 commit 同时改考生区(kernel/)与考卷/考试条件区(acceptance/|contracts/)——请拆分为两次提交。"
+  exit 1
+fi
+exit 0

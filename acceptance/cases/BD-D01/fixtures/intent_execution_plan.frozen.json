@@ -1,0 +1,26 @@
+{
+  "_fixture_note": "冻结上游输入（C.3 资产⑥：BD 测试用冻结 IntentExecutionPlan，对齐 B.4 模块隔离）；手写夹具，非系统输出",
+  "artifact": {
+    "artifact_id": "ART-BDD01-INTENT-001", "artifact_type": "INTENT_EXECUTION_PLAN", "version": 1,
+    "schema_version": "v0.1", "brand_id": "fixture-brand-01", "task_id": "TASK-BDD01-001",
+    "context_snapshot_ref": {"object_type": "ContextSnapshot", "object_id": "SNAP-BDD01-0001", "version": 1, "brand_id": "fixture-brand-01"},
+    "source_run_id": "RUN-FIXTURE-INTENT-001", "review_status": "APPROVED", "created_at": "2026-08-17T00:00:00Z", "created_by": "SYSTEM"
+  },
+  "task_type": "VIDEO_CONTENT_CREATION", "platform": "WECHAT_VIDEO",
+  "goal_resolution": "RESOLVED", "business_goal": "INVENTORY_ACTIVATION",
+  "goal_candidates": [],
+  "intent_summary": "高端定位品牌需在限定周期内推动羊绒大衣销售，同时不得损害品牌价值（禁止低价叫卖）",
+  "target_audience_refs": [],
+  "required_context": [
+    {"field_path": "facts.inventory", "purpose": "库存激活任务阻断项（OD-03）", "availability": "AVAILABLE", "impact": "BLOCKING"},
+    {"field_path": "facts.product", "purpose": "商品身份（OD-03 通用阻断项）", "availability": "AVAILABLE", "impact": "BLOCKING"},
+    {"field_path": "hard_rules", "purpose": "品牌促销边界（OD-03 库存激活阻断项）", "availability": "AVAILABLE", "impact": "BLOCKING"}
+  ],
+  "missing_context": [],
+  "assumptions": [],
+  "confidence": {"level": "MEDIUM", "basis": ["商品与库存事实齐备", "品牌禁令明确"], "limiting_factors": ["缺受众调研（QUALITY_REDUCING）"]},
+  "next_action": "CONTINUE_TO_DECISION",
+  "trace_bundle": {"trace_bundle_id": "TB-BDD01-INTENT-001", "brand_id": "fixture-brand-01",
+    "target_artifact_ref": {"object_type": "IntentExecutionPlan", "object_id": "ART-BDD01-INTENT-001", "version": 1, "brand_id": "fixture-brand-01"},
+    "entries": [{"trace_id": "TI-F1", "trace_type": "FACT", "statement": "库存 800 件，处于库存消化期", "source_refs": [], "target_paths": ["intent_summary"]}]}
+}

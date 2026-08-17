@@ -1,0 +1,4 @@
+# 禁用表达词表 v0.1（考卷区资产——改词表=改考卷，走审批 C.6.3）
+# 来源：BD-D01 冻结 forbidden_expression=LOW_PRICE_SELLING（低价/甩卖/虚假稀缺）+ 衡叙集夹具包·包1 品牌禁用清单
+low_price_selling: [清仓, 甩卖, 白菜价, 跳楼价, 亏本价, 全网最低, 秒杀, 闭眼入, 不买就亏]
+false_scarcity: [手慢无, 仅剩最后, 错过不再, 错过后悔]

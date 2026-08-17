@@ -1,0 +1,249 @@
+{
+  "_fixture_note": "注错样例1（C.9：候选砍到 1 个）——预期 A2 FAIL → BD_CANDIDATE_COLLAPSE",
+  "artifact": {
+    "artifact_id": "ART-BDD01-OUT-COLLAPSE",
+    "artifact_type": "BUSINESS_DECISION_BUNDLE",
+    "version": 1,
+    "schema_version": "v0.1",
+    "brand_id": "fixture-brand-01",
+    "task_id": "TASK-BDD01-001",
+    "context_snapshot_ref": {
+      "object_type": "ContextSnapshot",
+      "object_id": "SNAP-BDD01-0001",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    },
+    "source_run_id": "RUN-FIXTURE-GOOD",
+    "review_status": "PENDING",
+    "created_at": "2026-08-17T00:00:00Z",
+    "created_by": "SYSTEM"
+  },
+  "business_problem": "库存八百件的高端羊绒大衣需在限定周期内消化，但品牌禁止低价叫卖：需要销量与不可损害品牌价值构成核心冲突",
+  "recognized_conflicts": [
+    {
+      "conflict_id": "CF-1",
+      "description": "销量压力与高端品牌价值保护的冲突",
+      "side_a": "库存消化期需要在限定周期内产生销售",
+      "side_b": "品牌定位 HIGH_END 且禁止低价叫卖，不能用促销让利换销量",
+      "trace_refs": [
+        "T-F1",
+        "T-R1"
+      ]
+    }
+  ],
+  "candidate_options": [
+    {
+      "candidate_id": "C1",
+      "title": "主理人信任路线",
+      "strategy": "由主理人出镜，以真实使用体验与工艺讲解建立信任，把大衣定位为值得长期持有的核心单品，驱动到店与私域咨询",
+      "product_roles": [
+        {
+          "product_ref": {
+            "object_type": "ProductFacts",
+            "object_id": "P13",
+            "version": 1,
+            "brand_id": "fixture-brand-01"
+          },
+          "role": "HERO",
+          "rationale": "库存深、单价高、有可讲的工艺与面料事实，适合承担信任叙事主角",
+          "trace_refs": [
+            "T-F1",
+            "T-F2"
+          ]
+        }
+      ],
+      "supporting_fact_refs": [
+        "T-F1",
+        "T-F2"
+      ],
+      "applied_rule_refs": [
+        "T-R1"
+      ],
+      "assumption_refs": [
+        "T-A1"
+      ],
+      "model_judgment_refs": [
+        "T-J1"
+      ],
+      "brand_fit": {
+        "assessment": "ALIGNED",
+        "rationale": "信任叙事与高端定位一致，不触碰促销红线",
+        "trace_refs": [
+          "T-R1"
+        ]
+      },
+      "audience_fit": {
+        "assessment": "UNKNOWN",
+        "rationale": "缺受众调研，接受度未验证",
+        "trace_refs": [
+          "T-A1"
+        ]
+      },
+      "business_alignment": {
+        "assessment": "ALIGNED",
+        "rationale": "直接服务库存消化目标",
+        "trace_refs": [
+          "T-F1"
+        ]
+      },
+      "production_feasibility": {
+        "assessment": "ALIGNED",
+        "rationale": "主理人可出镜，室内实拍即可完成",
+        "trace_refs": []
+      },
+      "risks": [
+        {
+          "condition": "受众对工艺内容兴趣不足",
+          "possible_impact": "观看完成率低，转化不达预期",
+          "mitigation": "首条内容做小范围投放验证",
+          "trace_refs": [
+            "T-A1"
+          ]
+        }
+      ],
+      "why_this_option": "唯一能同时承载销量诉求与品牌价值保护的信任型路径，且制作条件现成",
+      "why_not_primary_alternative": "相比价值证明路线，人物信任见效更快，但对主理人出镜状态依赖更高——若不接受此依赖应选 C2",
+      "hard_rule_results": [
+        {
+          "rule_ref": {
+            "object_type": "RuleRecord",
+            "object_id": "R-BDD01-001",
+            "version": 1,
+            "brand_id": "fixture-brand-01"
+          },
+          "target_path": "strategy",
+          "result": "PASS",
+          "explanation": "策略不含低价叫卖表达"
+        }
+      ],
+      "confidence": {
+        "level": "MEDIUM",
+        "basis": [
+          "商品事实齐备",
+          "品牌红线明确"
+        ],
+        "limiting_factors": [
+          "受众接受度未验证"
+        ]
+      }
+    }
+  ],
+  "comparative_tradeoffs": [
+    {
+      "candidate_refs": [
+        "C1",
+        "C2"
+      ],
+      "tradeoff": "C1 换取见效速度、付出对出镜人的依赖；C2 换取稳定与资产沉淀、付出转化节奏。二者在叙事路径与风险承担上实质不同，不可互相替代",
+      "trace_refs": [
+        "T-J1",
+        "T-J2"
+      ]
+    }
+  ],
+  "candidate_count_status": "BLOCKED_FEWER_THAN_TWO",
+  "candidate_count_explanation": "第三条促销让利路径被冻结规则 R-BDD01-002（高端品牌禁令）排除；其余事实仅足以支撑两个实质差异方向",
+  "system_recommendation": {
+    "candidate_id": "C1",
+    "judgment_trace_ref": "T-J1"
+  },
+  "human_selection_required": true,
+  "blocked_candidate_diagnostics": [
+    {
+      "candidate_summary": "促销让利路线（限时折扣驱动清库）",
+      "blocking_rule_results": [
+        {
+          "rule_ref": {
+            "object_type": "RuleRecord",
+            "object_id": "R-BDD01-002",
+            "version": 1,
+            "brand_id": "fixture-brand-01"
+          },
+          "target_path": "strategy",
+          "result": "BLOCK",
+          "explanation": "促销让利路径违反高端品牌禁令（降级分支冻结规则）"
+        }
+      ]
+    }
+  ],
+  "confidence": {
+    "level": "MEDIUM",
+    "basis": [
+      "冲突识别有事实与规则支撑"
+    ],
+    "limiting_factors": [
+      "受众侧证据缺失"
+    ]
+  },
+  "trace_bundle": {
+    "trace_bundle_id": "TB-BDD01-GOOD",
+    "brand_id": "fixture-brand-01",
+    "target_artifact_ref": {
+      "object_type": "BusinessDecisionBundle",
+      "object_id": "ART-BDD01-OUT-COLLAPSE",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    },
+    "entries": [
+      {
+        "trace_id": "T-F1",
+        "trace_type": "FACT",
+        "statement": "库存 800 件，生命周期为库存消化期",
+        "source_refs": [],
+        "target_paths": [
+          "business_problem"
+        ]
+      },
+      {
+        "trace_id": "T-F2",
+        "trace_type": "FACT",
+        "statement": "吊牌价 3980 元（CNY，截至快照日），含羊绒成分与完整尺码",
+        "source_refs": [],
+        "target_paths": [
+          "candidate_options"
+        ]
+      },
+      {
+        "trace_id": "T-R1",
+        "trace_type": "RULE",
+        "statement": "禁止低价叫卖表达（R-BDD01-001，ACTIVE）",
+        "source_refs": [],
+        "target_paths": [
+          "recognized_conflicts"
+        ]
+      },
+      {
+        "trace_id": "T-A1",
+        "trace_type": "ASSUMPTION",
+        "statement": "受众对工艺讲解类内容的接受度尚可（缺失项：受众调研）",
+        "source_refs": [],
+        "target_paths": [
+          "candidate_options"
+        ]
+      },
+      {
+        "trace_id": "T-J1",
+        "trace_type": "MODEL_JUDGMENT",
+        "statement": "在两条合法路径中，人物信任路线更契合高端调性下的限定周期消化诉求",
+        "supporting_trace_refs": [
+          "T-F1",
+          "T-R1"
+        ],
+        "target_paths": [
+          "system_recommendation"
+        ]
+      },
+      {
+        "trace_id": "T-J2",
+        "trace_type": "MODEL_JUDGMENT",
+        "statement": "价值证明路线的资产沉淀效应优于人物路线，但节奏更慢",
+        "supporting_trace_refs": [
+          "T-F2"
+        ],
+        "target_paths": [
+          "candidate_options"
+        ]
+      }
+    ]
+  }
+}

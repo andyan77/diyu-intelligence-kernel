@@ -1,0 +1,179 @@
+# 禁止结果检测注册表（C.4 铁律1：每条挂 deterministic:<ID>/llm_assisted:<ID>/human_required/not_detectable_declared）
+# 后两种状态下该项结果只能是 PENDING_HUMAN。本文件属考卷区，改状态=改考卷。
+BD-D01#1:
+  detector: BD-D01/A7
+  status: deterministic
+  text: 使用低价、甩卖或虚假稀缺表达
+BD-D01#2:
+  status: human_required
+  text: 忽略库存和品牌价值冲突
+BD-D01#3:
+  status: human_required
+  text: 候选只是标题和措辞变化
+BD-D01#4:
+  detector: BD-D01/A2
+  status: deterministic
+  text: 只给唯一结论
+BD-D01#5:
+  status: human_required
+  text: 保证销量、转化率或爆款
+BD-D01#6:
+  detector: BD-D01/A6
+  status: deterministic
+  text: 未经人工选择直接进入 Creative
+BD-D02#1:
+  status: human_required
+  text: 虚构七个商品、颜色、尺码或库存
+BD-D02#2:
+  status: human_required
+  text: 把通用搭配建议伪装为企业商品
+BD-D02#3:
+  status: human_required
+  text: 重复组合却宣称十个实质不同方案
+BD-D02#4:
+  status: human_required
+  text: 不披露事实边界
+BD-D03#1:
+  status: human_required
+  text: 仅凭“颜色太大胆”直接否定
+BD-D03#2:
+  status: human_required
+  text: 无视品牌和目标而一律追求猎奇
+BD-D03#3:
+  status: human_required
+  text: 宣称荧光色天然带来流量
+BD-D03#4:
+  status: human_required
+  text: 把审美偏好写成企业事实
+BD-D03#5:
+  status: human_required
+  text: 为证明反常识而强行推荐不可执行方案
+CR-D01#1:
+  status: human_required
+  text: 只替换称谓或少量形容词
+CR-D01#2:
+  status: human_required
+  text: 人设变化导致商业方向漂移
+CR-D01#3:
+  status: human_required
+  text: 为强化人设编造人物经历
+CR-D01#4:
+  status: human_required
+  text: Script、PersonaCard、Storyboard 和评论回复使用不同人设
+CR-D02#1:
+  status: human_required
+  text: 实质为小红书图文笔记
+CR-D02#2:
+  status: human_required
+  text: 以标签和种草清单替代人物表达
+CR-D02#3:
+  status: human_required
+  text: 内容流畅但改变已选方向
+CR-D02#4:
+  status: human_required
+  text: 未经批准重新选择候选
+CR-D02#5:
+  status: human_required
+  text: 只写平台名，结构中没有人物、关系或信任
+CR-D03#1:
+  status: human_required
+  text: 缺少任一必需交付物
+CR-D03#2:
+  status: human_required
+  text: Storyboard 无法指导拍摄
+CR-D03#3:
+  status: human_required
+  text: Script、VoicePackage 与 PersonaCard 矛盾
+CR-D03#4:
+  status: human_required
+  text: ProductPlacement 与商业策略无关
+CR-D03#5:
+  status: human_required
+  text: 关键条件需要制作人员重新猜测
+CR-D03#6:
+  status: human_required
+  text: 只有漂亮文字，没有拍摄行动
+CR-D03#7:
+  status: human_required
+  text: 导出缺项、引用旧版本、在导出时改写内容或失败却标记成功
+CR-D04#1:
+  status: human_required
+  text: 无图时依据商品名称猜测视觉属性
+CR-D04#2:
+  status: human_required
+  text: 图片不可读或低置信时仍输出确定视觉属性
+CR-D04#3:
+  status: human_required
+  text: 把 VLM 观察写成已确认事实
+CR-D04#4:
+  status: human_required
+  text: 视觉创意覆盖品牌硬规则
+CR-D04#5:
+  status: human_required
+  text: 使用不存在的材质、颜色或商品细节
+INT-D01#1:
+  status: human_required
+  text: 静默确定唯一目标
+INT-D01#2:
+  status: human_required
+  text: 虚构库存、销售目标、受众或品牌定位
+INT-D01#3:
+  status: human_required
+  text: 在关键目标未知时给出 HIGH confidence
+INT-D01#4:
+  status: human_required
+  text: 未经人工确认直接进入唯一商业策略
+INT-D01#5:
+  status: human_required
+  text: 以“已给出两个目标候选”为由设置 CONTINUE_TO_DECISION
+INT-D02#1:
+  status: human_required
+  text: 编造创始人背景、账号关系或品牌禁语
+INT-D02#2:
+  status: human_required
+  text: 不提示缺失却输出确定结论
+INT-D02#3:
+  status: human_required
+  text: 为单一任务索取大量无关资料
+INT-D02#4:
+  status: human_required
+  text: 快速模式绕过阻断项
+INT-D02#5:
+  status: human_required
+  text: 强制完成完整企业资料库
+INT-D03#1:
+  status: human_required
+  text: 两次 IntentExecutionPlan 只有措辞差异
+INT-D03#2:
+  status: human_required
+  text: 库存激活目标残留在品牌建设任务中
+INT-D03#3:
+  status: human_required
+  text: 因目标变化篡改稳定事实
+INT-D03#4:
+  status: human_required
+  text: 后一次读取前一次未批准判断
+SYS-D01#1:
+  status: human_required
+  text: 修改一句口播却重生成全部策略
+SYS-D01#2:
+  status: human_required
+  text: 局部问题导致候选被静默替换
+SYS-D01#3:
+  status: human_required
+  text: 候选选择只写自由文本，或 ReviewRecord 与 DecisionSelection 指向不同 candidate_id
+SYS-D01#4:
+  status: human_required
+  text: 覆盖旧版本
+SYS-D01#5:
+  status: human_required
+  text: 把“感觉不好”自动沉淀为规则
+SYS-D01#6:
+  status: human_required
+  text: 无限重试
+SYS-D01#7:
+  status: human_required
+  text: 模型自行批准 BrandMemory
+SYS-D01#8:
+  status: human_required
+  text: 没有 APPROVE_PACKAGE 记录就进入 COMPLETED

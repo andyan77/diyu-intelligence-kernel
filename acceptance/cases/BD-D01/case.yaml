@@ -1,0 +1,29 @@
+# 三带式行为契约（格式真源 C.4；案例真源 B.4.2/BD-D01——本文件只引用，不复述 B 原文）
+case_id: BD-D01
+contract_ref: B.4.2/BD-D01
+case_version: v0.1
+tier: core
+mapped_requirements: [BD-01, BD-02, BD-03, BD-05, BD-06, BD-08, SYS-03]
+output_schema: contracts/schemas/business_decision_bundle.schema.json
+fixtures:
+  context_snapshot: fixtures/context_snapshot.json
+  frozen_upstream_intent: fixtures/intent_execution_plan.frozen.json
+
+must_hold:                       # 第一带：确定性断言（零模型调用，只判 FAIL）
+  - {id: A1, check: schema_valid,          tag: SYS_SCHEMA_INVALID}
+  - {id: A2, check: candidate_count,       args: {min: 2}, tag: BD_CANDIDATE_COLLAPSE}
+  - {id: A3, check: tradeoff_nonempty,     tag: BD_TRADEOFF_MISSING}
+  - {id: A4, check: trace_types_separated, tag: BD_TRACE_MIXED}
+  - {id: A5, check: numeric_grounding,     args: {snapshot_fields: [inventory, price]}, tag: BD_FACT_FABRICATION}
+  - {id: A6, check: human_gate_flag,       tag: BD_HUMAN_GATE_BYPASSED}
+  - {id: A7, check: forbidden_expression,  args: {lexicon: acceptance/detectors/forbidden_lexicon.yaml}, tag: SYS_RULE_VIOLATION}
+
+judge_probes:                    # 第二带：只出 CLEAN/SUSPECT/UNCLEAR，永不判 PASS（L2 随 trace_auditor 启用，C.5）
+  - id: J1
+    ask: "两个候选的差异是否体现在商业机制/商品角色/叙事路径？还是只有标题与形容词不同？"
+    verdict_enum: [CLEAN, SUSPECT, UNCLEAR]
+    on: {SUSPECT: BD_CANDIDATE_COLLAPSE, UNCLEAR: ESCALATE}
+    status: wired_not_run
+
+human_questions:                 # 第三带：只写 B 引用号，不重写问题
+  - {ref: B.4.2/BD-D01}

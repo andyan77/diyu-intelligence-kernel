@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "business_decision_bundle.schema.json",
+  "title": "BusinessDecisionBundle",
+  "$comment": "照抄 A.6.2 / A.6.3；候选数量-状态一致性以条件式表达（A.6.3 约束）",
+  "type": "object",
+  "required": ["artifact", "business_problem", "recognized_conflicts", "candidate_options", "comparative_tradeoffs", "candidate_count_status", "human_selection_required", "confidence", "trace_bundle"],
+  "properties": {
+    "artifact": {"$ref": "common.defs.json#/definitions/ArtifactEnvelope"},
+    "business_problem": {"type": "string", "minLength": 1},
+    "recognized_conflicts": {"type": "array", "items": {"type": "object", "required": ["conflict_id", "description", "side_a", "side_b"], "properties": {"conflict_id": {"type": "string"}, "description": {"type": "string"}, "side_a": {"type": "string"}, "side_b": {"type": "string"}, "trace_refs": {"type": "array", "items": {"type": "string"}}}}},
+    "candidate_options": {"type": "array", "items": {"$ref": "#/definitions/BusinessCandidate"}},
+    "comparative_tradeoffs": {"type": "array", "items": {"type": "object", "required": ["candidate_refs", "tradeoff"], "properties": {"candidate_refs": {"type": "array", "items": {"type": "string"}}, "tradeoff": {"type": "string", "minLength": 1}, "trace_refs": {"type": "array", "items": {"type": "string"}}}}},
+    "candidate_count_status": {"enum": ["TARGET_THREE", "DEGRADED_TWO", "BLOCKED_FEWER_THAN_TWO"]},
+    "candidate_count_explanation": {"type": ["string", "null"]},
+    "system_recommendation": {"type": "object", "properties": {"candidate_id": {"type": ["string", "null"]}, "judgment_trace_ref": {"type": ["string", "null"]}}},
+    "human_selection_required": {"const": true, "$comment": "A.6.2 固定 true——绕过人工门即 schema 违约"},
+    "blocked_candidate_diagnostics": {"type": "array", "items": {"type": "object", "required": ["candidate_summary", "blocking_rule_results"], "properties": {"candidate_summary": {"type": "string"}, "blocking_rule_results": {"type": "array", "items": {"$ref": "common.defs.json#/definitions/HardRuleResult"}}}}},
+    "confidence": {"$ref": "common.defs.json#/definitions/ConfidenceStatement"},
+    "trace_bundle": {"$ref": "common.defs.json#/definitions/TraceBundle"}
+  },
+  "allOf": [
+    {"$comment": "A.6.3 约束：TARGET_THREE ↔ 三个有效候选",
+     "if": {"properties": {"candidate_count_status": {"const": "TARGET_THREE"}}},
+     "then": {"properties": {"candidate_options": {"minItems": 3}}}},
+    {"$comment": "A.6.3 约束：DEGRADED_TWO → 恰两个候选 + explanation 必填非空",
+     "if": {"properties": {"candidate_count_status": {"const": "DEGRADED_TWO"}}},
+     "then": {"properties": {"candidate_options": {"minItems": 2, "maxItems": 2}, "candidate_count_explanation": {"type": "string", "minLength": 1}}}},
+    {"$comment": "A.6.3 约束：BLOCKED_FEWER_THAN_TWO → 候选<2，不得进入 DECISION_READY（状态机侧另拦）",
+     "if": {"properties": {"candidate_count_status": {"const": "BLOCKED_FEWER_THAN_TWO"}}},
+     "then": {"properties": {"candidate_options": {"maxItems": 1}}}}
+  ],
+  "definitions": {
+    "BusinessCandidate": {
+      "type": "object",
+      "$comment": "A.6.3",
+      "required": ["candidate_id", "title", "strategy", "product_roles", "supporting_fact_refs", "applied_rule_refs", "assumption_refs", "model_judgment_refs", "brand_fit", "audience_fit", "business_alignment", "production_feasibility", "risks", "why_this_option", "why_not_primary_alternative", "hard_rule_results", "confidence"],
+      "properties": {
+        "candidate_id": {"type": "string"},
+        "title": {"type": "string"},
+        "strategy": {"type": "string", "minLength": 1},
+        "product_roles": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["product_ref", "role", "rationale"], "properties": {"product_ref": {"$ref": "common.defs.json#/definitions/VersionedRef"}, "role": {"type": "string"}, "rationale": {"type": "string"}, "trace_refs": {"type": "array", "items": {"type": "string"}}}}},
+        "supporting_fact_refs": {"type": "array", "items": {"type": "string"}},
+        "applied_rule_refs": {"type": "array", "items": {"type": "string"}},
+        "assumption_refs": {"type": "array", "items": {"type": "string"}},
+        "model_judgment_refs": {"type": "array", "items": {"type": "string"}},
+        "brand_fit": {"$ref": "#/definitions/FitAssessment"},
+        "audience_fit": {"$ref": "#/definitions/FitAssessment"},
+        "business_alignment": {"$ref": "#/definitions/FitAssessment"},
+        "production_feasibility": {"$ref": "#/definitions/FitAssessment"},
+        "risks": {"type": "array", "items": {"type": "object", "required": ["condition", "possible_impact"], "properties": {"condition": {"type": "string"}, "possible_impact": {"type": "string"}, "mitigation": {"type": ["string", "null"]}, "trace_refs": {"type": "array", "items": {"type": "string"}}}}},
+        "why_this_option": {"type": "string", "minLength": 1},
+        "why_not_primary_alternative": {"type": "string", "minLength": 1},
+        "hard_rule_results": {"type": "array", "items": {"$ref": "common.defs.json#/definitions/HardRuleResult"}},
+        "confidence": {"$ref": "common.defs.json#/definitions/ConfidenceStatement"}
+      }
+    },
+    "FitAssessment": {
+      "type": "object",
+      "$comment": "A.6.3：适配维度只做定性判断，不计算加权总分",
+      "required": ["assessment", "rationale"],
+      "properties": {"assessment": {"enum": ["ALIGNED", "TENSION", "UNKNOWN"]}, "rationale": {"type": "string"}, "trace_refs": {"type": "array", "items": {"type": "string"}}}
+    }
+  }
+}

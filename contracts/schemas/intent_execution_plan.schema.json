@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "intent_execution_plan.schema.json",
+  "title": "IntentExecutionPlan",
+  "$comment": "照抄 A.5.2；约束 1/2 以条件式表达，约束 3-7 由确定性谓词与状态机承担（C.3 资产④）",
+  "type": "object",
+  "required": ["artifact", "task_type", "platform", "goal_resolution", "intent_summary", "required_context", "missing_context", "assumptions", "confidence", "next_action", "trace_bundle"],
+  "properties": {
+    "artifact": {"$ref": "common.defs.json#/definitions/ArtifactEnvelope"},
+    "task_type": {"const": "VIDEO_CONTENT_CREATION"},
+    "platform": {"const": "WECHAT_VIDEO"},
+    "goal_resolution": {"enum": ["RESOLVED", "AMBIGUOUS", "NEEDS_INPUT"]},
+    "business_goal": {"enum": ["BRAND_AWARENESS", "PRODUCT_LAUNCH", "CONVERSION", "INVENTORY_ACTIVATION", "BRAND_STORY", "CUSTOMER_EDUCATION", null]},
+    "goal_candidates": {"type": "array", "items": {"type": "object", "required": ["goal", "rationale"], "properties": {"goal": {"enum": ["BRAND_AWARENESS", "PRODUCT_LAUNCH", "CONVERSION", "INVENTORY_ACTIVATION", "BRAND_STORY", "CUSTOMER_EDUCATION"]}, "rationale": {"type": "string"}, "supporting_trace_refs": {"type": "array", "items": {"type": "string"}}}}},
+    "intent_summary": {"type": "string"},
+    "target_audience_refs": {"type": "array", "items": {"$ref": "common.defs.json#/definitions/VersionedRef"}},
+    "required_context": {"type": "array", "items": {"$ref": "common.defs.json#/definitions/ContextRequirement"}},
+    "missing_context": {"type": "array", "items": {"$ref": "common.defs.json#/definitions/ContextRequirement"}},
+    "assumptions": {"type": "array", "items": {"$ref": "common.defs.json#/definitions/TraceEntry"}},
+    "confidence": {"$ref": "common.defs.json#/definitions/ConfidenceStatement"},
+    "next_action": {"enum": ["CONTINUE_TO_DECISION", "REQUEST_INPUT"]},
+    "trace_bundle": {"$ref": "common.defs.json#/definitions/TraceBundle"}
+  },
+  "allOf": [
+    {"$comment": "A.5.2 约束1：AMBIGUOUS → business_goal 空 + 候选≥2 + REQUEST_INPUT",
+     "if": {"properties": {"goal_resolution": {"const": "AMBIGUOUS"}}},
+     "then": {"properties": {"business_goal": {"const": null}, "goal_candidates": {"minItems": 2}, "next_action": {"const": "REQUEST_INPUT"}}}},
+    {"$comment": "A.5.2 约束2：NEEDS_INPUT → business_goal 空 + REQUEST_INPUT",
+     "if": {"properties": {"goal_resolution": {"const": "NEEDS_INPUT"}}},
+     "then": {"properties": {"business_goal": {"const": null}, "next_action": {"const": "REQUEST_INPUT"}}}},
+    {"$comment": "A.5.2 约束3（必要条件部分）：CONTINUE_TO_DECISION → RESOLVED 且 business_goal 非空",
+     "if": {"properties": {"next_action": {"const": "CONTINUE_TO_DECISION"}}},
+     "then": {"properties": {"goal_resolution": {"const": "RESOLVED"}, "business_goal": {"type": "string"}}}}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "snapshot_id": "SNAP-BDD01-0001",
+  "brand_id": "fixture-brand-01",
+  "_fixture_note": "BD-D01 冻结事实照抄 B.4.2/BD-D01 + 衡叙集夹具包 P13 商品事实（截图溯源见数据包）；库存为夹具虚构（剧本）",
+  "facts": {
+    "inventory": {"value": 800, "unit": "件", "source": "夹具虚构（剧本）"},
+    "brand_positioning": {"value": "HIGH_END", "source": "BD-D01 冻结事实"},
+    "business_goal": {"value": "INVENTORY_ACTIVATION", "source": "BD-D01 冻结事实"},
+    "product": {
+      "product_id": "P13", "name": "10%羊绒风衣式大衣",
+      "price": {"value": 3980, "currency": "CNY", "as_of": "2026-08-17", "source": "截图 IMG_0684"},
+      "composition": "黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）",
+      "sizes": ["XS", "S", "M", "L", "XL"], "lifecycle_stage": "库存消化期"
+    }
+  },
+  "hard_rules": [
+    {"rule_id": "R-BDD01-001", "statement": "禁止低价叫卖表达（forbidden_expression: LOW_PRICE_SELLING）", "status": "ACTIVE", "source": "BD-D01 冻结事实"},
+    {"rule_id": "R-BDD01-002", "statement": "促销让利路径违反高端品牌禁令（两候选降级分支冻结规则）", "status": "ACTIVE", "source": "B.4.2/BD-D01 降级分支"}
+  ]
+}

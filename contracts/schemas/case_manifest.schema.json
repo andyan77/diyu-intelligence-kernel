@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "case_manifest.schema.json",
+  "title": "CaseManifest",
+  "$comment": "照抄 B.2.1；冻结后不得依据已看到的结果修改（改动 = 案例版本升级 + 双侧重跑）",
+  "type": "object",
+  "required": ["case_id", "case_version", "prd_version", "data_contract_version", "acceptance_contract_version", "context_snapshot_id", "snapshot_hash", "task_statement", "execution_mode", "hard_rule_refs", "output_schema_version", "brand_memory_state", "approved_brand_memory_refs", "diyu_build_version", "module_contract_versions", "model_provider", "model_name", "generation_parameters_hash", "allowed_tools", "approved_by", "approved_at"],
+  "properties": {
+    "case_id": {"type": "string"},
+    "case_version": {"type": "string"},
+    "prd_version": {"type": "string"},
+    "data_contract_version": {"type": "string"},
+    "acceptance_contract_version": {"type": "string"},
+    "context_snapshot_id": {"type": "string"},
+    "snapshot_hash": {"type": "string"},
+    "task_statement": {"type": "string"},
+    "execution_mode": {"enum": ["QUICK", "ENHANCED"]},
+    "hard_rule_refs": {"type": "array", "items": {"$ref": "common.defs.json#/definitions/VersionedRef"}},
+    "output_schema_version": {"type": "string"},
+    "brand_memory_state": {"enum": ["DISABLED", "APPROVED_SET"]},
+    "approved_brand_memory_refs": {"type": "array", "items": {"$ref": "common.defs.json#/definitions/VersionedRef"}},
+    "e2e_interaction_contract_version": {"type": ["string", "null"]},
+    "e2e_output_contract_version": {"type": ["string", "null"]},
+    "baseline_prompt_versions": {"type": "object", "properties": {"decision_stage": {"type": ["string", "null"]}, "creative_stage": {"type": ["string", "null"]}}},
+    "diyu_build_version": {"type": "string"},
+    "module_contract_versions": {"type": "object", "required": ["intent", "business_decision", "creative"], "properties": {"intent": {"type": "string"}, "business_decision": {"type": "string"}, "creative": {"type": "string"}}},
+    "model_provider": {"type": "string"},
+    "model_name": {"type": "string"},
+    "model_version": {"type": ["string", "null"]},
+    "generation_parameters_hash": {"type": "string"},
+    "allowed_tools": {"type": "array", "items": {"type": "string"}},
+    "approved_by": {"type": "string"},
+    "approved_at": {"type": "string"}
+  },
+  "allOf": [
+    {"$comment": "B.2.2：DISABLED 时引用列表必须为空",
+     "if": {"properties": {"brand_memory_state": {"const": "DISABLED"}}},
+     "then": {"properties": {"approved_brand_memory_refs": {"maxItems": 0}}}}
+  ]
+}
