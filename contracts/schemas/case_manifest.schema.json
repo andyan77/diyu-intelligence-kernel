@@ -4,7 +4,8 @@
   "title": "CaseManifest",
   "$comment": "照抄 B.2.1；冻结后不得依据已看到的结果修改（改动 = 案例版本升级 + 双侧重跑）",
   "type": "object",
-  "required": ["case_id", "case_version", "prd_version", "data_contract_version", "acceptance_contract_version", "context_snapshot_id", "snapshot_hash", "task_statement", "execution_mode", "hard_rule_refs", "output_schema_version", "brand_memory_state", "approved_brand_memory_refs", "diyu_build_version", "module_contract_versions", "model_provider", "model_name", "generation_parameters_hash", "allowed_tools", "approved_by", "approved_at"],
+  "$comment_required": "B.2.1 的 CaseManifest 块（B:132-163）把 e2e_interaction_contract_version / e2e_output_contract_version / baseline_prompt_versions 列为**无条件出现的键**（可空值，非可选键），故三者进 required；类型仍保持 B:146-150 的 string | null，不在 Schema 里收紧——「E2E 案例必须非 null 且版本号真实存在」这条更强约束由 tools/freeze_gate.py 的 R9 实时解析 contracts/interaction/ 真源来判，写进 Schema 会与 B.2.1 字面冲突。",
+  "required": ["case_id", "case_version", "prd_version", "data_contract_version", "acceptance_contract_version", "context_snapshot_id", "snapshot_hash", "task_statement", "execution_mode", "hard_rule_refs", "output_schema_version", "brand_memory_state", "approved_brand_memory_refs", "e2e_interaction_contract_version", "e2e_output_contract_version", "baseline_prompt_versions", "diyu_build_version", "module_contract_versions", "model_provider", "model_name", "generation_parameters_hash", "allowed_tools", "approved_by", "approved_at"],
   "properties": {
     "case_id": {"type": "string"},
     "case_version": {"type": "string"},
@@ -21,7 +22,7 @@
     "approved_brand_memory_refs": {"type": "array", "items": {"$ref": "common.defs.json#/definitions/VersionedRef"}},
     "e2e_interaction_contract_version": {"type": ["string", "null"]},
     "e2e_output_contract_version": {"type": ["string", "null"]},
-    "baseline_prompt_versions": {"type": "object", "properties": {"decision_stage": {"type": ["string", "null"]}, "creative_stage": {"type": ["string", "null"]}}},
+    "baseline_prompt_versions": {"type": "object", "required": ["decision_stage", "creative_stage"], "properties": {"decision_stage": {"type": ["string", "null"]}, "creative_stage": {"type": ["string", "null"]}}},
     "diyu_build_version": {"type": "string"},
     "module_contract_versions": {"type": "object", "required": ["intent", "business_decision", "creative"], "properties": {"intent": {"type": "string"}, "business_decision": {"type": "string"}, "creative": {"type": "string"}}},
     "model_provider": {"type": "string"},

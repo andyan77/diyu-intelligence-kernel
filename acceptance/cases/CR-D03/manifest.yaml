@@ -60,7 +60,7 @@ module_contract_versions:
 model_provider: "Alibaba Cloud DashScope"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
 model_name: "qwen-max-0107"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
 model_version: "snapshot-0107（models 接口回执 2026-08-17）"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
-generation_parameters_hash: "sha256:24b85c93d027274afddbb347faf50533822566aa2b0f14365f4a62c4e2759262"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+generation_parameters_hash: "sha256:fac42849ca93850e9bb0d2c119ceef94ca2cc1c00dce13f9b7b5b6a44d216c64"  # 由 tools/freeze_gate.py 的 canonical_snapshot_hash 对 contracts/interaction/generation_parameters.json 当前内容实算回填（M0 收口修复批次 P0-2）；IA-0 首签时的旧值 sha256:24b85c93… 已因 P0-1 重写该参数文件而失真，故按其 _hash_algorithm 字段「冻结门按本文件当前内容实时重算」重算。参数**取值**仍是 Founder 2026-08-17 IA-0 定格，本次只更新指纹不改参数。冻结门 R8 每次运行实时重算比对
 
 # B.2.2（B:179）只禁「任一侧使用未声明的搜索或知识库」，并未规定 allowed_tools 必须为空；
 # B.4.3/CR-D03 未明文允许任何工具 → 本 Manifest 取空数组作保守占位（OQ-CR-D01-07 ✅预裁决 08-17，四份 CR Manifest 同一处）

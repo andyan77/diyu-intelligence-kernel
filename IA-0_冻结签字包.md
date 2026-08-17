@@ -56,7 +56,7 @@
 - ✅ Context Snapshot 夹具全部落盘（照抄审计逐字命中《衡叙集》夹具数据包）+ `snapshot_hash` 算法定格；**20 份 Manifest 的 `snapshot_hash` 已全量回填**（20 = Manifest 份数，见 §五「齐套」）。夹具本身的目录数与快照 JSON 份数**不写记忆值**，以 P0-4 重跑脚本对 `acceptance/cases/*/fixtures/` 的实测输出为准
 - ✅ 共同两阶段交互合同、共同输出合同两份文件落盘（补齐 B:995 三件套缺其二）+ 笛语侧转换器 ref/risks 分工对齐 → `contracts/interaction/e2e_interaction_contract.md`、`contracts/interaction/e2e_output_contract.md`
 - ✅ contracts/rules/ RuleRecord 注册表首批落盘（品牌禁语 → R-FB01-001；BD-D01 → R-BDD01-001/002）
-- ✅ 冻结断言门实现 → `tools/freeze_gate.py`（真实口径见 §五）。**注：仅 R1–R7 七条红线已交付；§五末条列出的 P0-2 加固项（`PENDING_IA0` 扫描、份数机器断言、参数文件哈希实时重算、正文 digest 校验等）尚未实现**，见《M0收口修复批次_执行规格.md》BLOCK-02 / P0-2
+- ✅ 冻结断言门实现 → `tools/freeze_gate.py`（真实口径见 §五）。**R1–R13 十三条红线已交付**（逐条定义见该文件头部；含 §五曾列为待建的四项：`PENDING_IA0` 扫描 = R11 面一、份数机器断言 = R1 声明份数自校验、参数文件哈希实时重算 = R8、真源正文 digest 校验 = R10）。活体证据 → `tools/test_freeze_gate_mutations.py`：22 项负向变异逐条实测门必须转红 + 未变异副本送签态判绿 / 运行态只红设计内三条。**仍未取得活体证据的是 R5 / R6 / R7 三条**（见 §五末条），不得据「十三条已交付」读成「十三条已验证」
 - ✅ 齐套口径登记（定义见 §五）
 
 ## 五、齐套与冻结判据（单义定义，供机器断言引用）
@@ -66,7 +66,14 @@
 - **冻结门双模式真实口径**（`tools/freeze_gate.py`，Founder 2026-08-17 批准，属改考卷）：
   - **送签态**（`--mode=sign`）仅豁免 4 个运行前补填的构建版本类字段，且取值必须**恰为** `PENDING_BUILD`——`diyu_build_version`、`module_contract_versions.intent`、`module_contract_versions.business_decision`、`module_contract_versions.creative`；任何其他占位或空值仍判红。
   - **运行态**（默认，无参数）不豁免，运行前全查。
-  - **⛔ 尚未实现（P0-2 待建，不得当作已在的检测器引用）**：活动合同区 `PENDING_IA0` 扫描 → RED；「Manifest 实测份数 == 齐套口径声明份数」机器断言（杜绝靠人眼对数）。截至本次修订，`tools/freeze_gate.py` 只实现 R1–R7 七条红线，其 R1 比对的是脚本常量 `EXPECTED_MANIFESTS`、不是解析出的声明份数，全文亦无 `PENDING_IA0` 扫描。两项随《M0收口修复批次_执行规格.md》P0-2 实现后，本行才可改为现时态。
+  - **✅ 已实现（现时态；截至 M0 收口修复批次 P0-2 修复轮）**：
+    - **齐套份数机器断言**（原 P0-2 待建项，本行已可改为现时态）：`tools/freeze_gate.py` 的 R1 除比对脚本常量 `EXPECTED_MANIFESTS=20` 外，另实时解析**三处书面声明**——本节上面那句「齐套」定义、`acceptance/cases/OPEN_QUESTIONS.md` 文首预裁决①、`contracts/OD-02_模型与参数定格记录.md` §三第 2 条——任一处与常量对不上即 GATE_RED（检测器 `check_declared_counts`；负向变异 M18 实测：把本节声明改成 21 份而常量不动 → 门转红）。原「R1 比对的是脚本常量、不是解析出的声明份数」这条缺口就此关闭：常量与真源必须同批改，门不替任何一方拍板。
+    - **`PENDING_IA0` 扫描**（原 P0-2 待建项）：R11 面一，扫描面 = `contracts/**` 全部文件 + `acceptance/cases/**` 整棵（Manifest / `case.yaml` / fixtures / 登记册）+ 两份根级冻结声明，**两模式同红**。引述历史状态时用反引号整体包裹（`` `PENDING_IA0` ``）按引述放行，裸标记判红——引述豁免是机器可判的约定，不是把某份文件排除出扫描面的后门。
+    - **冻结件正文保护**：`contracts/interaction/` 七份自述 CONTENT-FROZEN 的文件已纳入 `contracts/frozen_digests.json`，受 R10 同款校验（正文字节 digest + 声明版本 + `version_history` 链）。此前它们只有「一行版本号」被读过，正文可被整体改写/掏空而门仍绿（负向变异 M15 即该路径，现已转红）。
+  - **⛔ 仍未取得活体证据（如实标出，不得当作已验证）**：
+    - **R5 / R6 / R7 三条红线**（`hard_rule_refs` 解析、签字三件套、版本指针）尚无负向变异覆盖——它们「已实现」但「未被证明拦得住」，随 P0-4 / P0-5 补齐；
+    - 双模式实测只覆盖了运行态基线（M0-run）与两条豁免边界（M19 / M20），其余变异只在送签态取证，运行态表现按同一实现推断、未逐条实测；
+    - `version_history` 链的诚实边界见 `contracts/frozen_digests.json` 的 `_chain_algorithm`：它把「顺手把门弄绿」抬成「显式重写冻结历史」，**不等于**正文不可篡改。
 - **签字动作定义（B.2.1）**：A 类裁决逐项落盘 → B 类建设项交付 → 冻结门（送签模式）GATE_GREEN → 20 份 Manifest 写入 `approved_by` / `approved_at` → 台账登记。
 
 ## 六、签字记录（批准行；只增不改）

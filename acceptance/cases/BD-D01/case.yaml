@@ -14,6 +14,10 @@ must_hold:                       # 第一带：确定性断言（零模型调用
   - {id: A2, check: candidate_count,       args: {min: 2}, tag: BD_CANDIDATE_COLLAPSE}
   - {id: A3, check: tradeoff_nonempty,     tag: BD_TRADEOFF_MISSING}
   - {id: A4, check: trace_types_separated, tag: BD_TRACE_MIXED}
+  # A5 判分口径（P0-3 修复批次补注，**不改判据、只把既有限制写明**）：numeric_grounding 的溯源粒度是
+  # **类级**（数字能否在快照的同类字段里找到同值），**不是实例级**。跨实体同类同值借位——快照里 A 款
+  # 价格 3980，输出写成「另一款风衣也卖 3980 元」——A5 判 OK、不判红。该风险属 B.1.5 / C.5 的 L3
+  # 人工判分面；A5 绿 或 终态 PENDING_HUMAN **都不等于**已覆盖它。（同源声明见 acceptance/detectors/checks.py）
   - {id: A5, check: numeric_grounding,     args: {snapshot_fields: [inventory, price]}, tag: BD_FACT_FABRICATION}
   - {id: A6, check: human_gate_flag,       tag: BD_HUMAN_GATE_BYPASSED}
   - {id: A7, check: forbidden_expression,  args: {lexicon: acceptance/detectors/forbidden_lexicon.yaml}, tag: SYS_RULE_VIOLATION}
