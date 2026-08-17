@@ -39,7 +39,7 @@
      此前面一/面二只扫 contracts + 20 份 Manifest 而面三扫整棵 cases 树，同一条红线两套口径，
      实测可在 case.yaml 里塞 PENDING_IA0 而门仍绿）：
      PENDING_IA0 出现在扫描面任何位置（含注释）= 两模式均红；
-     PENDING_RESIGN_P0-6 = 运行态红、送签态仅允许出现在白名单文件**且不超过该文件的条数上限**
+     PENDING_RESIGN_P0-6 = 两模式一律红（P0-6 重签已于 2026-08-18 完成，白名单退役，无合法复活场景）
      （白名单从「文件级豁免」收窄为「文件 + 上限」：只按文件名放行等于对该文件内容整体弃权）；
      ".draft.yaml" 字面出现在 acceptance/cases/**（含 fixtures）= 悬空指针复发，两模式均红。
      引述豁免只有一种形态：反引号整体包裹（`PENDING_IA0`）算引述历史状态，裸标记算活标记。
@@ -201,16 +201,10 @@ PENDING_RESIGN_MARK = "PENDING_RESIGN_P0-6"
 # 位置，门都不吭声。上限取 2026-08-17 落盘时的实测条数，**多一处即红**：新增待决点必须显式改这张表
 # （= 显式承认「又多了一处没定的东西」），不能顺手混进去。P0-6 Founder 重签后应逐份清零并删表。
 PENDING_RESIGN_SIGN_WHITELIST_MAX = {
-    "contracts/interaction/README.md": 2,
-    "contracts/interaction/anonymity_procedure.md": 2,
-    "contracts/interaction/baseline_prompt_stage_C.md": 1,
-    "contracts/interaction/baseline_prompt_stage_D.md": 1,
-    "contracts/interaction/e2e_interaction_contract.md": 1,
-    "contracts/interaction/e2e_output_contract.md": 1,
-    "contracts/interaction/generation_parameters.json": 1,
-    "contracts/OD-02_模型与参数定格记录.md": 1,
-    "IA-0_冻结签字包.md": 3,
-    "M0-EP01_文档版本一致性声明.md": 1,
+    # 【白名单已退役 · 2026-08-18】P0-6 Founder 重签（2026-08-18T02:39:10+08:00）已把全部占位
+    # 替换为 EFFECTIVE 生效记录，本表按设计注定的归宿（「重签后应逐份清零并删表」）清空：
+    # 该标记从此在**任何文件、任何模式**出现一律红——它没有任何合法复活场景。
+    # 旧上限表（10 份文件 × 各自实测条数）见本文件 git 历史 @a548be5。
 }
 # 引述约定（R11 三个面共用）：用反引号整体包住的标记（`PENDING_IA0`）是**引述历史状态**，不算活标记；
 # 裸标记算。理由：登记册/说明文档需要引用「当时这里写的是 PENDING_IA0」这一历史事实，
@@ -830,9 +824,7 @@ def check_generation_params_placeholders(errors):
     name = rel(GENERATION_PARAMS_PATH)
     for fpath, val in walk_values(obj):
         top = fpath.split(".")[0].split("[")[0]
-        probe = val
-        if isinstance(val, str) and top.startswith("_"):
-            probe = val.replace(PENDING_RESIGN_MARK, "")
+        probe = val   # 重签完成（2026-08-18）后 `_` 元数据字段的 PENDING_RESIGN 豁免同步退役——占位出现即红
         reason = blank_or_placeholder(probe)
         if reason is None:
             continue

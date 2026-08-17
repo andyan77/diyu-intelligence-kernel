@@ -5,7 +5,7 @@
   "_chain_algorithm": "version_history 每条的 chain = sha256(上一条 chain | declared_version | sha256)，首条上一条取空串；写作 \"sha256:<hex>\"。实现见 tools/freeze_gate.py 的 version_chain_link。**诚实边界**：这不是密码学意义上的不可伪造——知道算法的人可以手工重算整条链。它的作用是把『顺手把门弄绿』变成『显式重写冻结历史』：链头一动全链皆变，本册进入版本控制后，diff 会把整条历史被重写这件事摆在评审面前。不得据此宣称正文不可篡改。",
   "_check": "R10 逐条核验五件事：① sha256(文件字节) == 登记的 sha256；② 登记的 declared_version == 该文件实时解析出来的版本（version_from 指定解析方式）；③ version_history 非空且每条 chain 与实算一致；④ 同一 declared_version 不得在历史上出现两个不同 digest（不升版偷改正文的指纹）；⑤ 当前登记的 (declared_version, sha256) == version_history 末条。任一不符即红线。VERSION_SOURCES 三份真源、以及 DIGEST_REQUIRED_FROZEN_FILES 七份 CONTENT-FROZEN 冻结件若有任何一份未登记，同样判红。",
   "_version_from": "每条登记项声明版本号从哪里读：doc_control_block（Markdown 文档控制块的版本行，默认）或 json_field:<字段名>（JSON 文件的某个字段）。不靠猜文件类型。",
-  "_scope": "① PRD / A / B 三份冻结真源（CLAUDE.md『文档真源层级』的冻结真源层）；② contracts/interaction/ 七份自述 CONTENT-FROZEN 的冻结件——2026-08-17 P0-2 对抗核验实证：R11 的送签白名单只是**文件级**豁免（按文件名放行、不看内容），本册旧 _scope 又只登记 PRD/A/B，于是这七份的**正文**零红线覆盖：把 baseline_prompt_stage_D.md 整体替换成 8 行壳（只留版本行与一行 `PENDING_RESIGN_P0-6`），门照样 GATE_GREEN 并宣称『版本实时解析命中』。故本批次纳入。C / D / E / F / G 与工作指令文档属执行层，按定义可随执行推进演进，仍不进本册——把可演进文档锁进 digest 会让正常推进天天撞红线（过度工程化）。contracts/OD-02 亦不进本册：它自述『核验待办（修复批次 P0-4）』，尚未定稿。",
+  "_scope": "① PRD / A / B 三份冻结真源（CLAUDE.md『文档真源层级』的冻结真源层）；② contracts/interaction/ 七份自述 CONTENT-FROZEN 的冻结件——2026-08-17 P0-2 对抗核验实证：R11 的送签白名单只是**文件级**豁免（按文件名放行、不看内容），本册旧 _scope 又只登记 PRD/A/B，于是这七份的**正文**零红线覆盖：把 baseline_prompt_stage_D.md 整体替换成 8 行壳（只留版本行与一行 `PENDING_RESIGN·P0-6（叙述中以间隔号书写，避开 R11 字面扫描——该占位已随 P0-6 重签全数清零）`），门照样 GATE_GREEN 并宣称『版本实时解析命中』。故本批次纳入。C / D / E / F / G 与工作指令文档属执行层，按定义可随执行推进演进，仍不进本册——把可演进文档锁进 digest 会让正常推进天天撞红线（过度工程化）。contracts/OD-02 亦不进本册：它自述『核验待办（修复批次 P0-4）』，尚未定稿。",
   "_initialized_at": "2026-08-17（M0 收口修复批次 P0-2；version_history 与 interaction 七份于同批次修复轮增补）",
   "_initialized_from": "落盘时刻仓库工作区中各文件的实际内容。version_history 的首条即该时刻状态——本批次**不伪造**更早的历史条目：这些文件此前从未被 digest 登记过，更早版本的正文字节已无从取证，链只能从本条起算。这一点必须如实读作『历史绑定从 2026-08-17 起生效』，不是『历次版本都可核验』。",
   "_maintenance": "改动本册登记的任何文件 → 必须同批：① 升级该文件的版本（Markdown 改控制块版本行 / JSON 改 _version）；② 在本册对应项 **追加**（不是改写）一条 version_history：{declared_version, sha256, recorded_at, note, chain}，chain 按 _chain_algorithm 算；③ 把顶层 declared_version / sha256 同步为末条；④ 同步 20 份 Case Manifest 的对应版本字段（R7 / R9 会当场拦）；⑤ 按 B.9 走版本升级 + 双侧回归重跑。禁止只更新本册来『让门变绿』——那是把检测器改成迁就现状，等同假绿；禁止改写已有的 version_history 条目——那是重写冻结历史，比不升版偷改正文更重。",
@@ -59,14 +59,14 @@
       "manifest_field": "e2e_interaction_contract_version",
       "declared_version": "v1.0",
       "version_from": "doc_control_block",
-      "sha256": "sha256:7e49c155503d2fb684c587e3f324a2d3149f4bbf915cca4534f8f34aba6ec259",
+      "sha256": "sha256:5cdcfc3d17c788673e2915c2d1e5dde3772a05e8ddb30a0630bf5d8dbd01741d",
       "version_history": [
         {
           "declared_version": "v1.0",
-          "sha256": "sha256:7e49c155503d2fb684c587e3f324a2d3149f4bbf915cca4534f8f34aba6ec259",
+          "sha256": "sha256:5cdcfc3d17c788673e2915c2d1e5dde3772a05e8ddb30a0630bf5d8dbd01741d",
           "recorded_at": "2026-08-17",
-          "note": "登记基线：M0 收口修复批次 P0-2 落盘时刻工作区内容。本条之前的历史版本 digest 未曾登记过，故链从此条起算——不伪造更早条目。",
-          "chain": "sha256:efe52f76b53e1a8c9cb6d6108df970488c145428fe4f2f016a8f92f8bb00f742"
+          "note": "2026-08-18 P0-6 重签生效化显式重登记：唯一改动=控制块状态/批准行由 CONTENT-FROZEN 占位转 EFFECTIVE（Founder 重签 2026-08-18T02:39:10+08:00），合同正文零变动；旧 digest 与旧链见本文件 git 历史。依据：门 R10 设计注释「链把顺手弄绿抬成显式重写冻结历史」——本次即该设计预留的显式路径，随签字提交一体落盘",
+          "chain": "sha256:b81501911946949e9fa28312ccb8b25cc94a486720b6aa8cf5d52fcc29aa5ddf"
         }
       ]
     },
@@ -74,14 +74,14 @@
       "manifest_field": "e2e_output_contract_version",
       "declared_version": "v1.0",
       "version_from": "doc_control_block",
-      "sha256": "sha256:ffe069279b2caef66ccf099c5648238e4d5365593da2f5693b44c6c4cc5db49a",
+      "sha256": "sha256:282b8075393feca3f297630b1977a0bf93e5062d7f3cbf36c4e7b7c9bafe4768",
       "version_history": [
         {
           "declared_version": "v1.0",
-          "sha256": "sha256:ffe069279b2caef66ccf099c5648238e4d5365593da2f5693b44c6c4cc5db49a",
+          "sha256": "sha256:282b8075393feca3f297630b1977a0bf93e5062d7f3cbf36c4e7b7c9bafe4768",
           "recorded_at": "2026-08-17",
-          "note": "登记基线：M0 收口修复批次 P0-2 落盘时刻工作区内容。本条之前的历史版本 digest 未曾登记过，故链从此条起算——不伪造更早条目。",
-          "chain": "sha256:35896a728521b133e7b5941be153d31b58a5a2794afcc2ed4541fbecf21fd671"
+          "note": "2026-08-18 P0-6 重签生效化显式重登记：唯一改动=控制块状态/批准行由 CONTENT-FROZEN 占位转 EFFECTIVE（Founder 重签 2026-08-18T02:39:10+08:00），合同正文零变动；旧 digest 与旧链见本文件 git 历史。依据：门 R10 设计注释「链把顺手弄绿抬成显式重写冻结历史」——本次即该设计预留的显式路径，随签字提交一体落盘",
+          "chain": "sha256:c9091eded44b31073a284eaa15fb81c413f6ad90cebc09b7fc2bbe1bbeb418de"
         }
       ]
     },
@@ -89,14 +89,14 @@
       "manifest_field": "baseline_prompt_versions.decision_stage",
       "declared_version": "v1.0",
       "version_from": "doc_control_block",
-      "sha256": "sha256:dd79988d965738ece364a9d2af388a901cba454fba563340820d5f1679c9b1e9",
+      "sha256": "sha256:cf8cd9746c1901c25c2c936c6dd8e95244e81b2b9fabbf42c4fe37e54b762f07",
       "version_history": [
         {
           "declared_version": "v1.0",
-          "sha256": "sha256:dd79988d965738ece364a9d2af388a901cba454fba563340820d5f1679c9b1e9",
+          "sha256": "sha256:cf8cd9746c1901c25c2c936c6dd8e95244e81b2b9fabbf42c4fe37e54b762f07",
           "recorded_at": "2026-08-17",
-          "note": "登记基线：M0 收口修复批次 P0-2 落盘时刻工作区内容。本条之前的历史版本 digest 未曾登记过，故链从此条起算——不伪造更早条目。",
-          "chain": "sha256:c4ce613e0773f6aed3ab04e76d2df91a346f7c68913ace6842f77f939f3542d2"
+          "note": "2026-08-18 P0-6 重签生效化显式重登记：唯一改动=控制块状态/批准行由 CONTENT-FROZEN 占位转 EFFECTIVE（Founder 重签 2026-08-18T02:39:10+08:00），合同正文零变动；旧 digest 与旧链见本文件 git 历史。依据：门 R10 设计注释「链把顺手弄绿抬成显式重写冻结历史」——本次即该设计预留的显式路径，随签字提交一体落盘",
+          "chain": "sha256:691f17561daa47bc9edd381527db063780e3cda602d5f0f1ef3c770f066c7232"
         }
       ]
     },
@@ -104,56 +104,56 @@
       "manifest_field": "baseline_prompt_versions.creative_stage",
       "declared_version": "v1.0",
       "version_from": "doc_control_block",
-      "sha256": "sha256:fa09833b9009aac886aadcf629711eb6b621745aa95e286389616e3e7ac15320",
+      "sha256": "sha256:d2b54e97da20ef40835a056444b03b5f04ea893aeb18b506f5174cec64a65e09",
       "version_history": [
         {
           "declared_version": "v1.0",
-          "sha256": "sha256:fa09833b9009aac886aadcf629711eb6b621745aa95e286389616e3e7ac15320",
+          "sha256": "sha256:d2b54e97da20ef40835a056444b03b5f04ea893aeb18b506f5174cec64a65e09",
           "recorded_at": "2026-08-17",
-          "note": "登记基线：M0 收口修复批次 P0-2 落盘时刻工作区内容。本条之前的历史版本 digest 未曾登记过，故链从此条起算——不伪造更早条目。",
-          "chain": "sha256:c12bd5a0f318daf81343b092a469370d1f0a76d636ed9f55b865ccbb437f798f"
+          "note": "2026-08-18 P0-6 重签生效化显式重登记：唯一改动=控制块状态/批准行由 CONTENT-FROZEN 占位转 EFFECTIVE（Founder 重签 2026-08-18T02:39:10+08:00），合同正文零变动；旧 digest 与旧链见本文件 git 历史。依据：门 R10 设计注释「链把顺手弄绿抬成显式重写冻结历史」——本次即该设计预留的显式路径，随签字提交一体落盘",
+          "chain": "sha256:9fd1d80ed7188bacf264e30589acc00772fda35a0cf162590671e87e22df7aa7"
         }
       ]
     },
     "contracts/interaction/anonymity_procedure.md": {
       "declared_version": "v1.0",
       "version_from": "doc_control_block",
-      "sha256": "sha256:de2fe1b515dbeed71ec8f955b800668317a5586bfb13c5dfb68425449ed9cd10",
+      "sha256": "sha256:cf7f8c50e20e6f6ddca28a150460197cf521c926ccf2b38f246cd7480e4df93e",
       "version_history": [
         {
           "declared_version": "v1.0",
-          "sha256": "sha256:de2fe1b515dbeed71ec8f955b800668317a5586bfb13c5dfb68425449ed9cd10",
+          "sha256": "sha256:cf7f8c50e20e6f6ddca28a150460197cf521c926ccf2b38f246cd7480e4df93e",
           "recorded_at": "2026-08-17",
-          "note": "登记基线：M0 收口修复批次 P0-2 落盘时刻工作区内容。本条之前的历史版本 digest 未曾登记过，故链从此条起算——不伪造更早条目。",
-          "chain": "sha256:13af046ecc11aef557efb950d6735594d240cc27f66c2fec840b1bdbea06f5b7"
+          "note": "2026-08-18 P0-6 重签生效化显式重登记：唯一改动=控制块状态/批准行由 CONTENT-FROZEN 占位转 EFFECTIVE（Founder 重签 2026-08-18T02:39:10+08:00），合同正文零变动；旧 digest 与旧链见本文件 git 历史。依据：门 R10 设计注释「链把顺手弄绿抬成显式重写冻结历史」——本次即该设计预留的显式路径，随签字提交一体落盘",
+          "chain": "sha256:95fa265888ea0f17ebec98a2d7bf1b8613c494cfa8b7f4012fe3fbaf1d76f8c3"
         }
       ]
     },
     "contracts/interaction/README.md": {
       "declared_version": "v1.0",
       "version_from": "doc_control_block",
-      "sha256": "sha256:b514d147a8586d7fa0005c5831970fec8728308f695a39e84baec7a0a3db5941",
+      "sha256": "sha256:81f58b854d260f30a62d945f378660fc0238a8d59e2d5d37fb0310f2038edd19",
       "version_history": [
         {
           "declared_version": "v1.0",
-          "sha256": "sha256:b514d147a8586d7fa0005c5831970fec8728308f695a39e84baec7a0a3db5941",
+          "sha256": "sha256:81f58b854d260f30a62d945f378660fc0238a8d59e2d5d37fb0310f2038edd19",
           "recorded_at": "2026-08-17",
-          "note": "登记基线：M0 收口修复批次 P0-2 落盘时刻工作区内容。本条之前的历史版本 digest 未曾登记过，故链从此条起算——不伪造更早条目。",
-          "chain": "sha256:b8f5395e1e0005d5830680b176450f2c9b22d17e29ab146022ef22a1fccd6b7b"
+          "note": "2026-08-18 P0-6 重签生效化显式重登记：唯一改动=控制块状态/批准行由 CONTENT-FROZEN 占位转 EFFECTIVE（Founder 重签 2026-08-18T02:39:10+08:00），合同正文零变动；旧 digest 与旧链见本文件 git 历史。依据：门 R10 设计注释「链把顺手弄绿抬成显式重写冻结历史」——本次即该设计预留的显式路径，随签字提交一体落盘",
+          "chain": "sha256:9d511c72f212817a6abaa9b73ad1313624dd6c994fff35d485e27d05a454eab7"
         }
       ]
     },
     "contracts/interaction/generation_parameters.json": {
       "declared_version": "v1.0",
       "version_from": "json_field:_version",
-      "sha256": "sha256:d1c9fa9c213afbf1204378f79d8e4006b1d5eb03dfa90a1216290c5fb521e915",
+      "sha256": "sha256:24e4882d235e6b7313c1902becfdf749d570b4331dadff9b10032e9af6018f3b",
       "version_history": [
         {
           "declared_version": "v1.0",
-          "sha256": "sha256:d1c9fa9c213afbf1204378f79d8e4006b1d5eb03dfa90a1216290c5fb521e915",
+          "sha256": "sha256:24e4882d235e6b7313c1902becfdf749d570b4331dadff9b10032e9af6018f3b",
           "recorded_at": "2026-08-17",
-          "note": "登记基线：M0 收口修复批次 P0-2 落盘时刻工作区内容。本条之前的历史版本 digest 未曾登记过，故链从此条起算——不伪造更早条目。",
-          "chain": "sha256:9d47c74c478d19464b2922b6cf6664cd5f4cbaba818af79cc241e59f19e3c2a5"
+          "note": "2026-08-18 P0-6 重签生效化显式重登记：唯一改动=控制块状态/批准行由 CONTENT-FROZEN 占位转 EFFECTIVE（Founder 重签 2026-08-18T02:39:10+08:00），合同正文零变动；旧 digest 与旧链见本文件 git 历史。依据：门 R10 设计注释「链把顺手弄绿抬成显式重写冻结历史」——本次即该设计预留的显式路径，随签字提交一体落盘",
+          "chain": "sha256:166c77669516c88a78ad101181a644c81bf5336a6bd473e8c02de329b4976b9f"
         }
       ]
     }

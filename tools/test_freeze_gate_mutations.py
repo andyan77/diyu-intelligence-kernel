@@ -409,10 +409,10 @@ def m15_hollow_out_frozen_contract(tree):
 
 
 def m16_exceed_whitelist_marker_cap(tree):
-    """M16 在白名单文件 contracts/interaction/README.md 里把待决标记从 2 处加到 3 处，并同步 digest。
+    """M16 往 contracts/interaction/README.md 注入一处 PENDING_RESIGN_P0-6（重签后 0→1），并同步 digest。
 
-    修复前：白名单是**文件级**豁免——只按文件名放行，不限条数、不限位置，标记可以从 1 处膨胀到 100 处
-    而门一声不吭。期望：R11 必须红（超出条数上限），且 R10 不得抢先命中。"""
+    历史：白名单曾是文件级豁免（P0-2 收窄为条数上限，当时 README 上限 2）；2026-08-18 P0-6 重签完成后
+    白名单整体退役——该标记无合法复活场景，出现一处即红。期望：R11 必须红，且 R10 不得抢先命中。"""
     write(tree, INTERACTION_README, read(tree, INTERACTION_README)
           + "\n> 变异追加：又一处 PENDING_RESIGN_P0-6。\n")
     sync_digest_registry(tree, INTERACTION_README)
@@ -455,10 +455,10 @@ def m20_resign_mark_outside_whitelist(tree):
 CHECKS = [
     ("M0", "基线：未变异副本 --mode=sign 必须 GATE_GREEN（防套件自身假红）",
      m0_baseline, "sign", "GREEN", (), (), None),
-    # 运行态基线：证明 run 模式的红是**设计内的那三条**，不是「运行态红得莫名其妙」。
+    # 运行态基线：证明 run 模式的红**恰为设计内类别**（重签后仅 R2），不是「运行态红得莫名其妙」。
     # 命中集合断言为**全等**：多一条 = 冒出计划外缺陷，少一条 = 送签豁免泄漏进了运行态。
-    ("M0-run", "基线：未变异副本 **run 模式** 必须 RED 且命中集合恰为 {R2,R11,R12}（送签豁免不得泄漏）",
-     m0_baseline, "run", "RED", ("R2", "R11", "R12"), (), {"R2", "R11", "R12"}),
+    ("M0-run", "基线：未变异副本 **run 模式** 必须 RED 且命中集合恰为 {R2}（P0-6 重签后 R11/R12 已清零）",
+     m0_baseline, "run", "RED", ("R2",), (), {"R2"}),
     ("M1", "删除 E2E-01 Manifest 的 e2e_interaction_contract_version 键",
      m1_drop_contract_version_key, "sign", "RED", ("R3", "R9"), (), None),
     ("M2", "改 generation_parameters.json 参数值、不动 Manifest 指纹",
@@ -489,7 +489,7 @@ CHECKS = [
      m14_placeholder_in_generation_parameters, "sign", "RED", ("R2",), ("R8", "R10"), None),
     ("M15", "把 baseline_prompt_stage_D.md 掏空成 8 行壳（冻结件正文被整体改写）",
      m15_hollow_out_frozen_contract, "sign", "RED", ("R10",), (), None),
-    ("M16", "白名单文件的待决标记条数超上限（README 2→3）并同步登记册（逼 R11 独立命中）",
+    ("M16", "重签后注入一处 PENDING_RESIGN（README 0→1）并同步登记册（逼 R11 独立命中，白名单已退役）",
      m16_exceed_whitelist_marker_cap, "sign", "RED", ("R11",), ("R10",), None),
     ("M17", "往 acceptance/cases/BD-D01/case.yaml 塞一行 PENDING_IA0（扫描面此前漏掉的面）",
      m17_pending_mark_in_case_yaml, "sign", "RED", ("R11",), (), None),
@@ -589,7 +589,7 @@ def main():
         return 1
     injected = [c for c in CHECKS if c[4] == "RED"]
     print("PASS —— %d 项全过：门在 %d 个缺陷面上逐一转红，且未变异副本在送签态判绿、"
-          "运行态只红设计内的那三条。" % (len(CHECKS), len(injected)))
+          "运行态只红设计内类别（重签后仅 R2）。" % (len(CHECKS), len(injected)))
     print("本结论只覆盖上列注入点，**不等于**门无漏判。如实披露三点：")
     print("  ① 未被变异覆盖的红线（R5 / R6 / R7）本次仍无活体证据，不得据此宣称『十三条红线全部已验证』；")
     print("  ② 双模式已取证的只有 M0-run 这一条运行态基线 + M19/M20 两条豁免边界；"

@@ -5,7 +5,7 @@
 | 文件 ID | DIYU-CONTRACT-INTERACTION-E2E-OUTPUT |
 | 文件 | `contracts/interaction/e2e_output_contract.md` |
 | 版本 | **v1.0**（同时是 `E2EComparisonEnvelope.output_contract_version` 与 Case Manifest `e2e_output_contract_version` 的取值） |
-| 状态 | **CONTENT-FROZEN（内容定稿）；生效 PENDING_RESIGN_P0-6（Founder 重签后本行更新为 EFFECTIVE+签字时间）** |
+| 状态 | **EFFECTIVE（已生效；Founder（Faye）重签 2026-08-18T02:39:10+08:00，M0 收口修复批次 P0-6，回执《M0收口回执.md》@24e24a3）** |
 | 修订记录 | v0.1-draft 起草（2026-08-17 M0-EP02 建设轮）→ v1.0 内容定稿（2026-08-17 M0 收口修复批次） → **2026-08-17 P0-1 收尾修复**：全文 `B:NNN` 行号按 B v0.4 逐条重算（v0.3→v0.4 在 B:13 / B:929 / B:943 三处插行，每处引用均已回读 B 该行内容核对） |
 | 真源 | `B_三个核心模块智能验收合同.md` v0.4（EFFECTIVE）：B.2.3、B.2.5、B.8；`A_模块接口与核心数据字典.md` v0.2（EFFECTIVE）：A.1.2、A.2.5、A.2.6、A.3.2、A.3.4、A.3.5、A.6.2、A.6.3、A.7.2、A.8、A.9.1；`PRD_笛语智能核_MVP_V3.0_v0.1.md` 7.2 / 7.3 |
 | 本文件是什么 | Gate IA-0（B:995）三件套的**第 ② 件**：两阶段共同**输出**合同——两侧共用的**外部展示 Schema** 逐项定义（阶段 D + 阶段 C），以及引用书写形式、剔除清单、Envelope 取值来源 |

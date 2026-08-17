@@ -9,7 +9,7 @@
 |---|---|
 | 文件 ID | DIYU-CONTRACT-INTERACTION-BASELINE-C |
 | 版本 | **v1.0** |
-| 状态 | **CONTENT-FROZEN（内容定稿）；生效 PENDING_RESIGN_P0-6（Founder 重签后本行更新为 EFFECTIVE+签字时间）** |
+| 状态 | **EFFECTIVE（已生效；Founder（Faye）重签 2026-08-18T02:39:10+08:00，M0 收口修复批次 P0-6，回执《M0收口回执.md》@24e24a3）** |
 | 修订记录 | v0.1-draft 起草（M0-EP02）→ IA-0 2026-08-17 预裁决批次逐条回填 → **v1.0 内容定稿（2026-08-17 M0 收口修复批次）** → **2026-08-17 P0-1 收尾修复**：全文 `B:NNN` 行号按 B v0.4 逐条重算（v0.3→v0.4 在 B:13 / B:929 / B:943 三处插行，每处引用均已回读 B 该行内容核对）；§6 第 3 条补 `target_duration_seconds` 与 `segments[]` 末段 `end_second` 自洽一句、并把第 3/8 条的「改考试条件」路径由 B.8.1 改引 B.9（与 `e2e_output_contract.md` §3.4 同口径）；删除与 §0 控制块重复的首行横幅（P0-1「不许再用首行覆盖声明」） |
 | 对应真源 | B.2.2「同条件」/ B.2.3 阶段 C 外部输出合同 / B.2.4 通用 LLM 基线（B 现行有效版本 **v0.4**，2026-08-17 生效基线：PRD v0.1 + A v0.2 + B v0.4） |
 | 字段来源 | B.2.3 明列（九部分制作包 Schema、production_risks、assumptions、confidence）+ PRD 7.2 九部分结构 + A.8 最小必填字段 + A.2.5 |

@@ -5,7 +5,7 @@
 | 文件 ID | DIYU-CONTRACT-INTERACTION-E2E-INTERACTION |
 | 文件 | `contracts/interaction/e2e_interaction_contract.md` |
 | 版本 | **v1.0** |
-| 状态 | **CONTENT-FROZEN（内容定稿）；生效 PENDING_RESIGN_P0-6（Founder 重签后本行更新为 EFFECTIVE+签字时间）** |
+| 状态 | **EFFECTIVE（已生效；Founder（Faye）重签 2026-08-18T02:39:10+08:00，M0 收口修复批次 P0-6，回执《M0收口回执.md》@24e24a3）** |
 | 修订记录 | v0.1-draft 起草（2026-08-17 M0-EP02 建设轮）→ v1.0 内容定稿（2026-08-17 M0 收口修复批次） → **2026-08-17 P0-1 收尾修复**：全文 `B:NNN` 行号按 B v0.4 逐条重算（v0.3→v0.4 在 B:13 / B:929 / B:943 三处插行，每处引用均已回读 B 该行内容核对） |
 | 真源 | `B_三个核心模块智能验收合同.md` v0.4（EFFECTIVE）：B.2.1、B.2.2、B.2.3、B.2.4、B.2.5、B.5.1、B.6.4、B.8；`A_模块接口与核心数据字典.md` v0.2（EFFECTIVE）；`PRD_笛语智能核_MVP_V3.0_v0.1.md` |
 | 本文件是什么 | Gate IA-0（B:995）三件套的**第 ①  件**：两阶段共同**交互**合同——把 B.2.3 的两侧共同外部交互排成可执行的**时序 + 输入契约 + 两侧同规则**清单 |

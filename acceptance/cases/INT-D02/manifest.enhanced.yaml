@@ -42,7 +42,7 @@ module_contract_versions:
 model_provider: "Alibaba Cloud DashScope"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
 model_name: "qwen-max-0107"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
 model_version: "snapshot-0107（models 接口回执 2026-08-17）"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
-generation_parameters_hash: "sha256:fac42849ca93850e9bb0d2c119ceef94ca2cc1c00dce13f9b7b5b6a44d216c64"  # 由 tools/freeze_gate.py 的 canonical_snapshot_hash 对 contracts/interaction/generation_parameters.json 当前内容实算回填（M0 收口修复批次 P0-2）；IA-0 首签时的旧值 sha256:24b85c93… 已因 P0-1 重写该参数文件而失真，故按其 _hash_algorithm 字段「冻结门按本文件当前内容实时重算」重算。参数**取值**仍是 Founder 2026-08-17 IA-0 定格，本次只更新指纹不改参数。冻结门 R8 每次运行实时重算比对
+generation_parameters_hash: "sha256:a405c209e51d3a339cdc1ef7d1b2824039cd2af6e41bc3aa23ab0006eaa686dc"  # 由 tools/freeze_gate.py 的 canonical_snapshot_hash 对 contracts/interaction/generation_parameters.json 当前内容实算回填（M0 收口修复批次 P0-2）；IA-0 首签时的旧值 sha256:24b85c93… 已因 P0-1 重写该参数文件而失真，故按其 _hash_algorithm 字段「冻结门按本文件当前内容实时重算」重算。参数**取值**仍是 Founder 2026-08-17 IA-0 定格，本次只更新指纹不改参数。冻结门 R8 每次运行实时重算比对
 allowed_tools: []                             # 占位保守值：不声明任何工具。B:179 只写「不允许任一侧使用未声明的搜索或知识库」（且 B.2.2 自述适用于正式 A/B），B 未规定诊断案例 allowed_tools 必须为空数组 →（三案例同问）OQ-INT-D01-04
-approved_by: "Founder（Faye）"  # IA-0 首签（2026-08-17 AskUserQuestion 三连裁决，台账登记）；该次 M0 收口宣告已于同日撤回（《裁决台账》08-17），本行保留为历史事实，不再作为 M0 收口依据
-approved_at: "2026-08-17T19:08:38+08:00"  # 首签时间戳（历史事实）。重签由修复批次 P0-6 的 Founder 签字产生并同批更新本两行，不沿用本时间戳；重签前本 Manifest 不得据此宣称已签字冻结生效（见 IA-0_冻结签字包.md 六「签字记录」）
+approved_by: "Founder（Faye）"  # IA-0 重签（M0 收口修复批次 P0-6；首签 19:08:38 已撤回留档台账与 IA-0 签字包）
+approved_at: "2026-08-18T02:39:10+08:00"  # 重签时间戳（P0-6，基于回执《M0收口回执.md》@24e24a3）
