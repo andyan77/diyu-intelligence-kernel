@@ -5,91 +5,784 @@
     "VersionedRef": {
       "type": "object",
       "$comment": "A: VersionedRef——模块之间不允许只传递可变对象 ID",
-      "required": ["object_type", "object_id", "version", "brand_id"],
+      "required": [
+        "object_type",
+        "object_id",
+        "version",
+        "brand_id"
+      ],
       "properties": {
-        "object_type": {"type": "string"},
-        "object_id": {"type": "string"},
-        "version": {"type": "integer"},
-        "brand_id": {"type": "string"}
+        "object_type": {
+          "type": "string"
+        },
+        "object_id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "integer"
+        },
+        "brand_id": {
+          "type": "string"
+        }
       }
     },
     "ConfidenceStatement": {
       "type": "object",
       "$comment": "A: 只三级置信度，不输出伪精确百分比",
-      "required": ["level", "basis", "limiting_factors"],
+      "required": [
+        "level",
+        "basis",
+        "limiting_factors"
+      ],
       "properties": {
-        "level": {"enum": ["HIGH", "MEDIUM", "LOW"]},
-        "basis": {"type": "array", "items": {"type": "string"}},
-        "limiting_factors": {"type": "array", "items": {"type": "string"}}
+        "level": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ]
+        },
+        "basis": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "limiting_factors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
     "TraceEntry": {
       "type": "object",
-      "required": ["trace_id", "trace_type", "statement"],
+      "required": [
+        "trace_id",
+        "trace_type",
+        "statement"
+      ],
       "properties": {
-        "trace_id": {"type": "string"},
-        "trace_type": {"enum": ["FACT", "RULE", "ASSUMPTION", "MODEL_JUDGMENT"]},
-        "statement": {"type": "string"},
-        "source_refs": {"type": "array"},
-        "object_refs": {"type": "array"},
-        "target_paths": {"type": "array", "items": {"type": "string"}},
-        "supporting_trace_refs": {"type": "array", "items": {"type": "string"}},
-        "confidence": {"enum": ["HIGH", "MEDIUM", "LOW", null]}
+        "trace_id": {
+          "type": "string"
+        },
+        "trace_type": {
+          "enum": [
+            "FACT",
+            "RULE",
+            "ASSUMPTION",
+            "MODEL_JUDGMENT"
+          ]
+        },
+        "statement": {
+          "type": "string"
+        },
+        "source_refs": {
+          "type": "array"
+        },
+        "object_refs": {
+          "type": "array"
+        },
+        "target_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "supporting_trace_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "confidence": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW",
+            null
+          ]
+        }
       }
     },
     "TraceBundle": {
       "type": "object",
       "$comment": "A.9.2",
-      "required": ["trace_bundle_id", "brand_id", "entries"],
+      "required": [
+        "trace_bundle_id",
+        "brand_id",
+        "entries"
+      ],
       "properties": {
-        "trace_bundle_id": {"type": "string"},
-        "brand_id": {"type": "string"},
-        "target_artifact_ref": {"$ref": "#/definitions/VersionedRef"},
-        "entries": {"type": "array", "items": {"$ref": "#/definitions/TraceEntry"}}
+        "trace_bundle_id": {
+          "type": "string"
+        },
+        "brand_id": {
+          "type": "string"
+        },
+        "target_artifact_ref": {
+          "$ref": "#/definitions/VersionedRef"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TraceEntry"
+          }
+        }
       }
     },
     "ArtifactEnvelope": {
       "type": "object",
       "$comment": "A.9.3",
-      "required": ["artifact_id", "artifact_type", "version", "schema_version", "brand_id", "task_id", "context_snapshot_ref", "source_run_id", "review_status", "created_at", "created_by"],
+      "required": [
+        "artifact_id",
+        "artifact_type",
+        "version",
+        "schema_version",
+        "brand_id",
+        "task_id",
+        "context_snapshot_ref",
+        "source_run_id",
+        "review_status",
+        "created_at",
+        "created_by"
+      ],
       "properties": {
-        "artifact_id": {"type": "string"},
-        "artifact_type": {"type": "string"},
-        "version": {"type": "integer"},
-        "schema_version": {"type": "string"},
-        "brand_id": {"type": "string"},
-        "task_id": {"type": "string"},
-        "context_snapshot_ref": {"$ref": "#/definitions/VersionedRef"},
-        "source_run_id": {"type": "string"},
-        "parent_references": {"type": "array", "items": {"type": "object", "properties": {"object_ref": {"$ref": "#/definitions/VersionedRef"}, "relation": {"enum": ["DERIVED_FROM", "SELECTED_FROM", "REVISES"]}}}},
-        "review_status": {"enum": ["PENDING", "APPROVED", "CHANGES_REQUESTED"]},
-        "created_at": {"type": "string"},
-        "created_by": {"enum": ["SYSTEM", "BRAND_OPERATOR", "FOUNDER_REVIEWER"]}
+        "artifact_id": {
+          "type": "string"
+        },
+        "artifact_type": {
+          "type": "string"
+        },
+        "version": {
+          "type": "integer"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "brand_id": {
+          "type": "string"
+        },
+        "task_id": {
+          "type": "string"
+        },
+        "context_snapshot_ref": {
+          "$ref": "#/definitions/VersionedRef"
+        },
+        "source_run_id": {
+          "type": "string"
+        },
+        "parent_references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "object_ref": {
+                "$ref": "#/definitions/VersionedRef"
+              },
+              "relation": {
+                "enum": [
+                  "DERIVED_FROM",
+                  "SELECTED_FROM",
+                  "REVISES"
+                ]
+              }
+            }
+          }
+        },
+        "review_status": {
+          "enum": [
+            "PENDING",
+            "APPROVED",
+            "CHANGES_REQUESTED"
+          ]
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "created_by": {
+          "enum": [
+            "SYSTEM",
+            "BRAND_OPERATOR",
+            "FOUNDER_REVIEWER"
+          ]
+        }
       }
     },
     "ContextRequirement": {
       "type": "object",
       "$comment": "A.4.2",
-      "required": ["field_path", "purpose", "availability", "impact"],
+      "required": [
+        "field_path",
+        "purpose",
+        "availability",
+        "impact"
+      ],
       "properties": {
-        "field_path": {"type": "string"},
-        "purpose": {"type": "string"},
-        "availability": {"enum": ["AVAILABLE", "MISSING", "CONFLICTING"]},
-        "impact": {"enum": ["BLOCKING", "QUALITY_REDUCING"]},
-        "resolution_question": {"type": ["string", "null"]},
-        "related_source_refs": {"type": "array"}
+        "field_path": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "availability": {
+          "enum": [
+            "AVAILABLE",
+            "MISSING",
+            "CONFLICTING"
+          ]
+        },
+        "impact": {
+          "enum": [
+            "BLOCKING",
+            "QUALITY_REDUCING"
+          ]
+        },
+        "resolution_question": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "related_source_refs": {
+          "type": "array"
+        }
       }
     },
     "HardRuleResult": {
       "type": "object",
       "$comment": "A: Rule Engine 只负责明确硬规则；BLOCK 的 Artifact 不得进入下一人工节点",
-      "required": ["rule_ref", "target_path", "result", "explanation"],
+      "required": [
+        "rule_ref",
+        "target_path",
+        "result",
+        "explanation"
+      ],
       "properties": {
-        "rule_ref": {"$ref": "#/definitions/VersionedRef"},
-        "target_ref": {"anyOf": [{"$ref": "#/definitions/VersionedRef"}, {"type": "null"}]},
-        "target_path": {"type": "string"},
-        "result": {"enum": ["PASS", "BLOCK"]},
-        "explanation": {"type": "string"}
+        "rule_ref": {
+          "$ref": "#/definitions/VersionedRef"
+        },
+        "target_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/VersionedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target_path": {
+          "type": "string"
+        },
+        "result": {
+          "enum": [
+            "PASS",
+            "BLOCK"
+          ]
+        },
+        "explanation": {
+          "type": "string"
+        }
+      }
+    },
+    "SourceRef": {
+      "type": "object",
+      "$comment": "A.2.3（A 行 128-157）：source_id / brand_id / source_type / locator / captured_at / checksum(可空)",
+      "required": [
+        "source_id",
+        "brand_id",
+        "source_type",
+        "locator",
+        "captured_at"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string"
+        },
+        "brand_id": {
+          "type": "string"
+        },
+        "source_type": {
+          "enum": [
+            "BRAND_OPERATOR_INPUT",
+            "FOUNDER_CONFIRMATION",
+            "UPLOADED_DOCUMENT",
+            "PRODUCT_DATA_FILE",
+            "IMAGE_INPUT",
+            "MODEL_EXTRACTION",
+            "SYSTEM_RECORD"
+          ]
+        },
+        "locator": {
+          "type": "string",
+          "description": "A.2.3 规则：locator 可以是消息、文件、页码、段落、表格行或图片引用；不得包含明文凭证、临时访问令牌或无关系统路径（内容级检查由确定性谓词承担，C.3 资产④）"
+        },
+        "captured_at": {
+          "type": "string",
+          "description": "datetime（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）"
+        },
+        "checksum": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "FactValueBase": {
+      "type": "object",
+      "$comment": "A.2.4（A 行 159-181）FactValue 共性字段；value 在此不限类型，由 FactValueString / FactValueStringArray / FactValueMoney / FactValueQuantity / FactValueRange 以 allOf 收窄",
+      "description": "A.2.4 未由本 Schema 表达的约束（外包给确定性谓词，C.3 资产④）：① A.2.3「MODEL_EXTRACTION 只能产生 PROVISIONAL 值」——跨对象规则，需按 source_refs 组合判定；② A.2.4「库存、价格等时效性事实必须有单位和 as_of」的 as_of 部分——as_of 可落在 FactValue.as_of 或内联 Money.as_of / Quantity.as_of，A 未指明层级；③ A.2.4「PROVISIONAL 或 CONFLICTING 不得被描述为确定事实」——下游表述层语义；④ CONFIRMED 的「value 非空」此处只判非 null，空字符串 / 空数组是否算非空由谓词判定。",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "value": {},
+        "status": {
+          "enum": [
+            "CONFIRMED",
+            "PROVISIONAL",
+            "MISSING",
+            "CONFLICTING",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SourceRef"
+          }
+        },
+        "as_of": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "datetime | null（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）"
+        },
+        "confidence": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW",
+            null
+          ]
+        },
+        "uncertainty_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "value",
+              "source_ref"
+            ],
+            "properties": {
+              "value": {},
+              "source_ref": {
+                "$ref": "#/definitions/SourceRef"
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$comment": "A.2.4 约束1：CONFIRMED——value 非空，至少有一个 source_ref",
+          "if": {
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "const": "CONFIRMED"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "value",
+              "source_refs"
+            ],
+            "properties": {
+              "value": {
+                "not": {
+                  "type": "null"
+                }
+              },
+              "source_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "$comment": "A.2.4 约束2：PROVISIONAL——必须有 confidence、来源和不确定原因",
+          "if": {
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "const": "PROVISIONAL"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "confidence",
+              "source_refs",
+              "uncertainty_reason"
+            ],
+            "properties": {
+              "confidence": {
+                "enum": [
+                  "HIGH",
+                  "MEDIUM",
+                  "LOW"
+                ]
+              },
+              "source_refs": {
+                "minItems": 1
+              },
+              "uncertainty_reason": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "$comment": "A.2.4 约束3：MISSING、NOT_APPLICABLE——value 为空",
+          "if": {
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "MISSING",
+                  "NOT_APPLICABLE"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "$comment": "A.2.4 约束4：CONFLICTING——必须列出 alternatives，不能静默选值",
+          "if": {
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "const": "CONFLICTING"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "alternatives"
+            ],
+            "properties": {
+              "alternatives": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "FactValueString": {
+      "$comment": "A.3 表中的 FactValue<string>",
+      "allOf": [
+        {
+          "$ref": "#/definitions/FactValueBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "alternatives": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "FactValueStringArray": {
+      "$comment": "A.3 表中的 FactValue<string[]>；A.3.1「可确认空数组；未知不等于无」——空数组配 CONFIRMED 合法，缺失须用 status=MISSING",
+      "allOf": [
+        {
+          "$ref": "#/definitions/FactValueBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "alternatives": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "FactValueMoney": {
+      "$comment": "A.3.2 中的 FactValue<Money>",
+      "description": "A.2.4：价格属时效性事实，必须有单位和 as_of。单位由 Money.currency 结构必填保证；as_of 落在 FactValue.as_of 或 Money.as_of 的哪一层 A 未指明（A 行 180 与 A 行 267 并存），非空判定外包给确定性谓词（C.3 资产④）。",
+      "allOf": [
+        {
+          "$ref": "#/definitions/FactValueBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Money"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "alternatives": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "$ref": "#/definitions/Money"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "FactValueQuantity": {
+      "$comment": "A.3.2 中的 FactValue<Quantity>",
+      "description": "A.2.4：库存属时效性事实，必须有单位和 as_of。二者均由 Quantity.unit / Quantity.as_of 结构必填保证（A 行 269-272 中 as_of 非可空）。",
+      "allOf": [
+        {
+          "$ref": "#/definitions/FactValueBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Quantity"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "alternatives": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "$ref": "#/definitions/Quantity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "FactValueRange": {
+      "$comment": "A.3.4 中的 FactValue<Range>",
+      "allOf": [
+        {
+          "$ref": "#/definitions/FactValueBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Range"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "alternatives": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "$ref": "#/definitions/Range"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Money": {
+      "type": "object",
+      "$comment": "A.3.2 内联类型（A 行 263-267）：amount / currency / as_of(可空)",
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "as_of": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "datetime | null（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）"
+        }
+      }
+    },
+    "Quantity": {
+      "type": "object",
+      "$comment": "A.3.2 内联类型（A 行 269-272）：value / unit / as_of(非可空)",
+      "required": [
+        "value",
+        "unit",
+        "as_of"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "as_of": {
+          "type": "string",
+          "description": "datetime（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）"
+        }
+      }
+    },
+    "Range": {
+      "type": "object",
+      "$comment": "A.3.4 内联类型（A 行 312-317）：min(可空) / max(可空) / unit",
+      "required": [
+        "unit"
+      ],
+      "properties": {
+        "min": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "max": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "unit": {
+          "type": "string"
+        }
+      }
+    },
+    "FactSetEnvelope": {
+      "type": "object",
+      "$comment": "A.3 开篇（A 行 218-229）：五类事实对象共享；fact_type 在 A 中为 string，无枚举，不得自造枚举值",
+      "description": "复用方式：五类事实对象（A.3.1 BrandFacts、A.3.2 ProductFacts、A.3.4 AudienceFacts、A.3.5 PersonaFacts、A.3.6 VideoAccountFacts）以 allOf 平铺共享本信封字段，不做 envelope 包 payload 的嵌套——依据是 A.3.1 表内直接列出 brand_id（与信封同名同型），而 A.3.2 表未再列 brand_id，说明信封字段与对象自有字段同处一层。",
+      "required": [
+        "fact_set_id",
+        "fact_type",
+        "brand_id",
+        "version",
+        "schema_version",
+        "updated_at",
+        "updated_by_role"
+      ],
+      "properties": {
+        "fact_set_id": {
+          "type": "string"
+        },
+        "fact_type": {
+          "type": "string"
+        },
+        "brand_id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "integer"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "datetime（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）"
+        },
+        "updated_by_role": {
+          "enum": [
+            "BRAND_OPERATOR",
+            "FOUNDER_REVIEWER"
+          ]
+        }
       }
     }
   }

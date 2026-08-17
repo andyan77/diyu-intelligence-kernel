@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "audience_facts.schema.json",
+  "title": "AudienceFacts",
+  "$comment": "照抄 A.3.4（A 行 300-317）；信封字段按 A 行 218-229「五类事实对象共享」以 allOf 平铺，不做 envelope 包 payload；内联 Range（A 行 312-317）已在 common.defs.json#/definitions/Range 立定，本文件复用不重复内联",
+  "description": "A.3.4 AudienceFacts。必填口径按 A.2.1（A 行 108-114）：R=结构必填→进 required；C=条件必填→不进 required，条件写入字段 description 并外包给确定性谓词（C.3 资产④）；O=可选，缺失时不得临时虚构。fact_type 在 A 行 223 仅为 string 且全文无枚举，本 Schema 不自造 const 值。",
+  "allOf": [
+    {
+      "$ref": "common.defs.json#/definitions/FactSetEnvelope"
+    },
+    {
+      "type": "object",
+      "required": [
+        "audience_id",
+        "label"
+      ],
+      "properties": {
+        "audience_id": {
+          "type": "string",
+          "description": "A 行 304：R｜string｜默认来源=系统｜缺失处理=阻断引用错误。「阻断」为流程动作，由确定性谓词与状态机承担（C.3 资产④）。"
+        },
+        "label": {
+          "description": "A 行 305：R｜FactValue<string>｜默认来源=人工、品牌资料｜缺失处理=显式缺失（即用 status=MISSING 表达，不得省略字段、不得代写值）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueString"
+            }
+          ]
+        },
+        "age_range": {
+          "description": "A 行 306：O｜FactValue<Range>｜默认来源=人工、品牌资料｜缺失处理=不得由价格自动推断。「不得由价格自动推断」是跨对象来源规则（需比对 ProductFacts.price 与本字段 source_refs），Schema 表达不了，外包给确定性谓词（C.3 资产④）。Range 结构见 A 行 312-317：min: number|null / max: number|null / unit: string。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueRange"
+            }
+          ]
+        },
+        "occupation_or_lifestyle": {
+          "description": "A 行 307：O｜FactValue<string[]>｜默认来源=人工、品牌资料｜缺失处理=可缺失。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "pain_points": {
+          "description": "A 行 308：C｜FactValue<string[]>｜默认来源=人工、研究资料｜缺失处理=缺失时张力只能是模型判断。条件必填：按 A.2.1（A 行 113）由当前任务、规则或输出类型决定；A.3.4 未给出更具体的触发条件，故不进 required，条件判定外包给确定性谓词（C.3 资产④）。缺失时下游张力条目必须标 MODEL_JUDGMENT 而非 FACT——属下游 trace 语义，同样外包给谓词。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "purchase_reasons": {
+          "description": "A 行 309：C｜FactValue<string[]>｜默认来源=人工、研究资料｜缺失处理=不伪装成已验证洞察。条件必填：按 A.2.1（A 行 113）由当前任务、规则或输出类型决定；A.3.4 未给出更具体的触发条件，故不进 required，条件判定外包给确定性谓词（C.3 资产④）。「不伪装成已验证洞察」是表述层语义（未 CONFIRMED 的值不得被描述为确定事实，参 A 行 181），Schema 表达不了，外包给谓词。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "objections": {
+          "description": "A 行 310：O｜FactValue<string[]>｜默认来源=人工、研究资料｜缺失处理=可缺失。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

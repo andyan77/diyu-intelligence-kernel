@@ -1,0 +1,167 @@
+{
+  "fact_set_id": "FS-BRAND-fixture-brand-01-0001",
+  "fact_type": "BRAND_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.1-v1",
+  "updated_at": "2026-08-17T10:00:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "brand_name": {
+    "value": "衡叙集（虚构）",
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「品牌名」",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "positioning": {
+    "value": "服务 30—45 岁、需要在工作与日常之间切换的城市女性；中高端日常女装，主做有结构但不过度强势的外套、裤装、针织与半裙",
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0002",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「一句话定位」",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "values": {
+    "value": [
+      "先讲商品解决什么、牺牲什么，再谈是否值得买",
+      "一件衣服应能进入真实生活，并在不同场景中被反复使用",
+      "尊重具体身形、通勤方式、照料责任与预算，不把消费者简化成年龄标签",
+      "内容以事实、判断和可验证细节建立信任，不靠密集促销维持关系",
+      2026
+    ],
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0003",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「价值主张」5 条分项",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "tone": {
+    "value": [
+      "稳、具体、有判断、留余地；像一位长期做商品和门店的人对熟客解释选择，不喊口号，不催促成交"
+    ],
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0004",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「说话调性」",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "target_customer_summary": {
+    "value": "她愿意为版型、面料与长期使用付合理溢价，但要求品牌把依据和不适合之处说清楚",
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0005",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「目标客户一句话」",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "forbidden_expressions": {
+    "value": [
+      "清仓",
+      "甩卖",
+      "白菜价",
+      "闭眼入",
+      "全网最低",
+      "不买就亏",
+      "秒杀",
+      "绝绝子",
+      "显贵",
+      "高级感"
+    ],
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0006",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「禁用表达清单」10 词",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "commercial_constraints": {
+    "value": [
+      "公开成交价原则上不得低于吊牌价 8 折；例外必须有书面授权、起止时间和适用库存",
+      "同一款出现两个价格且无法解释时，内容不得发布，必须保留冲突并进入人工裁决",
+      "面料、款号、尺码和价格没有截图或业务真源时，不得补写",
+      "促销内容连续发布不得超过 2 条，第三条必须回到商品解释、穿衣问题或真实门店观察"
+    ],
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0007",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「商业硬约束」4 条分项",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "audience_refs": [
+    {
+      "object_type": "AudienceFacts",
+      "object_id": "FS-AUDIENCE-fixture-brand-01-0001",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    }
+  ],
+  "_fixture_note": {
+    "violation": "唯一违约：values.value 第 5 个元素由字符串改为数字 2026，违反 A.3.1 values 的 FactValue<string[]>（common.defs.json#/definitions/FactValueStringArray → value.items.type=string）。属 Schema 真能拦下的类型违约，非语义违约。",
+    "expected_error_substr": "2026 is not of type 'string'",
+    "delta_keys_vs_ok1": [
+      "~values"
+    ]
+  }
+}

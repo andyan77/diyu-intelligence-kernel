@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "video_account_facts.schema.json",
+  "title": "VideoAccountFacts",
+  "$comment": "照抄 A.3.6（A 行 331-342）；信封字段按 A 行 218-229 以 allOf 平铺共享（FactSetEnvelope），不做 envelope 包 payload 的嵌套。A 行 223 fact_type 为 string 且全文无枚举，本 Schema 不自造 const 值。",
+  "description": "A.3.6 VideoAccountFacts。必填口径按 A 行 108-114：R=结构必填→进 required；C=条件必填→不进 required，条件写在字段 description 并外包确定性谓词（C.3 资产④）；O=可选。",
+  "allOf": [
+    {
+      "$ref": "common.defs.json#/definitions/FactSetEnvelope"
+    },
+    {
+      "type": "object",
+      "required": [
+        "account_id",
+        "platform",
+        "positioning",
+        "expression_boundaries"
+      ],
+      "properties": {
+        "account_id": {
+          "type": "string",
+          "description": "A 行 335：string / R / 默认来源 系统 / 缺失处理「阻断引用错误」——阻断动作由确定性谓词与状态机承担（C.3 资产④）。"
+        },
+        "platform": {
+          "const": "WECHAT_VIDEO",
+          "description": "A 行 336：类型列直接写 WECHAT_VIDEO / R / 默认来源「系统固定」/ 缺失处理「非视频号任务拒绝编译」——拒绝编译动作由确定性谓词与状态机承担（C.3 资产④）。"
+        },
+        "account_name": {
+          "description": "A 行 337：FactValue<string> / O / 默认来源 人工 / 缺失处理「可缺失」。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueString"
+            }
+          ]
+        },
+        "positioning": {
+          "description": "A 行 338：FactValue<string> / R / 默认来源「人工、账号资料」/ 缺失处理「降低平台适配置信度」——置信度调整属下游计算，外包给确定性谓词（C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueString"
+            }
+          ]
+        },
+        "content_style": {
+          "description": "A 行 339：FactValue<string[]> / C / 默认来源「人工、资料抽取」。C=条件必填，但 A 未给出触发条件——本 Schema 不自造条件，条件判定整体外包给确定性谓词（C.3 资产④）。缺失处理原文「单次生成不能写为账号事实」——禁止把单次创意产出回写为账号事实，属跨对象来源判定，Schema 表达不了，同样外包（C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "audience_relationship": {
+          "description": "A 行 340：FactValue<string> / C / 默认来源 人工。C=条件必填，但 A 未给出触发条件——本 Schema 不自造条件，条件判定整体外包给确定性谓词（C.3 资产④）。缺失处理原文「与 Persona 冲突时标记 CONFLICTING」——与 A.3.5 PersonaFacts.audience_relationship（A 行 327）的一致性属跨对象比对，Schema 表达不了；一旦判定冲突，status 必须取 CONFLICTING（此时 FactValueBase 约束4 强制列出 alternatives），冲突检测本身外包给确定性谓词（C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueString"
+            }
+          ]
+        },
+        "primary_persona_ref": {
+          "description": "A 行 341：VersionedRef / C / 默认来源「系统引用」/ 缺失处理「人物出镜型方案需要」。条件必填：人物出镜型方案需要——方案是否为人物出镜型属跨对象判定，外包给确定性谓词（C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/VersionedRef"
+            }
+          ]
+        },
+        "expression_boundaries": {
+          "description": "A 行 342：FactValue<string[]> / R / 默认来源 人工 / 缺失处理「可确认空数组」——空数组配 status=CONFIRMED 合法，缺失须用 status=MISSING（空数组与「未知」的区分见 common.defs.json FactValueStringArray 注释；非空性判定外包给确定性谓词，C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

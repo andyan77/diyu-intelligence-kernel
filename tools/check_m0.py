@@ -6,17 +6,24 @@
 看输出的哪几行才算过"。干净 clone 上没人记得住，CI 上更没人替你记——门禁不可传播 = 等于没有门禁。
 本文件把那条链焊成一条命令，并把"怎样才算过"从人的记忆里搬进断言。
 
-判绿条件（五步，顺序执行，五步全过才 CHECK_M0_GREEN）：
-  [1/5] python3 tools/freeze_gate.py --mode=sign     必须 GATE_GREEN 且 exit 0（十三条红线）
-  [2/5] python3 tools/test_freeze_gate_mutations.py  冻结门负向变异回归 + 真仓零改动隔离核验
-  [3/5] python3 tools/test_detectors.py              检测器负向测试
-  [4/5] BD-D01 三夹具回归                            good→PENDING_HUMAN /
+判绿条件（六步，顺序执行，六步全过才 CHECK_M0_GREEN）：
+  [1/6] python3 tools/freeze_gate.py --mode=sign     必须 GATE_GREEN 且 exit 0（十三条红线）
+  [2/6] python3 tools/test_freeze_gate_mutations.py  冻结门负向变异回归 + 真仓零改动隔离核验
+  [3/6] python3 tools/test_detectors.py              检测器负向测试
+  [4/6] BD-D01 三夹具回归                            good→PENDING_HUMAN /
                                                      collapse→FAIL 标签集全等 {BD_CANDIDATE_COLLAPSE} /
                                                      fabricated→FAIL 标签集全等 {BD_FACT_FABRICATION}；
                                                      三轮均断言 case_version 与 (id,check,tag) 有序集合全等
-  [5/5] tools/validate_schema.py 四例烟测             两条正例（结构过 + exit 0）
+  [5/6] tools/validate_schema.py 四例烟测             两条正例（结构过 + exit 0）
                                                      + 一条负例（结构违约 + exit 1）
                                                      + 一条不可核验（路径不存在 + exit 2）
+  [6/6] python3 tools/test_fact_schemas.py           M1-EP01 事实层 Schema 正负例回归（七族：A.3 五类
+                                                     事实 + VisualProfile + ContextSnapshot；ok 全 VALID、
+                                                     bad 全 INVALID 且挂在声称的约束上）
+
+  [6/6] 是 M1-EP01 增补（2026-08-18）：本入口从"M0 五步"演进为仓库门禁统一入口——CI 只跑这一条命令
+  的口径不变（ci.yml「不另起一套判据」）。M0 收口回执描述的"五步全绿"绑定的是 24e24a3 历史树，
+  其效力不因本次加步改变；加步只加严，不放宽。
 
 铁律「exit 0 ≠ 通过」的落地方式（宪法 · 对 AI 执行侧的三条铁律 ②）：
   每一步都**同时**核验退出码与输出标记，两者缺一即红。理由是实测可复现的假绿路径——
@@ -36,15 +43,16 @@
   · 不代表案例内容质量合格——L1 只判 FAIL，终态 PENDING_HUMAN ≠ 通过，PASS 只属 L3 人工（C.5 / B.1.5）；
   · 不代表 HEAD 提交内容合格——本入口核验的是**当前工作区目录树**（末行转发 freeze_gate 归属块的
     ROOT/HEAD 即为此而设），干净 clone 一致性由 P0-6 回执证明；
-  · 五步覆盖面之外的一切（未被变异覆盖的红线、L2/L3 判分面）本入口一概未验，不得据此宣称"M0 已验证"。
+  · 六步覆盖面之外的一切（未被变异覆盖的红线、L2/L3 判分面、事实层语义空洞与考卷夹具漂移——
+    见 tools/test_fact_schemas.py 文件头）本入口一概未验，不得据此宣称"M0/M1 已验证"。
 
 边界（C.2 / C.4：脚本只汇总不推导，不建平台）：本入口**不改任何被测文件**、不推导结论、
   不执行任何 git 写命令；纯 stdlib，不引入新依赖（统一入口不该比它调用的脚本更难装）。
   唯一的写动作是第 4 步产生的临时 RUN 回执，跑完即删（try/finally 保证异常路径也删），
   且只删本进程创建的那几个路径——预存的 RUN-000x 不碰。
 
-用法: exit 0=五步全绿 1=有步骤红 2=用法错误
-  python3 tools/check_m0.py           跑全部五步
+用法: exit 0=六步全绿 1=有步骤红 2=用法错误
+  python3 tools/check_m0.py           跑全部六步
   python3 tools/check_m0.py --help    打印简用法并 exit 0
   除此之外不接受任何参数：判绿口径写死在本文件里，**不设放宽开关**——
   同 tools/freeze_gate.py 的既定纪律（"改口径 = 改考卷"，须随修复批次一起改，
@@ -68,11 +76,12 @@ DUMP_LIMIT = 400             # 失败时回显子进程输出的行数上限（�
 # 并 exit 0。任何按"输出里有 CHECK_M0_GREEN"判绿的包装脚本、日志巡检或人工肉眼扫读都会被骗过。
 # 现在 --help 与用法错误都只打印下面这段短用法；完整判绿口径与诚实边界留在本文件头注释里给读源码的人看。
 # （同类修复见 tools/validate_schema.py 的 USAGE。）
-USAGE = """用法: check_m0.py            跑 M0 门禁全部五步（顺序执行，五步全过才算过）
+USAGE = """用法: check_m0.py            跑门禁全部六步（顺序执行，六步全过才算过）
       check_m0.py --help     打印本说明并 exit 0
-退出码: 0=五步全过 | 1=有步骤未过 | 2=用法错误
-五步: [1/5] 冻结断言门送签态  [2/5] 冻结门负向变异回归  [3/5] 检测器负向测试
-      [4/5] BD-D01 三夹具回归  [5/5] Schema 四例烟测（两正 + 一违约 + 一不可核验）
+退出码: 0=六步全过 | 1=有步骤未过 | 2=用法错误
+六步: [1/6] 冻结断言门送签态  [2/6] 冻结门负向变异回归  [3/6] 检测器负向测试
+      [4/6] BD-D01 三夹具回归  [5/6] Schema 四例烟测（两正 + 一违约 + 一不可核验）
+      [6/6] M1 事实层 Schema 正负例回归（七族）
 口径: 每步同时核验退出码与输出标记（exit 0 ≠ 通过）；不接受任何参数，判绿口径不设放宽开关。
 边界: 本入口核验的是**当前工作区目录树**，不代表 Founder 已签字 / 案例质量合格 / HEAD 提交内容合格。
       完整判绿条件与诚实边界见本文件头注释（源码），不在本短用法里复述。
@@ -101,7 +110,7 @@ RUN_RED_TOTAL_RE = re.compile(r"GATE_RED\s*——\s*以下\s*(\d+)\s*条红线�
 # 为什么必须连"断言集合"一起钉（本批次实测缺陷，runtime_verified）：
 #   此前本步只钉「终态 + 单个期望标签 + unknown=0」。在副本树上从 case.yaml 删掉 7 条 must_hold
 #   里的 4 条（A3 tradeoff_nonempty / A4 trace_types_separated / A6 human_gate_flag /
-#   A7 forbidden_expression），三夹具的终态与标签纹丝不动，本入口五步照样全绿——考卷被削掉一大半，
+#   A7 forbidden_expression），三夹具的终态与标签纹丝不动，本入口整链照样全绿——考卷被削掉一大半，
 #   全链无人发现（冻结门只把 case.yaml 纳入占位残留扫描面，不算哈希、不核断言数）。
 #   终态与标签只描述"剩下的断言判了什么"，描述不了"本轮到底跑了哪几条"；后者必须单独钉死。
 # 三元组取自回执 l1_assertions 的 (id, check, tag)——tag 由 run_case.py 一律落盘（不只 FAIL 时），
@@ -130,7 +139,7 @@ BD_D01_EXPECT = (
 #
 # 为什么必须有负例（本批次实测缺陷，runtime_verified）：此前两条实例都是合规实例，断言只有
 #   「SCHEMA_OK 且 exit 0」——把 tools/validate_schema.py 换成 7 行桩（无条件 print SCHEMA_OK;
-#   sys.exit(0)），本入口五步依旧全绿，且 [4/5] 的 A1 schema_valid 同样被骗过
+#   sys.exit(0)），本入口整链依旧全绿，且 [4/6] 的 A1 schema_valid 同样被骗过
 #   （checks.schema_valid 只按 returncode == 0 分岔）。一个"永远放行"的校验器完全满足只有正例的烟测，
 #   「无检测器不得判 PASS」在这一步就是空文：校验器停止校验，门看不见。
 #   加负例后，桩化校验器会在 invalid / unverifiable 两条上当场判红。
@@ -154,7 +163,7 @@ SCHEMA_SMOKE = (
 # 为什么按类别写实：此前统计行的括注写「M0 阶段 PENDING_BUILD 类红线为设计内」，而实际输出是
 #   110 条里只有 80 条属 PENDING_BUILD，另外 30 条是别的类别——读者会把 110 整体读成设计内的那一类，
 #   "运行态哪天多出一类新红线，看的人当场能发现"这条设计意图就落空了。
-# 数值是**说明性基线**，不参与判绿：对不上只加 ⚠ 提示，不改绿/红（判绿由五步定义，见文件头）。
+# 数值是**说明性基线**，不参与判绿：对不上只加 ⚠ 提示，不改绿/红（判绿由六步定义，见文件头）。
 RUNMODE_BASELINE = {
     "R2": (80, "PENDING_BUILD：20 份 Manifest × 4 个构建版本字段，M0 设计内（执行规格 §〇）；R11/R12 已随 P0-6 重签清零（2026-08-17）"),
 }
@@ -205,8 +214,8 @@ def rel(path):
 # ============================ 五个判绿步骤 ============================
 
 def step_freeze_gate_sign():
-    """[1/5] 冻结断言门 送签态：必须 GATE_GREEN 且 exit 0；顺带取出归属块供末行转发。"""
-    s = Step("[1/5]", "冻结断言门 送签态")
+    """[1/6] 冻结断言门 送签态：必须 GATE_GREEN 且 exit 0；顺带取出归属块供末行转发。"""
+    s = Step("[1/6]", "冻结断言门 送签态")
     t0 = time.monotonic()
     rc, out = run([PY, "tools/freeze_gate.py", "--mode=sign"])
     s.seconds = time.monotonic() - t0
@@ -236,8 +245,8 @@ def step_freeze_gate_sign():
 
 
 def step_mutations():
-    """[2/5] 冻结门负向变异回归：套件自身必须 PASS，且真仓零改动隔离核验必须在场。"""
-    s = Step("[2/5]", "冻结门负向变异回归")
+    """[2/6] 冻结门负向变异回归：套件自身必须 PASS，且真仓零改动隔离核验必须在场。"""
+    s = Step("[2/6]", "冻结门负向变异回归")
     t0 = time.monotonic()
     rc, out = run([PY, "tools/test_freeze_gate_mutations.py"])
     s.seconds = time.monotonic() - t0
@@ -260,8 +269,8 @@ def step_mutations():
 
 
 def step_detectors():
-    """[3/5] 检测器负向测试：失败为 0 之外，还断言项数 > 0 且通过数 == 合计数（防"0 项全过"）。"""
-    s = Step("[3/5]", "检测器负向测试")
+    """[3/6] 检测器负向测试：失败为 0 之外，还断言项数 > 0 且通过数 == 合计数（防"0 项全过"）。"""
+    s = Step("[3/6]", "检测器负向测试")
     t0 = time.monotonic()
     rc, out = run([PY, "tools/test_detectors.py"])
     s.seconds = time.monotonic() - t0
@@ -297,14 +306,14 @@ def _parse_run_case_json(out):
 
 
 def step_bd_d01():
-    """[4/5] BD-D01 三夹具回归：三带案例的正/负样例终态与标签必须与基线一致。
+    """[4/6] BD-D01 三夹具回归：三带案例的正/负样例终态与标签必须与基线一致。
 
     临时 run-id + 跑完删产物：回归产物不该混进 acceptance/runs/ 的正式证据里
     （RUN-000x 是 P0-4 按 HEAD 重跑的留痕，被一个随手跑的回归覆盖掉就等于证据被污染）。
     删除只针对**本进程创建**的路径：跑之前先记录该路径是否已存在，已存在的一律不碰、且判红
     （撞名说明有别的东西占着，宁可报错也不静默覆盖别人的文件）。
     """
-    s = Step("[4/5]", "BD-D01 三夹具回归")
+    s = Step("[4/6]", "BD-D01 三夹具回归")
     t0 = time.monotonic()
     created = []
     parts = []
@@ -398,12 +407,12 @@ def step_bd_d01():
 
 
 def step_schema_smoke():
-    """[5/5] Schema 四例烟测：两正 + 一结构违约 + 一不可核验，逐条核验退出码与标记。
+    """[5/6] Schema 四例烟测：两正 + 一结构违约 + 一不可核验，逐条核验退出码与标记。
 
     只跑正例的烟测测不出"校验器被掏空"——一个无条件 print SCHEMA_OK / exit 0 的桩完全满足它
     （实测可复现）。负例是这一步的全部意义所在：桩化的校验器在 invalid / unverifiable 两条上必红。
     """
-    s = Step("[5/5]", "Schema 四例烟测")
+    s = Step("[5/6]", "Schema 四例烟测")
     t0 = time.monotonic()
     okc = 0
     # 不可核验例靠"路径不存在"成立——先确认它确实不存在，否则这一条测的就不是它该测的东西
@@ -430,6 +439,41 @@ def step_schema_smoke():
     s.seconds = time.monotonic() - t0
     s.summary = ("%d/%d 如期（2 正 + 1 结构违约 + 1 不可核验；结构过 ≠ 内容正确）"
                  % (okc, len(SCHEMA_SMOKE)) if s.ok else "%d/%d 通过" % (okc, len(SCHEMA_SMOKE)))
+    return s
+
+
+def step_fact_schemas():
+    """[6/6] M1 事实层 Schema 正负例回归（M1-EP01 增补，2026-08-18）。
+
+    与第 3 步同款口径：退出码 + 结论标记 + 合计行三者同时成立；项数 > 0 且通过数 == 合计数
+    （"0 项全过"不是通过，是没测——七族样例被删光时合计归零，在这里当场红）。
+    被测体的判绿口径与诚实边界见 tools/test_fact_schemas.py 文件头，本步不复述、不另起判据。
+    """
+    s = Step("[6/6]", "M1 事实层 Schema 回归")
+    t0 = time.monotonic()
+    rc, out = run([PY, "tools/test_fact_schemas.py"])
+    s.seconds = time.monotonic() - t0
+    s.output = out
+    if rc != 0:
+        s.reasons.append("退出码 %d ≠ 0" % rc)
+    if "FACT_SCHEMAS_GREEN" not in out:
+        s.reasons.append("输出无 FACT_SCHEMAS_GREEN 标记（exit 0 ≠ 通过：退出码与标记必须同时成立）")
+    if "FACT_SCHEMAS_RED" in out:
+        s.reasons.append("输出含 FACT_SCHEMAS_RED——有正负例未按声称行为落判")
+    m = DET_TOTAL_RE.search(out)
+    total = passed = None
+    if not m:
+        s.reasons.append("输出无「合计 N 项：通过 X，失败 Y」结论行（exit 0 ≠ 通过）")
+    else:
+        total, passed, failed = int(m.group(1)), int(m.group(2)), int(m.group(3))
+        if failed != 0:
+            s.reasons.append("失败 %d 项" % failed)
+        if total <= 0:
+            s.reasons.append("合计项数为 0——跑了 0 项不是通过，是没测")
+        if passed != total:
+            s.reasons.append("通过 %d ≠ 合计 %d（有项目既不算通过也不算失败）" % (passed, total))
+    s.summary = ("合计 %d 项：通过 %d、失败 0、exit 0（结构过 ≠ 内容正确）" % (total, passed)) if s.ok \
+        else "事实层 Schema 回归未全过"
     return s
 
 
@@ -484,7 +528,7 @@ def env_lines():
     """打印本次实际使用的解释器与依赖实版，并与 requirements.txt 的钉版对照。
 
     为什么对照只出提示、不判红：判绿口径由五个步骤定义，依赖版本漂移会不会导致问题，
-    由那五步的实跑结果回答。把版本相等本身写成红线，等于用"版本号看着对"替代"门实际跑过"。
+    由那六步的实跑结果回答。把版本相等本身写成红线，等于用"版本号看着对"替代"门实际跑过"。
     但**不打印就更糟**——钉版没人核对时就只是一行装饰。
     """
     code = ("import json,sys\n"
@@ -538,17 +582,18 @@ def main(argv):
         sys.stderr.write(USAGE)
         return 2
 
-    print("check_m0 · M0 门禁统一入口 —— 五步顺序执行；每步同时核验退出码与输出标记（exit 0 ≠ 通过）")
+    print("check_m0 · 门禁统一入口（M0 五步 + M1 增补第六步）—— 六步顺序执行；每步同时核验退出码与输出标记（exit 0 ≠ 通过）")
     # 这行**不得**出现结论标记串：它每轮都打印，一旦含 CHECK_M0_GREEN，
     # 连一次 CHECK_M0_RED 的运行输出里都带着"绿"标记，按子串判绿的巡检会读反。
-    print("诚实边界 | 五步全绿 ≠ Founder 已签字 ≠ 案例质量合格 ≠ HEAD 提交内容合格；"
+    print("诚实边界 | 六步全绿 ≠ Founder 已签字 ≠ 案例质量合格 ≠ HEAD 提交内容合格；"
           "本入口核验的是当前工作区目录树，干净 clone 一致性由 P0-6 回执证明")
     for line in env_lines():
         print(line)
     print("")
 
     steps = []
-    for fn in (step_freeze_gate_sign, step_mutations, step_detectors, step_bd_d01, step_schema_smoke):
+    for fn in (step_freeze_gate_sign, step_mutations, step_detectors, step_bd_d01, step_schema_smoke,
+               step_fact_schemas):
         s = fn()
         steps.append(s)
         print("· %s %s …… %s  %.1fs" % (s.label, s.name, "通过" if s.ok else "未通过 ← 本步红", s.seconds))
@@ -584,10 +629,10 @@ def main(argv):
     # 没有归属的绿，必须与正常绿区分开，否则贴的人看不出差别。
     # 标记串刻意不含 "CHECK_M0_GREEN" 子串：否则按子串判绿的巡检脚本照样把它读成正常绿。
     if not re.match(r"^[0-9a-f]{40}$", head or ""):
-        print("CHECK_M0_UNATTRIBUTED_GREEN | 五步全绿，但 HEAD 不是 40 位 sha（实得 %r）——"
+        print("CHECK_M0_UNATTRIBUTED_GREEN | 六步全绿，但 HEAD 不是 40 位 sha（实得 %r）——"
               "本行不可作为绑定提交的证据；P0-6 回执要求 HEAD 为 40 位 sha | %s" % (head, attr))
         return 0
-    print("CHECK_M0_GREEN | 五步全绿 | %s" % attr)
+    print("CHECK_M0_GREEN | 六步全绿 | %s" % attr)
     return 0
 
 

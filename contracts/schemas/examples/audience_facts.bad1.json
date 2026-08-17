@@ -1,0 +1,58 @@
+{
+  "fact_set_id": "FS-AUD-HXJ-A01-v1",
+  "fact_type": "AudienceFacts",
+  "brand_id": "BRD_HENGXUJI",
+  "version": 1,
+  "schema_version": "1.0.0",
+  "updated_at": "2026-08-17T10:00:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "label": {
+    "value": "稳态通勤者",
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC_FIXTURE_AUD_A01",
+        "brand_id": "BRD_HENGXUJI",
+        "source_type": "UPLOADED_DOCUMENT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#称呼",
+        "captured_at": "2026-08-17T09:30:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:30:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "age_range": {
+    "value": {
+      "min": 33,
+      "max": 42,
+      "unit": "岁"
+    },
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC_FIXTURE_AUD_A01",
+        "brand_id": "BRD_HENGXUJI",
+        "source_type": "UPLOADED_DOCUMENT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#年龄段",
+        "captured_at": "2026-08-17T09:30:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:30:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "_fixture_note": {
+    "violation": "违约点（由实跑报错记录）：'audience_id' is a required property",
+    "expected_error_substr": "'audience_id' is a required property",
+    "delta_keys_vs_ok1": [
+      "-audience_id",
+      "-objections",
+      "-occupation_or_lifestyle",
+      "-pain_points",
+      "-purchase_reasons"
+    ]
+  }
+}

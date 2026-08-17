@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "persona_facts.schema.json",
+  "title": "PersonaFacts",
+  "$comment": "照抄 A.3.5（A 行 319-329）字段表 + A.3 五类事实对象共享信封（A 行 218-229）。信封以 allOf 平铺、与对象自有字段同处一层（依据：A.3.1 表内直接列 brand_id 而 A.3.2 表未再列，见 common.defs.json/FactSetEnvelope 的 description）。A.3.5 表未列 brand_id / version 等，故这些字段一律由 FactSetEnvelope 提供，本文件不重复声明。A.3.5 节内除字段表外无独立规则句（A 行 319-329 无 `规则：` 小节），因此本文件的语义约束全部来自该表的「必填」与「缺失处理」两列，逐格照抄进对应 description。fact_type 在 A 行 223 只是 string 且全文无枚举，本文件不自造 const 值。additionalProperties 不设限，与 intent_execution_plan.schema.json 风格一致。",
+  "allOf": [
+    {
+      "$ref": "common.defs.json#/definitions/FactSetEnvelope"
+    },
+    {
+      "type": "object",
+      "required": [
+        "persona_id",
+        "identity",
+        "voice_traits",
+        "forbidden_styles"
+      ],
+      "properties": {
+        "persona_id": {
+          "type": "string",
+          "description": "A.3.5：必填 R（结构必填）；默认来源「系统」；缺失处理「阻断引用错误」——阻断动作发生在引用方与流程层，Schema 只保证本字段存在，阻断行为外包给确定性谓词（C.3 资产④）。"
+        },
+        "identity": {
+          "description": "A.3.5：FactValue<string>，必填 R；默认来源「人工」；缺失处理「缺失时需要补充或显式假设」——「补充」与「显式假设」是流程动作与下游表述（假设须落 TraceEntry.trace_type=ASSUMPTION），Schema 表达不了，外包给确定性谓词（C.3 资产④）；结构上缺失只能表达为 status=MISSING，不得省略本字段。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueString"
+            }
+          ]
+        },
+        "voice_traits": {
+          "description": "A.3.5：FactValue<string[]>，必填 R；默认来源「人工、资料抽取」；缺失处理「降低一致性置信度」——置信度调整是下游 ConfidenceStatement 的计算行为，Schema 表达不了，外包给确定性谓词（C.3 资产④）。注：来源含「资料抽取」时受 A.2.3「MODEL_EXTRACTION 只能产生 PROVISIONAL 值」约束，该跨对象判定同样外包确定性谓词（见 common.defs.json/FactValueBase）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "beliefs": {
+          "description": "A.3.5：FactValue<string[]>，条件必填 C——A.2.1（A 行 113）「条件必填；由当前任务、规则或输出类型决定」，条件不落在本对象内部任何字段上，JSON Schema 条件式无法表达，故不进 required，条件判定外包给确定性谓词（C.3 资产④）。默认来源「人工」；缺失处理「不得写成创始人虚构信念」——即缺失时只能用 status=MISSING 显式缺失，不得由模型代写为事实；「是否为虚构代写」属内容语义判断，外包给确定性谓词。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "audience_relationship": {
+          "description": "A.3.5：FactValue<string>，条件必填 C——同 beliefs，条件由当前任务、规则或输出类型决定（A.2.1，A 行 113），不进 required，判定外包给确定性谓词（C.3 资产④）。默认来源「人工、账号资料」；缺失处理列原文为「如朋友型专家」（A 行 327）——该格是取值示例而非条件，此处照抄不改写。跨对象一致性：A.3.6 VideoAccountFacts.audience_relationship 的缺失处理为「与 Persona 冲突时标记 CONFLICTING」（A 行 340），需与本字段比对，跨对象判定 Schema 表达不了，外包给确定性谓词。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueString"
+            }
+          ]
+        },
+        "forbidden_styles": {
+          "description": "A.3.5：FactValue<string[]>，必填 R；默认来源「人工」；缺失处理「可确认空数组」——空数组配 status=CONFIRMED 合法；未知不得以空数组冒充已确认，须用 status=MISSING（该「未知不等于无」措辞出自 A.3.1 forbidden_expressions，A 行 241，此处按 FactValueStringArray 共用口径引用，A.3.5 本格只写到「可确认空数组」）。「空数组是否算 CONFIRMED 要求的 value 非空」由确定性谓词判定（C.3 资产④，见 common.defs.json/FactValueBase）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        },
+        "speaker_constraints": {
+          "description": "A.3.5：FactValue<string[]>，可选 O；默认来源「人工」；缺失处理「可缺失」——可整体省略本字段。A.2.1（A 行 114）「O = 可选；缺失时不得临时虚构」，「不虚构」属内容语义，外包给确定性谓词（C.3 资产④）。",
+          "allOf": [
+            {
+              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

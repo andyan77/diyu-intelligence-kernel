@@ -1,0 +1,173 @@
+{
+  "visual_profile_id": "VP-P01-0001",
+  "brand_id": "BRAND_HENGXUJI",
+  "version": 1,
+  "image_source_refs": [
+    {
+      "source_id": "SRC-IMG-0594",
+      "brand_id": "BRAND_HENGXUJI",
+      "source_type": "IMAGE_INPUT",
+      "locator": "IMG_0594 单品正反面",
+      "captured_at": "2026-08-17T09:20:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-IMG-0571",
+      "brand_id": "BRAND_HENGXUJI",
+      "source_type": "IMAGE_INPUT",
+      "locator": "IMG_0571 面料细节",
+      "captured_at": "2026-08-17T09:11:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-IMG-0574",
+      "brand_id": "BRAND_HENGXUJI",
+      "source_type": "IMAGE_INPUT",
+      "locator": "IMG_0574 细节与挂装图",
+      "captured_at": "2026-08-17T09:14:30+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-IMG-0576",
+      "brand_id": "BRAND_HENGXUJI",
+      "source_type": "IMAGE_INPUT",
+      "locator": "IMG_0576 袖口与上身图",
+      "captured_at": "2026-08-17T09:16:00+08:00",
+      "checksum": null
+    }
+  ],
+  "silhouette": {
+    "value": "正肩直身廓形，肩线平直、前身无收腰，单排一粒同色扣门襟",
+    "status": "PROVISIONAL",
+    "source_refs": [
+      {
+        "source_id": "SRC-IMG-0594",
+        "brand_id": "BRAND_HENGXUJI",
+        "source_type": "IMAGE_INPUT",
+        "locator": "IMG_0594 单品正反面",
+        "captured_at": "2026-08-17T09:20:00+08:00",
+        "checksum": null
+      },
+      {
+        "source_id": "SRC-VISION-P01-01",
+        "brand_id": "BRAND_HENGXUJI",
+        "source_type": "MODEL_EXTRACTION",
+        "locator": "视觉理解运行 RUN-VP-P01-0001 输出 silhouette 段",
+        "captured_at": "2026-08-17T09:45:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": null,
+    "confidence": "MEDIUM",
+    "uncertainty_reason": "基于商品图片的模型观察，未经品牌运营确认；版型名称以 ProductFacts.style_attributes 已确认值为准"
+  },
+  "colors": {
+    "value": null,
+    "status": "MISSING",
+    "source_refs": [
+      {
+        "source_id": "SRC-IMG-0594",
+        "brand_id": "BRAND_HENGXUJI",
+        "source_type": "IMAGE_INPUT",
+        "locator": "IMG_0594 单品正反面",
+        "captured_at": "2026-08-17T09:20:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": null,
+    "confidence": null,
+    "uncertainty_reason": "现有图片无可判色依据（未提供色卡或标准光源正片）；按 A.3.3 规则不依据商品名称补写颜色，此处保留 MISSING 而不取值"
+  },
+  "texture_observation": {
+    "value": "面料细节图中可见规律斜向织纹与点状反光，观感偏挺括、垂坠度中等",
+    "status": "PROVISIONAL",
+    "source_refs": [
+      {
+        "source_id": "SRC-IMG-0571",
+        "brand_id": "BRAND_HENGXUJI",
+        "source_type": "IMAGE_INPUT",
+        "locator": "IMG_0571 面料细节",
+        "captured_at": "2026-08-17T09:11:00+08:00",
+        "checksum": null
+      },
+      {
+        "source_id": "SRC-VISION-P01-01",
+        "brand_id": "BRAND_HENGXUJI",
+        "source_type": "MODEL_EXTRACTION",
+        "locator": "视觉理解运行 RUN-VP-P01-0001 输出 texture 段",
+        "captured_at": "2026-08-17T09:45:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": null,
+    "confidence": "LOW",
+    "uncertainty_reason": "图片观感不等于已确认面料成分或手感；成分以 ProductFacts.material 的 CONFIRMED 值为准，未按商品名称回写纹理名"
+  },
+  "visual_focus": {
+    "value": [
+      "正肩肩线与直身轮廓",
+      "单排一粒同色扣门襟",
+      "无袋盖隐形口袋带来的平整前身",
+      "袖口排扣"
+    ],
+    "status": "PROVISIONAL",
+    "source_refs": [
+      {
+        "source_id": "SRC-IMG-0574",
+        "brand_id": "BRAND_HENGXUJI",
+        "source_type": "IMAGE_INPUT",
+        "locator": "IMG_0574 细节与挂装图",
+        "captured_at": "2026-08-17T09:14:30+08:00",
+        "checksum": null
+      },
+      {
+        "source_id": "SRC-VISION-P01-01",
+        "brand_id": "BRAND_HENGXUJI",
+        "source_type": "MODEL_EXTRACTION",
+        "locator": "视觉理解运行 RUN-VP-P01-0001 输出 focus 段",
+        "captured_at": "2026-08-17T09:45:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": null,
+    "confidence": "MEDIUM",
+    "uncertainty_reason": "视觉重点为模型判断，未经人工复核；是否作为内容主线由创意侧另行决定"
+  },
+  "shooting_attention": {
+    "value": [
+      "反光面料在直射光下易过曝，建议侧逆光加柔光，保留织纹层次",
+      "隐形口袋与同色扣属低对比细节，需要近景单独交代",
+      "颜色尚未确认，成片调色前必须与实物比对，口播不得断言颜色",
+      "袖口排扣需由手部动作带出，避免只用静态挂装图"
+    ],
+    "status": "PROVISIONAL",
+    "source_refs": [
+      {
+        "source_id": "SRC-IMG-0576",
+        "brand_id": "BRAND_HENGXUJI",
+        "source_type": "IMAGE_INPUT",
+        "locator": "IMG_0576 袖口与上身图",
+        "captured_at": "2026-08-17T09:16:00+08:00",
+        "checksum": null
+      },
+      {
+        "source_id": "SRC-VISION-P01-01",
+        "brand_id": "BRAND_HENGXUJI",
+        "source_type": "MODEL_EXTRACTION",
+        "locator": "视觉理解运行 RUN-VP-P01-0001 输出 shooting_attention 段",
+        "captured_at": "2026-08-17T09:45:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": null,
+    "confidence": "LOW",
+    "uncertainty_reason": "拍摄注意事项由图片观察推得，未经拍摄执行方确认；本字段不驱动任何图片或视频生成"
+  },
+  "_fixture_note": {
+    "violation": "违约点（由实跑报错记录）：'product_ref' is a required property",
+    "expected_error_substr": "'product_ref' is a required property",
+    "delta_keys_vs_ok1": [
+      "-product_ref"
+    ]
+  }
+}
