@@ -5,10 +5,11 @@
 | 项目 | 内容 |
 |---|---|
 | 文档编号 | DIYU-MVP-V3-B |
-| 版本 | v0.2 |
+| 版本 | v0.3 |
 | 状态 | **EFFECTIVE（已批准生效）** |
-| 批准 | Founder（Faye）2026-08-17 批准；生效基线 = 主 PRD v0.1 + 附录 A v0.1 + 附录 B v0.2 三份一并生效 |
+| 批准 | Founder（Faye）2026-08-17 批准；生效基线 = 主 PRD v0.1 + 附录 A v0.1 + 附录 B v0.3（当日经 v0.2→v0.3 标签补登修订，Founder 批准）三份一并生效 |
 | v0.1→v0.2 修订 | Founder 2026-08-17 裁决（OD-04）：制作判断由 Founder 以制作视角承担，取消外部制作裁判角色——修订 B.5.2 与 Gate IA-3 对应条文；其余条款不变。修订依据与风险知悉记录见《裁决台账》 |
+| v0.2→v0.3 修订 | Founder 2026-08-17 裁决：B.6.2 补登失败标签 BD_SCOPE_MISREPRESENTED，修复 BD-D02 引用了未登记标签的缺陷；其余条款不变。裁决记录见《裁决台账》 |
 | 适用产品 | 笛语智能核 MVP V3.0 |
 | 关联主文档 | PRD_笛语智能核_MVP_V3.0_v0.1.md |
 | 关联数据合同 | A_模块接口与核心数据字典.md |
@@ -887,6 +888,7 @@ NO_MATERIAL_DIFFERENCE 不能证明 MVP 价值。
 | BD_CANDIDATE_COLLAPSE | 多个候选实质相同 |
 | BD_TRADEOFF_MISSING | 未说明选择与放弃原因 |
 | BD_FACT_FABRICATION | 虚构企业、商品、受众或经营事实 |
+| BD_SCOPE_MISREPRESENTED | 把无法满足的任务范围宣称为已满足或可满足（如重复组合冒充足量方案、隐瞒范围缺口） |
 | BD_TRACE_MIXED | 事实、规则、假设和判断混写 |
 | BD_CONTEXTUAL_REASONING_MISSING | 只套用通用偏好 |
 | BD_UNGROUNDED_REJECTION | 无依据否定商品或方向 |
