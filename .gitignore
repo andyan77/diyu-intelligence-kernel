@@ -1,0 +1,22 @@
+# 密钥与本地环境（先于 git init 建立，第一次提交即受保护）
+.env
+.env.*.local
+# 运行产物与缓存
+__pycache__/
+*.pyc
+.DS_Store
+# 沙箱环境的设备文件型 dotfiles（非本项目内容）
+.bashrc
+.bash_profile
+.gitconfig
+.gitmodules
+.idea
+.mcp.json
+.profile
+.ripgreprc
+.vscode
+.zprofile
+.zshrc
+# .claude 只追踪 skills，其余为本地运行状态
+.claude/*
+!.claude/skills/
