@@ -1,3 +1,4 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（台账 + OPEN_QUESTIONS 文首）；文中旧「待 IA-0 裁决」字样就此关闭，剩余 PENDING_* 仅为待建设/待定格的值。
 # DRAFT——PENDING 字段于 IA-0 冻结时补齐并经 Founder 签字生效
 # 案例真源：B.4.2/BD-D03｜反常识商品的情境判断（B:474-510，只引用不复述）
 # 字段定义真源：B.2.1（B:127-165）+ contracts/schemas/case_manifest.schema.json
@@ -21,7 +22,7 @@ snapshot_hash: "PENDING_SNAPSHOT_BUILD"
 task_statement: "商品为荧光绿色裤装，并提供品牌定位、受众、场景和商业目标。"
 
 # B.4.2/BD-D03 未声明 execution_mode；本值为占位（无 B 依据），IA-0 由 Founder 裁决（见 OPEN_QUESTIONS OQ-BD-D03-01）
-execution_mode: QUICK
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 
 # B.4.2/BD-D03 无「冻结事实」小节，未列具名规则/禁令；contracts/rules/ 目录当前只有 .gitkeep，
 # 无任何 RuleRecord 对象 → 空数组，不凭空铸造规则身份。

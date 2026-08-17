@@ -1,3 +1,4 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（台账 + OPEN_QUESTIONS 文首）；文中旧「待 IA-0 裁决」字样就此关闭，剩余 PENDING_* 仅为待建设/待定格的值。
 # DRAFT——PENDING 字段于 IA-0 冻结时补齐并经 Founder 签字生效
 # 案例真源：B.4.3/CR-D01｜同一方向下的人设反事实（B:514-544，只引用不复述）
 # 字段定义真源：B.2.1（B:127-165，含 B:165「不得在查看结果后修改事实、裁判问题、允许答案、禁止结果或通过条件」）
@@ -27,7 +28,7 @@ task_statement: |-
   - 年轻买手人设。
 
 # B.4.3/CR-D01 未声明 execution_mode；本值为占位（无 B 依据），IA-0 由 Founder 裁决（见 OPEN_QUESTIONS OQ-CR-D01-01）
-execution_mode: QUICK
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 
 # B.4.3/CR-D01 无「冻结事实」小节，未给任何规则编号；contracts/rules/ 当前为空目录
 # （全仓唯一落盘的规则对象是 acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 R-BDD01-001/002）

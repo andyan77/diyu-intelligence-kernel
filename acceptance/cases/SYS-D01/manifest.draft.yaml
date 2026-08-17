@@ -1,3 +1,4 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（台账 + OPEN_QUESTIONS 文首）；文中旧「待 IA-0 裁决」字样就此关闭，剩余 PENDING_* 仅为待建设/待定格的值。
 # DRAFT——PENDING 字段于 IA-0 冻结时补齐并经 Founder 签字生效
 # 案例真源：B.4.4/SYS-D01（B:671-712，只引用不复述）
 # 字段定义真源：B.2.1 Case Manifest（B:131-163）+ contracts/schemas/case_manifest.schema.json
@@ -28,7 +29,7 @@ acceptance_contract_version: "v0.3"           # 同上（附录 B v0.3）
 context_snapshot_id: "SNAP-SYSD01-0001"       # 规划名，快照尚未构建（OQ-SYS-D01-05）
 snapshot_hash: "PENDING_SNAPSHOT_BUILD"       # 快照构建后回填（B:139 字段为 string）
 task_statement: "PENDING_IA0_TASK_STATEMENT——B.4.4/SYS-D01 无「输入」引文亦无「能力问题」原句；待 Founder 于 IA-0 冻结制作使用者提出的那一个明确局部问题原文（OQ-SYS-D01-01）。"
-execution_mode: ENHANCED                      # 占位（无 B 依据），IA-0 由 Founder 裁决（OQ-SYS-D01-02）
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 hard_rule_refs: []                            # B 未在本案例冻结规则对象；contracts/rules/ 亦无落盘对象（OQ-SYS-D01-03）
 output_schema_version: "v0.1"                 # 无真源背书，IA-0 定格（OQ-SYS-D01-04）
 brand_memory_state: "DISABLED"                # B.1.4（B:95）：首轮验收关闭 Brand Memory

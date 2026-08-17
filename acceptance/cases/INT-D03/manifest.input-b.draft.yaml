@@ -1,3 +1,4 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（台账 + OPEN_QUESTIONS 文首）；文中旧「待 IA-0 裁决」字样就此关闭，剩余 PENDING_* 仅为待建设/待定格的值。
 # DRAFT——本文件是草案：PENDING_* 占位字段于 IA-0 冻结时补齐并经 Founder 签字生效；approved_by 未签字前不得视为已冻结。
 # 校验说明：tools/validate_schema.py 只校结构，对 PENDING_* 占位完全无感（且 approved_at 在 B.2.1（B:162）是 datetime，
 #   本仓 case_manifest.schema.json 只约束 string、无 format）——SCHEMA_OK ≠ 可冻结（三案例同问，OQ-INT-D01-06）。
@@ -18,7 +19,7 @@ acceptance_contract_version: "v0.3"           # M0-EP01：附录 B 三个核心�
 context_snapshot_id: "SNAP-INTD03-0001"       # 规划名，快照尚未构建（仓库内无对应 fixtures）；A/B 两份共用同一快照，真源 B:361
 snapshot_hash: "PENDING_SNAPSHOT_BUILD"       # 快照构建后填入；A/B 两份必须填入逐字相同的 hash（B:361「除商业目标外，两组使用相同事实快照。」）
 task_statement: "用同一件羊绒大衣建立品牌长期价值，不以本期销量为主要目标。"   # 照抄 B:359「输入 B」引文，一字不改
-execution_mode: QUICK                         # 占位值，无 B 依据；见文件头 execution_mode 说明（OQ-INT-D03-01）。A/B 两份取同值属草案起草口径，B 未规定
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 hard_rule_refs: []                            # B.4.1/INT-D03（B:349-384）无"冻结事实"块、未列任何规则/禁令对象；仓库中真实落盘的规则对象目前仅 BD-D01 fixtures 的 R-BDD01-001/002，本案例不得凭空断言 object_id/version。IA-0 冻结的品牌事实若附带硬规则，须在此回填 →（三案例同问）OQ-INT-D01-03
 output_schema_version: "v0.1"                 # 占位值：contracts/schemas/intent_execution_plan.schema.json 未声明版本号，B 也未规定诊断案例的输出合同版本 →（三案例同问）OQ-INT-D01-05
 brand_memory_state: DISABLED                  # B:95「首轮验收关闭 Brand Memory。」

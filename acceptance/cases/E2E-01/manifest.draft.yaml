@@ -1,3 +1,4 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（台账 + OPEN_QUESTIONS 文首）；文中旧「待 IA-0 裁决」字样就此关闭，剩余 PENDING_* 仅为待建设/待定格的值。
 # DRAFT——PENDING 字段于 IA-0 冻结时补齐并经 Founder 签字生效
 # 案例真源：B.5.1/E2E-01（B:723-744，只引用不复述）
 # 字段定义真源：B.2.1 Case Manifest（B:131-163）+ contracts/schemas/case_manifest.schema.json
@@ -34,8 +35,8 @@ data_contract_version: "v0.1"                 # 同上（附录 A v0.1）
 acceptance_contract_version: "v0.3"           # 同上（附录 B v0.3）
 context_snapshot_id: "SNAP-E2E01-0001"        # 规划名，快照尚未构建；E2E-02 复用同一 ID（B:748）
 snapshot_hash: "PENDING_SNAPSHOT_BUILD"       # 快照构建后回填；须与 E2E-02 逐字相同（B:748「相同企业事实」）
-task_statement: "PENDING_IA0_TASK_STATEMENT——B.5.1/E2E-01 无「输入」引文亦无「能力问题」原句；待 Founder 于 IA-0 冻结下发给两侧的同一业务任务原文（OQ-E2E-01-01）。"
-execution_mode: QUICK                         # 占位（无 B 依据），IA-0 由 Founder 裁决（OQ-E2E-01-02）
+task_statement: "高端品牌羊绒大衣库存 800 件，请在限定周期内通过视频号内容促进销售，不得低价叫卖。"  # Founder 2026-08-17 批准定稿（台账）
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 hard_rule_refs: []                            # B:729 有禁令文字但 contracts/rules/ 无落盘规则对象，待注册后回填（OQ-E2E-01-03）
 output_schema_version: "v0.1"                 # 无真源背书，IA-0 定格（OQ-E2E-01-05）
 brand_memory_state: "DISABLED"                # B.1.4（B:95）：首轮验收关闭 Brand Memory

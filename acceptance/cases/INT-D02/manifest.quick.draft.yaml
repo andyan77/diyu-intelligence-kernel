@@ -1,3 +1,4 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（台账 + OPEN_QUESTIONS 文首）；文中旧「待 IA-0 裁决」字样就此关闭，剩余 PENDING_* 仅为待建设/待定格的值。
 # DRAFT——本文件是草案：PENDING_* 占位字段于 IA-0 冻结时补齐并经 Founder 签字生效；approved_by 未签字前不得视为已冻结。
 # 校验说明：tools/validate_schema.py 只校结构，对 PENDING_* 占位完全无感（且 approved_at 在 B.2.1（B:162）是 datetime，
 #   本仓 case_manifest.schema.json 只约束 string、无 format）——SCHEMA_OK ≠ 可冻结（三案例同问，OQ-INT-D01-06）。

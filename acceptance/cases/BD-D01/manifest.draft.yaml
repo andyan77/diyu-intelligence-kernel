@@ -1,3 +1,4 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（台账 + OPEN_QUESTIONS 文首）；文中旧「待 IA-0 裁决」字样就此关闭，剩余 PENDING_* 仅为待建设/待定格的值。
 # DRAFT——PENDING 字段于 IA-0 冻结时补齐并经 Founder 签字生效
 # 案例真源：B.4.2/BD-D01｜高端品牌的库存与价值冲突（B:390-439，只引用不复述）
 # 字段定义真源：B.2.1（B:127-165）+ contracts/schemas/case_manifest.schema.json
@@ -25,10 +26,10 @@ snapshot_hash: "PENDING_SNAPSHOT_BUILD"
 
 # B.4.2/BD-D01 未给「输入」原文，不填看似合理的假值；能力问题（B:408）属评委视角，禁止下发给模型。
 # 实际下发两侧的业务任务原文由 Founder 在 IA-0 冻结（见 OQ-BD-D01-02）。
-task_statement: "PENDING_TASK_STATEMENT_IA0"
+task_statement: "这批羊绒大衣库存 800 件，请在限定周期内用视频号内容推动销售，但不得损害品牌的高端定位。"  # Founder 2026-08-17 批准定稿（台账）
 
 # B.4.2/BD-D01 未声明 execution_mode；本值为占位（无 B 依据），IA-0 由 Founder 裁决（见 OPEN_QUESTIONS OQ-BD-D01-01）
-execution_mode: QUICK
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 
 # 规则对象现状（不假绿）：R-BDD01-001 / R-BDD01-002 目前只落在夹具快照
 #   acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 hard_rules[]；contracts/rules/ 目录当前只有 .gitkeep，

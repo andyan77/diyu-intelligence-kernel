@@ -1,0 +1,39 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（台账 + OPEN_QUESTIONS 文首）；文中旧「待 IA-0 裁决」字样就此关闭，剩余 PENDING_* 仅为待建设/待定格的值。
+# DRAFT——本文件是草案：PENDING_* 占位字段于 IA-0 冻结时补齐并经 Founder 签字生效；approved_by 未签字前不得视为已冻结。
+# 校验说明：tools/validate_schema.py 只校结构，对 PENDING_* 占位完全无感（且 approved_at 在 B.2.1（B:162）是 datetime，
+#   本仓 case_manifest.schema.json 只约束 string、无 format）——SCHEMA_OK ≠ 可冻结（OQ-INT-D01-06）。
+# 案例真源：B.4.1/INT-D01（B:270-303）——只引用不复述
+# 字段定义真源：B.2.1 Case Manifest（B:127-165）+ contracts/schemas/case_manifest.schema.json
+# 运行份数：本案例共 1 份运行 Manifest（B:129「每个正式案例运行前必须冻结一份 Case Manifest：」）。
+#   B:283 另给出「用户明确选择快速模式时，可以返回暂定目标候选…」这一条件分支，B 未声明本案例是否需要快速模式侧的第二次运行 → OQ-INT-D01-02。
+# execution_mode 说明：B.4.1/INT-D01 未声明 execution_mode；本值为占位（无 B 依据），IA-0 由 Founder 裁决（见 OPEN_QUESTIONS OQ-INT-D01-01）。
+case_id: INT-D01
+case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；草案态由文件名 .draft.yaml + 本文件头 DRAFT 注释 + approved_by 占位表达，不进版本号
+prd_version: "v0.1"                           # M0-EP01 文档版本一致性声明：主 PRD v0.1 EFFECTIVE
+data_contract_version: "v0.1"                 # M0-EP01：附录 A 模块接口与核心数据字典 v0.1 EFFECTIVE
+acceptance_contract_version: "v0.3"           # M0-EP01：附录 B 三个核心模块智能验收合同 v0.3 EFFECTIVE
+context_snapshot_id: "SNAP-INTD01-0001"       # 规划名，快照尚未构建（仓库内无对应 fixtures）
+snapshot_hash: "PENDING_SNAPSHOT_BUILD"       # 快照构建后填入；快照前置条件照抄 B:278「商品存在，但未提供新品曝光、库存激活、转化或品牌建设目标。」——快照若带入任一商业目标，本案例考点（模糊目标）即失效
+task_statement: "帮我推广羊绒大衣。"          # 照抄 B:276「输入」引文，一字不改
+execution_mode: ENHANCED  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
+hard_rule_refs: []                            # B.4.1/INT-D01（B:270-303）无"冻结事实"块、未列任何规则/禁令对象；仓库中真实落盘的规则对象目前仅 BD-D01 fixtures 的 R-BDD01-001/002，本案例不得凭空断言 object_id/version。IA-0 冻结的品牌事实若附带硬规则，须在此回填 → OQ-INT-D01-03
+output_schema_version: "v0.1"                 # 占位值：contracts/schemas/intent_execution_plan.schema.json 未声明版本号，B 也未规定诊断案例的输出合同版本 → OQ-INT-D01-05
+brand_memory_state: DISABLED                  # B:95「首轮验收关闭 Brand Memory。」
+approved_brand_memory_refs: []                # B:179「DISABLED 时引用列表必须为空。」
+e2e_interaction_contract_version: null        # B.2.3（B:186）的共同两阶段交互合同写在「端到端 A/B」名下；本案例属 B.4 模块诊断案例（B:257-263），B 未把该合同套用于诊断案例
+e2e_output_contract_version: null             # 同上，真源 B.2.3（B:183-204）
+baseline_prompt_versions:
+  decision_stage: null                        # B.2.4（B:205-207）的基线两阶段调用同样写在「正式基线／端到端 A/B」名下；B 未要求 B.4 诊断案例跑基线侧
+  creative_stage: null
+diyu_build_version: "PENDING_BUILD"           # 笛语侧尚未构建，无可引用的构建版本
+module_contract_versions:
+  intent: "PENDING_BUILD"
+  business_decision: "PENDING_BUILD"
+  creative: "PENDING_BUILD"
+model_provider: "PENDING_OD02_IA0"            # OD-02 厂商组合已裁决（台账 08-17），版本/参数于 IA-0 定格——占位指后者
+model_name: "PENDING_OD02_IA0"                # 同上
+model_version: "PENDING_OD02_IA0"             # 同上；模型版本标识是否存在取决于 IA-0 定格的具体模型，未定即占位，不写 null（null = 断言"该模型无版本标识"）
+generation_parameters_hash: "PENDING_OD02_IA0"  # 同上
+allowed_tools: []                             # 占位保守值：不声明任何工具。B:178 只写「不允许任一侧使用未声明的搜索或知识库」（且 B.2.2 自述适用于正式 A/B），B 未规定诊断案例 allowed_tools 必须为空数组 → OQ-INT-D01-04
+approved_by: "PENDING_FOUNDER_SIGNATURE_IA0"
+approved_at: "PENDING_FOUNDER_SIGNATURE_IA0"  # B.2.1（B:162）类型为 datetime，签字时填 ISO-8601 时刻

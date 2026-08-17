@@ -1,3 +1,4 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（台账 + OPEN_QUESTIONS 文首）；文中旧「待 IA-0 裁决」字样就此关闭，剩余 PENDING_* 仅为待建设/待定格的值。
 # DRAFT——PENDING 字段于 IA-0 冻结时补齐并经 Founder 签字生效
 # 案例真源：B.5.1/E2E-02（B:746-757，只引用不复述）
 # 字段定义真源：B.2.1 Case Manifest（B:131-163）+ contracts/schemas/case_manifest.schema.json
@@ -34,8 +35,8 @@ data_contract_version: "v0.1"                 # 同上（附录 A v0.1）
 acceptance_contract_version: "v0.3"           # 同上（附录 B v0.3）
 context_snapshot_id: "SNAP-E2E01-0001"        # 复用 E2E-01 同一快照（B:748 相同企业事实 / B:171 相同 Context Snapshot）
 snapshot_hash: "PENDING_SNAPSHOT_BUILD"       # 回填值必须与 E2E-01 逐字相同（OQ-E2E-02-05）
-task_statement: "PENDING_IA0_TASK_STATEMENT——待合成：E2E-01 于 IA-0 定稿的任务陈述 + B:750 目标替换句，与 E2E-01 同轮定稿（OQ-E2E-02-01）。"
-execution_mode: QUICK                         # 占位（无 B 依据），IA-0 由 Founder 裁决（OQ-E2E-02-02）
+task_statement: "高端品牌羊绒大衣库存 800 件，请通过视频号内容建立长期品牌资产，不以本期销量为主要目标。"  # 合成=E2E-01 定稿句 + B:750 目标替换句（Founder 批准的合成规则）
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 hard_rule_refs: []                            # 禁令文字在 B:729（经 B:748 同事实继承），但 contracts/rules/ 无落盘规则对象，待注册后回填（OQ-E2E-02-03）
 output_schema_version: "v0.1"                 # 无真源背书，IA-0 定格（OQ-E2E-02-06）
 brand_memory_state: "DISABLED"                # B.1.4（B:95）：首轮验收关闭 Brand Memory

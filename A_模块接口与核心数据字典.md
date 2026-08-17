@@ -5,9 +5,10 @@
 | 项目 | 内容 |
 |---|---|
 | 文档编号 | DIYU-MVP-V3-A |
-| 版本 | v0.1 |
+| 版本 | v0.2 |
 | 状态 | **EFFECTIVE（已批准生效）** |
-| 批准 | Founder（Faye）2026-08-17 批准；生效基线 = 主 PRD v0.1 + 附录 A v0.1 + 附录 B v0.3（当日经 v0.2→v0.3 标签补登修订，Founder 批准）三份一并生效 |
+| 批准 | Founder（Faye）2026-08-17 批准；生效基线 = 主 PRD v0.1 + 附录 A v0.2（当日补情绪字段修订）+ 附录 B v0.3（当日标签补登修订）三份一并生效，历次当日修订均经 Founder 批准 |
+| v0.1→v0.2 修订 | Founder 2026-08-17 裁决：VoicePackage 补「emotion（情绪）」字段，对齐主 PRD 7.2 Voice Package 最小内容（完整口播、停顿、强调、语速和情绪）；其余条款不变。裁决记录见《裁决台账》 |
 | 文档属性 | 主 PRD 的规范性接口与数据附录 |
 | 上位文档 | PRD_笛语智能核_MVP_V3.0_v0.1.md |
 | 配套验收合同 | B_三个核心模块智能验收合同.md |
@@ -754,7 +755,7 @@ decision_selection_ref 必须精确绑定 decision_bundle_ref 和 selected_candi
 | PersonaCard | persona_ref, speaker_identity, voice_traits[], audience_relationship, belief_expression, forbidden_styles[] |
 | VideoScript | target_duration_seconds, segments[]；每段含 start_second, end_second, visual, spoken_text, product_refs, emotion, trace_refs |
 | Storyboard | shots[]；每镜含 shot_id, script_segment_ref, purpose, scene, subject, product_focus, action, framing, shooting_notes |
-| VoicePackage | full_voiceover, voice_traits[], pace, cues[]；Cue 支持 PAUSE, EMPHASIZE, SLOW_DOWN, SPEED_UP |
+| VoicePackage | full_voiceover, voice_traits[], pace, emotion（情绪）, cues[]；Cue 支持 PAUSE, EMPHASIZE, SLOW_DOWN, SPEED_UP |
 | AudioDirection | mood, tempo, usage_phases[], avoidance[] |
 | ProductPlacement | placements[]；每项含 product_ref, script_or_shot_ref, timing, purpose, display_focus, constraints |
 | CommentOperationPackage | pinned_comment, faq_items[], official_responses[], prohibited_claim_refs[] |
