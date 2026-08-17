@@ -18,11 +18,11 @@ acceptance_contract_version: "v0.3"
 # 规划名：快照尚未构建（本案例目录下无 fixtures/；对照 acceptance/cases/BD-D01/fixtures/context_snapshot.json 才是已落盘实体）；（08-17 已失效：快照已落盘 acceptance/cases/CR-D02/fixtures/context_snapshot.json，snapshot_hash 已回填）
 # hash 于 IA-0 构建快照后回填（OQ-CR-D01-06，四份 CR 草案同一处）
 context_snapshot_id: "SNAP-CRD02-0001"
-snapshot_hash: "sha256:8334a7fe58401c66653cbd5a247ebb9eba118056032eed2834e9d35cc7f4320c"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+snapshot_hash: "sha256:c2dd45a7c8dcc13b88f47d9d6663a77523b944324c0aec84748f82e6c97312b7"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # B:552 那句是运行前置动作（冻结一份 Business Decision），不是下发给被测 Creative 模块的任务指令；
 # B.4.3/CR-D02 未给模块任务原文 → 不填看似合理的假值，置 PENDING，由 IA-0 依 B 语义补齐（OQ-CR-D02-02）
-task_statement: "PENDING_TASK_STATEMENT_IA0"
+task_statement: "基于这份已选定的商业方案，为这件羊绒大衣产出完整的视频号创意方案。"  # Founder 2026-08-17 IA-0 裁决定稿（SYS-D01 取 B 三例之首）
 
 # B.4.3/CR-D02 未声明 execution_mode；本值为占位（无 B 依据），IA-0 由 Founder 裁决（见 OPEN_QUESTIONS OQ-CR-D02-01）
 execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
@@ -34,7 +34,7 @@ hard_rule_refs: []
 
 # contracts/schemas/ 下不存在任何 Creative 输出 Schema，且本文件 module_contract_versions.creative 仍为 PENDING_BUILD
 # → 不写看似已存在的版本号（OQ-CR-D01-05，四份 CR 草案同一处）
-output_schema_version: "PENDING_IA0"
+output_schema_version: "v1.0"  # 真源=contracts/interaction/e2e_output_contract.md 阶段C 九部分 Schema（IA-0 冻结批次）；机器 Schema 文件随 M3 实现落 contracts/schemas/，属实现工件不另立口径
 
 # B.1.4（B:95）：首轮验收关闭 Brand Memory；schema allOf（真源 B.2.2 B:179）：DISABLED 时引用列表必须为空
 brand_memory_state: "DISABLED"
@@ -55,14 +55,14 @@ module_contract_versions:
 
 # OD-02 厂商组合已裁决（裁决台账 08-17：Qwen + DeepSeek 组合，多模态用 Qwen 系列），版本/参数于 IA-0 定格——占位指后者。
 # model_version 与同组三字段同取 PENDING_OD02_IA0（原 null 会被「冻结前 grep PENDING 扫未填项」漏掉）
-model_provider: "PENDING_OD02_IA0"
-model_name: "PENDING_OD02_IA0"
-model_version: "PENDING_OD02_IA0"
-generation_parameters_hash: "PENDING_OD02_IA0"
+model_provider: "Alibaba Cloud DashScope"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_name: "qwen-max-0107"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_version: "snapshot-0107（models 接口回执 2026-08-17）"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+generation_parameters_hash: "sha256:24b85c93d027274afddbb347faf50533822566aa2b0f14365f4a62c4e2759262"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
 
 # B.2.2（B:178）只禁「任一侧使用未声明的搜索或知识库」，并未规定 allowed_tools 必须为空；
 # B.4.3/CR-D02 未明文允许任何工具 → 草案取空数组作保守占位，待 IA-0 确认（OQ-CR-D01-07，四份 CR 草案同一处）
 allowed_tools: []
 
-approved_by: "PENDING_FOUNDER_SIGNATURE_IA0"
-approved_at: "PENDING_FOUNDER_SIGNATURE_IA0"
+approved_by: "Founder（Faye）"  # IA-0 签字（2026-08-17 AskUserQuestion 三连裁决，台账登记）
+approved_at: "2026-08-17T19:08:38+08:00"

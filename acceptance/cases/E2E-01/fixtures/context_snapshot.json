@@ -1,7 +1,7 @@
 {
   "snapshot_id": "SNAP-E2E01-0001",
   "brand_id": "fixture-brand-01",
-  "_fixture_note": "E2E-01 企业事实快照。\n① 冻结事实照抄 B.5.1/E2E-01「核心事实」中属企业事实面的四条：羊绒大衣库存 800 件 / 品牌定位高端 / 禁止低价叫卖 / Persona 和 VideoAccountFacts 按 Manifest 冻结。第五条「目标」不入本快照——目标属 A.4.1 Task 层 stated_business_goal，由各案例 Manifest 的 task_statement 承载（参照 INT-D03 快照做法：共用快照内不得出现任何一侧的目标值或目标原句）；时间面缺口另见 facts.time_window。\n② 商品事实照抄「衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md」P13（成分/价格/款号/尺码一字不改，四色成分与完整尺码原文全录）。\n③ 包1 品牌事实 / 包3 受众事实（A01+A02 全套）/ 包4 人设事实（R01+R02 全套）/ 包5 视频号账号事实 全套入快照——依据 B.5.1/E2E-01「Persona 和 VideoAccountFacts 按 Manifest 冻结」+ OPEN_QUESTIONS 预裁决（Founder 2026-08-17）执行侧自决项「Persona 冻结落点=快照内容」。\n④ 来源标注三类：【截图 IMG_xxxx】=商品硬事实抄录截图；【虚构-剧本】=按测试剧本生成（库存、生命周期、商品名、价格日期）；【模拟】=品牌/受众/人设/账号模拟事实。另有「B.5.1/E2E-01 冻结事实」=B 合同案例冻结值。\n⑤ 品牌定位双值并存、未做合并改写：B.5.1/E2E-01 冻结「品牌定位高端」(HIGH_END)，数据包 包1 一句话定位为「中高端日常女装」【模拟】。案例判定以 B 冻结值为准（文档真源层级：B 为冻结合同，数据包为夹具素材）；两值均原样保留，执行侧不生成第三个折中表述。\n⑥ PENDING 项（值不可得，不编造）：限定周期的具体时间窗口——B.5.1/E2E-01 只写「限定周期」未给天数/截止日，数据包亦无；contracts/OD-03 在目标为 INVENTORY_ACTIVATION 时把「时间窗口（多久内消化）」列为 BLOCKING，故 facts.time_window 置 PENDING_IA0_FOUNDER_VALUE，须 Founder 于 IA-0 定值，执行侧不得填数。\n⑦ 与已有夹具的呈现差异（已知、不改动 BD-D01）：acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 P13 尺码写作简写 XS/S/M/L/XL、成分只录黑色一行；本快照按「照抄」纪律录数据包完整原文（尺码含号型、成分四色全录）。BD-D01 夹具属硬禁止改动范围，未作任何修改。\n⑧ snapshot_hash 不在本文件内自证：由快照构建工具计算后回填各 Manifest 的 snapshot_hash；任何一次快照正文改动都使既有回填值过期，必须同批重算。E2E-02 依 B.5.1/E2E-02「与 E2E-01 使用相同企业事实」/ B.2.2「相同 Context Snapshot」复用本快照 ID，不另建快照；两案例的目标差异不落快照：目标属 A.4.1 Task 层，由 E2E-01 / E2E-02 各自 Manifest 的 task_statement 承载；本共用快照不登记任何一侧的目标值、目标原句或判分考点（参照 INT-D03 做法），故复用不构成剧透。\n⑨ 真实品牌名不得出现：本夹具品牌为虚构「衡叙集」，brand_id 一律 fixture-brand-01。\n⑩ 引用体例说明（防假绿）：本文件一律用「章节号 + 原文引号」引 B 合同，不写 B 的行号。原因：acceptance/detectors/checks.py 的 numeric_grounding 把整份快照 JSON（含 _fixture_note 与 source 字段）里的数字全部计入「可溯源数字集」，三位数行号会越过该检测器的数字阈值，被误当成事实数字——输出编造该数字时仍会判 OK，即假绿。检测器属硬禁止改动范围，故由本文件侧规避。残留可溯源数字仍含商品图片编号（image_refs，A.3.2 规定字段）与款号数字，属该检测器 v0.1 语义的已知宽松面，此处如实登记、不自行收紧（收紧检测器=改考卷，需走 C.6.3 审批）。",
+  "_fixture_note": "E2E-01 企业事实快照。\n① 冻结事实照抄 B.5.1/E2E-01「核心事实」中属企业事实面的四条：羊绒大衣库存 800 件 / 品牌定位高端 / 禁止低价叫卖 / Persona 和 VideoAccountFacts 按 Manifest 冻结。第五条「目标」不入本快照——目标属 A.4.1 Task 层 stated_business_goal，由各案例 Manifest 的 task_statement 承载（参照 INT-D03 快照做法：共用快照内不得出现任何一侧的目标值或目标原句）；时间面缺口另见 facts.time_window。\n② 商品事实照抄「衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md」P13（成分/价格/款号/尺码一字不改，四色成分与完整尺码原文全录）。\n③ 包1 品牌事实 / 包3 受众事实（A01+A02 全套）/ 包4 人设事实（R01+R02 全套）/ 包5 视频号账号事实 全套入快照——依据 B.5.1/E2E-01「Persona 和 VideoAccountFacts 按 Manifest 冻结」+ OPEN_QUESTIONS 预裁决（Founder 2026-08-17）执行侧自决项「Persona 冻结落点=快照内容」。\n④ 来源标注三类：【截图 IMG_xxxx】=商品硬事实抄录截图；【虚构-剧本】=按测试剧本生成（库存、生命周期、商品名、价格日期）；【模拟】=品牌/受众/人设/账号模拟事实。另有「B.5.1/E2E-01 冻结事实」=B 合同案例冻结值。\n⑤ 品牌定位双值并存、未做合并改写：B.5.1/E2E-01 冻结「品牌定位高端」(HIGH_END)，数据包 包1 一句话定位为「中高端日常女装」【模拟】。案例判定以 B 冻结值为准（文档真源层级：B 为冻结合同，数据包为夹具素材）；两值均原样保留，执行侧不生成第三个折中表述。\n⑥ 时间窗口已定格：B.5.1/E2E-01 只写「限定周期」未给天数；Founder 2026-08-17 IA-0 裁决定值为六周（夹具虚构-剧本口径，OQ-BUILD-07），facts.time_window 已按裁决回填。\n⑦ 与已有夹具的呈现差异（已知、不改动 BD-D01）：acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 P13 尺码写作简写 XS/S/M/L/XL、成分只录黑色一行；本快照按「照抄」纪律录数据包完整原文（尺码含号型、成分四色全录）。BD-D01 夹具属硬禁止改动范围，未作任何修改。\n⑧ snapshot_hash 不在本文件内自证：由快照构建工具计算后回填各 Manifest 的 snapshot_hash；任何一次快照正文改动都使既有回填值过期，必须同批重算。E2E-02 依 B.5.1/E2E-02「与 E2E-01 使用相同企业事实」/ B.2.2「相同 Context Snapshot」复用本快照 ID，不另建快照；两案例的目标差异不落快照：目标属 A.4.1 Task 层，由 E2E-01 / E2E-02 各自 Manifest 的 task_statement 承载；本共用快照不登记任何一侧的目标值、目标原句或判分考点（参照 INT-D03 做法），故复用不构成剧透。\n⑨ 真实品牌名不得出现：本夹具品牌为虚构「衡叙集」，brand_id 一律 fixture-brand-01。\n⑩ 引用体例说明（防假绿）：本文件一律用「章节号 + 原文引号」引 B 合同，不写 B 的行号。原因：acceptance/detectors/checks.py 的 numeric_grounding 把整份快照 JSON（含 _fixture_note 与 source 字段）里的数字全部计入「可溯源数字集」，三位数行号会越过该检测器的数字阈值，被误当成事实数字——输出编造该数字时仍会判 OK，即假绿。检测器属硬禁止改动范围，故由本文件侧规避。残留可溯源数字仍含商品图片编号（image_refs，A.3.2 规定字段）与款号数字，属该检测器 v0.1 语义的已知宽松面，此处如实登记、不自行收紧（收紧检测器=改考卷，需走 C.6.3 审批）。",
   "facts": {
     "brand_positioning": {
       "value": "HIGH_END",
@@ -13,8 +13,8 @@
       }
     },
     "time_window": {
-      "value": "PENDING_IA0_FOUNDER_VALUE",
-      "source": "值不可得——B.5.1/E2E-01 只写「限定周期」未给天数或截止日，数据包无对应字段",
+      "value": "六周",
+      "source": "Founder 2026-08-17 IA-0 裁决：六周（夹具虚构-剧本；OQ-BUILD-07）",
       "note": "商业目标不入本快照（目标属 A.4.1 Task 层 stated_business_goal，由各案例 Manifest 的 task_statement 承载；参照 INT-D03 快照做法）。本字段只登记「限定周期」这一时间面缺口：contracts/OD-03 在目标为 INVENTORY_ACTIVATION 时把「时间窗口（多久内消化）」列为 BLOCKING，故须 Founder 于 IA-0 定值，执行侧不得填数。"
     },
     "inventory": {
@@ -308,9 +308,8 @@
     ],
     "video_account_facts": {
       "account_id": {
-        "value": null,
-        "status": "PENDING_IA0",
-        "source": "数据包 包5 未给账号编号；A.3.6 account_id 为 R（必填），标识由 IA-0 冻结后回填，不自造"
+        "value": "ACC-HXJ-001",
+        "source": "Founder 2026-08-17 IA-0 裁决：虚构编号（OQ-BUILD-13）"
       },
       "platform": {
         "value": "WECHAT_VIDEO",

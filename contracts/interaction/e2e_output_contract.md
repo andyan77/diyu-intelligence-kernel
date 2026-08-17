@@ -1,3 +1,5 @@
+> **状态：v1.0 FROZEN（Founder 2026-08-17 IA-0 签字批次生效；正文中残留的 v0.1-draft / PENDING_IA0 冻结待办字样自本行起读作已随本批次冻结定格）**
+
 # 共同输出合同 ｜ e2e_output_contract
 
 | 项目 | 内容 |

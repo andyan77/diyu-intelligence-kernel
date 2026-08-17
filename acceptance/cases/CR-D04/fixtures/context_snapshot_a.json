@@ -4,30 +4,104 @@
   "_fixture_note": "CR-D04 输入 A（B.4.3/CR-D04「输入 A」原文「提供清晰商品图片。」）运行快照，对应 acceptance/cases/CR-D04/manifest.input-a.draft.yaml。｜商品＝P13（数据包·包2），image_refs 照抄数据包 P13「关联图片编号」。｜诚实缺口（防假绿）：真实图片文件不在本仓库（全仓无 IMG_*.jpg/png 资产，2026-08-17 实测），故 image_asset_status=PENDING_IMAGE_ASSET_M3——本快照现阶段只提供编号引用，不构成 B.4.3/CR-D04「输入 A」所要求的「清晰商品图片」实体；在图片资产补齐前，任何 VisualProfile 都不得声称有图片来源，允许答案族第一条（形成带图片来源的 PROVISIONAL VisualProfile）不具备执行条件。｜数据包内部不一致（照抄不修）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归 P12，P13「关联图片编号」亦不含 IMG_0674。｜B.4.3/CR-D04「允许答案族」原文「三种输入都遵守品牌禁用表达和商品事实」经 hard_rules 的 R-FB01-001 承接；本任务未把数据包·包1 品牌事实正文纳入 CR-D04 快照。",
   "facts": {
     "business_goal": {
-      "value": "PENDING_BUSINESS_GOAL_IA0",
-      "source": "值不可得：B.4.3/CR-D04 整节未给 business_goal；数据包无此字段。OD-03 通用阻断项②要求已解析，故显式挂起，不猜"
+      "value": "PRODUCT_LAUNCH",
+      "source": "Founder 2026-08-17 IA-0 裁决（OQ-BUILD-04）"
     },
     "product": {
       "product_id": "P13",
-      "name": {"value": "10%羊绒风衣式大衣", "source": "夹具虚构-剧本"},
-      "category": {"value": "10羊绒版", "source": "截图 IMG_0684"},
-      "sku": {"value": "1G9971081", "source": "截图 IMG_0684"},
-      "price": {"value": 3980, "currency": "CNY", "as_of": "2026-08-17", "raw_text": "3980元", "source": "截图 IMG_0684（数据包字段名「吊牌价」，截图原文「3980元」）"},
-      "material": {"value": ["黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）", "米色面料:90.3%绵羊毛 9.7%山羊绒（连接线除外）", "晓雾灰面料:90.8%绵羊毛 9.2%山羊绒（连接线除外）", "云烟灰面料:90.1%绵羊毛 9.9%山羊绒（连接线除外）"], "source": "截图 IMG_0684"},
-      "lining": {"value": null, "status": "MISSING", "source": "截图 IMG_0684（数据包「里料」记为「缺失」——故意缺失，不补写）"},
-      "style_attributes": {"value": ["大翻领", "廓形肩线", "H型风衣式", "袖口可调节袖袢", "宽边长腰带"], "source": "截图 IMG_0674 / 截图 IMG_0677 / 截图 IMG_0680（IMG_0674 的归属不一致见 _fixture_note）"},
-      "selling_points": {"value": ["同页展示敞开穿与收腰穿两种方式", "提供黑色、米色、晓雾灰、云烟灰四种面料成分"], "source": "截图 IMG_0677 / 截图 IMG_0684"},
-      "size_range": {"value": ["150/76A/XS", "155/80A/S", "160/84A/M", "165/88A/L", "170/92A/XL"], "source": "截图 IMG_0684"},
-      "lifecycle_stage": {"value": "库存消化期", "source": "夹具虚构-剧本"},
-      "inventory": {"value": 800, "unit": "件", "source": "夹具虚构-剧本"},
+      "name": {
+        "value": "10%羊绒风衣式大衣",
+        "source": "夹具虚构-剧本"
+      },
+      "category": {
+        "value": "10羊绒版",
+        "source": "截图 IMG_0684"
+      },
+      "sku": {
+        "value": "1G9971081",
+        "source": "截图 IMG_0684"
+      },
+      "price": {
+        "value": 3980,
+        "currency": "CNY",
+        "as_of": "2026-08-17",
+        "raw_text": "3980元",
+        "source": "截图 IMG_0684（数据包字段名「吊牌价」，截图原文「3980元」）"
+      },
+      "material": {
+        "value": [
+          "黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）",
+          "米色面料:90.3%绵羊毛 9.7%山羊绒（连接线除外）",
+          "晓雾灰面料:90.8%绵羊毛 9.2%山羊绒（连接线除外）",
+          "云烟灰面料:90.1%绵羊毛 9.9%山羊绒（连接线除外）"
+        ],
+        "source": "截图 IMG_0684"
+      },
+      "lining": {
+        "value": null,
+        "status": "MISSING",
+        "source": "截图 IMG_0684（数据包「里料」记为「缺失」——故意缺失，不补写）"
+      },
+      "style_attributes": {
+        "value": [
+          "大翻领",
+          "廓形肩线",
+          "H型风衣式",
+          "袖口可调节袖袢",
+          "宽边长腰带"
+        ],
+        "source": "截图 IMG_0674 / 截图 IMG_0677 / 截图 IMG_0680（IMG_0674 的归属不一致见 _fixture_note）"
+      },
+      "selling_points": {
+        "value": [
+          "同页展示敞开穿与收腰穿两种方式",
+          "提供黑色、米色、晓雾灰、云烟灰四种面料成分"
+        ],
+        "source": "截图 IMG_0677 / 截图 IMG_0684"
+      },
+      "size_range": {
+        "value": [
+          "150/76A/XS",
+          "155/80A/S",
+          "160/84A/M",
+          "165/88A/L",
+          "170/92A/XL"
+        ],
+        "source": "截图 IMG_0684"
+      },
+      "lifecycle_stage": {
+        "value": "库存消化期",
+        "source": "夹具虚构-剧本"
+      },
+      "inventory": {
+        "value": 800,
+        "unit": "件",
+        "source": "夹具虚构-剧本"
+      },
       "image_refs": {
-        "value": ["IMG_0672", "IMG_0675", "IMG_0676", "IMG_0677", "IMG_0678", "IMG_0679", "IMG_0680", "IMG_0681", "IMG_0682", "IMG_0683", "IMG_0684"],
+        "value": [
+          "IMG_0672",
+          "IMG_0675",
+          "IMG_0676",
+          "IMG_0677",
+          "IMG_0678",
+          "IMG_0679",
+          "IMG_0680",
+          "IMG_0681",
+          "IMG_0682",
+          "IMG_0683",
+          "IMG_0684"
+        ],
         "raw_text": "IMG_0672、IMG_0675—IMG_0682、IMG_0683、IMG_0684；共享图同时关联 P12",
         "source": "截图 IMG_0672 / 截图 IMG_0684（数据包 P13「关联图片编号」原文见 raw_text；区间 IMG_0675—IMG_0682 按数据包 §1 图片归组表逐张核对后展开，未新增未登记编号）",
         "image_asset_status": "PENDING_IMAGE_ASSET_M3",
         "image_asset_note": "真实图片文件不在本仓库；11 个编号只是引用，无本地字节可供 VLM 读取。M3 补齐图片资产前，输入 A 不具备「清晰商品图片」的执行条件；不得把编号当成已看过图"
       },
-      "visual_profile_ref": {"value": null, "status": "MISSING", "source": "A.3.3：无图片时 VisualProfile 为 MISSING，不依据商品名称补写颜色、版型或纹理。本快照不预置任何 VisualProfile"}
+      "visual_profile_ref": {
+        "value": null,
+        "status": "MISSING",
+        "source": "A.3.3：无图片时 VisualProfile 为 MISSING，不依据商品名称补写颜色、版型或纹理。本快照不预置任何 VisualProfile"
+      }
     }
   },
   "hard_rules": [

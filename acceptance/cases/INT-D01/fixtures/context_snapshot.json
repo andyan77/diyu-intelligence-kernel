@@ -19,15 +19,31 @@
       "snapshot_hash 不在本文件内自证：由快照构建工具计算后回填两份 Manifest（quick/enhanced）；哈希口径按 acceptance/cases/OPEN_QUESTIONS.md 文首「执行侧自决项」（规范化 JSON 摘要）落地——此处不写算法名，避免其中的数字被 numeric_grounding 计入可溯源数字集。任何一次快照正文改动都使既有回填值过期，必须同批重算。",
       "_fixture_note 属夹具元数据、不属事实层。整份 JSON 是否原样下发给被测模块，B/A 均未规定；若原样下发，本节的案例编号与考点描述会成为对模型的提示 → 冻结前须确认剥离口径。"
     ],
-    "hard_rules 说明": "B.4.1/INT-D01 整节无「冻结事实」块、未列任何规则或禁令对象；且本案例按考点故意不带入任何品牌事实——挂上品牌禁语规则会使「虚构库存、销售目标、受众或品牌定位」这条禁止结果无从判定。故 hard_rules 为空数组，不凭空断言 rule_id/version（对应 OQ-INT-D01-03）。现状更新（本轮核对）：contracts/rules/ 已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三个 RuleRecord 对象（均 version 1、status ACTIVE），原「该目录为空、全仓唯一规则对象在 BD-D01 夹具内」的陈述已失效；是否给本案例补挂规则属改考卷内容，由 IA-0 裁决。"
+    "hard_rules 说明": "B.4.1/INT-D01 整节无「冻结事实」块、未列任何规则或禁令对象；且本案例按考点故意不带入任何品牌事实——挂上品牌禁语规则会使「虚构库存、销售目标、受众或品牌定位」这条禁止结果无从判定。故 hard_rules 为空数组，不凭空断言 rule_id/version（对应 OQ-INT-D01-03）。现状更新（本轮核对）：contracts/rules/ 已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三个 RuleRecord 对象（均 version 1、status ACTIVE），原「该目录为空、全仓唯一规则对象在 BD-D01 夹具内」的陈述已失效；是否给本案例补挂规则属改考卷内容，由 IA-0 裁决。",
+    "ia0_ruling": "Founder 2026-08-17 IA-0 裁决（OQ-BUILD-01）：剔除 P13 自带库存与生命周期字段——保住『模糊目标』考点并保全『虚构库存』禁止结果的判别力。"
   },
   "facts": {
     "product": {
       "product_id": "P13",
-      "name": {"value": "10%羊绒风衣式大衣", "source": "夹具虚构（剧本）"},
-      "category": {"value": "10羊绒版", "source": "截图 IMG_0684"},
-      "sku": {"value": "1G9971081", "source": "截图 IMG_0684"},
-      "price": {"value": 3980, "currency": "CNY", "raw_text": "3980元", "as_of": "2026-08-17", "source": "截图 IMG_0684"},
+      "name": {
+        "value": "10%羊绒风衣式大衣",
+        "source": "夹具虚构（剧本）"
+      },
+      "category": {
+        "value": "10羊绒版",
+        "source": "截图 IMG_0684"
+      },
+      "sku": {
+        "value": "1G9971081",
+        "source": "截图 IMG_0684"
+      },
+      "price": {
+        "value": 3980,
+        "currency": "CNY",
+        "raw_text": "3980元",
+        "as_of": "2026-08-17",
+        "source": "截图 IMG_0684"
+      },
       "material": {
         "value": [
           "黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）",
@@ -37,19 +53,65 @@
         ],
         "source": "截图 IMG_0684"
       },
-      "lining": {"value": null, "status": "MISSING", "source": "截图 IMG_0684", "note": "数据包 P13 原文「里料｜缺失【截图 IMG_0684】」——截图未出现或被遮挡，属素材侧故意缺失，禁补"},
-      "style_attributes": {"value": "大翻领、廓形肩线、H型风衣式；袖口可调节袖袢；宽边长腰带", "source": "截图 IMG_0674、截图 IMG_0677、截图 IMG_0680"},
-      "selling_points": {"value": "同页展示敞开穿与收腰穿两种方式；提供黑色、米色、晓雾灰、云烟灰四种面料成分", "source": "截图 IMG_0677、截图 IMG_0684"},
-      "size_range": {"value": ["150/76A/XS", "155/80A/S", "160/84A/M", "165/88A/L", "170/92A/XL"], "source": "截图 IMG_0684"},
-      "lifecycle_stage": {"value": "库存消化期", "source": "夹具虚构（剧本）"},
-      "inventory": {"value": 800, "unit": "件", "source": "夹具虚构（剧本）"},
-      "image_refs": {"value": "IMG_0672、IMG_0675—IMG_0682、IMG_0683、IMG_0684；共享图同时关联 P12", "source": "截图 IMG_0672、截图 IMG_0684"}
+      "lining": {
+        "value": null,
+        "status": "MISSING",
+        "source": "截图 IMG_0684",
+        "note": "数据包 P13 原文「里料｜缺失【截图 IMG_0684】」——截图未出现或被遮挡，属素材侧故意缺失，禁补"
+      },
+      "style_attributes": {
+        "value": "大翻领、廓形肩线、H型风衣式；袖口可调节袖袢；宽边长腰带",
+        "source": "截图 IMG_0674、截图 IMG_0677、截图 IMG_0680"
+      },
+      "selling_points": {
+        "value": "同页展示敞开穿与收腰穿两种方式；提供黑色、米色、晓雾灰、云烟灰四种面料成分",
+        "source": "截图 IMG_0677、截图 IMG_0684"
+      },
+      "size_range": {
+        "value": [
+          "150/76A/XS",
+          "155/80A/S",
+          "160/84A/M",
+          "165/88A/L",
+          "170/92A/XL"
+        ],
+        "source": "截图 IMG_0684"
+      },
+      "image_refs": {
+        "value": "IMG_0672、IMG_0675—IMG_0682、IMG_0683、IMG_0684；共享图同时关联 P12",
+        "source": "截图 IMG_0672、截图 IMG_0684"
+      }
     },
-    "business_goal": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "B.4.1/INT-D01「输入」原文「商品存在，但未提供新品曝光、库存激活、转化或品牌建设目标。」——快照不得带入任何 business_goal 值；任务原话由 Manifest 的 task_statement 承载"},
-    "brand": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "品牌定位/价值主张/调性/禁用表达/商业硬约束一概不在场。依据 B.4.1/INT-D01「禁止结果」「虚构库存、销售目标、受众或品牌定位」——品牌事实在场则该条无从判定。数据包 §2 包1 存在，本快照刻意不带入"},
-    "persona": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "数据包 §5 包4（R01 沈岚 / R02 许澄）存在，本快照刻意不带入；禁止由模型补写创始人背景"},
-    "video_account": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "数据包 §6 包5 视频号账号事实存在，本快照刻意不带入；禁止由模型补写账号关系"},
-    "audience": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "数据包 §4 包3（A01/A02）存在，本快照刻意不带入；依据 B.4.1/INT-D01「禁止结果」点名「虚构…受众」"}
+    "business_goal": {
+      "value": null,
+      "status": "MISSING",
+      "source": "故意缺失（夹具设计）",
+      "note": "B.4.1/INT-D01「输入」原文「商品存在，但未提供新品曝光、库存激活、转化或品牌建设目标。」——快照不得带入任何 business_goal 值；任务原话由 Manifest 的 task_statement 承载"
+    },
+    "brand": {
+      "value": null,
+      "status": "MISSING",
+      "source": "故意缺失（夹具设计）",
+      "note": "品牌定位/价值主张/调性/禁用表达/商业硬约束一概不在场。依据 B.4.1/INT-D01「禁止结果」「虚构库存、销售目标、受众或品牌定位」——品牌事实在场则该条无从判定。数据包 §2 包1 存在，本快照刻意不带入"
+    },
+    "persona": {
+      "value": null,
+      "status": "MISSING",
+      "source": "故意缺失（夹具设计）",
+      "note": "数据包 §5 包4（R01 沈岚 / R02 许澄）存在，本快照刻意不带入；禁止由模型补写创始人背景"
+    },
+    "video_account": {
+      "value": null,
+      "status": "MISSING",
+      "source": "故意缺失（夹具设计）",
+      "note": "数据包 §6 包5 视频号账号事实存在，本快照刻意不带入；禁止由模型补写账号关系"
+    },
+    "audience": {
+      "value": null,
+      "status": "MISSING",
+      "source": "故意缺失（夹具设计）",
+      "note": "数据包 §4 包3（A01/A02）存在，本快照刻意不带入；依据 B.4.1/INT-D01「禁止结果」点名「虚构…受众」"
+    }
   },
   "hard_rules": []
 }

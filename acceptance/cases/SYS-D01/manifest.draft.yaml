@@ -27,8 +27,8 @@ prd_version: "v0.1"                           # 版本基线见 M0-EP01_文档�
 data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.3"           # 同上（附录 B v0.3）
 context_snapshot_id: "SNAP-SYSD01-0001"       # 规划名，快照尚未构建（OQ-SYS-D01-05）（08-17 已失效：快照已落盘 acceptance/cases/SYS-D01/fixtures/context_snapshot.json）
-snapshot_hash: "sha256:c9f0dff6aa3e87c908759ce7d27d4b03885bda0bfe552baff795927897ef5281"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
-task_statement: "PENDING_IA0_TASK_STATEMENT——B.4.4/SYS-D01 无「输入」引文亦无「能力问题」原句；待 Founder 于 IA-0 冻结制作使用者提出的那一个明确局部问题原文（OQ-SYS-D01-01）。"
+snapshot_hash: "sha256:f2c23c26907a4d0b165514b328364c48c064ef1e54335295365420b88335752d"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+task_statement: "已批准的内容包中，当前拍摄场景不可用——请只做必要的局部调整，不得改变已选商业方向。"  # Founder 2026-08-17 IA-0 裁决定稿（SYS-D01 取 B 三例之首）
 execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 hard_rule_refs: []                            # B 未在本案例冻结规则对象；contracts/rules/ 亦无落盘对象（OQ-SYS-D01-03）
 output_schema_version: "v0.1"                 # 无真源背书，IA-0 定格（OQ-SYS-D01-04）
@@ -45,10 +45,10 @@ module_contract_versions:
   business_decision: "PENDING_BUILD"
   creative: "PENDING_BUILD"
 # PENDING_OD02_IA0：OD-02 厂商组合已裁决（裁决台账 08-17），版本/参数于 IA-0 定格——占位指后者
-model_provider: "PENDING_OD02_IA0"
-model_name: "PENDING_OD02_IA0"
-model_version: "PENDING_OD02_IA0"             # 同上；模型版本标识是否存在取决于 IA-0 定格的具体模型，未定即占位，不写 null（null = 断言「该模型无版本标识」）
-generation_parameters_hash: "PENDING_OD02_IA0"
+model_provider: "Alibaba Cloud DashScope"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_name: "qwen-max-0107"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_version: "snapshot-0107（models 接口回执 2026-08-17）"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+generation_parameters_hash: "sha256:24b85c93d027274afddbb347faf50533822566aa2b0f14365f4a62c4e2759262"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
 allowed_tools: []                             # 本案例未声明任何工具，故为空数组；B.2.2（B:178）禁止任一侧使用未声明的搜索或知识库
-approved_by: "PENDING_FOUNDER_SIGNATURE_IA0"
-approved_at: "PENDING_FOUNDER_SIGNATURE_IA0"  # B:162 该字段类型 datetime，签字时以真实时间戳回填
+approved_by: "Founder（Faye）"  # IA-0 签字（2026-08-17 AskUserQuestion 三连裁决，台账登记）
+approved_at: "2026-08-17T19:08:38+08:00"

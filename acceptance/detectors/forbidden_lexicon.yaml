@@ -2,3 +2,5 @@
 # 来源：BD-D01 冻结 forbidden_expression=LOW_PRICE_SELLING（低价/甩卖/虚假稀缺）+ 衡叙集夹具包·包1 品牌禁用清单
 low_price_selling: [清仓, 甩卖, 白菜价, 跳楼价, 亏本价, 全网最低, 秒杀, 闭眼入, 不买就亏]
 false_scarcity: [手慢无, 仅剩最后, 错过不再, 错过后悔]
+# Founder 2026-08-17 IA-0 裁决：补齐数据包·包1 品牌调性禁词（OQ-BUILD-03）
+brand_tone: [绝绝子, 显贵, 高级感]

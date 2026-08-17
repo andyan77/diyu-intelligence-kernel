@@ -54,13 +54,13 @@ module_contract_versions:
   creative: "PENDING_BUILD"
 
 # OD-02 厂商组合已裁决（台账 08-17），版本/参数于 IA-0 定格——占位指后者
-model_provider: "PENDING_OD02_IA0"
-model_name: "PENDING_OD02_IA0"
-model_version: "PENDING_OD02_IA0"
-generation_parameters_hash: "PENDING_OD02_IA0"
+model_provider: "Alibaba Cloud DashScope"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_name: "qwen-max-0107"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_version: "snapshot-0107（models 接口回执 2026-08-17）"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+generation_parameters_hash: "sha256:24b85c93d027274afddbb347faf50533822566aa2b0f14365f4a62c4e2759262"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
 
 # B.2.2（B:178）：不允许任一侧使用未声明的搜索或知识库；B.4.2/BD-D02 未明文允许任何工具 → 空数组
 allowed_tools: []
 
-approved_by: "PENDING_FOUNDER_SIGNATURE_IA0"
-approved_at: "PENDING_FOUNDER_SIGNATURE_IA0"
+approved_by: "Founder（Faye）"  # IA-0 签字（2026-08-17 AskUserQuestion 三连裁决，台账登记）
+approved_at: "2026-08-17T19:08:38+08:00"

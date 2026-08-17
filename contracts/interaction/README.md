@@ -1,3 +1,5 @@
+> **状态：v1.0 FROZEN（Founder 2026-08-17 IA-0 签字批次生效；正文中残留的 v0.1-draft / PENDING_IA0 冻结待办字样自本行起读作已随本批次冻结定格）**
+
 # contracts/interaction/｜两阶段交互合同与基线 Prompt
 
 > 本目录承载 B.2.3 共同两阶段交互合同的**基线侧实体化文件**。

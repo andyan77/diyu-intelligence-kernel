@@ -1,0 +1,11 @@
+{
+  "temperature": 0.3,
+  "top_p": 0.8,
+  "seed": 20260817,
+  "max_tokens_stage_D": 4096,
+  "max_tokens_stage_C": 8192,
+  "multimodal_model": "qwen-vl-max（无快照版：锁别名，逐次运行留存接口返回的实际 model 回执）",
+  "auditor_model": "deepseek-v4-pro（跨厂商审计侧，非 A/B 参赛方）",
+  "output_language": "zh-CN",
+  "_note": "Founder 2026-08-17 IA-0 定格（预裁决⑧+当日实测确认）；本文件是 generation_parameters_hash 的唯一真源"
+}

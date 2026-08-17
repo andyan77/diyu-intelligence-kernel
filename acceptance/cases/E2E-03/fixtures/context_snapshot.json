@@ -9,9 +9,8 @@
       "note": "B.5.1/E2E-03声明「品牌…在 Manifest 中冻结」但未给定位原文；B 未对本案例冻结 HIGH_END（HIGH_END 是 B.5.1/E2E-01 给 E2E-01 的冻结值，不外推到本案例）。冻结落点按 Founder 2026-08-17 预裁决执行侧自决项「Persona 冻结落点=快照内容」置于本快照。"
     },
     "business_goal": {
-      "value": "PENDING",
-      "source": "值不可得——B.5.1/E2E-03明文「商业目标在 Manifest 中冻结」，而 acceptance/cases/E2E-03/manifest.draft.yaml 的 task_statement 现为 PENDING_IA0_TASK_STATEMENT（OQ-E2E-03-01），B 本身未预先给定目标",
-      "note": "待 Founder 于 IA-0 冻结后回填；执行侧不得自拟目标，也不得从 A.2.6 BusinessGoal 六值中代选"
+      "value": "PRODUCT_LAUNCH",
+      "source": "Founder 2026-08-17 IA-0 裁决：正常在售新品→新品推广（OQ-BUILD-08）"
     },
     "product": {
       "product_id": "P11",
@@ -255,9 +254,8 @@
     ],
     "video_account_facts": {
       "account_id": {
-        "value": null,
-        "status": "PENDING_IA0",
-        "source": "数据包 包5 未给账号编号；A.3.6 account_id 为 R（必填），标识由 IA-0 冻结后回填，不自造"
+        "value": "ACC-HXJ-001",
+        "source": "Founder 2026-08-17 IA-0 裁决：虚构编号（OQ-BUILD-13）"
       },
       "platform": {
         "value": "WECHAT_VIDEO",

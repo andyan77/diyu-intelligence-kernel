@@ -4,29 +4,86 @@
   "_fixture_note": "CR-D04 输入 B（B.4.3/CR-D04「输入 B」原文「不提供图片，只提供商品名称与已确认文字事实。」）运行快照，对应 acceptance/cases/CR-D04/manifest.input-b.draft.yaml——「无图」考题。｜商品＝P08 V口翻领短袖 Polo（数据包·包2），与输入 A/C 的 P13 不同款，故三份快照的商品事实本就不同。｜考题构造声明（不隐瞒）：数据包 P08 本身登记了「关联图片编号：IMG_0652、IMG_0655、IMG_0656、IMG_0662、IMG_0663；IMG_0662—IMG_0663 与 P09/P10 共享」，本快照按 B.4.3/CR-D04「输入 B」的考题条件刻意不提供这些编号，image_refs 置空数组——这是考题设计的「不提供」，不是数据包的缺失，也不是漏抄。｜本快照只给数据包中已确认的文字事实（含 style_attributes / selling_points，二者在数据包中是有截图溯源的已确认文字事实，非模型猜测）；禁止结果的第一条是「无图时依据商品名称猜测视觉属性」——超出本快照所列文字事实的颜色、纹理、廓形细节一律不得输出。",
   "facts": {
     "business_goal": {
-      "value": "PENDING_BUSINESS_GOAL_IA0",
-      "source": "值不可得：B.4.3/CR-D04 整节未给 business_goal；数据包无此字段。OD-03 通用阻断项②要求已解析，故显式挂起，不猜"
+      "value": "PRODUCT_LAUNCH",
+      "source": "Founder 2026-08-17 IA-0 裁决（OQ-BUILD-04）"
     },
     "product": {
       "product_id": "P08",
-      "name": {"value": "V口翻领短袖 Polo", "source": "夹具虚构-剧本"},
-      "category": {"value": "V口翻领", "source": "截图 IMG_0652"},
-      "sku": {"value": "1G4901591", "source": "截图 IMG_0652"},
-      "price": {"value": 498, "currency": "CNY", "as_of": "2026-08-17", "raw_text": "498元", "source": "截图 IMG_0652（数据包字段名「吊牌价」，截图原文「498元」）"},
-      "material": {"value": ["藏青面料:37.8%粘纤 31.6%棉 25.4%腈纶 5.2%氨纶", "本白色面料:36.8%粘纤 30.9%棉 27.4%腈纶 4.9%氨纶"], "source": "截图 IMG_0652"},
-      "lining": {"value": null, "status": "MISSING", "source": "截图 IMG_0652（数据包「里料」记为「缺失」——故意缺失，不补写）"},
-      "style_attributes": {"value": ["V口翻领", "短袖", "修身轮廓"], "source": "截图 IMG_0655 / 截图 IMG_0662（数据包「版型风格特征」——已确认文字事实，本快照不提供其图片实体）"},
-      "selling_points": {"value": ["单品图确认 V 口翻领、短袖", "藏青与本白两种面料成分分别列示"], "source": "截图 IMG_0652 / 截图 IMG_0662（数据包「已确认卖点」）"},
-      "size_range": {"value": ["S", "M", "L", "XL"], "source": "截图 IMG_0652"},
-      "lifecycle_stage": {"value": "正常在售", "source": "夹具虚构-剧本"},
-      "inventory": {"value": 240, "unit": "件", "source": "夹具虚构-剧本"},
+      "name": {
+        "value": "V口翻领短袖 Polo",
+        "source": "夹具虚构-剧本"
+      },
+      "category": {
+        "value": "V口翻领",
+        "source": "截图 IMG_0652"
+      },
+      "sku": {
+        "value": "1G4901591",
+        "source": "截图 IMG_0652"
+      },
+      "price": {
+        "value": 498,
+        "currency": "CNY",
+        "as_of": "2026-08-17",
+        "raw_text": "498元",
+        "source": "截图 IMG_0652（数据包字段名「吊牌价」，截图原文「498元」）"
+      },
+      "material": {
+        "value": [
+          "藏青面料:37.8%粘纤 31.6%棉 25.4%腈纶 5.2%氨纶",
+          "本白色面料:36.8%粘纤 30.9%棉 27.4%腈纶 4.9%氨纶"
+        ],
+        "source": "截图 IMG_0652"
+      },
+      "lining": {
+        "value": null,
+        "status": "MISSING",
+        "source": "截图 IMG_0652（数据包「里料」记为「缺失」——故意缺失，不补写）"
+      },
+      "style_attributes": {
+        "value": [
+          "V口翻领",
+          "短袖",
+          "修身轮廓"
+        ],
+        "source": "截图 IMG_0655 / 截图 IMG_0662（数据包「版型风格特征」——已确认文字事实，本快照不提供其图片实体）"
+      },
+      "selling_points": {
+        "value": [
+          "单品图确认 V 口翻领、短袖",
+          "藏青与本白两种面料成分分别列示"
+        ],
+        "source": "截图 IMG_0652 / 截图 IMG_0662（数据包「已确认卖点」）"
+      },
+      "size_range": {
+        "value": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "source": "截图 IMG_0652"
+      },
+      "lifecycle_stage": {
+        "value": "正常在售",
+        "source": "夹具虚构-剧本"
+      },
+      "inventory": {
+        "value": 240,
+        "unit": "件",
+        "source": "夹具虚构-剧本"
+      },
       "image_refs": {
         "value": [],
         "status": "NOT_PROVIDED_BY_EXAM_DESIGN",
         "source": "考题条件 B.4.3/CR-D04「输入 B」原文「不提供图片」——刻意置空。数据包 P08 原有「关联图片编号」IMG_0652、IMG_0655、IMG_0656、IMG_0662、IMG_0663（IMG_0662—IMG_0663 与 P09/P10 共享）不写入本快照；且真实图片文件本就不在仓库",
         "image_asset_note": "本快照零图片输入：不得依据商品名称、款号或品类补写颜色、版型、纹理或任何未列出的视觉细节；拍摄建议必须不依赖未知视觉细节（B.4.3/CR-D04「允许答案族」原文「无视觉证据时给出不依赖未知细节的拍摄建议」）"
       },
-      "visual_profile_ref": {"value": null, "status": "MISSING", "source": "A.3.3：无图片时 VisualProfile 为 MISSING，不依据商品名称补写颜色、版型或纹理"}
+      "visual_profile_ref": {
+        "value": null,
+        "status": "MISSING",
+        "source": "A.3.3：无图片时 VisualProfile 为 MISSING，不依据商品名称补写颜色、版型或纹理"
+      }
     }
   },
   "hard_rules": [

@@ -215,10 +215,25 @@ def resolve_doc_versions(errors):
     return versions
 
 
+# 双模式（Founder 2026-08-17 IA-0 裁决批准，属改考卷）：
+# run（默认）= 运行前全查；sign = IA-0 送签态，仅豁免下列 4 个"运行前补填"字段——
+# 且豁免的前提是取值**恰为** PENDING_BUILD（声明性标记）；任何其他占位/空值仍判红。
+RUN_TIME_FIELDS = frozenset([
+    "diyu_build_version",
+    "module_contract_versions.intent",
+    "module_contract_versions.business_decision",
+    "module_contract_versions.creative",
+])
+
+
 def main():
-    if sys.argv[1:]:
-        print("冻结断言门不接受参数（齐套数等考试口径写死于脚本常量：改口径 = 改考卷）。"
-              "收到: %s" % " ".join(sys.argv[1:]), file=sys.stderr)
+    args = sys.argv[1:]
+    mode = "run"
+    if args == ["--mode=sign"]:
+        mode = "sign"
+    elif args:
+        print("冻结断言门只接受 --mode=sign（送签态）或无参数（运行态全查）。"
+              "收到: %s" % " ".join(args), file=sys.stderr)
         return 1
 
     expected = EXPECTED_MANIFESTS
@@ -264,6 +279,9 @@ def main():
             if not isinstance(val, str) and not is_required_branch:
                 continue
             if isinstance(val, str) and val.strip() == "" and not is_required_branch:
+                continue
+            # sign 模式唯一豁免：运行前补填字段，且值必须恰为声明性标记 PENDING_BUILD
+            if mode == "sign" and fpath in RUN_TIME_FIELDS and val == "PENDING_BUILD":
                 continue
             errors.append("R2 %s: 字段 %s %s" % (name, fpath, reason))
             r2_flagged.add(fpath)
@@ -340,8 +358,8 @@ def main():
                               % (name, field, declared_v, docname, doc_versions[field]))
 
     ver_line = " / ".join("%s=%s" % (f, doc_versions.get(f, "解析失败")) for f, _ in VERSION_SOURCES)
-    print("冻结断言门 | Manifest %d 份（应有 %d）| 快照索引 %d 条 | 规则对象 %d 条"
-          % (len(manifests), expected, len(snap_idx), len(rule_idx)))
+    print("冻结断言门[%s 模式] | Manifest %d 份（应有 %d）| 快照索引 %d 条 | 规则对象 %d 条"
+          % (mode, len(manifests), expected, len(snap_idx), len(rule_idx)))
     print("真源版本（实时解析）| %s" % ver_line)
     if errors:
         print("\nGATE_RED —— 以下 %d 条红线未清，物理拒绝送签：\n" % len(errors))
