@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 """冻结断言门（IA-0 送签前的物理拦截器）。
 
-职责真源：IA-0_冻结签字包.md 三、B 类建设项——「送签前脚本扫描全部 Manifest，任何 PENDING 残留 =
+职责真源：IA-0_冻结签字包.md §四「B 类｜执行侧建设项」——「送签前脚本扫描全部 Manifest，任何 PENDING 残留 =
 物理拒绝送签（堵"带着占位签字"的假绿）」；OPEN_QUESTIONS.md 文首执行侧自决项「PENDING 冻结断言门」
 「hash=sha256 规范化 JSON」；OQ-INT-D01-06（SCHEMA_OK ≠ 可冻结）。
+（指针按小节名书写，不锁行号——同 contracts/interaction/README.md §4 已采用的纪律。）
 
 七条红线（任一触发即 exit 1，且逐条列明，不汇总成一句"失败"）：
   R1 齐套数 ≠ EXPECTED_MANIFESTS
@@ -23,11 +24,19 @@ snapshot_hash 算法（本文件是唯一实现，Manifest 注释指向此处）
 
 边界（C.2 / C.4：脚本只汇总不推导，不建平台）：本门只做机械核验，不改任何文件、不猜测取值。
 GATE_GREEN 只代表"占位清零且机械核验一致"，**不代表** Founder 已签字、更不代表案例质量合格——
-签字动作定义见 B.2.1 与 IA-0_冻结签字包.md 附。
+签字动作定义见 B.2.1 与 IA-0_冻结签字包.md §五末条「签字动作定义（B.2.1）」。
 
-用法: python3 tools/freeze_gate.py   exit 0=全绿 1=有红线
-  本门不接受任何参数。齐套数等考试口径写死于脚本常量：改常量 = 改考卷，须随 Founder 预裁决一起改，
-  不得由命令行开关在单次运行里临时放宽（旧 --expected 参数即为此洞，已删除）。
+用法: exit 0=全绿 1=有红线
+  python3 tools/freeze_gate.py              运行态：七条红线全查，不豁免任何字段。
+  python3 tools/freeze_gate.py --mode=sign  送签态：仅豁免 4 个「运行前补填」的构建版本类字段
+                                            （diyu_build_version、module_contract_versions.intent /
+                                            .business_decision / .creative），且取值必须**恰为**
+                                            声明性标记 PENDING_BUILD；任何其他占位或空值仍判红。
+                                            该双模式为 Founder 2026-08-17 批准的正式口径（属改考卷），
+                                            权威转录见 IA-0_冻结签字包.md §五「冻结门双模式真实口径」。
+  除上述两种形态外不接受任何参数。齐套数等考试口径写死于脚本常量：改常量 = 改考卷，须随 Founder 预裁决
+  一起改，不得由命令行开关在单次运行里临时放宽（旧 --expected 参数即为此洞，已删除；--mode=sign 不放宽
+  齐套数，也不放宽 R3-R7 任何一条）。
 """
 import datetime
 import glob
@@ -42,13 +51,14 @@ import yaml
 from jsonschema import Draft7Validator, RefResolver
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MANIFEST_GLOB = os.path.join(ROOT, "acceptance/cases/*/manifest*.draft.yaml")
+MANIFEST_GLOB = os.path.join(ROOT, "acceptance/cases/*/manifest*.yaml")
 SNAPSHOT_GLOB = os.path.join(ROOT, "acceptance/cases/*/fixtures/*.json")
 RULES_GLOB = os.path.join(ROOT, "contracts/rules/*.yaml")
 SCHEMA_PATH = os.path.join(ROOT, "contracts/schemas/case_manifest.schema.json")
 
 # 齐套口径 20 = Founder 2026-08-17 预裁决①「INT-D01 补 QUICK 分支变体，总 20 份」
-# （acceptance/cases/OPEN_QUESTIONS.md 文首）+ IA-0_冻结签字包.md 四「版本串+参数哈希填入 20 份 Manifest」。
+# （acceptance/cases/OPEN_QUESTIONS.md 文首）+ contracts/OD-02_模型与参数定格记录.md §三「定格执行留痕」
+# 第 2-3 条「实测版本串 / 参数哈希填入 **20 份** Case Manifest」；齐套定义另见 IA-0_冻结签字包.md §五「齐套」。
 # 该口径变更 = 改考试条件，须随预裁决一起改，不得由本脚本静默跟随目录里数到几份就算几份，
 # 也不得由命令行参数在单次运行里临时改写。
 EXPECTED_MANIFESTS = 20

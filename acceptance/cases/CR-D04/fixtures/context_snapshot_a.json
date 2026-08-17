@@ -1,7 +1,7 @@
 {
   "snapshot_id": "SNAP-CRD04-0001",
   "brand_id": "fixture-brand-01",
-  "_fixture_note": "CR-D04 输入 A（B.4.3/CR-D04「输入 A」原文「提供清晰商品图片。」）运行快照，对应 acceptance/cases/CR-D04/manifest.input-a.draft.yaml。｜商品＝P13（数据包·包2），image_refs 照抄数据包 P13「关联图片编号」。｜诚实缺口（防假绿）：真实图片文件不在本仓库（全仓无 IMG_*.jpg/png 资产，2026-08-17 实测），故 image_asset_status=PENDING_IMAGE_ASSET_M3——本快照现阶段只提供编号引用，不构成 B.4.3/CR-D04「输入 A」所要求的「清晰商品图片」实体；在图片资产补齐前，任何 VisualProfile 都不得声称有图片来源，允许答案族第一条（形成带图片来源的 PROVISIONAL VisualProfile）不具备执行条件。｜数据包内部不一致（照抄不修）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归 P12，P13「关联图片编号」亦不含 IMG_0674。｜B.4.3/CR-D04「允许答案族」原文「三种输入都遵守品牌禁用表达和商品事实」经 hard_rules 的 R-FB01-001 承接；本任务未把数据包·包1 品牌事实正文纳入 CR-D04 快照。",
+  "_fixture_note": "CR-D04 输入 A（B.4.3/CR-D04「输入 A」原文「提供清晰商品图片。」）运行快照，对应 acceptance/cases/CR-D04/manifest.input-a.yaml。｜商品＝P13（数据包·包2），image_refs 照抄数据包 P13「关联图片编号」。｜诚实缺口（防假绿）：真实图片文件不在本仓库（全仓无 IMG_*.jpg/png 资产，2026-08-17 实测），故 image_asset_status=PENDING_IMAGE_ASSET_M3——本快照现阶段只提供编号引用，不构成 B.4.3/CR-D04「输入 A」所要求的「清晰商品图片」实体；在图片资产补齐前，任何 VisualProfile 都不得声称有图片来源，允许答案族第一条（形成带图片来源的 PROVISIONAL VisualProfile）不具备执行条件。｜数据包内部不一致（照抄不修）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归 P12，P13「关联图片编号」亦不含 IMG_0674。｜B.4.3/CR-D04「允许答案族」原文「三种输入都遵守品牌禁用表达和商品事实」经 hard_rules 的 R-FB01-001 承接；本任务未把数据包·包1 品牌事实正文纳入 CR-D04 快照。",
   "facts": {
     "business_goal": {
       "value": "PRODUCT_LAUNCH",

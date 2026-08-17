@@ -1,48 +1,77 @@
-# IA-0 冻结签字包（✅ 已签字生效：Founder 2026-08-17T19:08:38+08:00；送签模式 GATE_GREEN 后写入 20 份 Manifest）
+# IA-0 冻结签字包
 
-> 定格结果：主模型 qwen-max-0107（两侧同用）｜多模态 qwen-vl-max（锁别名+运行回执）｜审计 deepseek-v4-pro｜参数真源 contracts/interaction/generation_parameters.json｜合同批次 v1.0 FROZEN。运行前补填字段（构建版本类 4 项）按双模式纪律于每次运行前补填并过运行态门。
+| 项 | 值 |
+|---|---|
+| 文档编号 | DIYU-MVP-V3-IA0-SIGN |
+| 版本 | v1.0 |
+| 状态 | CONTENT-FROZEN（内容定稿）；生效 PENDING_RESIGN_P0-6（Founder 重签后本行更新为 EFFECTIVE+签字时间） |
+| 性质 | IA-0 已定格考试规则的权威转录 + 签字批次记录（不承载施工流程） |
+| 修订记录 | v0.1 起草（2026-08-17 M0-EP02 建设轮）→ v1.0 内容定稿（2026-08-17 M0 收口修复批次） |
 
-> 给 Founder 的一页话：IA-0 是"考试规则公证"关。这一包就是全部考试规则的定稿材料。**现在还不用签**——下面 B 类建设项做完、全部 PENDING 占位清零后，我把定稿版送到你面前，你花约 15 分钟走完 A 类裁决并签字，M0 即告收口。
+> 给 Founder 的一页话：这一包只记两件事——IA-0 已经定格的全部考试规则（§一~§五），以及签字批次事实（§六）。
+> 2026-08-17T19:08:38+08:00 的首签是历史事实，**该次 M0 收口宣告已于同日撤回**（外部审查判 BLOCK，见《裁决台账》08-17「M0 收口宣告撤回」行）；重签见《M0收口修复批次_执行规格.md》P0-6。
 
-## 一、已就绪资产（草案态，全部可机械校验）
+## 一、定格结果（IA-0 冻结的考试规则，本节为唯一权威转录）
+
+| 项 | 定格值 | 真源 |
+|---|---|---|
+| A/B 主模型（笛语侧与基线侧同用） | qwen-max-0107（快照版；2026-08-17 models 接口实测回执） | 台账 08-17「IA-0 冻结签字生效」行；contracts/OD-02_模型与参数定格记录.md §一 |
+| 多模态（商品图 VisualProfile） | qwen-vl-max（无快照版：锁别名，逐次运行留存接口返回的实际 model 回执） | contracts/interaction/generation_parameters.json |
+| trace_auditor / L2 探针 | deepseek-v4-pro（跨厂商审计侧，非 A/B 参赛方） | contracts/interaction/generation_parameters.json |
+| 生成参数 | temperature 0.3｜top_p 0.8｜seed 20260817｜max_tokens 阶段 D 4096 / 阶段 C 8192｜输出语言 zh-CN | contracts/interaction/generation_parameters.json |
+| 合同批次 | contracts/interaction/ 六份 .md 合同文件（README / anonymity_procedure / baseline_prompt_stage_C / baseline_prompt_stage_D / e2e_interaction_contract / e2e_output_contract）v1.0 CONTENT-FROZEN（内容定稿；生效随 P0-6 重签） | contracts/interaction/ |
+
+型号与参数的唯一真源是 `contracts/interaction/generation_parameters.json`（该文件自述为 `generation_parameters_hash` 唯一真源）；本表为其只读转录，冲突以 json 为准。
+运行前补填的构建版本类 4 项字段按 §五 双模式纪律于每次运行前补填并过运行态门。
+
+## 二、冻结资产清单
 
 | 资产 | 位置 | 状态 |
 |---|---|---|
-| 14 条案例 → **19 份运行 Manifest 草案**（多输入/双模式案例一变体一份：INT-D02×2、INT-D03×2、CR-D01×2、CR-D04×3） | acceptance/cases/*/manifest*.draft.yaml | 19/19 过 Schema；经 25 blocker + 41 minor 对抗修复 |
-| 两阶段基线 Prompt（诚实写强，B.2.4 零重试口径） | contracts/interaction/baseline_prompt_stage_D/C.md | v0.1-draft |
-| 匿名判分流程（含 B.5.2 双窗口、B.2.5 六项逐项留档清单） | contracts/interaction/anonymity_procedure.md | v0.1-draft |
-| OD-02 模型与参数定格提案（型号家族+定格程序，版本串 IA-0 实测填入） | contracts/OD-02_模型与参数定格提案.md | DRAFT |
-| 待裁项中央登记册（97 条，编号可追溯到每份文件） | acceptance/cases/OPEN_QUESTIONS.md | 全部 PENDING_IA0 |
+| 14 条案例 → **20 份运行 Manifest**（一变体一份：INT-D01×2、INT-D02×2、INT-D03×2、CR-D01×2、CR-D04×3） | acceptance/cases/*/manifest*.yaml | 已定格；经 25 blocker + 41 minor 对抗修复；Schema 全绿回执按修复批次 P0-4 用当前 HEAD 重跑后回填（带 commit SHA + Python 版本 + 执行命令） |
+| 两阶段基线 Prompt（诚实写强，B.2.4 零重试口径） | contracts/interaction/baseline_prompt_stage_D.md、baseline_prompt_stage_C.md | v1.0 CONTENT-FROZEN |
+| 匿名判分流程（含 B.5.2 双窗口、B.2.5 六项逐项留档清单、P-01~P-14 裁决值） | contracts/interaction/anonymity_procedure.md | v1.0 CONTENT-FROZEN |
+| 共同两阶段交互合同 / 共同输出合同 | contracts/interaction/e2e_interaction_contract.md、e2e_output_contract.md | v1.0 CONTENT-FROZEN |
+| OD-02 模型与参数定格记录（角色分配 + 生成参数 + 定格执行留痕） | contracts/OD-02_模型与参数定格记录.md | v1.0 CONTENT-FROZEN |
+| 规则注册表首批 3 条 | contracts/rules/R-BDD01-001.yaml、R-BDD01-002.yaml、R-FB01-001.yaml | 已落盘 |
+| 待裁项中央登记册（**主册 97 条 + 建设轮 OQ-BUILD 14 条 = 111 条**，编号可追溯到每份文件） | acceptance/cases/OPEN_QUESTIONS.md | 主册 97/97 已裁决（2026-08-17 预裁决批次 + M0 收口修复批次两裁决关闭）；OQ-BUILD 14 条另表，逐条关闭状态见该文件「建设轮新增待裁项」表的「关闭状态」列（其中 OQ-BUILD-06/12/14 为建设队列类，转 M1+ 执行） |
 
-## 二、A 类｜✅ 已全部预裁决（Founder 2026-08-17 整体按推荐，见 OPEN_QUESTIONS 文首与台账）
+## 三、A 类裁决结果（Founder 2026-08-17 整体按推荐）
 
-以下留档为当时的裁决主题：
+| 主题 | 裁决结论 | 落盘位置 |
+|---|---|---|
+| 1. 每场考试用什么模式跑（快速/增强） | 模式原则＝「考追问才开增强」；增强侧 INT-D01 主跑 + INT-D02 增强变体，其余全 QUICK；INT-D01 另补 QUICK 变体 → 总 20 份运行 Manifest | OPEN_QUESTIONS.md 文首①；台账 08-17「IA-0 预裁决」行 |
+| 2. 四个案例缺「考题原句」（BD-D01/BD-D02/CR-D03/E2E-01） | 四句考题定稿，已回填对应 Manifest | OPEN_QUESTIONS.md 文首②；对应 Manifest 的 task_statement |
+| 3. 品牌禁语是否立正式硬规则对象、BD-D01「一组规则」几条 | 品牌禁语立 RuleRecord R-FB01-001（词表以 detectors 为唯一运营真源）；BD-D01「一组规则」＝现有 2 条（R-BDD01-001/002） | OPEN_QUESTIONS.md 文首③；contracts/rules/ |
+| 4. 基线侧失败要不要重试 | 基线零重试维持，B 合同不动；整场对称重跑合法 | OPEN_QUESTIONS.md 文首④ |
+| 5. 模型让不让「打草稿」 | 允许 `<thinking>` 块，匿名化前整段剥离 | OPEN_QUESTIONS.md 文首⑤；anonymity_procedure.md §8 P-14 |
+| 6. 匿名流程人选与细则（P-01~P-14） | 三关键定格：脚本随机 + 密封文件 + git 哈希封存 / 阶段 D 与终审独立随机 / 揭盲后禁回改。其余执行值与违规标签由 M0 收口修复批次两裁决补齐：B v0.4 新增失败标签 EVAL_BLINDING_PROCEDURE_INVALID（一枚关闭 P-05/P-08/P-11，后果＝该次盲测作废、不算 IA-4 证据、按 B.8.1 修复后重测）+ 六执行值（P-04 隔夜且≥12h／P-03 取两类问卷较晚时刻／P-10 两次独立随机／P-12 三组记录归属与冻结时点／P-13 独立作答判据／P-06 证据目录结构） | OPEN_QUESTIONS.md 文首⑥；台账 08-17「修复批次两裁决」行；anonymity_procedure.md v1.0 §8 |
+| 7. PRD 与 A 的口播包「情绪」字段分歧 | A 合同 v0.1→v0.2：VoicePackage 补 `emotion`（情绪）字段，对齐 PRD 7.2 | OPEN_QUESTIONS.md 文首⑦；A_模块接口与核心数据字典.md |
+| 8. OD-02 定格 | 已定格：qwen-max-0107 两侧同用 / qwen-vl-max 锁别名 / 审计 deepseek-v4-pro；参数真源 contracts/interaction/generation_parameters.json（值见 §一） | contracts/OD-02_模型与参数定格记录.md §一§二；台账 08-17 |
 
-1. **每场考试用什么模式跑**（快速/增强）——B 没写的约 10 场，我届时附推荐值表（OQ-*-execution_mode 系列）
-2. **四个案例缺"考题原句"**——BD-D01/BD-D02/CR-D03/E2E-01 需要你各补一句正式任务陈述（OQ-BD-D01-xx 等）
-3. **品牌禁语要不要立成正式硬规则对象**，以及 BD-D01"一组规则"到底几条（OQ-*-hard_rule 系列）
-4. **基线侧失败要不要重试**——现默认零重试；给重试=修改 B 合同，需你立项（OQ-BASELINE-07）
-5. **模型让不让"打草稿"**——基线侧 thinking 块允许+匿名前剥离的提案（OQ-BASELINE-06）
-6. **匿名流程 14 项人选与细则**——赋值表由谁封存、违规后果标签等（OQ-ANON-01~14）
-7. **PRD 与 A 的一处小分歧**——口播包"情绪"字段 PRD 列了、A 没列，改哪边（OQ-BASELINE-11）
-8. **OD-02 定格**——当日 API 实测版本串+参数表签字（contracts/OD-02 提案 §三）
+执行侧自决项（同批登记，不占 Founder 时间）：hash=sha256 规范化 JSON、Schema 补版本戳、PENDING 冻结断言门、运行顺序记 run 证据层、allowed_tools 空＝零外部工具（内部编排豁免 B.2.2）、Persona 冻结落点＝快照内容。落盘见 OPEN_QUESTIONS.md 文首。
 
-## 三、B 类｜执行侧建设项（做完才允许送签，不用你参与）
+## 四、B 类｜执行侧建设项（已交付）
 
-- 18 份缺失的 Context Snapshot 夹具（素材取自衡叙集数据包）+ snapshot_hash 算法定格
-- 共同两阶段交互合同、共同输出合同两份文件落盘（B:992 三件套缺其二）+ 笛语侧转换器 ref/risks 分工对齐
-- contracts/rules/ RuleRecord 注册表首批落盘（品牌禁语清单 → 规则对象）
-- **冻结断言门**：送签前脚本扫描全部 Manifest，任何 PENDING 残留 = 物理拒绝送签（堵"带着占位签字"的假绿）
-- 齐套口径登记：14 案例 ↔ 19 份运行 Manifest（缺任一变体不得计齐套）
+- ✅ Context Snapshot 夹具全部落盘（照抄审计逐字命中《衡叙集》夹具数据包）+ `snapshot_hash` 算法定格；**20 份 Manifest 的 `snapshot_hash` 已全量回填**（20 = Manifest 份数，见 §五「齐套」）。夹具本身的目录数与快照 JSON 份数**不写记忆值**，以 P0-4 重跑脚本对 `acceptance/cases/*/fixtures/` 的实测输出为准
+- ✅ 共同两阶段交互合同、共同输出合同两份文件落盘（补齐 B:995 三件套缺其二）+ 笛语侧转换器 ref/risks 分工对齐 → `contracts/interaction/e2e_interaction_contract.md`、`contracts/interaction/e2e_output_contract.md`
+- ✅ contracts/rules/ RuleRecord 注册表首批落盘（品牌禁语 → R-FB01-001；BD-D01 → R-BDD01-001/002）
+- ✅ 冻结断言门实现 → `tools/freeze_gate.py`（真实口径见 §五）。**注：仅 R1–R7 七条红线已交付；§五末条列出的 P0-2 加固项（`PENDING_IA0` 扫描、份数机器断言、参数文件哈希实时重算、正文 digest 校验等）尚未实现**，见《M0收口修复批次_执行规格.md》BLOCK-02 / P0-2
+- ✅ 齐套口径登记（定义见 §五）
 
-## 四、IA-0 当天剩余动作（如实口径：约 30-40 分钟；可再压缩，见注）
+## 五、齐套与冻结判据（单义定义，供机器断言引用）
 
-1. **版本定格**：API 实测两家 models 列表 → 版本串 + 参数哈希填入 20 份 Manifest；
-2. **补值裁决**（建设轮发现的 Founder 值类事项，见 OPEN_QUESTIONS 的 OQ-BUILD 系列）：时间窗口天数、E2E-03 与 CR 四案例商业目标、三句缺失考题、账号编号、INT-D01 库存剔除与 INT-D02 快速侧处理、词表三词补入、BD-D01 口径统一与两项确认类；
-3. **冻结断言门全绿** → 你签字（approved_by/approved_at）→ draft 转 FROZEN → M0 退出门核验。
+- **齐套**＝14 案例 ↔ **20 份**运行 Manifest（多输入/双模式案例一变体一份），缺任一变体不得计齐套。
+- **冻结态**由三者共同表达：正式资产名（无 `.draft`）+ 冻结门 GATE_GREEN 回执（带 commit SHA）+ 台账签字行。**不再由文件名单独承载。**
+- **冻结门双模式真实口径**（`tools/freeze_gate.py`，Founder 2026-08-17 批准，属改考卷）：
+  - **送签态**（`--mode=sign`）仅豁免 4 个运行前补填的构建版本类字段，且取值必须**恰为** `PENDING_BUILD`——`diyu_build_version`、`module_contract_versions.intent`、`module_contract_versions.business_decision`、`module_contract_versions.creative`；任何其他占位或空值仍判红。
+  - **运行态**（默认，无参数）不豁免，运行前全查。
+  - **⛔ 尚未实现（P0-2 待建，不得当作已在的检测器引用）**：活动合同区 `PENDING_IA0` 扫描 → RED；「Manifest 实测份数 == 齐套口径声明份数」机器断言（杜绝靠人眼对数）。截至本次修订，`tools/freeze_gate.py` 只实现 R1–R7 七条红线，其 R1 比对的是脚本常量 `EXPECTED_MANIFESTS`、不是解析出的声明份数，全文亦无 `PENDING_IA0` 扫描。两项随《M0收口修复批次_执行规格.md》P0-2 实现后，本行才可改为现时态。
+- **签字动作定义（B.2.1）**：A 类裁决逐项落盘 → B 类建设项交付 → 冻结门（送签模式）GATE_GREEN → 20 份 Manifest 写入 `approved_by` / `approved_at` → 台账登记。
 
-> 注：第 2 项我可在送签前再出一轮带推荐值的选择题（同 08-17 预裁决模式），把当天压缩回 ≈15 分钟。
+## 六、签字记录（批准行；只增不改）
 
-## 附｜签字动作定义（B.2.1）
-
-A 类逐项裁决落盘 → B 类清零 → PENDING 扫描断言过 → 19 份 Manifest 的 approved_by/approved_at 写入你的签字与时间戳 → 状态 draft→FROZEN → M0 退出门核验。
+| 批次 | 签字人 | 时间 | 覆盖 | 当前效力 |
+|---|---|---|---|---|
+| IA-0 首签 | Founder（Faye） | 2026-08-17T19:08:38+08:00 | 20 份 Manifest 的 `approved_by` / `approved_at` | 该次收口宣告已于同日撤回（外部审查 BLOCK，台账 08-17）；签字记录保留为历史事实，不再作为 M0 收口依据 |
+| IA-0 重签 | PENDING_RESIGN_P0-6 | PENDING_RESIGN_P0-6 | 修复批次六项 BLOCK 全关闭后的最终资产 | 重签程序见《M0收口修复批次_执行规格.md》P0-6（不沿用 2026-08-17T19:08:38 旧签字时间） |

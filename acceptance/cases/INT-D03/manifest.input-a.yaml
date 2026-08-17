@@ -1,0 +1,42 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（裁决台账 + acceptance/cases/OPEN_QUESTIONS.md 文首）；本文件相关注释已逐处回填该批裁决结果，剩余 PENDING_* 仅为待建设/待定格的值。
+# 校验说明：tools/validate_schema.py 只校结构，对 PENDING_* 占位完全无感（且 approved_at 在 B.2.1（B:163）是 datetime，
+#   本仓 case_manifest.schema.json 只约束 string、无 format）——SCHEMA_OK ≠ 可冻结（三案例同问，OQ-INT-D01-06）。
+# 案例真源：B.4.1/INT-D03（B:350-385）——只引用不复述
+# 字段定义真源：B.2.1 Case Manifest（B:128-166）+ contracts/schemas/case_manifest.schema.json
+# 运行份数：本案例共 2 份运行 Manifest（manifest.input-a.yaml + manifest.input-b.yaml），缺任一份不得计为齐套。
+#   依据：B:130「每个正式案例运行前必须冻结一份 Case Manifest：」；B:354-356「输入 A」与 B:358-360「输入 B」两组任务；
+#   B:372-375 四条禁止结果中三条只能靠两次运行比对判定；B:385 主要失败标签含 INT_CROSS_RUN_CONTAMINATION。
+# 本份 = 输入 A 侧；声明的切换项只有 task_statement（逐字照抄 B:356），其余字段与 manifest.input-b.yaml 逐字一致。
+#   两份共用同一 context_snapshot_id 与 snapshot_hash，真源 B:362「除商业目标外，两组使用相同事实快照。」——冻结时两份 snapshot_hash 必须逐字相同。
+# execution_mode 说明：B.4.1/INT-D03 未声明 execution_mode；起草时本值为占位（无 B 依据），现值由 Founder 2026-08-17 预裁决定值（OPEN_QUESTIONS OQ-INT-D03-01）。
+# 运行顺序：B:375 禁止结果「后一次读取前一次未批准判断」隐含两次运行有先后，但 B.2.1 Case Manifest 没有运行顺序字段 → OQ-INT-D03-02。
+case_id: INT-D03
+case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
+prd_version: "v0.1"                           # M0-EP01 文档版本一致性声明：主 PRD v0.1 EFFECTIVE
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
+acceptance_contract_version: "v0.4"           # M0-EP01：附录 B 三个核心模块智能验收合同 v0.4 EFFECTIVE（M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID）
+context_snapshot_id: "SNAP-INTD03-0001"       # 起草时为规划名、快照尚未构建；A/B 两份共用同一快照，真源 B:362；2026-08-17 现状：快照已落盘 acceptance/cases/INT-D03/fixtures/context_snapshot.json
+snapshot_hash: "sha256:f3d489f1823d7fc073403274170e80db513111c4de0dd0250ec3ca0b4a81204b"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+task_statement: "用这件羊绒大衣促进春节前库存消化。"   # 照抄 B:356「输入 A」引文，一字不改
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
+hard_rule_refs: []                            # B.4.1/INT-D03（B:350-385）无"冻结事实"块、未列任何规则/禁令对象；起草时仓库真实落盘的规则对象仅 BD-D01 fixtures 的 R-BDD01-001/002，本案例不得凭空断言 object_id/version。后续冻结的品牌事实若附带硬规则，须在此回填 →（三案例同问）OQ-INT-D01-03 ✅预裁决 08-17
+output_schema_version: "v0.1"                 # 占位值：contracts/schemas/intent_execution_plan.schema.json 未声明版本号，B 也未规定诊断案例的输出合同版本 →（三案例同问）OQ-INT-D01-05
+brand_memory_state: DISABLED                  # B:96「首轮验收关闭 Brand Memory。」
+approved_brand_memory_refs: []                # B:180「DISABLED 时引用列表必须为空。」
+e2e_interaction_contract_version: null        # B.2.3（B:187）的共同两阶段交互合同写在「端到端 A/B」名下；本案例属 B.4 模块诊断案例（B:258-264），B 未把该合同套用于诊断案例
+e2e_output_contract_version: null             # 同上，真源 B.2.3（B:184-205）
+baseline_prompt_versions:
+  decision_stage: null                        # B.2.4（B:206-208）的基线两阶段调用同样写在「正式基线／端到端 A/B」名下；B 未要求 B.4 诊断案例跑基线侧
+  creative_stage: null
+diyu_build_version: "PENDING_BUILD"           # 笛语侧尚未构建，无可引用的构建版本
+module_contract_versions:
+  intent: "PENDING_BUILD"
+  business_decision: "PENDING_BUILD"
+  creative: "PENDING_BUILD"
+model_provider: "Alibaba Cloud DashScope"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_name: "qwen-max-0107"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_version: "snapshot-0107（models 接口回执 2026-08-17）"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+generation_parameters_hash: "sha256:24b85c93d027274afddbb347faf50533822566aa2b0f14365f4a62c4e2759262"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+allowed_tools: []                             # 占位保守值：不声明任何工具。B:179 只写「不允许任一侧使用未声明的搜索或知识库」（且 B.2.2 自述适用于正式 A/B），B 未规定诊断案例 allowed_tools 必须为空数组 →（三案例同问）OQ-INT-D01-04
+approved_by: "Founder（Faye）"  # IA-0 首签（2026-08-17 AskUserQuestion 三连裁决，台账登记）；该次 M0 收口宣告已于同日撤回（《裁决台账》08-17），本行保留为历史事实，不再作为 M0 收口依据
+approved_at: "2026-08-17T19:08:38+08:00"  # 首签时间戳（历史事实）。重签由修复批次 P0-6 的 Founder 签字产生并同批更新本两行，不沿用本时间戳；重签前本 Manifest 不得据此宣称已签字冻结生效（见 IA-0_冻结签字包.md 六「签字记录」）

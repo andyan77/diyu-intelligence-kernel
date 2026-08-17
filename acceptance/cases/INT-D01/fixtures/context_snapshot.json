@@ -15,7 +15,7 @@
     ],
     "照抄纪律": "成分/价格/款号/尺码一字不改（价格另存 raw_text 保留截图原文「3980元」）；数组化仅用于 面料成分 与 尺码范围（数据包本身即分项列举），其余字段保留数据包原句，不拆词、不改写、不合并。真实品牌名不得出现；brand_id 固定 fixture-brand-01。",
     "待确认（PENDING，冻结前须裁决，不得默认已通过）": [
-      "product.inventory=800 件 与 product.lifecycle_stage=库存消化期：二者是数据包 P13 自带的商品字段（均标【虚构-剧本】），按本次任务书「P13 商品事实照抄」在场。但 B.4.1/INT-D01「禁止结果」把「虚构库存」列为禁止结果、且 manifest.enhanced.draft.yaml 的快照字段注释注明「快照若带入任一商业目标，本案例考点即失效」——库存消化期是否构成对 INVENTORY_ACTIVATION 的目标暗示、进而削弱本案例的模糊目标考点，B 未规定，执行侧不自决 → 须 Founder/IA-0 裁决保留或剔除。参照：BD-D01 夹具把 inventory 放在 facts 顶层作案例级冻结事实，而非 product 字段。",
+      "product.inventory=800 件 与 product.lifecycle_stage=库存消化期：二者是数据包 P13 自带的商品字段（均标【虚构-剧本】），按本次任务书「P13 商品事实照抄」在场。但 B.4.1/INT-D01「禁止结果」把「虚构库存」列为禁止结果、且 manifest.enhanced.yaml 的快照字段注释注明「快照若带入任一商业目标，本案例考点即失效」——库存消化期是否构成对 INVENTORY_ACTIVATION 的目标暗示、进而削弱本案例的模糊目标考点，B 未规定，执行侧不自决 → 须 Founder/IA-0 裁决保留或剔除。参照：BD-D01 夹具把 inventory 放在 facts 顶层作案例级冻结事实，而非 product 字段。",
       "snapshot_hash 不在本文件内自证：由快照构建工具计算后回填两份 Manifest（quick/enhanced）；哈希口径按 acceptance/cases/OPEN_QUESTIONS.md 文首「执行侧自决项」（规范化 JSON 摘要）落地——此处不写算法名，避免其中的数字被 numeric_grounding 计入可溯源数字集。任何一次快照正文改动都使既有回填值过期，必须同批重算。",
       "_fixture_note 属夹具元数据、不属事实层。整份 JSON 是否原样下发给被测模块，B/A 均未规定；若原样下发，本节的案例编号与考点描述会成为对模型的提示 → 冻结前须确认剥离口径。"
     ],

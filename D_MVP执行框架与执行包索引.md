@@ -205,7 +205,7 @@ M4
    - 附录 A 核心对象转 JSON Schema（IntentExecutionPlan、BusinessDecisionBundle、CaseManifest 先行）；
    - 首条案例执行文件（BD-D01：manifest + fixtures + 确定性断言 + 故意注错验证断言会红）；
    - 禁止结果检测覆盖率注册表（分母由脚本从 B 实时统计，禁止硬编码）；
-2. **Case Manifest 批准**（B.2.1）：14 条锁定案例（11 条诊断 + 3 条 E2E）逐条冻结 Manifest；
+2. **Case Manifest 批准**（B.2.1）：14 条锁定案例（11 条诊断 + 3 条 E2E）逐条冻结 Manifest（多输入/双模式案例一变体一份 → 共 **20 份**运行 Manifest，齐套口径见《IA-0 冻结签字包》§五）；
 3. **基线冻结**（B.2.3 / B.2.4）：
    - 两阶段共同交互合同与输出合同冻结；
    - 两阶段基线 Prompt 运行前冻结，不得故意写弱；

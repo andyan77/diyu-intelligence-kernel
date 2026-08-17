@@ -1,7 +1,7 @@
 {
   "snapshot_id": "SNAP-CRD02-0001",
   "brand_id": "fixture-brand-01",
-  "_fixture_note": "CR-D02（B.4.3/CR-D02「视频号语法与决策承接」整节）运行快照，对应 acceptance/cases/CR-D02/manifest.draft.yaml。｜内容＝商品事实 P13（数据包·包2）＋品牌事实（数据包·包1）。B.4.3/CR-D02「输入」原文「冻结一个由 Founder / Reviewer 选定的 Business Decision」不在本快照内，落在同目录 frozen_decision_selection.json——那里只写版本化引用与选择记录，候选内容的唯一真源仍是 acceptance/cases/BD-D01/fixtures/output_good.json，本仓不做第二份拷贝。｜事实唯一素材源＝衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md，逐字段标来源，截图事实照抄不改。｜数据包内部不一致（照抄不修，留待裁决）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归 P12，P13「关联图片编号」亦不含 IMG_0674。｜词表差异（照抄不修）：包1「禁用表达清单」10 词与 acceptance/detectors/forbidden_lexicon.yaml 不完全重合——包1 独有「绝绝子」「显贵」「高级感」，词表独有「跳楼价」「亏本价」及 false_scarcity 组 4 词；按 Founder 预裁决③，词表是运营真源，包1 清单是品牌事实原文。｜本案例不考视觉理解；image_refs 仅为编号引用，图片实体不在仓库。",
+  "_fixture_note": "CR-D02（B.4.3/CR-D02「视频号语法与决策承接」整节）运行快照，对应 acceptance/cases/CR-D02/manifest.yaml。｜内容＝商品事实 P13（数据包·包2）＋品牌事实（数据包·包1）。B.4.3/CR-D02「输入」原文「冻结一个由 Founder / Reviewer 选定的 Business Decision」不在本快照内，落在同目录 frozen_decision_selection.json——那里只写版本化引用与选择记录，候选内容的唯一真源仍是 acceptance/cases/BD-D01/fixtures/output_good.json，本仓不做第二份拷贝。｜事实唯一素材源＝衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md，逐字段标来源，截图事实照抄不改。｜数据包内部不一致（照抄不修，留待裁决）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归 P12，P13「关联图片编号」亦不含 IMG_0674。｜词表差异（照抄不修）：包1「禁用表达清单」10 词与 acceptance/detectors/forbidden_lexicon.yaml 不完全重合——包1 独有「绝绝子」「显贵」「高级感」，词表独有「跳楼价」「亏本价」及 false_scarcity 组 4 词；按 Founder 预裁决③，词表是运营真源，包1 清单是品牌事实原文。｜本案例不考视觉理解；image_refs 仅为编号引用，图片实体不在仓库。",
   "facts": {
     "business_goal": {
       "value": "INVENTORY_ACTIVATION",

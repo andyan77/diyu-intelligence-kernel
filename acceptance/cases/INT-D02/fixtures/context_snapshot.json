@@ -5,7 +5,7 @@
     "案例真源": "B.4.1/INT-D02｜快速模式与增强模式（B_三个核心模块智能验收合同.md「B.4.1 Intent Intelligence」→「INT-D02｜快速模式与增强模式」整节）——只引用，不复述判分口径",
     "素材真源": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §3 包2 P13「10%羊绒风衣式大衣」条；逐字段来源见各字段 source",
     "考点（只述初始条件，不写答案）": "本快照只负责造出 B.4.1/INT-D02「输入」原文「商品基本事实存在，但缺少影响表达的账号人格或品牌信息。」这一初始条件：P13 商品基本事实在场，人设 / 账号 / 品牌信息不在场。快速模式与增强模式两族允许答案在 B.4.1/INT-D02「允许答案族」，禁止结果在 B.4.1/INT-D02「禁止结果」，本文件不复述、不预写。",
-    "两份 Manifest 共用": "manifest.quick.draft.yaml 与 manifest.enhanced.draft.yaml 共用本快照（两份的 context_snapshot_id 均写 SNAP-INTD02-0001）；两份仅 execution_mode 不同，冻结时 snapshot_hash 必须逐字相同（该「共用同一快照」口径属草案起草口径、B 未就本案例规定 → OQ-INT-D02-01）。",
+    "两份 Manifest 共用": "manifest.quick.yaml 与 manifest.enhanced.yaml 共用本快照（两份的 context_snapshot_id 均写 SNAP-INTD02-0001）；两份仅 execution_mode 不同，冻结时 snapshot_hash 必须逐字相同（该「共用同一快照」口径属草案起草口径、B 未就本案例规定 → OQ-INT-D02-01）。",
     "故意缺失清单（显式 MISSING，禁补）": [
       "persona（人设/账号人格）——B.4.1/INT-D02「输入」点名「缺少影响表达的账号人格」；数据包 §5 包4 存在 R01/R02，本快照刻意不带入。B.4.1/INT-D02「禁止结果」明禁「编造创始人背景」",
       "video_account（视频号账号事实）——B.4.1/INT-D02「输入」点名「账号人格」的承载对象；数据包 §6 包5 存在，本快照刻意不带入。B.4.1/INT-D02「禁止结果」明禁「编造…账号关系」",

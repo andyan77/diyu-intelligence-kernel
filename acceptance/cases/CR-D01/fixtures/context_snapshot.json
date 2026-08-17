@@ -1,7 +1,7 @@
 {
   "snapshot_id": "SNAP-CRD01-0001",
   "brand_id": "fixture-brand-01",
-  "_fixture_note": "CR-D01（B.4.3/CR-D01 整节）两份运行 Manifest（manifest.persona-owner.draft.yaml / manifest.persona-buyer.draft.yaml）共用本快照与同一 snapshot_hash（B.4.3/CR-D01「输入」原文「使用相同商品、商业目标和已选候选，分别切换：」）。人设是两份 Manifest 的唯一声明切换项，故不入本快照，独立落在同目录 persona_owner.json（包4/R01 沈岚）与 persona_buyer.json（包4/R02 许澄）——人设若写进快照内容，两份运行就无法共用同一 snapshot_id 与同一 hash。｜事实唯一素材源＝衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md（下称数据包），逐字段标来源，截图事实照抄不改，数据包标注的【虚构-剧本】【模拟】按原口径归类。｜数据包内部不一致（照抄不修，留待裁决）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归给 P12（全羊毛风衣式大衣），P13「关联图片编号」也不含 IMG_0674。｜张力（留待裁决）：数据包·包5 记「主出镜人＝沈岚，关联 R01」，而 CR-D01 的买手侧运行由 R02 许澄出镜；R02 出镜限制含「不替主理人宣布价格政策或库存处置」，两者是否冲突由 Founder/IA-0 判。｜本案例不考视觉理解；image_refs 仅为编号引用，图片实体不在仓库。",
+  "_fixture_note": "CR-D01（B.4.3/CR-D01 整节）两份运行 Manifest（manifest.persona-owner.yaml / manifest.persona-buyer.yaml）共用本快照与同一 snapshot_hash（B.4.3/CR-D01「输入」原文「使用相同商品、商业目标和已选候选，分别切换：」）。人设是两份 Manifest 的唯一声明切换项，故不入本快照，独立落在同目录 persona_owner.json（包4/R01 沈岚）与 persona_buyer.json（包4/R02 许澄）——人设若写进快照内容，两份运行就无法共用同一 snapshot_id 与同一 hash。｜事实唯一素材源＝衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md（下称数据包），逐字段标来源，截图事实照抄不改，数据包标注的【虚构-剧本】【模拟】按原口径归类。｜数据包内部不一致（照抄不修，留待裁决）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归给 P12（全羊毛风衣式大衣），P13「关联图片编号」也不含 IMG_0674。｜张力（留待裁决）：数据包·包5 记「主出镜人＝沈岚，关联 R01」，而 CR-D01 的买手侧运行由 R02 许澄出镜；R02 出镜限制含「不替主理人宣布价格政策或库存处置」，两者是否冲突由 Founder/IA-0 判。｜本案例不考视觉理解；image_refs 仅为编号引用，图片实体不在仓库。",
   "facts": {
     "business_goal": {
       "value": "INVENTORY_ACTIVATION",

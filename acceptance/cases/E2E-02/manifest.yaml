@@ -1,0 +1,71 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（裁决台账 + acceptance/cases/OPEN_QUESTIONS.md 文首）；本文件相关注释已逐处回填该批裁决结果，剩余 PENDING_* 仅为待建设/待定格的值。
+# 案例真源：B.5.1/E2E-02（B:747-758，只引用不复述）
+# 字段定义真源：B.2.1 Case Manifest（B:132-164）+ contracts/schemas/case_manifest.schema.json
+# 运行份数：本案例为单次运行案例（B.5.1 未要求同案例多次运行），故只此一份运行 Manifest；
+#   本案例与 E2E-01 是两个独立案例，但 B:749 明文要求「与 E2E-01 使用相同企业事实」，
+#   故共用同一 context_snapshot_id 且 snapshot_hash 必须逐字相同，两份缺任一份不得计为齐套。
+#
+# 起草说明（不构成对 B 的复述，仅记录本 Manifest 取值依据）：
+# - task_statement：B:749 的句式是「与 E2E-01 使用相同企业事实，只把目标改为：」，其后 B:751 的
+#   引用块是**目标替换句**，不是下发给两侧的完整业务任务陈述；照抄该句会让两侧收到的任务里
+#   没有任何商品/库存上下文。故起草时填 PENDING 占位，合成规则写死如下（现值已按该规则于 2026-08-17 与 E2E-01 同轮定稿）：
+#   本案例 task_statement = E2E-01 于 2026-08-17 定稿的任务陈述 + B:751 目标替换句，
+#   且必须与 E2E-01 同轮定稿（不得单独冻结 E2E-02）——OPEN_QUESTIONS OQ-E2E-02-01 ✅预裁决 08-17。
+# - execution_mode：B.5.1/E2E-02 未声明 execution_mode；起草时本值为占位（无 B 依据），
+#   现值由 Founder 2026-08-17 预裁决定值（OPEN_QUESTIONS OQ-E2E-02-02）。
+# - hard_rule_refs：B:749 声明与 E2E-01 使用相同企业事实，E2E-01 侧禁令见 B:730（B 原文：禁止低价叫卖）；
+#   起草时仓库 contracts/rules/ 无任何 RuleRecord 落盘对象，不得凭空铸造 object_id/version，（2026-08-17 现状：contracts/rules/ 已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三条 RuleRecord，本案例登记依据见下方 hard_rule_refs）
+#   故起草时留空数组，规则对象注册后与 E2E-01 引同一对象回填（与 acceptance/cases/BD-D01/fixtures/
+#   context_snapshot.json 的 R-BDD01-001「禁止低价叫卖表达」同源）——见 OPEN_QUESTIONS OQ-E2E-02-03。
+# - e2e_interaction_contract_version / e2e_output_contract_version：本案例属 B.5 端到端匿名 A/B，
+#   两字段本应指向 B.2.3（B:184-204）要求的两侧共用外部交互/输出合同；但 contracts/interaction/README.md §4「IA-0 冻结前置项关闭记录表」的「共同外部**交互**合同文件」「共同外部**输出**合同文件」两行（按小节名引用，不锁行号）
+#   起草时登记过该缺口——「尚无一份两侧共用的独立合同文件」，故当时留空并作缺口登记；现状：两份合同已落盘，并随 M0 收口修复批次 P0-1 内容定稿为 v1.0 / CONTENT-FROZEN（生效待 P0-6 Founder 重签），两字段已回填 v1.0
+#   （OPEN_QUESTIONS OQ-E2E-02-04 ✅预裁决 08-17）。
+# - context_snapshot_id：复用 E2E-01 的 SNAP-E2E01-0001，依据 B:749「与 E2E-01 使用相同企业事实」
+#   与 B:172「相同 Context Snapshot」；snapshot_hash 必须与 E2E-01 逐字相同，
+#   不得另建一份内容相同的快照（见 OPEN_QUESTIONS OQ-E2E-02-05）。
+# - output_schema_version：B 未给版本号，contracts/schemas/ 内各 Schema 文件也未声明版本号；
+#   现值 v0.1 无外部真源背书，系起草沿用值。OQ-E2E-02-06 的裁决口径是「数值随 B 类建设 / IA-0 定格填实」；
+#   IA-0 §四已宣告 B 类建设项交付，但本字段最终定格未随之完成 → 如实登记为 P0-6 重签前的待定格项（详见下方字段处注释）。
+
+case_id: E2E-02
+case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
+prd_version: "v0.1"                           # 版本基线见 M0-EP01_文档版本一致性声明.md 一、现行版本基线
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
+acceptance_contract_version: "v0.4"           # 同上（附录 B v0.4：M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID，Founder 2026-08-17 批准）
+context_snapshot_id: "SNAP-E2E01-0001"        # 复用 E2E-01 同一快照（B:749 相同企业事实 / B:172 相同 Context Snapshot）
+snapshot_hash: "sha256:80c8f71a04575e53c27d8066ceedd8f67233f7fa7883499bc6641371801b30c9"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+task_statement: "高端品牌羊绒大衣库存 800 件，请通过视频号内容建立长期品牌资产，不以本期销量为主要目标。"  # 合成=E2E-01 定稿句 + B:751 目标替换句（Founder 批准的合成规则）
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
+hard_rule_refs:                            # 禁令文字在 B:730（经 B:749 同事实继承）；起草时 contracts/rules/ 无落盘规则对象，2026-08-17 已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三条 RuleRecord 并按下方依据回填（OQ-E2E-02-03 已关闭）
+  # 【登记依据｜2026-08-17】R-FB01-001 已落盘
+  #   contracts/rules/R-FB01-001.yaml（Founder 预裁决③；词表唯一真源 = acceptance/detectors/forbidden_lexicon.yaml）。
+  #   本案例登记依据：B:749「与 E2E-01 使用相同企业事实」继承 B:730「禁止低价叫卖」；与 E2E-01 引同一规则对象同一 version。
+  #   OQ-E2E-02-03 就此关闭。不登记 R-BDD01-001/002，理由同 E2E-01。
+  - {object_type: RuleRecord, object_id: R-FB01-001, version: 1, brand_id: fixture-brand-01}
+# 【口径｜2026-08-17 M0 收口修复批次实测登记】本字段是执行侧自决的版本戳（IA-0_冻结签字包.md §三「执行侧自决项：Schema 补版本戳」），
+#   B 与 contracts/schemas/ 各 Schema 文件均未声明版本号 → v0.1 无外部真源背书，系起草沿用值。
+#   OQ-E2E-02-06 的裁决口径是「数值随 B 类建设 / IA-0 定格填实」；IA-0 §四已宣告 B 类建设项交付，但**本字段的最终定格未随之完成**，
+#   如实登记为 P0-6 重签前的待定格项（改值 = 改考卷，须 Founder 裁决后同批升版 + 双侧重跑，本批次不擅自改动）。
+#   注：本案例的输出合同版本另由 e2e_output_contract_version = v1.0 承载，与本字段不是同一口径。
+output_schema_version: "v0.1"
+brand_memory_state: "DISABLED"                # B.1.4（B:96）：首轮验收关闭 Brand Memory
+approved_brand_memory_refs: []                # B.2.2（B:180）：DISABLED 时引用列表必须为空
+e2e_interaction_contract_version: "v1.0"  # IA-0 冻结批次（contracts/interaction/e2e_interaction_contract.md）
+e2e_output_contract_version: "v1.0"  # IA-0 冻结批次（contracts/interaction/e2e_output_contract.md）
+baseline_prompt_versions:
+  decision_stage: "v1.0"  # IA-0 冻结（baseline_prompt_stage_D.md）
+  creative_stage: "v1.0"  # IA-0 冻结（baseline_prompt_stage_C.md）
+diyu_build_version: "PENDING_BUILD"           # 笛语侧尚未构建
+module_contract_versions:
+  intent: "PENDING_BUILD"
+  business_decision: "PENDING_BUILD"
+  creative: "PENDING_BUILD"
+# OD-02 厂商组合已裁决（裁决台账 08-17）；版本/参数已于 2026-08-17 IA-0 定格，下列四行为实测值（起草时的 PENDING_OD02_IA0 占位已清）
+model_provider: "Alibaba Cloud DashScope"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_name: "qwen-max-0107"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_version: "snapshot-0107（models 接口回执 2026-08-17）"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+generation_parameters_hash: "sha256:24b85c93d027274afddbb347faf50533822566aa2b0f14365f4a62c4e2759262"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+allowed_tools: []                             # 本案例未声明任何工具，故为空数组；B.2.2（B:179）禁止任一侧使用未声明的搜索或知识库
+approved_by: "Founder（Faye）"  # IA-0 首签（2026-08-17 AskUserQuestion 三连裁决，台账登记）；该次 M0 收口宣告已于同日撤回（《裁决台账》08-17），本行保留为历史事实，不再作为 M0 收口依据
+approved_at: "2026-08-17T19:08:38+08:00"  # 首签时间戳（历史事实）。重签由修复批次 P0-6 的 Founder 签字产生并同批更新本两行，不沿用本时间戳；重签前本 Manifest 不得据此宣称已签字冻结生效（见 IA-0_冻结签字包.md 六「签字记录」）

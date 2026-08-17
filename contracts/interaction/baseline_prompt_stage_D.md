@@ -1,5 +1,3 @@
-> **状态：v1.0 FROZEN（Founder 2026-08-17 IA-0 签字批次生效；正文中残留的 v0.1-draft / PENDING_IA0 冻结待办字样自本行起读作已随本批次冻结定格）**
-
 # 基线 Prompt｜阶段 D（商业候选）
 
 > A/B 对比**基线侧**（不经过笛语模块的同基础模型直接调用）阶段 D 用 Prompt。
@@ -10,9 +8,10 @@
 | 项目 | 内容 |
 |---|---|
 | 文件 ID | DIYU-CONTRACT-INTERACTION-BASELINE-D |
-| 版本 | **v0.1-draft** |
-| 状态 | **PENDING_IA0 冻结**（未冻结，不得用于正式 A/B 取证） |
-| 对应真源 | B.2.2「同条件」/ B.2.3 阶段 D 外部输出合同 / B.2.4 通用 LLM 基线 |
+| 版本 | **v1.0** |
+| 状态 | **CONTENT-FROZEN（内容定稿）；生效 PENDING_RESIGN_P0-6（Founder 重签后本行更新为 EFFECTIVE+签字时间）** |
+| 修订记录 | v0.1-draft 起草（M0-EP02）→ IA-0 2026-08-17 预裁决批次逐条回填 → **v1.0 内容定稿（2026-08-17 M0 收口修复批次）** → **2026-08-17 P0-1 收尾修复**：全文 `B:NNN` 行号按 B v0.4 逐条重算（v0.3→v0.4 在 B:13 / B:929 / B:943 三处插行，每处引用均已回读 B 该行内容核对）；删除与 §0 控制块重复的首行横幅（P0-1「不许再用首行覆盖声明」） |
+| 对应真源 | B.2.2「同条件」/ B.2.3 阶段 D 外部输出合同 / B.2.4 通用 LLM 基线（B 现行有效版本 **v0.4**，2026-08-17 生效基线：PRD v0.1 + A v0.2 + B v0.4） |
 | 字段来源 | B.2.3 明列字段 + A.6.2 / A.6.3 / A.2.5（子字段，见 §5 对照表） |
 | 适用侧 | 仅基线侧（baseline）。笛语侧不使用本文件 |
 | 允许调用次数 | **1 次**（B.2.4：阶段 D 允许一次受控直接调用，此外不得增加隐藏迭代、自我批改或人工改写） |
@@ -228,8 +227,8 @@
 - 生成参数与工具访问边界与笛语侧一致，`generation_parameters_hash` / `allowed_tools` 写入 Case Manifest（B.2.1）。
 - 输出进入匿名处理（B.2.5：随机 X / Y 标签、相同外层展示格式、随机排列、揭晓前冻结裁判原始选择）。
 - Founder / Reviewer 在不知来源时为 X、Y 各选一个 `candidate_id`；选择、理由和时间冻结后才进入阶段 C（B.2.3）。
-- **`<thinking>` 块的处置（Founder 2026-08-17 预裁决⑤ 已定：允许 `<thinking>` 块、匿名前剥离；《裁决台账》08-17 行；OQ-BASELINE-06）**：模型可选输出的 `<thinking>…</thinking>` 块由 runner 在**进入 B.2.5 匿名处理之前整块剥离**，剥离后的 JSON 才是参与比较与判分的输出。剥离范围与「该块不属 B.2.5『匿名处理不得修改业务内容』所指的业务内容」这一认定，须写入 `anonymity_procedure.md` 并两侧同规则（该文件 §8 P-14 尚未回填本预裁决，**冻结前必须同步**）。本条口径与 `e2e_interaction_contract.md` §5 第 3 行一致。
-- **失败处置（Founder 2026-08-17 预裁决④ 已定：基线零重试、不动 B 合同，整场对称重跑合法；《裁决台账》08-17 行；OQ-BASELINE-07）**：基线侧出现 `FORMAT_INVALID` / `SCHEMA_INVALID`、输出被 `max_tokens` 截断或调用超时时，默认口径为**零重试**——B.2.4 明文「阶段 D 和阶段 C 各允许一次受控直接调用；除此之外不得增加隐藏迭代」：该次调用照实记录（次数、Token、成本、延迟按 B.2.2），该侧本案例记 FAILED，不得由 runner 私下追加任何重试。笛语侧 PRE-03-M 的有界重试（B:244）属 B.3「进入智能验收前的最低运行检查」（B:235「这些检查只判断系统能否安全进入智能验收，不参与智能能力评分」；B:253「任一最低运行检查失败时，不得进入正式端到端 A/B」），自身限定「当前里程碑模块」，**对两侧均不构成端到端阶段调用的重试预算**——A/B 端到端阶段两侧一律各 1 次调用、零重试。整场（两侧对称）重跑合法，按 B.2.1「升级案例版本并重新运行两侧」（B:165）执行，不得只重跑单侧。若后续仍要给任一侧对称重试预算，**那等于修改 B.2.4 考试条件，必须走 B.8.1 版本升级 + 双侧重跑**，不能由本文件自行约定。与阶段 C §4 及 `e2e_interaction_contract.md` §5 第 2 行同一条规则，两阶段不得各行其是。
+- **`<thinking>` 块的处置（Founder 2026-08-17 预裁决⑤ 已定：允许 `<thinking>` 块、匿名前剥离；《裁决台账》08-17 行；OQ-BASELINE-06）**：模型可选输出的 `<thinking>…</thinking>` 块由 runner 在**进入 B.2.5 匿名处理之前整块剥离**，剥离后的 JSON 才是参与比较与判分的输出。剥离范围与「该块不属 B.2.5『匿名处理不得修改业务内容』所指的业务内容」这一认定，须写入 `anonymity_procedure.md` 并两侧同规则——**已同步**（2026-08-17 M0 收口修复批次，`anonymity_procedure.md` v1.0 §8 P-14 已回填：整块剥离、执行时点为进入 B.2.5 匿名处理之前、执行人为非判分侧 runner，且该块不属 B:230「匿名处理不得修改业务内容」所指业务内容）。本条口径与 `e2e_interaction_contract.md` §5 第 3 行一致。
+- **失败处置（Founder 2026-08-17 预裁决④ 已定：基线零重试、不动 B 合同，整场对称重跑合法；《裁决台账》08-17 行；OQ-BASELINE-07）**：基线侧出现 `FORMAT_INVALID` / `SCHEMA_INVALID`、输出被 `max_tokens` 截断或调用超时时，默认口径为**零重试**——B.2.4 明文「阶段 D 和阶段 C 各允许一次受控直接调用；除此之外不得增加隐藏迭代」：该次调用照实记录（次数、Token、成本、延迟按 B.2.2），该侧本案例记 FAILED，不得由 runner 私下追加任何重试。笛语侧 PRE-03-M 的有界重试（B:245）属 B.3「进入智能验收前的最低运行检查」（B:236「这些检查只判断系统能否安全进入智能验收，不参与智能能力评分」；B:254「任一最低运行检查失败时，不得进入正式端到端 A/B」），自身限定「当前里程碑模块」，**对两侧均不构成端到端阶段调用的重试预算**——A/B 端到端阶段两侧一律各 1 次调用、零重试。整场（两侧对称）重跑合法，按 B.2.1「升级案例版本并重新运行两侧」（B:166）执行，不得只重跑单侧。若后续仍要给任一侧对称重试预算，**那等于修改 B.2.4 考试条件，必须走 B.8.1 版本升级 + 双侧重跑**，不能由本文件自行约定。与阶段 C §4 及 `e2e_interaction_contract.md` §5 第 2 行同一条规则，两阶段不得各行其是。
 
 ## 5. 字段来源对照表（可审计溯源）
 
@@ -238,35 +237,36 @@
 | `business_problem` | B.2.3 明列 | 冻结要求 |
 | `recognized_conflicts` | B.2.3 明列；子字段 `conflict_id / description / side_a / side_b` 来自 A.6.2 | 子字段派生自 A |
 | `candidate_options`（目标三个、最低两个） | B.2.3 明列 | 冻结要求 |
-| `candidate_options[]` 子字段 | A.6.3 BusinessCandidate 的**外部可见子集**（已剔除 `trace_refs`、`hard_rule_results`——属笛语内部，B.2.3 不要求基线伪造） | **PENDING_IA0**（OQ-BASELINE-02）：外部展示子集需在共同交互合同冻结时确认 |
+| `candidate_options[]` 子字段 | A.6.3 BusinessCandidate 的**外部可见子集**（已剔除 `trace_refs`、`hard_rule_results`——属笛语内部，B.2.3 不要求基线伪造） | **冻结要求**（OQ-BASELINE-02 ✅预裁决 08-17）：外部可见子集已定稿，逐字见 `e2e_output_contract.md` §2.1 |
 | `candidate_count_status` | B.2.3 明列；枚举值来自 A.6.2 | 冻结要求 |
 | `candidate_count_explanation` | B.2.3 明列；三态说明来自 A.6.3 约束 | 冻结要求 |
 | `comparative_tradeoffs` | B.2.3 明列；子字段来自 A.6.2（已剔除 `trace_refs`） | 冻结要求 |
-| `candidate_options[].product_roles[].product_ref` | A.6.3 该字段类型为 `VersionedRef`；**本文件把它降级为自由文本，取值为 A.3.2 `product_id` 原值**（依据 B.2.3「不要求基线伪造笛语内部 Run、Artifact 或 Trace ID」） | **PENDING_IA0**（OQ-BASELINE-03）：降级写法须与共同外部合同 + 笛语侧转换器一致 |
-| `risks`（顶层） | B.2.3 明列（B:187 阶段 D 外部 Schema 逐项含 `risks`）。子字段沿用 A.6.3 `condition / possible_impact / mitigation`；**A.6.2 BusinessDecisionBundle 无顶层 risks，故顶层容器在 A 中无对应对象** | **PENDING_IA0**（OQ-BASELINE-04）：顶层与候选级两处 risks 的分工须与笛语侧转换器一次性定死并写进共同输出合同 |
+| `candidate_options[].product_roles[].product_ref` | A.6.3 该字段类型为 `VersionedRef`；**本文件把它降级为自由文本，取值为 A.3.2 `product_id` 原值**（依据 B.2.3「不要求基线伪造笛语内部 Run、Artifact 或 Trace ID」） | **已定**（OQ-BASELINE-03 ✅预裁决 08-17）：降级写法 = 写 A.3.2 `product_id` 原值，逐字见 `e2e_output_contract.md` §1 商品行、§2.1 `product_roles[]` 行。笛语侧转换器落点尚未建设，其输出与本写法的逐字对齐为 **M1 结转项** |
+| `risks`（顶层） | B.2.3 明列（B:188 阶段 D 外部 Schema 逐项含 `risks`）。子字段沿用 A.6.3 `condition / possible_impact / mitigation`；**A.6.2 BusinessDecisionBundle 无顶层 risks，故顶层容器在 A 中无对应对象** | **已定**（OQ-BASELINE-04 ✅预裁决 08-17）：两处 risks 的分工已一次性定死并写进共同输出合同 `e2e_output_contract.md` §2.3（顶层 = 整份输出层面 / 候选级 = 该候选独有；两处都必须填、不得重复照抄、不得互相矛盾）。笛语侧转换器落点尚未建设，其输出与本分工的逐字对齐为 **M1 结转项** |
 | `candidate_options[].risks` | A.6.3 `risks[]`：`condition / possible_impact / mitigation`（已剔除 `trace_refs`——属笛语内部） | 子字段派生自 A |
-| 全部引用字段的书写形式（`product_ref` / `supporting_fact_refs` / `applied_rule_refs` / `basis_entries[].source`） | 商品用 A.3.2 `product_id`；受众用 A.3.4 `audience_id`；人物用 A.3.5 `persona_id`；硬规则用 A.9.1 `rule_id` + `version`。**事实条目标识：B 与 A 均未为外部展示合同规定其形式**，本文件只要求「照抄企业事实中的原有标识、不得另造」 | **PENDING_IA0**（OQ-BASELINE-05）：事实引用书写形式随共同输出合同定稿；两侧写法一致是 B.2.5「相同外层展示格式」的前置 |
+| 全部引用字段的书写形式（`product_ref` / `supporting_fact_refs` / `applied_rule_refs` / `basis_entries[].source`） | 商品用 A.3.2 `product_id`；受众用 A.3.4 `audience_id`；人物用 A.3.5 `persona_id`；硬规则用 A.9.1 `rule_id` + `version`。**事实条目标识：B 与 A 均未为外部展示合同规定其形式**，本文件只要求「照抄企业事实中的原有标识、不得另造」 | **已定格**（OQ-BASELINE-05 ✅预裁决 08-17）：事实条目标识 = **照抄快照中该条事实的原有标识 / 键名路径**（本仓夹具即 `facts.*` 键名路径，如 `facts.inventory` / `facts.product`），不得另造编号；写法逐字见 `e2e_output_contract.md` §1「事实条目」行，与阶段 C §5 同值，两侧同写以满足 B.2.5「相同外层展示格式」 |
 | FACT / RULE / ASSUMPTION / MODEL_JUDGMENT 区分 | B.2.3 明列；四类定义逐字来自 A.1.2；枚举来自 A.2.6 TraceType | 冻结要求 |
-| `basis_entries`（承载四类依据的外部字段） | **B 与 A 均未为"外部展示 Schema"命名该容器**（A.9.2 TraceBundle 属笛语内部）。本文件取名 `basis_entries` | **PENDING_IA0**（OQ-BASELINE-01）：字段名须与共同外部合同 + 笛语侧转换器对齐 |
+| `basis_entries`（承载四类依据的外部字段） | **B 与 A 均未为"外部展示 Schema"命名该容器**（A.9.2 TraceBundle 属笛语内部）。本文件取名 `basis_entries` | **已定**（OQ-BASELINE-01 ✅预裁决 08-17）：共同输出合同已取同名 `basis_entries`（`e2e_output_contract.md` §2 第 8 行），两侧同名。笛语侧转换器落点尚未建设，其输出与该容器名的逐字对齐为 **M1 结转项** |
 | `confidence` | B.2.3 明列；结构逐字来自 A.2.5 ConfidenceStatement | 冻结要求 |
 | 输出语言 = 中文（简体） | **B 未规定输出语言**；本文件按 B.2.5「使用相同外层展示格式」取两侧同一语言口径，避免语言或中英混排差异构成来源指纹 | **预裁决已定**（Founder 2026-08-17；OQ-BASELINE-09 已标 ✅预裁决 08-17，《裁决台账》08-17 行）：两侧同为中文（简体），字段名与枚举值保持英文原样；与阶段 C §5 及 `e2e_interaction_contract.md` §5 第 4 行同口径 |
-| `<thinking>` 块（不进入输出合同） | **B 未规定**；本文件按 B.2.4「不得故意写弱」补足草稿空间（对照 B:181 笛语侧可多模块多次调用把推理外化） | **预裁决⑤已定**（Founder 2026-08-17「允许 `<thinking>` 块、匿名前剥离」，《裁决台账》08-17 行；OQ-BASELINE-06）：剥离范围与「不属 B.2.5 业务内容」的认定待 `anonymity_procedure.md` §8 P-14 同批回填 |
+| `<thinking>` 块（不进入输出合同） | **B 未规定**；本文件按 B.2.4「不得故意写弱」补足草稿空间（对照 B:182 笛语侧可多模块多次调用把推理外化） | **预裁决⑤已定**（Founder 2026-08-17「允许 `<thinking>` 块、匿名前剥离」，《裁决台账》08-17 行；OQ-BASELINE-06）：剥离范围与「不属 B.2.5 业务内容」的认定**已同步**（2026-08-17 M0 收口修复批次，`anonymity_procedure.md` v1.0 §8 P-14 已回填，另见该文件 §2.3 `stripped_fields_manifest`） |
 
 **已刻意不要求基线输出的字段**（A.6.2 有、但 B.2.3 未列入外部合同）：`artifact`、`system_recommendation`、`human_selection_required`、`blocked_candidate_diagnostics`、`trace_bundle`。理由：B.2.3「不能增加只对一侧可见的业务内容」+「不要求基线伪造笛语内部 Run、Artifact 或 Trace ID」。
 
-## 6. 冻结前待办（PENDING_IA0）
+## 6. 冻结待办关闭记录（IA-0 2026-08-17 签字批次 + M0 收口修复批次回填）
 
 > 每条编号 `OQ-BASELINE-xx` 供中央待裁清单汇编引用；本文件不自建登记文件。
+> 本节是**关闭记录**，不是待办清单：每条给出裁决结果与落盘指针；未了事项一律显式标为结转项并写明结转条件。
 
-1. `basis_entries` 字段名与共同外部交互合同对齐（同一名称必须同时适用于笛语侧转换输出）。（OQ-BASELINE-01）
-2. `candidate_options[]` 外部可见子字段集定稿。（OQ-BASELINE-02）
-3. `product_roles[].product_ref` 由 A.6.3 的 `VersionedRef` 降级为 `product_id` 自由文本，降级写法须与共同外部合同 + 笛语侧转换器一致。（OQ-BASELINE-03）
-4. 顶层 `risks` 与候选级 `risks` 的分工（各装什么、是否允许重复）与笛语侧转换器**一次性定死**并写进共同输出合同；在此之前任何案例不得进入正式 A/B。（OQ-BASELINE-04）
-5. 全部引用字段的书写形式定稿——事实条目标识尤其未定；两侧写法一致是 B.2.5「相同外层展示格式」的前置。（OQ-BASELINE-05）
-6. `<thinking>` 块：**预裁决⑤已定**（Founder 2026-08-17「允许 `<thinking>` 块、匿名前剥离」，《裁决台账》08-17 行）——口径已定，仅待 `anonymity_procedure.md` §8 P-14 同步回填「剥离范围 + 不属 B.2.5 业务内容」的认定 + 同批升版。（OQ-BASELINE-06）
-7. 基线侧 `FORMAT_INVALID` / 截断 / 超时的处置：**预裁决④已定**（Founder 2026-08-17「基线零重试、不动 B 合同，整场对称重跑合法」，《裁决台账》08-17 行）——口径已定，仅待写入 Case Manifest + 同批升版。（OQ-BASELINE-07）
-8. 与 `anonymity_procedure.md` 的衔接确认：阶段 D 输出 → B.2.5 匿名（X / Y）→ 选择冻结 → 回流为阶段 C 的 `{{selected_candidate}}`；衔接口径以 `anonymity_procedure.md` 自身声明为准，本文件不复述。（OQ-BASELINE-08）
-9. 输出语言：**预裁决已定**（两侧中文（简体），字段名与枚举值保持英文原样；OQ-BASELINE-09 已标 ✅预裁决 08-17，《裁决台账》08-17 行）——与阶段 C、`e2e_interaction_contract.md` §5 第 4 行同口径，仅待同批升版。（OQ-BASELINE-09）
-10. `output_contract_version` 取值，写入 Case Manifest 的 `e2e_output_contract_version` / `e2e_interaction_contract_version`（B.2.1）——与阶段 C §6 同一项，两阶段必须同值。（OQ-BASELINE-15）
-11. 模型供应商、模型版本、生成参数、allowed_tools 定格并写入 Case Manifest（OD-02 厂商组合已裁决（台账 08-17），版本 / 参数于 IA-0 定格——本项指后者，见《裁决台账》）。
-12. Founder 签字，状态由 `PENDING_IA0` 改为 `FROZEN`，版本由 `v0.1-draft` 升为 `v1.0`。
+1. ✅ **`basis_entries` 容器名已对齐**：共同输出合同取同名 `basis_entries`（`e2e_output_contract.md` §2 第 8 行），两侧同名，`basis_type` 枚举 = A.2.6 `TraceType`。⏭ 笛语侧转换器落点尚未建设，其输出与该名称的逐字对齐为 **M1 结转项**。（OQ-BASELINE-01 ✅预裁决 08-17，《裁决台账》08-17 行）
+2. ✅ **`candidate_options[]` 外部可见子字段集已定稿**：逐字见 `e2e_output_contract.md` §2.1（`trace_refs` / `hard_rule_results` 按该文件 §4 剔除清单剔除）。⏭ 转换器对齐同第 1 条结转。（OQ-BASELINE-02 ✅预裁决 08-17）
+3. ✅ **`product_roles[].product_ref` 降级写法已定**：写 A.3.2 `product_id` 原值（`e2e_output_contract.md` §1 商品行、§2.1；依据 B:204）。⏭ 转换器对齐同第 1 条结转。（OQ-BASELINE-03 ✅预裁决 08-17）
+4. ✅ **两处 `risks` 分工已一次性定死并写进共同输出合同**（`e2e_output_contract.md` §2.3）：顶层 = 不论选哪个候选都要面对、或候选之间共有的风险；候选级 = 换一条候选就不存在或性质不同的风险；两处都必须填，同一条风险不得重复照抄、两处不得互相矛盾。⏭ 笛语侧转换器落点尚未建设——转换器上线前，笛语侧转换输出不得进入 B.2.5 两侧比较面；对齐核验为 **M1 结转项**，分工口径不变，改动须走 B.8.1 升版 + 双侧重跑。（OQ-BASELINE-04 ✅预裁决 08-17）
+5. ✅ **引用书写形式已定格**：商品 = A.3.2 `product_id` 原值；受众 = A.3.4 `audience_id` 原值；人物 = A.3.5 `persona_id` 原值；硬规则 = A.9.1 `rule_id` + `version`；**事实条目 = 照抄快照中该条事实的原有标识 / 键名路径**（本仓夹具即 `facts.*` 键名路径），不得另造编号。逐字落点 `e2e_output_contract.md` §1，与阶段 C §5 同值，两侧同写。（OQ-BASELINE-05 ✅预裁决 08-17）
+6. ✅ **`<thinking>` 块已关闭**：预裁决⑤已定（Founder 2026-08-17「允许 `<thinking>` 块、匿名前剥离」，《裁决台账》08-17 行）；剥离范围与「不属 B.2.5 业务内容」的认定**已同步回填** `anonymity_procedure.md` v1.0 §8 P-14 / §2.3（2026-08-17 M0 收口修复批次），三份文件同句同口径。（OQ-BASELINE-06）
+7. ✅ **基线侧 `FORMAT_INVALID` / 截断 / 超时处置已关闭**：预裁决④已定（Founder 2026-08-17「基线零重试、不动 B 合同，整场对称重跑合法」，《裁决台账》08-17 行）；口径落点 = 本文件 §4、阶段 C §4、`e2e_interaction_contract.md` §5 第 2 行三处同句。B.2.1 Case Manifest 字段集（B:132-164）未设「重试预算 / 失败处置」字段，故本条不以「写入 Case Manifest」为关闭条件；要给任一侧重试预算须走 B.8.1 升版 + 双侧重跑。（OQ-BASELINE-07）
+8. ✅ **与 `anonymity_procedure.md` 的衔接已确认**：阶段 D 输出 → B.2.5 匿名（X / Y）→ 选择冻结 → 回流为阶段 C 的 `{{selected_candidate}}`；衔接口径以 `anonymity_procedure.md` 自身声明为准，本文件不复述。（OQ-BASELINE-08 ✅预裁决 08-17）
+9. ✅ **输出语言已关闭**：两侧同为中文（简体），字段名与枚举值保持英文原样（OQ-BASELINE-09 ✅预裁决 08-17，《裁决台账》08-17 行）——与阶段 C §5、`e2e_interaction_contract.md` §5 第 4 行同口径。（OQ-BASELINE-09）
+10. ✅ **合同版本取值已定格**：`output_contract_version` = **v1.0**，同值写入端到端匿名 A/B 三份 Case Manifest（E2E-01 / E2E-02 / E2E-03）的 `e2e_output_contract_version` 与 `e2e_interaction_contract_version`，两阶段同值；`baseline_prompt_versions.decision_stage` = 本文件版本 **v1.0**。B.4 模块诊断案例不适用该两字段，按 B.2.3 适用范围取 `null`。（OQ-BASELINE-15）
+11. ✅ **模型供应商、模型版本、生成参数、`allowed_tools` 已定格并写入 20 份 Case Manifest**（`model_provider` / `model_name` / `model_version` / `generation_parameters_hash` / `allowed_tools` 五字段）；生成参数真源 = `contracts/interaction/generation_parameters.json`（`generation_parameters_hash` 唯一计算来源）。按 §0「具体取值由 Case Manifest 记录，不写死在本文件」，本文件不复制取值（OD-02 厂商组合与 IA-0 版本 / 参数定格见《裁决台账》08-17 行）。
+12. ✅ **Founder 签字记录**：2026-08-17 IA-0 批次已签字并落盘（20 份 Case Manifest 的 `approved_by` / `approved_at`）。本文件版本 v1.0、内容定稿与生效状态一律以 §0 元信息控制块为准；因 M0 收口撤回而需要的重签动作由《M0收口修复批次_执行规格.md》P0-6 承担，本节不复述。

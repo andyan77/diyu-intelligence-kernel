@@ -1,6 +1,6 @@
 # RuleRecord 实例｜字段结构逐字照抄 A.9.1（A_模块接口与核心数据字典.md「## A.9.1 RuleRecord」）——A.9.1 之外的字段一个不加。
 # 落盘依据：OPEN_QUESTIONS.md 文首「预裁决（Founder 2026-08-17）」第③项——「BD-D01「一组规则」=现有 2 条」
-#   （B:404 原文说「另冻结一组规则」是复数，Founder 预裁决把这一组定格为现有 2 条，关闭 OQ-BD-D01-04）；
+#   （B:405 原文说「另冻结一组规则」是复数，Founder 预裁决把这一组定格为现有 2 条，关闭 OQ-BD-D01-04）；
 #   OQ-BD-D01-03 要求把只存在于夹具快照 hard_rules[] 的两条升格为正式规则对象。
 # statement 照抄来源：acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 hard_rules[1].statement，一字不改。
 #   该夹具属硬禁止改动范围，本次未做任何修改。
@@ -12,7 +12,7 @@
 rule_id: R-BDD01-002
 brand_id: fixture-brand-01
 version: 1
-# TASK：B:404 明文把这条限定在「两候选降级分支」——它只服务 BD-D01 这场运行的降级条件
+# TASK：B:405 明文把这条限定在「两候选降级分支」——它只服务 BD-D01 这场运行的降级条件
 #   （目的是让 candidate_count_status=DEGRADED_TWO 成立），不是品牌常设禁令 → TASK（A.9.1 四枚举之一）
 scope: TASK
 effect: PROHIBIT

@@ -1,0 +1,59 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（裁决台账 + acceptance/cases/OPEN_QUESTIONS.md 文首）；本文件相关注释已逐处回填该批裁决结果，剩余 PENDING_* 仅为待建设/待定格的值。
+# 案例真源：B.4.4/SYS-D01（B:672-713，只引用不复述）
+# 字段定义真源：B.2.1 Case Manifest（B:132-164）+ contracts/schemas/case_manifest.schema.json
+# 运行份数：本案例为单次运行案例，B.4.4/SYS-D01 未要求成对/多次运行，故只此一份运行 Manifest。
+#
+# 起草说明（不构成对 B 的复述，仅记录本 Manifest 取值依据）：
+# - task_statement：B.4.4/SYS-D01 既无「输入」引文段，也无「能力问题」原句；
+#   B:680-684 仅给出「前置条件」与三条以「例如」引出的局部问题示例。
+#   执行侧不得代 B 从三条示例中选定其一（选定即等于新增 B 未冻结的事实），
+#   故起草时填 PENDING 占位；现值由 Founder 2026-08-17 批准定稿（OPEN_QUESTIONS OQ-SYS-D01-01 ✅预裁决 08-17）。
+# - execution_mode：B.4.4/SYS-D01 未声明 execution_mode；起草时本值为占位（无 B 依据），
+#   现值由 Founder 2026-08-17 预裁决定值（OPEN_QUESTIONS OQ-SYS-D01-02）。
+# - hard_rule_refs：SYS-D01 无「冻结事实」段落，B 未在该案例明文冻结任何品牌规则/禁令，故为空数组。
+#   B:684「某个镜头违反品牌规则」出现在返工触发示例内、且以「例如」引出，不构成已冻结硬规则；
+#   仓库 contracts/rules/ 目前无任何 RuleRecord 落盘对象，不得凭空铸造 object_id/version
+#   （见 OPEN_QUESTIONS OQ-SYS-D01-03）。
+# - e2e_* 与 baseline_prompt_versions：本案例为模块诊断案例（B.4），非端到端匿名 A/B（B.5），故取 null。
+# - output_schema_version：B 未给版本号，contracts/schemas/ 内各 Schema 文件也未声明版本号；
+#   现值 v0.1 无外部真源背书，系起草沿用值。OQ-SYS-D01-04 的裁决口径是「数值随 B 类建设 / IA-0 定格填实」；
+#   IA-0 §四已宣告 B 类建设项交付，但本字段最终定格未随之完成 → 如实登记为 P0-6 重签前的待定格项（详见下方字段处注释）。
+# - context_snapshot_id：起草时为规划名、快照未构建、hash 无法计算；2026-08-17 现状：快照已落盘 acceptance/cases/SYS-D01/fixtures/context_snapshot.json，snapshot_hash 已回填
+#   （见 OPEN_QUESTIONS OQ-SYS-D01-05）。
+
+case_id: SYS-D01
+case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
+prd_version: "v0.1"                           # 版本基线见 M0-EP01_文档版本一致性声明.md 一、现行版本基线
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
+acceptance_contract_version: "v0.4"           # 同上（附录 B v0.4：M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID，Founder 2026-08-17 批准）
+context_snapshot_id: "SNAP-SYSD01-0001"       # 起草时为规划名、快照尚未构建（OQ-SYS-D01-05 ✅预裁决 08-17）；2026-08-17 现状：快照已落盘 acceptance/cases/SYS-D01/fixtures/context_snapshot.json
+snapshot_hash: "sha256:33b2c6c157de97e3ed4361be8e26c3a1241078cf7155b4ddff0effa10fb436de"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+task_statement: "已批准的内容包中，当前拍摄场景不可用——请只做必要的局部调整，不得改变已选商业方向。"  # Founder 2026-08-17 IA-0 裁决定稿（SYS-D01 取 B 三例之首）
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
+hard_rule_refs: []                            # B 未在本案例冻结规则对象；contracts/rules/ 亦无落盘对象（OQ-SYS-D01-03）
+# 【口径｜2026-08-17 M0 收口修复批次实测登记】本字段是执行侧自决的版本戳（IA-0_冻结签字包.md §三「执行侧自决项：Schema 补版本戳」），
+#   B 与 contracts/schemas/ 各 Schema 文件均未声明版本号 → v0.1 无外部真源背书，系起草沿用值。
+#   OQ-SYS-D01-04 的裁决口径是「数值随 B 类建设 / IA-0 定格填实」；IA-0 §四已宣告 B 类建设项交付，但**本字段的最终定格未随之完成**，
+#   如实登记为 P0-6 重签前的待定格项（改值 = 改考卷，须 Founder 裁决后同批升版 + 双侧重跑，本批次不擅自改动）。
+#   注：本案例是模块诊断案例（B.4），`e2e_output_contract_version` 取 null（不适用，见下），故本字段是本案例**唯一**的输出 Schema 版本载体。
+output_schema_version: "v0.1"
+brand_memory_state: "DISABLED"                # B.1.4（B:96）：首轮验收关闭 Brand Memory
+approved_brand_memory_refs: []                # B.2.2（B:180）：DISABLED 时引用列表必须为空
+e2e_interaction_contract_version: null        # 模块诊断案例（B.4），非 B.5 端到端 A/B
+e2e_output_contract_version: null             # 同上
+baseline_prompt_versions:
+  decision_stage: null                        # 诊断案例不跑 B.2.4 基线两阶段
+  creative_stage: null
+diyu_build_version: "PENDING_BUILD"           # 笛语侧尚未构建
+module_contract_versions:
+  intent: "PENDING_BUILD"
+  business_decision: "PENDING_BUILD"
+  creative: "PENDING_BUILD"
+# OD-02 厂商组合已裁决（裁决台账 08-17）；版本/参数已于 2026-08-17 IA-0 定格，下列四行为实测值（起草时的 PENDING_OD02_IA0 占位已清）
+model_provider: "Alibaba Cloud DashScope"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_name: "qwen-max-0107"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_version: "snapshot-0107（models 接口回执 2026-08-17）"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+generation_parameters_hash: "sha256:24b85c93d027274afddbb347faf50533822566aa2b0f14365f4a62c4e2759262"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+allowed_tools: []                             # 本案例未声明任何工具，故为空数组；B.2.2（B:179）禁止任一侧使用未声明的搜索或知识库
+approved_by: "Founder（Faye）"  # IA-0 首签（2026-08-17 AskUserQuestion 三连裁决，台账登记）；该次 M0 收口宣告已于同日撤回（《裁决台账》08-17），本行保留为历史事实，不再作为 M0 收口依据
+approved_at: "2026-08-17T19:08:38+08:00"  # 首签时间戳（历史事实）。重签由修复批次 P0-6 的 Founder 签字产生并同批更新本两行，不沿用本时间戳；重签前本 Manifest 不得据此宣称已签字冻结生效（见 IA-0_冻结签字包.md 六「签字记录」）

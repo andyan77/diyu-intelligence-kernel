@@ -1,7 +1,7 @@
 {
   "snapshot_id": "SNAP-CRD04-0003",
   "brand_id": "fixture-brand-01",
-  "_fixture_note": "CR-D04 输入 C（B.4.3/CR-D04「输入 C」原文「提供损坏、不可读或只能低置信识别局部属性的图片。」）运行快照，对应 acceptance/cases/CR-D04/manifest.input-c.draft.yaml——「坏图」考题。｜坏图实体＝同目录 corrupted_image.jpg：8192 字节随机字节，由 python os.urandom 生成并断言校验（首两字节非 JPEG SOI ff d8、末两字节非 EOI ff d9；file(1) 判为 data；PIL 抛 UnidentifiedImageError）。它不是数据包截图、不冒充任何真实商品图，「损坏」本身就是考题材料，属合法夹具，标注＝夹具虚构-坏图。｜商品事实＝P13（数据包·包2），与输入 A 同款：输入 A（清晰图编号）与输入 C（同款坏图）构成同商品、只换视觉证据质量的对照。选 P13 而非 P08 是执行侧构造选择——B.4.3/CR-D04「输入 C」未指定商品，本任务亦未指定，此处按「与输入 A 同款成对照」取值并显式标注，供 IA-0 复核。｜允许答案族第三条：返回 VISUAL_INPUT_UNREADABLE，或只保留可引用的低置信 PROVISIONAL 属性并明确限制；禁止在图片不可读时输出确定视觉属性。｜数据包内部不一致（照抄不修）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归 P12。",
+  "_fixture_note": "CR-D04 输入 C（B.4.3/CR-D04「输入 C」原文「提供损坏、不可读或只能低置信识别局部属性的图片。」）运行快照，对应 acceptance/cases/CR-D04/manifest.input-c.yaml——「坏图」考题。｜坏图实体＝同目录 corrupted_image.jpg：8192 字节随机字节，由 python os.urandom 生成并断言校验（首两字节非 JPEG SOI ff d8、末两字节非 EOI ff d9；file(1) 判为 data；PIL 抛 UnidentifiedImageError）。它不是数据包截图、不冒充任何真实商品图，「损坏」本身就是考题材料，属合法夹具，标注＝夹具虚构-坏图。｜商品事实＝P13（数据包·包2），与输入 A 同款：输入 A（清晰图编号）与输入 C（同款坏图）构成同商品、只换视觉证据质量的对照。选 P13 而非 P08 是执行侧构造选择——B.4.3/CR-D04「输入 C」未指定商品，本任务亦未指定，此处按「与输入 A 同款成对照」取值并显式标注，供 IA-0 复核。｜允许答案族第三条：返回 VISUAL_INPUT_UNREADABLE，或只保留可引用的低置信 PROVISIONAL 属性并明确限制；禁止在图片不可读时输出确定视觉属性。｜数据包内部不一致（照抄不修）：P13「版型风格特征」引用【截图 IMG_0674】，但数据包 §1 图片归组表把 IMG_0674 归 P12。",
   "facts": {
     "business_goal": {
       "value": "PRODUCT_LAUNCH",

@@ -1,0 +1,80 @@
+# 【2026-08-17 预裁决】execution_mode/task_statement 类待裁项已由 Founder 按推荐整体裁决（裁决台账 + acceptance/cases/OPEN_QUESTIONS.md 文首）；本文件相关注释已逐处回填该批裁决结果，剩余 PENDING_* 仅为待建设/待定格的值。
+# 案例真源：B.4.3/CR-D04｜视觉证据与硬规则（B:634-668，只引用不复述）
+# 字段定义真源：B.2.1（B:128-166，含 B:166「不得在查看结果后修改事实、裁判问题、允许答案、禁止结果或通过条件」）
+#   + contracts/schemas/case_manifest.schema.json
+# 运行拆分：B.2.1（B:130）「每个正式案例运行前必须冻结一份 Case Manifest」；B:638/639/641 是三条互斥输入（有图 / 无图 / 图不可读）
+#   → 本案例共 3 份运行 Manifest（manifest.input-a / input-b / input-c.yaml），缺任一份不得计为齐套（照此签三份：OQ-CR-D04-02 ✅预裁决 08-17）。
+# 本份 = 输入 C（B:642）；三份除 task_statement 与 context_snapshot_id 外全部字段一致。
+
+case_id: CR-D04
+# 与 acceptance/cases/BD-D01/case.yaml 的 v0.1 对齐；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
+case_version: "v0.1"
+
+prd_version: "v0.1"
+data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
+acceptance_contract_version: "v0.4"
+
+# 起草时为规划名、快照尚未构建；2026-08-17 现状：快照已落盘 acceptance/cases/CR-D04/fixtures/context_snapshot_c.json，snapshot_hash 已回填
+# 三份变体各用一份快照（-0001 输入 A / -0002 输入 B / -0003 输入 C），因三条输入的视觉材料本身不同（B:638/639/641）；
+# 三份快照的素材差异与 hash 已于 2026-08-17 构建并实算回填（OQ-CR-D04-03 ✅预裁决 08-17；hash 回填见 OQ-CR-D01-06）
+context_snapshot_id: "SNAP-CRD04-0003"
+snapshot_hash: "sha256:c5e69d25f3613a7446c7243e3c0e46c5a94eb2780eae7fc4bba4f3aa057a9cce"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+
+# 逐字照抄 B:642（仅去除 Markdown 粗体标记 **，未改字）；另两条输入见 manifest.input-a / input-b.yaml。
+# 最终逐运行任务陈述照此冻结（OQ-CR-D04-02 ✅预裁决 08-17）
+task_statement: |-
+  输入 C： 提供损坏、不可读或只能低置信识别局部属性的图片。
+
+# B.4.3/CR-D04 未声明 execution_mode；起草时本值为占位（无 B 依据），现值由 Founder 2026-08-17 预裁决定值（OPEN_QUESTIONS OQ-CR-D04-01）
+execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
+
+# B.4.3/CR-D04 无「冻结事实」小节，未给任何规则编号（「品牌禁用表达」只出现在允许答案族 B:649，「品牌硬规则」只出现在禁止结果 B:657）；
+# 起草时 contracts/rules/ 为空目录（当时全仓唯一落盘的规则对象是 acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 R-BDD01-001/002）；2026-08-17 现状：contracts/rules/ 已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三条 RuleRecord
+# → 起草时取空数组，不凭空断言 object_id/version（OQ-CR-D01-04 ✅预裁决 08-17，四份 CR Manifest 同一处）；2026-08-17 已按下方登记依据补入 R-FB01-001。
+# 另：本案例映射 SYS-03 且主要失败标签含 SYS_RULE_VIOLATION（B:668），无硬规则对象则 B:657 该条禁止结果不可判 → 2026-08-17 已补 R-FB01-001（见下）；B:657 其余未具名品牌硬规则维持不登记（OQ-CR-D04-04 ✅预裁决 08-17）
+hard_rule_refs:
+  # 【登记依据｜2026-08-17】R-FB01-001 已落盘 contracts/rules/R-FB01-001.yaml
+  #   （Founder 预裁决③；词表唯一真源 = acceptance/detectors/forbidden_lexicon.yaml）。
+  #   本案例登记依据：B:649 允许答案族明文「三种输入都遵守品牌禁用表达和商品事实」。
+  #   未登记的部分：B:657「视觉创意覆盖品牌硬规则」所指的其余品牌硬规则 B 未具名，不凭空登记（OQ-CR-D04-04 ✅预裁决 08-17）。
+  - {object_type: RuleRecord, object_id: R-FB01-001, version: 1, brand_id: fixture-brand-01}
+
+# 【起草时口径｜已被 2026-08-17 定格取代，保留为提问时的历史记录】contracts/schemas/ 下当时不存在任何 Creative 输出 Schema，
+#   且本文件 module_contract_versions.creative 仍为 PENDING_BUILD → 当时不写看似已存在的版本号（OQ-CR-D01-05 ✅预裁决 08-17，七份 CR Manifest 同一处）。
+# 【现行口径｜2026-08-17 定格】本字段是**执行侧自决的版本戳**（IA-0_冻结签字包.md §三「执行侧自决项：Schema 补版本戳」），无外部文档为该版本号背书。
+#   九部分交付包的结构真源 = PRD 7.2 + 附录 A v0.2 A.8；本值取 v1.0，与该结构在 contracts/interaction/e2e_output_contract.md §3.1-§3.9 的同批定稿号对齐，便于阶段 C 字段面逐项比对。
+#   **但 e2e_output_contract.md 的「适用范围」限 B.5.1 三个端到端场景（E2E-01/02/03），本诊断案例不受其管辖、不引其为真源**——与下方 e2e_output_contract_version = null 同口径。
+#   机器 Schema 文件随 M3 实现落 contracts/schemas/，属实现工件，不另立口径。
+output_schema_version: "v1.0"
+
+# B.1.4（B:96）：首轮验收关闭 Brand Memory；schema allOf（真源 B.2.2 B:180）：DISABLED 时引用列表必须为空
+brand_memory_state: "DISABLED"
+approved_brand_memory_refs: []
+
+# 诊断案例（B.4），非 B.5 端到端匿名 A/B → 按 B.2.1（B:147-151）的 string|null 取 null（不适用）
+e2e_interaction_contract_version: null
+e2e_output_contract_version: null
+baseline_prompt_versions:
+  decision_stage: null
+  creative_stage: null
+
+diyu_build_version: "PENDING_BUILD"
+module_contract_versions:
+  intent: "PENDING_BUILD"
+  business_decision: "PENDING_BUILD"
+  creative: "PENDING_BUILD"
+
+# OD-02 厂商组合已裁决（裁决台账 08-17：Qwen + DeepSeek 组合，多模态用 Qwen 系列）；版本/参数已于 2026-08-17 IA-0 定格，下列四行为实测值。
+# 起草时 model_version 与同组三字段同取 PENDING_OD02_IA0 占位（原 null 会被「冻结前 grep PENDING 扫未填项」漏掉）；现均为实测值。
+# 本案例含商品图片输入，B.2.1 只给一组 model_* 字段，多模态模型未另记一行 model_name；多模态型号定格 qwen-vl-max，真源 contracts/interaction/generation_parameters.json（OQ-CR-D04-05 ✅预裁决 08-17）
+model_provider: "Alibaba Cloud DashScope"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_name: "qwen-max-0107"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+model_version: "snapshot-0107（models 接口回执 2026-08-17）"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+generation_parameters_hash: "sha256:24b85c93d027274afddbb347faf50533822566aa2b0f14365f4a62c4e2759262"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
+
+# B.2.2（B:179）只禁「任一侧使用未声明的搜索或知识库」，并未规定 allowed_tools 必须为空；
+# B.4.3/CR-D04 未明文允许任何工具 → 本 Manifest 取空数组作保守占位（OQ-CR-D01-07 ✅预裁决 08-17，四份 CR Manifest 同一处）
+allowed_tools: []
+
+approved_by: "Founder（Faye）"  # IA-0 首签（2026-08-17 AskUserQuestion 三连裁决，台账登记）；该次 M0 收口宣告已于同日撤回（《裁决台账》08-17），本行保留为历史事实，不再作为 M0 收口依据
+approved_at: "2026-08-17T19:08:38+08:00"  # 首签时间戳（历史事实）。重签由修复批次 P0-6 的 Founder 签字产生并同批更新本两行，不沿用本时间戳；重签前本 Manifest 不得据此宣称已签字冻结生效（见 IA-0_冻结签字包.md 六「签字记录」）
