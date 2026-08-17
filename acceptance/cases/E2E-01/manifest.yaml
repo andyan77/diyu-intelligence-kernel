@@ -22,15 +22,15 @@
 #   现状：两份合同已落盘，并随 M0 收口修复批次 P0-1 内容定稿为 v1.0 / CONTENT-FROZEN（生效待 P0-6 Founder 重签），两字段已回填 v1.0
 #   （OPEN_QUESTIONS OQ-E2E-01-04）。
 # - output_schema_version：B 未给版本号，contracts/schemas/ 内各 Schema 文件也未声明版本号；
-#   现值 v0.1 无外部真源背书，系起草沿用值。OQ-E2E-01-05 的裁决口径是「数值随 B 类建设 / IA-0 定格填实」；
-#   IA-0 §四已宣告 B 类建设项交付，但本字段最终定格未随之完成 → 如实登记为 P0-6 重签前的待定格项（详见下方字段处注释）。
+#   起草沿用值 v0.1 曾无外部真源背书；Founder 08-17（M0 收口修复批次）已定格为 v1.0——真源 =
+#   e2e_output_contract.md v1.0 阶段C 九部分 Schema，与 CR 类同口径；同批 case_version v0.1→v0.2（B.2.1 升版规则，详见下方字段处注释）。
 # - context_snapshot_id：起草时为规划名、快照未构建、hash 无法计算；2026-08-17 现状：快照已落盘 acceptance/cases/E2E-01/fixtures/context_snapshot.json，snapshot_hash 已回填
 #   且 B:732「Persona 和 VideoAccountFacts 按 Manifest 冻结」所指的两类事实在 B.2.1 字段表
 #   （B:133-163）中无对应字段 → 落点已按 OQ-E2E-01-06 ✅预裁决 08-17 定格为**落 Context Snapshot 的 facts 内**，
 #   实测本案例 fixtures/context_snapshot.json 的 facts 已含 persona_facts / video_account_facts 两键（runtime_verified）。
 
 case_id: E2E-01
-case_version: "v0.1"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
+case_version: "v0.2"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
 prd_version: "v0.1"                           # 版本基线见 M0-EP01_文档版本一致性声明.md 一、现行版本基线
 data_contract_version: "v0.2"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.4"           # 同上（附录 B v0.4：M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID，Founder 2026-08-17 批准）
@@ -47,10 +47,9 @@ hard_rule_refs:                            # B:730 有禁令文字；起草时 c
   - {object_type: RuleRecord, object_id: R-FB01-001, version: 1, brand_id: fixture-brand-01}
 # 【口径｜2026-08-17 M0 收口修复批次实测登记】本字段是执行侧自决的版本戳（IA-0_冻结签字包.md §三「执行侧自决项：Schema 补版本戳」），
 #   B 与 contracts/schemas/ 各 Schema 文件均未声明版本号 → v0.1 无外部真源背书，系起草沿用值。
-#   OQ-E2E-01-05 的裁决口径是「数值随 B 类建设 / IA-0 定格填实」；IA-0 §四已宣告 B 类建设项交付，但**本字段的最终定格未随之完成**，
-#   如实登记为 P0-6 重签前的待定格项（改值 = 改考卷，须 Founder 裁决后同批升版 + 双侧重跑，本批次不擅自改动）。
+#   起草沿用值 v0.1 已由 Founder 08-17（M0 收口修复批次）定格为 v1.0，同批 case_version v0.1→v0.2（B.2.1 升版规则，尚无正式运行故无需重跑）。
 #   注：本案例的输出合同版本另由 e2e_output_contract_version = v1.0 承载，与本字段不是同一口径。
-output_schema_version: "v0.1"
+output_schema_version: "v1.0"                # Founder 08-17 定格（M0 收口修复批次）：真源 = contracts/interaction/e2e_output_contract.md v1.0 阶段C 九部分 Schema；与 CR 类七份同口径
 brand_memory_state: "DISABLED"                # B.1.4（B:96）：首轮验收关闭 Brand Memory
 approved_brand_memory_refs: []                # B.2.2（B:180）：DISABLED 时引用列表必须为空
 e2e_interaction_contract_version: "v1.0"  # IA-0 冻结批次（contracts/interaction/e2e_interaction_contract.md）
