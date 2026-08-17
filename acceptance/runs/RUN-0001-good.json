@@ -8,44 +8,51 @@
     {
       "id": "A1",
       "check": "schema_valid",
+      "tag": "SYS_SCHEMA_INVALID",
       "verdict": "OK",
       "detail": "schema 校验通过"
     },
     {
       "id": "A2",
       "check": "candidate_count",
+      "tag": "BD_CANDIDATE_COLLAPSE",
       "verdict": "OK",
       "detail": "候选数 2 >= 2"
     },
     {
       "id": "A3",
       "check": "tradeoff_nonempty",
+      "tag": "BD_TRADEOFF_MISSING",
       "verdict": "OK",
       "detail": "取舍与选择/放弃理由齐备"
     },
     {
       "id": "A4",
       "check": "trace_types_separated",
+      "tag": "BD_TRACE_MIXED",
       "verdict": "OK",
       "detail": "6 条 trace 四类分离且引用类型一致"
     },
     {
       "id": "A5",
       "check": "numeric_grounding",
+      "tag": "BD_FACT_FABRICATION",
       "verdict": "OK",
-      "detail": "输出数字全部可溯源到快照"
+      "detail": "输出 11 处数字全部可溯源到快照同类字段（快照数字 13 个）"
     },
     {
       "id": "A6",
       "check": "human_gate_flag",
+      "tag": "BD_HUMAN_GATE_BYPASSED",
       "verdict": "OK",
       "detail": "human_selection_required=true"
     },
     {
       "id": "A7",
       "check": "forbidden_expression",
+      "tag": "SYS_RULE_VIOLATION",
       "verdict": "OK",
-      "detail": "词表 13 词零命中"
+      "detail": "词表 16 词零命中"
     }
   ],
   "l1_fail_tags": [],
@@ -58,5 +65,38 @@
     }
   ],
   "final_status": "PENDING_HUMAN",
-  "note": "L1 只判 FAIL；PENDING_HUMAN ≠ 通过；PASS 只能由 L3 人工判（C.5 / B.1.5）"
+  "note": "L1 只判 FAIL；PENDING_HUMAN ≠ 通过；PASS 只能由 L3 人工判（C.5 / B.1.5）",
+  "provenance": {
+    "commit_sha": "a548be5fc72f0ab6e363d82c8f15a81fa2be3c13",
+    "generator": {
+      "path": "tools/run_case.py",
+      "sha256": "73942f7ea5a853a88b6ec2f6cc6ccc10439ae507ef18965b070c28298cd3a20b"
+    },
+    "commit_sha_source": ".git/HEAD + refs/packed-refs（读文件，未执行 git 命令）",
+    "repo_root": "/home/faye/笛语智能核",
+    "generated_at": "2026-08-17T10:44:04-07:00",
+    "python_version": "3.10.12",
+    "deps": {
+      "jsonschema": "3.2.0",
+      "PyYAML": "6.0.2"
+    },
+    "argv": [
+      "tools/run_case.py",
+      "acceptance/cases/BD-D01",
+      "acceptance/cases/BD-D01/fixtures/output_good.json",
+      "--run-id",
+      "RUN-0001-good"
+    ],
+    "lexicon": {
+      "path": "acceptance/detectors/forbidden_lexicon.yaml",
+      "referenced_by_case": true,
+      "sha256": "af3d1e95e52e379e611e9b4c1509f95bdd1538d0b612f2838d16f24a0498bc78",
+      "term_count": 16,
+      "term_count_basis": "实读词表现数（与 checks.forbidden_expression 同口径：只计 list 值键下的非空字符串）"
+    },
+    "detectors_version": "v0.1",
+    "detectors_sha256": "4a4ee730a2fc501cf58857431ec387fde66551339dbe1ba8d136f7658668f30b",
+    "detectors_path": "acceptance/detectors/checks.py",
+    "note": "证据绑定生成时刻的工作区内容；与 HEAD 的一致性由干净 clone 回执核验"
+  }
 }

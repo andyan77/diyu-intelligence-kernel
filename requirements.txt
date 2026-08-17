@@ -1,0 +1,38 @@
+# 笛语智能核 · M0 门禁最小依赖锁（P0-5「可传播门禁」）
+#
+# 基线解释器：Python 3.10
+#   本机实测 3.10.12（/usr/bin/python3）；.github/workflows/ci.yml 固定 python-version: '3.10'。
+#   两侧必须同基线——CI 换大版本 = 换门禁运行条件，须随修复批次一起改，不得只改一边。
+#
+# 版本口径（诚实边界）：下面两个版本号锁的是 M0 全部运行证据（RUN-000x / coverage /
+#   冻结门 GATE_GREEN / 负向变异回归）的取证条件——换版本 = 证据的成立条件变了。
+#   升级须重跑 tools/check_m0.py 并重出证据，不得只改本文件。
+#   它们**不是**"当前最新版"，也**不是**"经过多版本兼容测试的下界"。
+#
+# PyYAML 钉版变更史（防假绿留痕，2026-08-17 本批次）：
+#   曾钉 5.4.1（理由：本机 `import yaml` 实测现值）。实测该值在干净环境下**装不上**——
+#   5.4.1 无 cp310 wheel，pip 回落源码构建后 `AttributeError: 'build_ext' object has no
+#   attribute 'cython_sources'`（新版 Cython 与其 setup.py 不兼容），
+#   `python3 -m venv → pip install -r requirements.txt` 直接 exit 1。
+#   之所以本机"看着有 5.4.1"，是因为它是 apt 系统包（/usr/lib/python3/dist-packages，
+#   带 egg-info 而非 dist-info）——那条 pin 从未经过 pip 实测，属"版本号看着对"的假绿。
+#   现钉 6.0.2（有 cp310 manylinux wheel），并已在干净 venv 实跑 `pip install -r requirements.txt`
+#   → exit 0，随后用该 venv 解释器重跑 tools/check_m0.py 五步全绿、重出 RUN-000x / coverage 证据。
+#   不放宽成 `>=`：放宽等于"证据在哪个版本下取得的"这句话失去答案。
+#   注意：若本机 python3 仍是 apt 的 PyYAML 5.4.1，check_m0 的环境行会打印一条漂移提示——
+#   那是设计内的诚实提示（提示不改判绿）；要与证据同条件复跑，请在钉版 venv 里跑。
+#
+# 覆盖面：本文件只锁 tools/ 与 acceptance/detectors/ 真实 import 的第三方包。
+#   实扫结果（AST 遍历 tools/*.py + acceptance/detectors/*.py 全部 Import/ImportFrom 节点，
+#   含函数体内嵌 import）只有两个第三方名：yaml、jsonschema。逐文件归属：
+#   - jsonschema：tools/validate_schema.py、tools/freeze_gate.py（Draft7Validator / RefResolver）
+#   - PyYAML    ：acceptance/detectors/checks.py、tools/coverage.py、tools/freeze_gate.py、
+#                 tools/run_case.py（yaml.safe_load）
+#   tools/test_detectors.py 与 tools/test_freeze_gate_mutations.py **不在上表**：两者为纯 stdlib，
+#   只是在字符串里出现 .yaml 路径名，并不 import yaml（曾被误记为 PyYAML 消费方，已按实扫更正）。
+#   tools/check_m0.py 本身**纯 stdlib**，不引入任何新依赖（统一入口不该比被它调用的脚本更难装）。
+#   传递依赖（attrs / pyrsistent / six 等）由 pip 按 jsonschema 的元数据解析，本文件不代为钉死——
+#   钉死未经实测的传递依赖等于凭空宣称已验证。
+
+jsonschema==3.2.0
+PyYAML==6.0.2

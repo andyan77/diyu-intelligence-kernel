@@ -2,6 +2,46 @@
 
 分母（脚本自 B 原文现数，禁止硬编码）：**58 条禁止结果**，分布于 11 个案例段
 
+## 运行证据溯源（provenance，P0-4）
+
+本报告的全部数字来自下述提交指针所在工作区的**当时内容**；取不到的字段留 `null`（不编造）。
+
+```json
+{
+  "commit_sha": "a548be5fc72f0ab6e363d82c8f15a81fa2be3c13",
+  "generator": {
+    "path": "tools/coverage.py",
+    "version": "v0.1",
+    "sha256": "984d4b629eaef59fbb2c61e3f5adb05d85034377a5895288adde3b9a2390f570"
+  },
+  "commit_sha_source": ".git/HEAD + refs/packed-refs（读文件，未执行 git 命令）",
+  "repo_root": "/home/faye/笛语智能核",
+  "generated_at": "2026-08-17T10:44:04-07:00",
+  "python_version": "3.10.12",
+  "deps": {
+    "jsonschema": "3.2.0",
+    "PyYAML": "6.0.2"
+  },
+  "argv": [
+    "tools/coverage.py"
+  ],
+  "sources": {
+    "B_contract": {
+      "path": "B_三个核心模块智能验收合同.md",
+      "sha256": "79dc80057552b166583b49d2afc640f8b0ad132fb43fdc1e8e5b4113c2d63c87"
+    },
+    "prohibited_registry": {
+      "path": "acceptance/detectors/prohibited_registry.yaml",
+      "sha256": "6576878344225f60995cf1a7f1fd5fc703ae102810df82b5c082ca2d55f586d0"
+    }
+  },
+  "detectors_version": "v0.1",
+  "detectors_sha256": "4a4ee730a2fc501cf58857431ec387fde66551339dbe1ba8d136f7658668f30b",
+  "detectors_path": "acceptance/detectors/checks.py",
+  "note": "证据绑定生成时刻的工作区内容；与 HEAD 的一致性由干净 clone 回执核验"
+}
+```
+
 ## 视图1｜案例视角（14 条锁定案例 × 执行文件落地）
 
 | 案例 | 执行文件 | 断言 | 探针 | 人工问题引用 |

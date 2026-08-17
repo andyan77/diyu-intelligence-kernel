@@ -881,30 +881,51 @@ def check_declared_counts(errors):
 
 
 def read_head_commit():
-    """只读 .git 目录取当前 HEAD 提交号（**不执行任何 git 命令**）。取不到返回 None。"""
+    """只读 .git 目录取当前 HEAD 提交号（**不执行任何 git 命令**）。取不到返回 None。
+
+    linked worktree（`git worktree add` 出来的树）口径（本批次实测修复）：
+      .git 是一行 `gitdir: <path>`，指向 <main>/.git/worktrees/<name>/。该目录里**只有 HEAD**；
+      分支引用 refs/ 与 packed-refs 住在 common dir（<main>/.git/，由同目录下的 `commondir`
+      文件指出）。此前只在 per-worktree 目录里找 refs，导致 worktree 上恒返回 None——
+      归属行会打成"非 git 工作区 / HEAD 取不到"，一段 GATE_GREEN 贴进签字包后无法绑定提交。
+      现在：HEAD 读 per-worktree 目录；ref 解析按 [per-worktree, commondir] 顺序找。
+    """
     gitdir = os.path.join(ROOT, ".git")
     try:
         if os.path.isfile(gitdir):               # worktree：.git 是一行 gitdir: <path>
             with io.open(gitdir, encoding="utf-8") as f:
-                gitdir = f.read().split("gitdir:", 1)[1].strip()
+                raw = f.read().split("gitdir:", 1)[1].strip()
+            # 相对路径按 **ROOT** 解析，不按进程 cwd
+            gitdir = raw if os.path.isabs(raw) else os.path.normpath(os.path.join(ROOT, raw))
         if not os.path.isdir(gitdir):
             return None
+        search_dirs = [gitdir]
+        cpath = os.path.join(gitdir, "commondir")
+        if os.path.isfile(cpath):
+            with io.open(cpath, encoding="utf-8") as f:
+                c = f.read().strip()
+            if c:
+                common = c if os.path.isabs(c) else os.path.normpath(os.path.join(gitdir, c))
+                if os.path.isdir(common) and os.path.realpath(common) != os.path.realpath(gitdir):
+                    search_dirs.append(common)
         with io.open(os.path.join(gitdir, "HEAD"), encoding="utf-8") as f:
             head = f.read().strip()
         if not head.startswith("ref:"):
             return head
         ref = head.split(" ", 1)[1].strip()
-        refpath = os.path.join(gitdir, ref)
-        if os.path.exists(refpath):
-            with io.open(refpath, encoding="utf-8") as f:
-                return f.read().strip()
-        packed = os.path.join(gitdir, "packed-refs")
-        if os.path.exists(packed):
-            with io.open(packed, encoding="utf-8") as f:
-                for line in f:
-                    parts = line.split()
-                    if len(parts) == 2 and parts[1] == ref:
-                        return parts[0]
+        for d in search_dirs:
+            refpath = os.path.join(d, ref)
+            if os.path.exists(refpath):
+                with io.open(refpath, encoding="utf-8") as f:
+                    return f.read().strip()
+        for d in search_dirs:
+            packed = os.path.join(d, "packed-refs")
+            if os.path.exists(packed):
+                with io.open(packed, encoding="utf-8") as f:
+                    for line in f:
+                        parts = line.split()
+                        if len(parts) == 2 and parts[1] == ref:
+                            return parts[0]
     except (OSError, UnicodeDecodeError, IndexError):
         return None
     return None
