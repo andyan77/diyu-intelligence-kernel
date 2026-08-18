@@ -1,0 +1,6 @@
+# 尝试账本条目（C.6 格式；一条一文件）
+attempt_id: ATT-0008
+hypothesis: "M2-EP01 设计对齐小修（Founder 2026-08-18 四点批复①放行）：step2 prompt 补五条统一产品标准②明文纪律——「不得引入用户未提出的促销／清库存／折扣路径」（prompt_version v0.1→v0.2，文件同步更名），并配 prompt 资产护栏（纪律行被删/被改必报警，verify-OK-before-break 对照）。范围如实：本条只把标准②焊进 prompt 判据面 + 护住该文本资产；行为级拦截护栏既有（BD-D01 blocked_candidate 变体，经快照钉定 R-BDD01-002 生效，scope=TASK）；通用键控兜底检查 = Founder 裁决②「双层把关」方向已登记、实现留下一批用真实上游输出定"
+target_failing_run: "改 prompt 引用的失败 run（北极星 4）：acceptance/runs/L3-判分记录-INT-20260818.md 案例二（D02）——Founder 评分逐字「系统主动脑补促销意图，并用用户未提出的促销条件阻止执行」，业务判定不通过；叠加本车道设计对齐自查发现（runtime_verified 2026-08-18）：R-BDD01-002 scope=TASK 注册表自述只服务 BD-D01 降级分支、非品牌常设禁令，且 step2 prompt 八条判定纪律无②号明文——换一个未钉定该规则的案例，促销/清仓候选可合法生成且无人拦"
+regression_after: "预期：kernel/decision/test_decision_offline.py 全绿（82 + 新增护栏/对照项；BD-D01 回放行为面零变化——纪律是约束面收紧，replay 夹具不受影响）；manifest --check 一致；check_m0 六步绿"
+delta: {fixed: ["GAP-STD2-PROMPT-FACE"], broken: [], net: 1}
