@@ -56,7 +56,7 @@
 - ✅ Context Snapshot 夹具全部落盘（照抄审计逐字命中《衡叙集》夹具数据包）+ `snapshot_hash` 算法定格；**20 份 Manifest 的 `snapshot_hash` 已全量回填**（20 = Manifest 份数，见 §五「齐套」）。夹具本身的目录数与快照 JSON 份数**不写记忆值**，以 P0-4 重跑脚本对 `acceptance/cases/*/fixtures/` 的实测输出为准
 - ✅ 共同两阶段交互合同、共同输出合同两份文件落盘（补齐 B:995 三件套缺其二）+ 笛语侧转换器 ref/risks 分工对齐 → `contracts/interaction/e2e_interaction_contract.md`、`contracts/interaction/e2e_output_contract.md`
 - ✅ contracts/rules/ RuleRecord 注册表首批落盘（品牌禁语 → R-FB01-001；BD-D01 → R-BDD01-001/002）
-- ✅ 冻结断言门实现 → `tools/freeze_gate.py`（真实口径见 §五）。**R1–R13 十三条红线已交付**（逐条定义见该文件头部；含 §五曾列为待建的四项：`PENDING_IA0` 扫描 = R11 面一、份数机器断言 = R1 声明份数自校验、参数文件哈希实时重算 = R8、真源正文 digest 校验 = R10）。活体证据 → `tools/test_freeze_gate_mutations.py`：22 项负向变异逐条实测门必须转红 + 未变异副本送签态判绿 / 运行态只红设计内三条。**仍未取得活体证据的是 R5 / R6 / R7 三条**（见 §五末条），不得据「十三条已交付」读成「十三条已验证」
+- ✅ 冻结断言门实现 → `tools/freeze_gate.py`（真实口径见 §五）。**R1–R13 十三条红线已交付**（逐条定义见该文件头部；含 §五曾列为待建的四项：`PENDING_IA0` 扫描 = R11 面一、份数机器断言 = R1 声明份数自校验、参数文件哈希实时重算 = R8、真源正文 digest 校验 = R10）。活体证据 → `tools/test_freeze_gate_mutations.py`：负向变异逐条实测门必须转红 + 未变异副本送签态判绿 / 运行态只红设计内类别（变异面演进：22 项 → 块 A 28 项 → 块 E 29 缺陷面 58 项，含 Z-12 运行态横扫）。~~原「仍未取得活体证据的是 R5 / R6 / R7 三条」~~ → 已由块 A M21-M24 关闭（2026-08-18，见 §五 现时态段）；现十三条红线均持至少一条变异活体证据
 - ✅ 齐套口径登记（定义见 §五）
 
 ## 五、齐套与冻结判据（单义定义，供机器断言引用）
