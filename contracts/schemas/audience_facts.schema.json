@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "audience_facts.schema.json",
   "title": "AudienceFacts",
-  "$comment": "照抄 A.3.4（A 行 300-317）；信封字段按 A 行 218-229「五类事实对象共享」以 allOf 平铺，不做 envelope 包 payload；内联 Range（A 行 312-317）已在 common.defs.json#/definitions/Range 立定，本文件复用不重复内联",
+  "$comment": "照抄 A.3.4（A 行 300-317）；信封字段按 A 行 218-229「五类事实对象共享」以 allOf 平铺，不做 envelope 包 payload；内联 Range（A 行 312-317）已在 common.defs.json#/definitions/Range 立定，本文件复用不重复内联。块 B（2026-08-18）：additionalProperties:false 全量关闭——顶层枚举全部合法键（信封+自有+_元数据），合同外自由字段一律拒绝（外部审查 IS-09）",
   "description": "A.3.4 AudienceFacts。必填口径按 A.2.1（A 行 108-114）：R=结构必填→进 required；C=条件必填→不进 required，条件写入字段 description 并外包给确定性谓词（C.3 资产④）；O=可选，缺失时不得临时虚构。fact_type 在 A 行 223 仅为 string 且全文无枚举，本 Schema 不自造 const 值。",
   "allOf": [
     {
@@ -69,5 +69,36 @@
         }
       }
     }
-  ]
+  ],
+  "properties": {
+    "fact_set_id": true,
+    "fact_type": true,
+    "brand_id": true,
+    "version": true,
+    "schema_version": true,
+    "updated_at": true,
+    "updated_by_role": true,
+    "audience_id": true,
+    "label": true,
+    "age_range": true,
+    "occupation_or_lifestyle": true,
+    "pain_points": true,
+    "purchase_reasons": true,
+    "objections": true,
+    "_fixture_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    },
+    "_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    }
+  },
+  "additionalProperties": false
 }

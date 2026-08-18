@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "brand_facts.schema.json",
   "title": "BrandFacts",
-  "$comment": "照抄 A.3.1（A 行 231-243）字段表 + A.3 事实信封（A 行 218-229）。信封以 allOf 平铺共享，不做 envelope 包 payload：依据 A 行 218「五类事实对象共享」与 A 行 235 BrandFacts 表内直接列出 brand_id（与信封同名同型），而 A.3.2 ProductFacts 表未再列 brand_id。fact_type 在 A 行 223 只是 string、全文无枚举，故本 Schema 不写 const。A.3.1「缺失处理」列多为流程/表述语义，Schema 表达不了的逐条写入对应字段 description 并外包确定性谓词（C.3 资产④）。",
+  "$comment": "照抄 A.3.1（A 行 231-243）字段表 + A.3 事实信封（A 行 218-229）。信封以 allOf 平铺共享，不做 envelope 包 payload：依据 A 行 218「五类事实对象共享」与 A 行 235 BrandFacts 表内直接列出 brand_id（与信封同名同型），而 A.3.2 ProductFacts 表未再列 brand_id。fact_type 在 A 行 223 只是 string、全文无枚举，故本 Schema 不写 const。A.3.1「缺失处理」列多为流程/表述语义，Schema 表达不了的逐条写入对应字段 description 并外包确定性谓词（C.3 资产④）。。块 B（2026-08-18）：additionalProperties:false 全量关闭——顶层枚举全部合法键（信封+自有+_元数据），合同外自由字段一律拒绝（外部审查 IS-09）",
   "allOf": [
     {
       "$ref": "common.defs.json#/definitions/FactSetEnvelope"
@@ -67,9 +67,10 @@
           "description": "A.3.1 R｜默认来源=人工、品牌规范｜缺失处理=可确认空数组；未知不等于无。空数组必须配 status=CONFIRMED 才表示「已确认无禁用表达」；未知须写 status=MISSING 且 value=null，不得以空数组冒充已确认（MISSING→value=null 由 FactValueBase 约束3 保证，「空数组不得代表未知」的语义判定外包确定性谓词，C.3 资产④）。",
           "allOf": [
             {
-              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+              "$ref": "common.defs.json#/definitions/FactValueStringArrayEmptyOk"
             }
-          ]
+          ],
+          "$comment": "块 B：空数组白名单字段（A 点名三字段之一），CONFIRMED+[] 合法"
         },
         "commercial_constraints": {
           "description": "A.3.1 R｜默认来源=人工、商业要求｜缺失处理=影响规则与候选有效性。「影响规则与候选有效性」是 Rule Engine 与候选筛选语义，本 Schema 不表达，外包确定性谓词（C.3 资产④）。",
@@ -88,5 +89,37 @@
         }
       }
     }
-  ]
+  ],
+  "properties": {
+    "fact_set_id": true,
+    "fact_type": true,
+    "brand_id": true,
+    "version": true,
+    "schema_version": true,
+    "updated_at": true,
+    "updated_by_role": true,
+    "brand_name": true,
+    "positioning": true,
+    "values": true,
+    "tone": true,
+    "target_customer_summary": true,
+    "forbidden_expressions": true,
+    "commercial_constraints": true,
+    "audience_refs": true,
+    "_fixture_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    },
+    "_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    }
+  },
+  "additionalProperties": false
 }

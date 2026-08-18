@@ -1,22 +1,20 @@
 {
   "fact_set_id": "fs_video_account_hengxuji_001",
   "fact_type": "VideoAccountFacts",
-  "brand_id": "brand_hengxuji",
+  "brand_id": "fixture-brand-01",
   "version": 3,
-  "schema_version": "0.2",
+  "schema_version": "A-3.6-v2",
   "updated_at": "2026-08-17T10:20:00+08:00",
   "updated_by_role": "BRAND_OPERATOR",
-
   "account_id": "acct_hengxuji_wechat_video_001",
   "platform": "WECHAT_VIDEO",
-
   "account_name": {
     "value": "衡叙集·穿衣判断（虚构）",
     "status": "CONFIRMED",
     "source_refs": [
       {
         "source_id": "src_fixture_pack_v1_sec6",
-        "brand_id": "brand_hengxuji",
+        "brand_id": "fixture-brand-01",
         "source_type": "UPLOADED_DOCUMENT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/账号名",
         "captured_at": "2026-08-17T09:00:00+08:00",
@@ -27,14 +25,13 @@
     "confidence": "HIGH",
     "uncertainty_reason": null
   },
-
   "positioning": {
     "value": "面向城市女性的服装选择与真实穿着决策账号：以商品事实、场景试穿和明确取舍，回答“为什么选、怎么穿、何时不选”",
     "status": "CONFIRMED",
     "source_refs": [
       {
         "source_id": "src_fixture_pack_v1_sec6",
-        "brand_id": "brand_hengxuji",
+        "brand_id": "fixture-brand-01",
         "source_type": "UPLOADED_DOCUMENT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/定位",
         "captured_at": "2026-08-17T09:00:00+08:00",
@@ -45,7 +42,6 @@
     "confidence": "HIGH",
     "uncertainty_reason": null
   },
-
   "content_style": {
     "value": [
       "稳口吻、熟关系、低剪辑刺激",
@@ -57,7 +53,7 @@
     "source_refs": [
       {
         "source_id": "src_fixture_pack_v1_sec6",
-        "brand_id": "brand_hengxuji",
+        "brand_id": "fixture-brand-01",
         "source_type": "UPLOADED_DOCUMENT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/内容风格",
         "captured_at": "2026-08-17T09:00:00+08:00",
@@ -68,14 +64,13 @@
     "confidence": "HIGH",
     "uncertainty_reason": null
   },
-
   "audience_relationship": {
     "value": null,
     "status": "CONFLICTING",
     "source_refs": [
       {
         "source_id": "src_fixture_pack_v1_sec6",
-        "brand_id": "brand_hengxuji",
+        "brand_id": "fixture-brand-01",
         "source_type": "UPLOADED_DOCUMENT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/与观众关系",
         "captured_at": "2026-08-17T09:00:00+08:00",
@@ -90,7 +85,7 @@
         "value": "不是销售话术广播站，而是长期衣橱判断伙伴；欢迎观众提交通勤、久坐、身形变化、颜色尝试和门店试穿问题，并允许后续视频修正上一集判断",
         "source_ref": {
           "source_id": "src_fixture_pack_v1_sec6",
-          "brand_id": "brand_hengxuji",
+          "brand_id": "fixture-brand-01",
           "source_type": "UPLOADED_DOCUMENT",
           "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/与观众关系",
           "captured_at": "2026-08-17T09:00:00+08:00",
@@ -98,26 +93,24 @@
         }
       },
       {
-        "value": "像替观众先试错的同龄同事，以现场比较建立信任",
+        "value": "把观众视为长期熟客和共同判断者；允许观众带着不同体型、预算和生活阶段反驳她，不用\"教育消费者\"的姿态压过真实反馈",
         "source_ref": {
-          "source_id": "src_fixture_pack_v1_sec5_r02",
-          "brand_id": "brand_hengxuji",
+          "source_id": "src_fixture_pack_v1_sec5_r01",
+          "brand_id": "fixture-brand-01",
           "source_type": "UPLOADED_DOCUMENT",
-          "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#5-包4人设事实/R02/与粉丝关系",
+          "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#5-包4人设事实/R01/与粉丝关系",
           "captured_at": "2026-08-17T09:00:00+08:00",
           "checksum": null
         }
       }
     ]
   },
-
   "primary_persona_ref": {
     "object_type": "PersonaFacts",
-    "object_id": "persona_shenlan_R01",
-    "version": 2,
-    "brand_id": "brand_hengxuji"
+    "object_id": "FS-PERSONA-R01-0001",
+    "version": 1,
+    "brand_id": "fixture-brand-01"
   },
-
   "expression_boundaries": {
     "value": [
       "未核对款号、成分、尺码、价格和库存时不得下商品结论",
@@ -130,7 +123,7 @@
     "source_refs": [
       {
         "source_id": "src_fixture_pack_v1_sec6",
-        "brand_id": "brand_hengxuji",
+        "brand_id": "fixture-brand-01",
         "source_type": "UPLOADED_DOCUMENT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/表达边界",
         "captured_at": "2026-08-17T09:00:00+08:00",

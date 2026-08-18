@@ -2,7 +2,7 @@
   "fact_type": "VideoAccountFacts",
   "brand_id": "brand_hengxuji",
   "version": 3,
-  "schema_version": "0.2",
+  "schema_version": "A-3.6-v2",
   "updated_at": "2026-08-17T10:20:00+08:00",
   "updated_by_role": "BRAND_OPERATOR",
   "account_id": "acct_hengxuji_wechat_video_001",

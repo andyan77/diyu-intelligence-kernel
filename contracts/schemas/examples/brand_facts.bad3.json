@@ -2,7 +2,7 @@
   "fact_type": "BRAND_FACTS",
   "brand_id": "fixture-brand-01",
   "version": 1,
-  "schema_version": "A-3.1-v1",
+  "schema_version": "A-3.1-v2",
   "updated_at": "2026-08-17T10:00:00+08:00",
   "updated_by_role": "BRAND_OPERATOR",
   "brand_name": {

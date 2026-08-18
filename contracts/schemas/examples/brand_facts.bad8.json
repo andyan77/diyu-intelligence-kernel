@@ -23,6 +23,23 @@
     "confidence": "HIGH",
     "uncertainty_reason": null
   },
+  "positioning": {
+    "value": "服务 30—45 岁、需要在工作与日常之间切换的城市女性；中高端日常女装，主做有结构但不过度强势的外套、裤装、针织与半裙",
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0002",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「一句话定位」",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
   "values": {
     "value": [
       "先讲商品解决什么、牺牲什么，再谈是否值得买",
@@ -66,21 +83,7 @@
     "uncertainty_reason": null
   },
   "target_customer_summary": {
-    "value": "她愿意为版型、面料与长期使用付合理溢价，但要求品牌把依据和不适合之处说清楚",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-BRANDPACK-0005",
-        "brand_id": "fixture-brand-01",
-        "source_type": "BRAND_OPERATOR_INPUT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「目标客户一句话」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T09:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
+    "status": "MISSING"
   },
   "forbidden_expressions": {
     "value": [
@@ -141,10 +144,10 @@
     }
   ],
   "_fixture_note": {
-    "violation": "唯一违约：删除 A.3.1 R 必填字段 positioning（A 行 237）；本 Schema 内层 required 应拦下。",
-    "expected_error_substr": "'positioning' is a required property",
-    "delta_keys_vs_ok1": [
-      "-positioning"
-    ]
+    "delta": "唯一变异：target_customer_summary 改 MISSING 并整个删除 value 键",
+    "expected_error_substr": "'value' is a required property",
+    "expected_validator": "required",
+    "expected_path": "$.target_customer_summary",
+    "why": "A.2.4 约束3（块 B 收紧）：MISSING 须显式 value:null——省略键 = 缺失状态不可见（审查 IS-01a）"
   }
 }

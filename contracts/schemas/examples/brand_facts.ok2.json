@@ -1,5 +1,5 @@
 {
-  "fact_set_id": "FS-BRAND-fixture-brand-01-0001",
+  "fact_set_id": "FS-BRAND-0002",
   "fact_type": "BRAND_FACTS",
   "brand_id": "fixture-brand-01",
   "version": 1,
@@ -22,6 +22,44 @@
     "as_of": "2026-08-17T09:00:00+08:00",
     "confidence": "HIGH",
     "uncertainty_reason": null
+  },
+  "positioning": {
+    "status": "CONFLICTING",
+    "value": null,
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「品牌名」",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "alternatives": [
+      {
+        "value": "HIGH_END",
+        "source_ref": {
+          "source_id": "SRC-BRANDPACK-0001",
+          "brand_id": "fixture-brand-01",
+          "source_type": "BRAND_OPERATOR_INPUT",
+          "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「品牌名」",
+          "captured_at": "2026-08-17T09:00:00+08:00",
+          "checksum": null
+        }
+      },
+      {
+        "value": "MID_HIGH",
+        "source_ref": {
+          "source_id": "SRC-BRANDPACK-0001",
+          "brand_id": "fixture-brand-01",
+          "source_type": "BRAND_OPERATOR_INPUT",
+          "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「品牌名」",
+          "captured_at": "2026-08-17T09:00:00+08:00",
+          "checksum": null
+        }
+      }
+    ]
   },
   "values": {
     "value": [
@@ -50,7 +88,7 @@
     "value": [
       "稳、具体、有判断、留余地；像一位长期做商品和门店的人对熟客解释选择，不喊口号，不催促成交"
     ],
-    "status": "CONFIRMED",
+    "status": "PROVISIONAL",
     "source_refs": [
       {
         "source_id": "SRC-BRANDPACK-0004",
@@ -62,39 +100,15 @@
       }
     ],
     "as_of": "2026-08-17T09:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
+    "confidence": "MEDIUM",
+    "uncertainty_reason": "夹具示例：两份材料口径接近但未经 Founder 确认"
   },
   "target_customer_summary": {
-    "value": "她愿意为版型、面料与长期使用付合理溢价，但要求品牌把依据和不适合之处说清楚",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-BRANDPACK-0005",
-        "brand_id": "fixture-brand-01",
-        "source_type": "BRAND_OPERATOR_INPUT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「目标客户一句话」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T09:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
+    "status": "MISSING",
+    "value": null
   },
   "forbidden_expressions": {
-    "value": [
-      "清仓",
-      "甩卖",
-      "白菜价",
-      "闭眼入",
-      "全网最低",
-      "不买就亏",
-      "秒杀",
-      "绝绝子",
-      "显贵",
-      "高级感"
-    ],
+    "value": [],
     "status": "CONFIRMED",
     "source_refs": [
       {
@@ -140,11 +154,5 @@
       "brand_id": "fixture-brand-01"
     }
   ],
-  "_fixture_note": {
-    "violation": "唯一违约：删除 A.3.1 R 必填字段 positioning（A 行 237）；本 Schema 内层 required 应拦下。",
-    "expected_error_substr": "'positioning' is a required property",
-    "delta_keys_vs_ok1": [
-      "-positioning"
-    ]
-  }
+  "_note": "块 B 状态展示正例：五状态合法形态各现一次——CONFIRMED（brand_name 等）/ PROVISIONAL（tone，三件套齐）/ MISSING（target_customer_summary 显式 value:null）/ CONFLICTING（positioning 顶层 value:null + alternatives）/ 白名单空数组（forbidden_expressions CONFIRMED+[]，A 点名三字段之一）。NOT_APPLICABLE 形态见 product_facts.ok2。"
 }

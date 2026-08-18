@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "product_facts.schema.json",
   "title": "ProductFacts",
-  "$comment": "照抄 A.3.2（A 行 245-273）；FactSetEnvelope（A 行 218-229）以 allOf 平铺共享，信封字段与对象自有字段同处一层；内联 Money / Quantity（A 行 263-273）已在 common.defs.json 落为 Money / Quantity 定义，此处只 $ref 不重复内联",
+  "$comment": "照抄 A.3.2（A 行 245-273）；FactSetEnvelope（A 行 218-229）以 allOf 平铺共享，信封字段与对象自有字段同处一层；内联 Money / Quantity（A 行 263-273）已在 common.defs.json 落为 Money / Quantity 定义，此处只 $ref 不重复内联。块 B（2026-08-18）：additionalProperties:false 全量关闭——顶层枚举全部合法键（信封+自有+_元数据），合同外自由字段一律拒绝（外部审查 IS-09）",
   "allOf": [
     {
       "$ref": "common.defs.json#/definitions/FactSetEnvelope"
@@ -117,5 +117,42 @@
         }
       }
     }
-  ]
+  ],
+  "properties": {
+    "fact_set_id": true,
+    "fact_type": true,
+    "brand_id": true,
+    "version": true,
+    "schema_version": true,
+    "updated_at": true,
+    "updated_by_role": true,
+    "product_id": true,
+    "sku": true,
+    "name": true,
+    "category": true,
+    "price": true,
+    "inventory": true,
+    "material": true,
+    "style_attributes": true,
+    "selling_points": true,
+    "image_refs": true,
+    "size_range": true,
+    "lifecycle_stage": true,
+    "visual_profile_ref": true,
+    "_fixture_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    },
+    "_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    }
+  },
+  "additionalProperties": false
 }

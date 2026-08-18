@@ -4,7 +4,7 @@
   "brand_id": "fixture-brand-01",
   "version": 1,
   "schema_version": "A-3.1-v2",
-  "updated_at": "2026-08-17T10:00:00+08:00",
+  "updated_at": "不是时间",
   "updated_by_role": "BRAND_OPERATOR",
   "brand_name": {
     "value": "衡叙集（虚构）",
@@ -15,6 +15,23 @@
         "brand_id": "fixture-brand-01",
         "source_type": "BRAND_OPERATOR_INPUT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「品牌名」",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
+  "positioning": {
+    "value": "服务 30—45 岁、需要在工作与日常之间切换的城市女性；中高端日常女装，主做有结构但不过度强势的外套、裤装、针织与半裙",
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0002",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「一句话定位」",
         "captured_at": "2026-08-17T09:00:00+08:00",
         "checksum": null
       }
@@ -141,10 +158,10 @@
     }
   ],
   "_fixture_note": {
-    "violation": "唯一违约：删除 A.3.1 R 必填字段 positioning（A 行 237）；本 Schema 内层 required 应拦下。",
-    "expected_error_substr": "'positioning' is a required property",
-    "delta_keys_vs_ok1": [
-      "-positioning"
-    ]
+    "delta": "唯一变异：updated_at 改为非法日期串「不是时间」",
+    "expected_error_substr": "is not a 'date-time'",
+    "expected_validator": "format",
+    "expected_path": "$.updated_at",
+    "why": "块 B：datetime 全量 format=date-time + FormatChecker（审查 IS-08：旧实现任意串可过）"
   }
 }

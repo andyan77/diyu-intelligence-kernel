@@ -1,12 +1,11 @@
 {
-  "_note": "合法实例：A.4.3 ContextSnapshot 全十四字段（A 行 397-415），一个不多一个不少。取材＝衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md（虚构品牌「衡叙集」）；brand_id 统一 BRAND_HENGXUJI 与 examples/ 兄弟族语料一致（A 行 82 单品牌不变式在示例语料层成立）。acceptance/cases 考卷夹具用 fixture-brand-01，属另一语料域，形状对齐待 Founder 批准改考卷后单独施工。 【snapshot_hash 口径（块 B 定）：对本对象剔除 snapshot_hash 自身与全部 _ 前缀元数据键后，按 tools/freeze_gate.py canonical 规范化（UTF-8+键排序+紧凑分隔符）求 sha256——审查 X-04b 实测旧值四种算法均不匹配，系手写占位，已实算回填】",
   "snapshot_id": "SNAP-HXJ-0001",
   "task_id": "TASK-HXJ-0001",
   "brand_id": "fixture-brand-01",
   "version": 1,
   "created_at": "2026-08-17T10:30:00+08:00",
   "brand_facts_ref": {
-    "object_type": "BrandFacts",
+    "object_type": "ProductFacts",
     "object_id": "FS-BRAND-HENGXUJI-0001",
     "version": 1,
     "brand_id": "fixture-brand-01"
@@ -94,5 +93,10 @@
       "checksum": null
     }
   ],
-  "snapshot_hash": "sha256:32f82f578fe3417bdd66ed814f9a0db04e12ac9446f4ba4abe88cafe418cc474"
+  "snapshot_hash": "sha256:32f82f578fe3417bdd66ed814f9a0db04e12ac9446f4ba4abe88cafe418cc474",
+  "_fixture_note": {
+    "delta": "唯一变异：brand_facts_ref.object_type 改为 ProductFacts（应为 BrandFacts）",
+    "expected_predicate": "P3",
+    "why": "A.4.3：引用字段的 object_type 必须与目标族一致——错族引用不得进入快照（审查 IS-06）"
+  }
 }

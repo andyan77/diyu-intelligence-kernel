@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "video_account_facts.schema.json",
   "title": "VideoAccountFacts",
-  "$comment": "照抄 A.3.6（A 行 331-342）；信封字段按 A 行 218-229 以 allOf 平铺共享（FactSetEnvelope），不做 envelope 包 payload 的嵌套。A 行 223 fact_type 为 string 且全文无枚举，本 Schema 不自造 const 值。",
+  "$comment": "照抄 A.3.6（A 行 331-342）；信封字段按 A 行 218-229 以 allOf 平铺共享（FactSetEnvelope），不做 envelope 包 payload 的嵌套。A 行 223 fact_type 为 string 且全文无枚举，本 Schema 不自造 const 值。。块 B（2026-08-18）：additionalProperties:false 全量关闭——顶层枚举全部合法键（信封+自有+_元数据），合同外自由字段一律拒绝（外部审查 IS-09）",
   "description": "A.3.6 VideoAccountFacts。必填口径按 A 行 108-114：R=结构必填→进 required；C=条件必填→不进 required，条件写在字段 description 并外包确定性谓词（C.3 资产④）；O=可选。",
   "allOf": [
     {
@@ -66,14 +66,47 @@
           ]
         },
         "expression_boundaries": {
-          "description": "A 行 342：FactValue<string[]> / R / 默认来源 人工 / 缺失处理「可确认空数组」——空数组配 status=CONFIRMED 合法，缺失须用 status=MISSING（空数组与「未知」的区分见 common.defs.json FactValueStringArray 注释；非空性判定外包给确定性谓词，C.3 资产④）。",
+          "description": "A 行 342：FactValue<string[]> / R / 默认来源 人工 / 缺失处理「可确认空数组」——空数组配 status=CONFIRMED 合法，缺失须用 status=MISSING（空数组与「未知」的区分见 common.defs.json FactValueStringArrayEmptyOk 注释；非空性判定外包给确定性谓词，C.3 资产④）。",
           "allOf": [
             {
-              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+              "$ref": "common.defs.json#/definitions/FactValueStringArrayEmptyOk"
             }
-          ]
+          ],
+          "$comment": "块 B：空数组白名单字段（A 点名三字段之一），CONFIRMED+[] 合法"
         }
       }
     }
-  ]
+  ],
+  "properties": {
+    "fact_set_id": true,
+    "fact_type": true,
+    "brand_id": true,
+    "version": true,
+    "schema_version": true,
+    "updated_at": true,
+    "updated_by_role": true,
+    "account_id": true,
+    "platform": true,
+    "account_name": true,
+    "positioning": true,
+    "content_style": true,
+    "audience_relationship": true,
+    "primary_persona_ref": true,
+    "expression_boundaries": true,
+    "_fixture_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    },
+    "_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    }
+  },
+  "additionalProperties": false
 }
