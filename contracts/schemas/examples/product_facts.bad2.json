@@ -3,7 +3,7 @@
   "fact_type": "ProductFacts",
   "brand_id": "BRAND_HENGXUJI",
   "version": 1,
-  "schema_version": "1.0.0",
+  "schema_version": "A-3.2-v2",
   "updated_at": "2026-08-17T10:00:00+08:00",
   "updated_by_role": "BRAND_OPERATOR",
   "product_id": "P01",

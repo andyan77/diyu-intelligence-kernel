@@ -2,54 +2,149 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "visual_profile.schema.json",
   "title": "VisualProfile",
-  "$comment": "照抄 A.3.3（A 行 275-298）yaml 块十字段，一个不多一个不少；规则句 4 条见 description。VisualProfile 不属 A 行 218「五类事实对象」（五类=A.3.1 BrandFacts / A.3.2 ProductFacts / A.3.4 AudienceFacts / A.3.5 PersonaFacts / A.3.6 VideoAccountFacts，见 A.4.3 ContextSnapshot 行 406-410 的五个 *_facts_ref 字段），故不 allOf FactSetEnvelope——A.3.3 yaml 块自带 visual_profile_id / brand_id / version，未出现 fact_set_id / fact_type / schema_version / updated_at / updated_by_role。",
+  "$comment": "照抄 A.3.3（A 行 275-298）yaml 块十字段，一个不多一个不少；规则句 4 条见 description。VisualProfile 不属 A 行 218「五类事实对象」（五类=A.3.1 BrandFacts / A.3.2 ProductFacts / A.3.4 AudienceFacts / A.3.5 PersonaFacts / A.3.6 VideoAccountFacts，见 A.4.3 ContextSnapshot 行 406-410 的五个 *_facts_ref 字段），故不 allOf FactSetEnvelope——A.3.3 yaml 块自带 visual_profile_id / brand_id / version，未出现 fact_set_id / fact_type / schema_version / updated_at / updated_by_role。。块 B（2026-08-18）：additionalProperties:false 全量关闭——顶层枚举全部合法键（信封+自有+_元数据），合同外自由字段一律拒绝（外部审查 IS-09）",
   "description": "A.3.3（A 行 277）：VisualProfile 是基于商品图片的模型观察，不自动成为确认事实。A.3.3 规则（A 行 295-298）中本 Schema 未表达的部分，外包给确定性谓词（C.3 资产④）：① 规则1「模型识别字段初始为 PROVISIONAL」——「初始」为生命周期时点语义，人工确认后可转 CONFIRMED，故不得把五个模型识别字段的 status 硬收窄为 PROVISIONAL 常量；② 规则2 的后半句「不依据商品名称补写颜色、版型或纹理」——需比对 ProductFacts.name 与本对象取值，属跨对象内容级判定；③ 规则3「Creative 引用时必须保留图片来源和不确定性」——约束的是 Creative 侧输出，不是本对象结构；④ 规则4「MVP 不生成图片或视频」——范围声明，无对应字段。规则2 的前半句「无图片时为 MISSING」可结构化表达，已在下方 allOf 中以条件式落地。",
   "type": "object",
-  "required": ["visual_profile_id", "brand_id", "product_ref", "image_source_refs", "version", "silhouette", "colors", "texture_observation", "visual_focus", "shooting_attention"],
+  "required": [
+    "visual_profile_id",
+    "brand_id",
+    "product_ref",
+    "image_source_refs",
+    "version",
+    "silhouette",
+    "colors",
+    "texture_observation",
+    "visual_focus",
+    "shooting_attention"
+  ],
   "properties": {
-    "visual_profile_id": {"type": "string"},
-    "brand_id": {"type": "string"},
-    "product_ref": {"$ref": "common.defs.json#/definitions/VersionedRef"},
+    "visual_profile_id": {
+      "type": "string"
+    },
+    "brand_id": {
+      "type": "string"
+    },
+    "product_ref": {
+      "$ref": "common.defs.json#/definitions/VersionedRef"
+    },
     "image_source_refs": {
       "type": "array",
-      "items": {"$ref": "common.defs.json#/definitions/SourceRef"},
+      "items": {
+        "$ref": "common.defs.json#/definitions/SourceRef"
+      },
       "description": "A.3.3 规则2：无图片时（本数组为空）五个模型识别字段的 status 必须为 MISSING——已由本 Schema 条件式表达；同句后半「不依据商品名称补写颜色、版型或纹理」属内容级判定，外包给确定性谓词（C.3 资产④）。A.2.3 source_type 枚举含 IMAGE_INPUT（A 行 147，枚举成员，A 未规定本字段必须取它）；A 行 156「MODEL_EXTRACTION 只能产生 PROVISIONAL 值」——该跨字段判定外包给谓词（C.3 资产④）。"
     },
-    "version": {"type": "integer"},
+    "version": {
+      "type": "integer"
+    },
     "silhouette": {
       "description": "模型识别字段。A.3.3 规则1「模型识别字段初始为 PROVISIONAL」的初始态语义与 A.3.3 行 277「不自动成为确认事实」外包给确定性谓词（C.3 资产④）；本 Schema 只保证 FactValue<string> 的结构与 A.2.4 状态约束。",
-      "allOf": [{"$ref": "common.defs.json#/definitions/FactValueString"}]
+      "allOf": [
+        {
+          "$ref": "common.defs.json#/definitions/FactValueString"
+        }
+      ]
     },
     "colors": {
       "description": "模型识别字段。同 silhouette：PROVISIONAL 初始态、以及 A.3.3 规则2「不依据商品名称补写颜色」外包给确定性谓词（C.3 资产④）。",
-      "allOf": [{"$ref": "common.defs.json#/definitions/FactValueStringArray"}]
+      "allOf": [
+        {
+          "$ref": "common.defs.json#/definitions/FactValueStringArray"
+        }
+      ]
     },
     "texture_observation": {
       "description": "模型识别字段。同 silhouette：PROVISIONAL 初始态、以及 A.3.3 规则2「不依据商品名称补写纹理」外包给确定性谓词（C.3 资产④）；纹理观察不等于已确认面料成分，材质功效表达受 A.3.2 material 约束。",
-      "allOf": [{"$ref": "common.defs.json#/definitions/FactValueString"}]
+      "allOf": [
+        {
+          "$ref": "common.defs.json#/definitions/FactValueString"
+        }
+      ]
     },
     "visual_focus": {
       "description": "模型识别字段。同 silhouette：PROVISIONAL 初始态外包给确定性谓词（C.3 资产④）。",
-      "allOf": [{"$ref": "common.defs.json#/definitions/FactValueStringArray"}]
+      "allOf": [
+        {
+          "$ref": "common.defs.json#/definitions/FactValueStringArray"
+        }
+      ]
     },
     "shooting_attention": {
       "description": "模型识别字段。同 silhouette：PROVISIONAL 初始态外包给确定性谓词（C.3 资产④）；A.3.3 规则4「MVP 不生成图片或视频」——本字段只承载拍摄注意事项文本，不驱动任何素材生成。",
-      "allOf": [{"$ref": "common.defs.json#/definitions/FactValueStringArray"}]
+      "allOf": [
+        {
+          "$ref": "common.defs.json#/definitions/FactValueStringArray"
+        }
+      ]
+    },
+    "_fixture_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    },
+    "_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
     }
   },
   "allOf": [
     {
       "$comment": "A.3.3 规则2（可结构化的前半句）：无图片时五个模型识别字段为 MISSING。A.2.4 约束3 会进一步强制 value 为 null。后半句「不依据商品名称补写颜色、版型或纹理」不在此表达，见 image_source_refs.description。",
-      "if": {"required": ["image_source_refs"], "properties": {"image_source_refs": {"maxItems": 0}}},
+      "if": {
+        "required": [
+          "image_source_refs"
+        ],
+        "properties": {
+          "image_source_refs": {
+            "maxItems": 0
+          }
+        }
+      },
       "then": {
         "properties": {
-          "silhouette": {"properties": {"status": {"const": "MISSING"}}},
-          "colors": {"properties": {"status": {"const": "MISSING"}}},
-          "texture_observation": {"properties": {"status": {"const": "MISSING"}}},
-          "visual_focus": {"properties": {"status": {"const": "MISSING"}}},
-          "shooting_attention": {"properties": {"status": {"const": "MISSING"}}}
+          "silhouette": {
+            "properties": {
+              "status": {
+                "const": "MISSING"
+              }
+            }
+          },
+          "colors": {
+            "properties": {
+              "status": {
+                "const": "MISSING"
+              }
+            }
+          },
+          "texture_observation": {
+            "properties": {
+              "status": {
+                "const": "MISSING"
+              }
+            }
+          },
+          "visual_focus": {
+            "properties": {
+              "status": {
+                "const": "MISSING"
+              }
+            }
+          },
+          "shooting_attention": {
+            "properties": {
+              "status": {
+                "const": "MISSING"
+              }
+            }
+          }
         }
       }
     }
-  ]
+  ],
+  "additionalProperties": false
 }

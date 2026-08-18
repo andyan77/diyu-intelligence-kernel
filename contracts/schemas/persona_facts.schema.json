@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "persona_facts.schema.json",
   "title": "PersonaFacts",
-  "$comment": "照抄 A.3.5（A 行 319-329）字段表 + A.3 五类事实对象共享信封（A 行 218-229）。信封以 allOf 平铺、与对象自有字段同处一层（依据：A.3.1 表内直接列 brand_id 而 A.3.2 表未再列，见 common.defs.json/FactSetEnvelope 的 description）。A.3.5 表未列 brand_id / version 等，故这些字段一律由 FactSetEnvelope 提供，本文件不重复声明。A.3.5 节内除字段表外无独立规则句（A 行 319-329 无 `规则：` 小节），因此本文件的语义约束全部来自该表的「必填」与「缺失处理」两列，逐格照抄进对应 description。fact_type 在 A 行 223 只是 string 且全文无枚举，本文件不自造 const 值。additionalProperties 不设限，与 intent_execution_plan.schema.json 风格一致。",
+  "$comment": "照抄 A.3.5（A 行 319-329）字段表 + A.3 五类事实对象共享信封（A 行 218-229）。信封以 allOf 平铺、与对象自有字段同处一层（依据：A.3.1 表内直接列 brand_id 而 A.3.2 表未再列，见 common.defs.json/FactSetEnvelope 的 description）。A.3.5 表未列 brand_id / version 等，故这些字段一律由 FactSetEnvelope 提供，本文件不重复声明。A.3.5 节内除字段表外无独立规则句（A 行 319-329 无 `规则：` 小节），因此本文件的语义约束全部来自该表的「必填」与「缺失处理」两列，逐格照抄进对应 description。fact_type 在 A 行 223 只是 string 且全文无枚举，本文件不自造 const 值。additionalProperties 不设限，与 intent_execution_plan.schema.json 风格一致。。块 B（2026-08-18）：additionalProperties:false 全量关闭——顶层枚举全部合法键（信封+自有+_元数据），合同外自由字段一律拒绝（外部审查 IS-09）",
   "allOf": [
     {
       "$ref": "common.defs.json#/definitions/FactSetEnvelope"
@@ -53,12 +53,13 @@
           ]
         },
         "forbidden_styles": {
-          "description": "A.3.5：FactValue<string[]>，必填 R；默认来源「人工」；缺失处理「可确认空数组」——空数组配 status=CONFIRMED 合法；未知不得以空数组冒充已确认，须用 status=MISSING（该「未知不等于无」措辞出自 A.3.1 forbidden_expressions，A 行 241，此处按 FactValueStringArray 共用口径引用，A.3.5 本格只写到「可确认空数组」）。「空数组是否算 CONFIRMED 要求的 value 非空」由确定性谓词判定（C.3 资产④，见 common.defs.json/FactValueBase）。",
+          "description": "A.3.5：FactValue<string[]>，必填 R；默认来源「人工」；缺失处理「可确认空数组」——空数组配 status=CONFIRMED 合法；未知不得以空数组冒充已确认，须用 status=MISSING（该「未知不等于无」措辞出自 A.3.1 forbidden_expressions，A 行 241，此处按 FactValueStringArrayEmptyOk 共用口径引用，A.3.5 本格只写到「可确认空数组」）。「空数组是否算 CONFIRMED 要求的 value 非空」由确定性谓词判定（C.3 资产④，见 common.defs.json/FactValueBase）。",
           "allOf": [
             {
-              "$ref": "common.defs.json#/definitions/FactValueStringArray"
+              "$ref": "common.defs.json#/definitions/FactValueStringArrayEmptyOk"
             }
-          ]
+          ],
+          "$comment": "块 B：空数组白名单字段（A 点名三字段之一），CONFIRMED+[] 合法"
         },
         "speaker_constraints": {
           "description": "A.3.5：FactValue<string[]>，可选 O；默认来源「人工」；缺失处理「可缺失」——可整体省略本字段。A.2.1（A 行 114）「O = 可选；缺失时不得临时虚构」，「不虚构」属内容语义，外包给确定性谓词（C.3 资产④）。",
@@ -70,5 +71,36 @@
         }
       }
     }
-  ]
+  ],
+  "properties": {
+    "fact_set_id": true,
+    "fact_type": true,
+    "brand_id": true,
+    "version": true,
+    "schema_version": true,
+    "updated_at": true,
+    "updated_by_role": true,
+    "persona_id": true,
+    "identity": true,
+    "voice_traits": true,
+    "beliefs": true,
+    "audience_relationship": true,
+    "forbidden_styles": true,
+    "speaker_constraints": true,
+    "_fixture_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    },
+    "_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    }
+  },
+  "additionalProperties": false
 }

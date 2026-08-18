@@ -1,17 +1,17 @@
 {
   "visual_profile_id": "VP-P01-0001",
-  "brand_id": "BRAND_HENGXUJI",
+  "brand_id": "fixture-brand-01",
   "version": 1,
   "product_ref": {
     "object_type": "ProductFacts",
     "object_id": "P01",
     "version": 1,
-    "brand_id": "BRAND_HENGXUJI"
+    "brand_id": "fixture-brand-01"
   },
   "image_source_refs": [
     {
       "source_id": "SRC-IMG-0594",
-      "brand_id": "BRAND_HENGXUJI",
+      "brand_id": "fixture-brand-01",
       "source_type": "IMAGE_INPUT",
       "locator": "IMG_0594 单品正反面",
       "captured_at": "2026-08-17T09:20:00+08:00",
@@ -19,7 +19,7 @@
     },
     {
       "source_id": "SRC-IMG-0571",
-      "brand_id": "BRAND_HENGXUJI",
+      "brand_id": "fixture-brand-01",
       "source_type": "IMAGE_INPUT",
       "locator": "IMG_0571 面料细节",
       "captured_at": "2026-08-17T09:11:00+08:00",
@@ -27,7 +27,7 @@
     },
     {
       "source_id": "SRC-IMG-0574",
-      "brand_id": "BRAND_HENGXUJI",
+      "brand_id": "fixture-brand-01",
       "source_type": "IMAGE_INPUT",
       "locator": "IMG_0574 细节与挂装图",
       "captured_at": "2026-08-17T09:14:30+08:00",
@@ -35,7 +35,7 @@
     },
     {
       "source_id": "SRC-IMG-0576",
-      "brand_id": "BRAND_HENGXUJI",
+      "brand_id": "fixture-brand-01",
       "source_type": "IMAGE_INPUT",
       "locator": "IMG_0576 袖口与上身图",
       "captured_at": "2026-08-17T09:16:00+08:00",
@@ -48,7 +48,7 @@
     "source_refs": [
       {
         "source_id": "SRC-IMG-0594",
-        "brand_id": "BRAND_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "IMAGE_INPUT",
         "locator": "IMG_0594 单品正反面",
         "captured_at": "2026-08-17T09:20:00+08:00",
@@ -56,7 +56,7 @@
       },
       {
         "source_id": "SRC-VISION-P01-01",
-        "brand_id": "BRAND_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "MODEL_EXTRACTION",
         "locator": "视觉理解运行 RUN-VP-P01-0001 输出 silhouette 段",
         "captured_at": "2026-08-17T09:45:00+08:00",
@@ -73,7 +73,7 @@
     "source_refs": [
       {
         "source_id": "SRC-IMG-0594",
-        "brand_id": "BRAND_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "IMAGE_INPUT",
         "locator": "IMG_0594 单品正反面",
         "captured_at": "2026-08-17T09:20:00+08:00",
@@ -90,7 +90,7 @@
     "source_refs": [
       {
         "source_id": "SRC-IMG-0571",
-        "brand_id": "BRAND_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "IMAGE_INPUT",
         "locator": "IMG_0571 面料细节",
         "captured_at": "2026-08-17T09:11:00+08:00",
@@ -98,7 +98,7 @@
       },
       {
         "source_id": "SRC-VISION-P01-01",
-        "brand_id": "BRAND_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "MODEL_EXTRACTION",
         "locator": "视觉理解运行 RUN-VP-P01-0001 输出 texture 段",
         "captured_at": "2026-08-17T09:45:00+08:00",
@@ -120,7 +120,7 @@
     "source_refs": [
       {
         "source_id": "SRC-IMG-0574",
-        "brand_id": "BRAND_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "IMAGE_INPUT",
         "locator": "IMG_0574 细节与挂装图",
         "captured_at": "2026-08-17T09:14:30+08:00",
@@ -128,7 +128,7 @@
       },
       {
         "source_id": "SRC-VISION-P01-01",
-        "brand_id": "BRAND_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "MODEL_EXTRACTION",
         "locator": "视觉理解运行 RUN-VP-P01-0001 输出 focus 段",
         "captured_at": "2026-08-17T09:45:00+08:00",
@@ -150,7 +150,7 @@
     "source_refs": [
       {
         "source_id": "SRC-IMG-0576",
-        "brand_id": "BRAND_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "IMAGE_INPUT",
         "locator": "IMG_0576 袖口与上身图",
         "captured_at": "2026-08-17T09:16:00+08:00",
@@ -158,7 +158,7 @@
       },
       {
         "source_id": "SRC-VISION-P01-01",
-        "brand_id": "BRAND_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "MODEL_EXTRACTION",
         "locator": "视觉理解运行 RUN-VP-P01-0001 输出 shooting_attention 段",
         "captured_at": "2026-08-17T09:45:00+08:00",

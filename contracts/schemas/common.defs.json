@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$comment": "公共定义，逐条照抄附录 A；本文件属 contracts/ 考试条件区，改动走版本升级",
+  "$comment": "公共定义，逐条照抄附录 A；本文件属 contracts/ 考试条件区，改动走版本升级。v2（块 B 语义补强 2026-08-18）：FactValue 状态约束收紧（CONFIRMED 禁空值/空串/空数组、MISSING/NOT_APPLICABLE 须显式 value:null、CONFLICTING 禁顶层保值）、空数组白名单降为字段级（FactValueStringArrayEmptyOk 仅三字段）、Money.as_of 必填、datetime 全量 format=date-time、definitions 全量 additionalProperties:false。",
   "definitions": {
     "VersionedRef": {
       "type": "object",
@@ -24,7 +24,8 @@
         "brand_id": {
           "type": "string"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "ConfidenceStatement": {
       "type": "object",
@@ -54,7 +55,8 @@
             "type": "string"
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "TraceEntry": {
       "type": "object",
@@ -104,7 +106,8 @@
             null
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "TraceBundle": {
       "type": "object",
@@ -130,7 +133,8 @@
             "$ref": "#/definitions/TraceEntry"
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "ArtifactEnvelope": {
       "type": "object",
@@ -199,7 +203,8 @@
           ]
         },
         "created_at": {
-          "type": "string"
+          "type": "string",
+          "format": "date-time"
         },
         "created_by": {
           "enum": [
@@ -208,7 +213,8 @@
             "FOUNDER_REVIEWER"
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "ContextRequirement": {
       "type": "object",
@@ -248,7 +254,8 @@
         "related_source_refs": {
           "type": "array"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "HardRuleResult": {
       "type": "object",
@@ -285,7 +292,8 @@
         "explanation": {
           "type": "string"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "SourceRef": {
       "type": "object",
@@ -321,7 +329,8 @@
         },
         "captured_at": {
           "type": "string",
-          "description": "datetime（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）"
+          "format": "date-time",
+          "description": "datetime（FormatChecker 强制，块 B）"
         },
         "checksum": {
           "type": [
@@ -329,12 +338,13 @@
             "null"
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "FactValueBase": {
       "type": "object",
-      "$comment": "A.2.4（A 行 159-181）FactValue 共性字段；value 在此不限类型，由 FactValueString / FactValueStringArray / FactValueMoney / FactValueQuantity / FactValueRange 以 allOf 收窄",
-      "description": "A.2.4 未由本 Schema 表达的约束（外包给确定性谓词，C.3 资产④）：① A.2.3「MODEL_EXTRACTION 只能产生 PROVISIONAL 值」——跨对象规则，需按 source_refs 组合判定；② A.2.4「库存、价格等时效性事实必须有单位和 as_of」的 as_of 部分——as_of 可落在 FactValue.as_of 或内联 Money.as_of / Quantity.as_of，A 未指明层级；③ A.2.4「PROVISIONAL 或 CONFLICTING 不得被描述为确定事实」——下游表述层语义；④ CONFIRMED 的「value 非空」此处只判非 null，空字符串 / 空数组是否算非空由谓词判定。",
+      "$comment": "A.2.4（A 行 159-181）FactValue 共性字段；value 类型由 FactValueString 等以 allOf 收窄。块 B 语义补强（2026-08-18）：四条状态约束由「结构基线」升为可执行合同——外部审查定向重放实测 MISSING 缺键/CONFIRMED 空串/CONFLICTING 顶层保值均曾 VALID。",
+      "description": "A.2.4 未由本 Schema 表达的约束（外包确定性谓词 C.3 资产④；P1 MODEL_EXTRACTION→禁 CONFIRMED 已于块 B 落地 tools/test_fact_schemas.py）：「PROVISIONAL 或 CONFLICTING 不得被描述为确定事实」属下游表述层语义。",
       "required": [
         "status"
       ],
@@ -360,7 +370,8 @@
             "string",
             "null"
           ],
-          "description": "datetime | null（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）"
+          "description": "datetime | null（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）",
+          "format": "date-time"
         },
         "confidence": {
           "enum": [
@@ -389,13 +400,14 @@
               "source_ref": {
                 "$ref": "#/definitions/SourceRef"
               }
-            }
+            },
+            "additionalProperties": false
           }
         }
       },
       "allOf": [
         {
-          "$comment": "A.2.4 约束1：CONFIRMED——value 非空，至少有一个 source_ref",
+          "$comment": "A.2.4 约束1：CONFIRMED——value 非空（非 null、非空串；数组的非空由 FactValueStringArray 分支承担，空数组白名单见 FactValueStringArrayEmptyOk），至少一个 source_ref",
           "if": {
             "required": [
               "status"
@@ -414,7 +426,15 @@
             "properties": {
               "value": {
                 "not": {
-                  "type": "null"
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "string",
+                      "maxLength": 0
+                    }
+                  ]
                 }
               },
               "source_refs": {
@@ -459,7 +479,7 @@
           }
         },
         {
-          "$comment": "A.2.4 约束3：MISSING、NOT_APPLICABLE——value 为空",
+          "$comment": "A.2.4 约束3（块 B 收紧）：MISSING、NOT_APPLICABLE——value 键必须存在且显式为 null（「显式缺失」是接口语义，省略键 = 缺失状态不可见）",
           "if": {
             "required": [
               "status"
@@ -478,11 +498,14 @@
               "value": {
                 "type": "null"
               }
-            }
+            },
+            "required": [
+              "value"
+            ]
           }
         },
         {
-          "$comment": "A.2.4 约束4：CONFLICTING——必须列出 alternatives，不能静默选值",
+          "$comment": "A.2.4 约束4（块 B 收紧）：CONFLICTING——必须列出 alternatives；顶层 value 若出现必须为 null（冲突未裁不得静默选值——顶层保值 = 静默选值）",
           "if": {
             "required": [
               "status"
@@ -500,11 +523,15 @@
             "properties": {
               "alternatives": {
                 "minItems": 1
+              },
+              "value": {
+                "type": "null"
               }
             }
           }
         }
-      ]
+      ],
+      "additionalProperties": false
     },
     "FactValueString": {
       "$comment": "A.3 表中的 FactValue<string>",
@@ -537,7 +564,7 @@
       ]
     },
     "FactValueStringArray": {
-      "$comment": "A.3 表中的 FactValue<string[]>；A.3.1「可确认空数组；未知不等于无」——空数组配 CONFIRMED 合法，缺失须用 status=MISSING",
+      "$comment": "A.3 表中的 FactValue<string[]>。块 B 收紧：CONFIRMED + [] 不再全局合法——A.3.1「可确认空数组」是**字段级**例外（A 点名 forbidden_expressions / forbidden_styles / expression_boundaries），字段级例外不得提升为公共类型语义（外部审查 IS-02）；该三字段改用 FactValueStringArrayEmptyOk。",
       "allOf": [
         {
           "$ref": "#/definitions/FactValueBase"
@@ -566,6 +593,27 @@
                     }
                   }
                 }
+              }
+            }
+          }
+        },
+        {
+          "$comment": "块 B：CONFIRMED 时数组必须非空（空数组白名单字段用 FactValueStringArrayEmptyOk）",
+          "if": {
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "const": "CONFIRMED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "array",
+                "minItems": 1
               }
             }
           }
@@ -678,10 +726,11 @@
     },
     "Money": {
       "type": "object",
-      "$comment": "A.3.2 内联类型（A 行 263-267）：amount / currency / as_of(可空)",
+      "$comment": "A.3.2 内联类型（A 行 263-267）：amount / currency / as_of。块 B 收紧：as_of 由可空改必填——A.2.4「库存、价格等时效性事实必须有单位和 as_of」（A 行 180）；A 未指明 as_of 落 FactValue 层还是 Money 层（行 180 与 267 并存），执行侧按 Quantity.as_of（A 行 269-272 非可空）的对称口径定为**内层必填**，两类时效性事实同层同严。依据留痕：外部审查 IS-07「A 没规定放哪一层，不等于允许两层都没有」。",
       "required": [
         "amount",
-        "currency"
+        "currency",
+        "as_of"
       ],
       "properties": {
         "amount": {
@@ -691,13 +740,12 @@
           "type": "string"
         },
         "as_of": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "description": "datetime | null（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）"
+          "type": "string",
+          "format": "date-time",
+          "description": "datetime（必填，块 B 收紧；FormatChecker 强制，见 tools/test_fact_schemas.py v2）"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "Quantity": {
       "type": "object",
@@ -716,9 +764,11 @@
         },
         "as_of": {
           "type": "string",
-          "description": "datetime（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）"
+          "description": "datetime（FormatChecker 强制，块 B）",
+          "format": "date-time"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "Range": {
       "type": "object",
@@ -742,11 +792,12 @@
         "unit": {
           "type": "string"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "FactSetEnvelope": {
       "type": "object",
-      "$comment": "A.3 开篇（A 行 218-229）：五类事实对象共享；fact_type 在 A 中为 string，无枚举，不得自造枚举值",
+      "$comment": "A.3 开篇（A 行 218-229）：五类事实对象共享；fact_type 在 A 中为 string，无枚举，不得自造枚举值。块 B：本信封不设 additionalProperties:false（allOf 平铺下会误拒族自有字段），未知字段的拒绝由各族 Schema 顶层承担",
       "description": "复用方式：五类事实对象（A.3.1 BrandFacts、A.3.2 ProductFacts、A.3.4 AudienceFacts、A.3.5 PersonaFacts、A.3.6 VideoAccountFacts）以 allOf 平铺共享本信封字段，不做 envelope 包 payload 的嵌套——依据是 A.3.1 表内直接列出 brand_id（与信封同名同型），而 A.3.2 表未再列 brand_id，说明信封字段与对象自有字段同处一层。",
       "required": [
         "fact_set_id",
@@ -775,7 +826,8 @@
         },
         "updated_at": {
           "type": "string",
-          "description": "datetime（格式强制未结构化：非法日期串结构层不拦，外包确定性谓词 C.3 资产④）"
+          "description": "datetime（FormatChecker 强制，块 B）",
+          "format": "date-time"
         },
         "updated_by_role": {
           "enum": [
@@ -784,6 +836,42 @@
           ]
         }
       }
+    },
+    "FactValueStringArrayEmptyOk": {
+      "$comment": "FactValue<string[]> 空数组白名单版（块 B）：CONFIRMED + [] 合法。仅限 A 真源点名「已确认为空也有意义」的三字段——BrandFacts.forbidden_expressions / PersonaFacts.forbidden_styles / VideoAccountFacts.expression_boundaries（A.3.1「可确认空数组；未知不等于无」）。其他任何字段禁止引用本定义。",
+      "allOf": [
+        {
+          "$ref": "#/definitions/FactValueBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "alternatives": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

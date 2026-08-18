@@ -36,3 +36,8 @@
 
 jsonschema==3.2.0
 PyYAML==6.0.2
+# 块 B（M1-EP01 语义补强，2026-08-18）新增：datetime 字段 format=date-time 的 FormatChecker 后端。
+# jsonschema 3.2.0 在无 rfc3339 库时对 date-time **静默放行**（不报错、不提示）——
+# tools/test_fact_schemas.py v2 因此内置 fail-closed 自检：本库缺席 → 第六步直接 RED，不许假绿。
+# 0.1.4 有 py3 wheel，干净 venv `pip install -r requirements.txt` 实测 exit 0。
+rfc3339-validator==0.1.4

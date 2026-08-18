@@ -1,9 +1,9 @@
 {
   "fact_set_id": "FS-AUD-HXJ-A01-v1",
   "fact_type": "AudienceFacts",
-  "brand_id": "BRD_HENGXUJI",
+  "brand_id": "fixture-brand-01",
   "version": 1,
-  "schema_version": "1.0.0",
+  "schema_version": "A-3.4-v2",
   "updated_at": "2026-08-17T10:00:00+08:00",
   "updated_by_role": "BRAND_OPERATOR",
   "audience_id": "AUD_A01",
@@ -13,7 +13,7 @@
     "source_refs": [
       {
         "source_id": "SRC_FIXTURE_AUD_A01",
-        "brand_id": "BRD_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "UPLOADED_DOCUMENT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#称呼",
         "captured_at": "2026-08-17T09:30:00+08:00",
@@ -34,7 +34,7 @@
     "source_refs": [
       {
         "source_id": "SRC_FIXTURE_AUD_A01",
-        "brand_id": "BRD_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "UPLOADED_DOCUMENT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#年龄段",
         "captured_at": "2026-08-17T09:30:00+08:00",
@@ -55,7 +55,7 @@
     "source_refs": [
       {
         "source_id": "SRC_FIXTURE_AUD_A01",
-        "brand_id": "BRD_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "UPLOADED_DOCUMENT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#职业与生活方式",
         "captured_at": "2026-08-17T09:30:00+08:00",
@@ -78,7 +78,7 @@
     "source_refs": [
       {
         "source_id": "SRC_FIXTURE_AUD_A01",
-        "brand_id": "BRD_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "UPLOADED_DOCUMENT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#真实痛点",
         "captured_at": "2026-08-17T09:30:00+08:00",
@@ -101,7 +101,7 @@
     "source_refs": [
       {
         "source_id": "SRC_FIXTURE_AUD_A01",
-        "brand_id": "BRD_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "UPLOADED_DOCUMENT",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#购买理由",
         "captured_at": "2026-08-17T09:30:00+08:00",
@@ -122,7 +122,7 @@
     "source_refs": [
       {
         "source_id": "SRC_FIXTURE_AUD_A01_OBJ",
-        "brand_id": "BRD_HENGXUJI",
+        "brand_id": "fixture-brand-01",
         "source_type": "MODEL_EXTRACTION",
         "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#常见顾虑",
         "captured_at": "2026-08-17T09:30:00+08:00",

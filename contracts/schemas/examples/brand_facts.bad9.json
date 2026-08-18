@@ -23,6 +23,47 @@
     "confidence": "HIGH",
     "uncertainty_reason": null
   },
+  "positioning": {
+    "value": "HIGH_END",
+    "status": "CONFLICTING",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0002",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「一句话定位」",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null,
+    "alternatives": [
+      {
+        "value": "HIGH_END",
+        "source_ref": {
+          "source_id": "SRC-BRANDPACK-0001",
+          "brand_id": "fixture-brand-01",
+          "source_type": "BRAND_OPERATOR_INPUT",
+          "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「品牌名」",
+          "captured_at": "2026-08-17T09:00:00+08:00",
+          "checksum": null
+        }
+      },
+      {
+        "value": "MID_HIGH",
+        "source_ref": {
+          "source_id": "SRC-BRANDPACK-0001",
+          "brand_id": "fixture-brand-01",
+          "source_type": "BRAND_OPERATOR_INPUT",
+          "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「品牌名」",
+          "captured_at": "2026-08-17T09:00:00+08:00",
+          "checksum": null
+        }
+      }
+    ]
+  },
   "values": {
     "value": [
       "先讲商品解决什么、牺牲什么，再谈是否值得买",
@@ -141,10 +182,10 @@
     }
   ],
   "_fixture_note": {
-    "violation": "唯一违约：删除 A.3.1 R 必填字段 positioning（A 行 237）；本 Schema 内层 required 应拦下。",
-    "expected_error_substr": "'positioning' is a required property",
-    "delta_keys_vs_ok1": [
-      "-positioning"
-    ]
+    "delta": "唯一变异：positioning 改 CONFLICTING 且顶层 value 保留已选值 HIGH_END（alternatives 齐全）",
+    "expected_error_substr": "is not of type 'null'",
+    "expected_validator": "type",
+    "expected_path": "$.positioning.value",
+    "why": "A.2.4 约束4（块 B 收紧）：冲突未裁不得静默选值——顶层保值 = 静默选值（审查 IS-01c）"
   }
 }

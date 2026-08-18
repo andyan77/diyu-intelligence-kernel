@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "context_snapshot.schema.json",
   "title": "ContextSnapshot",
-  "$comment": "照抄 A.4.3（A 行 397-415）yaml 块十四字段，一个不多一个不少；规则句 5 条（A 行 419-423）见各字段 description。ContextSnapshot 不属 A 行 218「五类事实对象」，故不 allOf FactSetEnvelope；它也不是 A.9.3 意义上的 Artifact（A.4.3 yaml 块未出现 artifact / ArtifactEnvelope，且 A 行 422「旧 Artifact 继续引用旧 Snapshot（外包确定性谓词 C.3 资产④，本对象结构不表达）」把二者并列为不同对象），故不嵌 ArtifactEnvelope。additionalProperties 与风格参照 intent_execution_plan.schema.json 一致——不声明（沿用 Draft-7 默认允许），保持全仓一致口径。本 Schema 无 allOf 条件式：A 行 419-423 五条规则均无法由本对象自身结构判定（理由逐条写在对应字段 description），不硬造复杂 Schema。",
+  "$comment": "照抄 A.4.3（A 行 397-415）yaml 块十四字段，一个不多一个不少；规则句 5 条（A 行 419-423）见各字段 description。ContextSnapshot 不属 A 行 218「五类事实对象」，故不 allOf FactSetEnvelope；它也不是 A.9.3 意义上的 Artifact（A.4.3 yaml 块未出现 artifact / ArtifactEnvelope，且 A 行 422「旧 Artifact 继续引用旧 Snapshot（外包确定性谓词 C.3 资产④，本对象结构不表达）」把二者并列为不同对象），故不嵌 ArtifactEnvelope。additionalProperties 与风格参照 intent_execution_plan.schema.json 一致——不声明（沿用 Draft-7 默认允许），保持全仓一致口径。本 Schema 无 allOf 条件式：A 行 419-423 五条规则均无法由本对象自身结构判定（理由逐条写在对应字段 description），不硬造复杂 Schema。。块 B（2026-08-18）：additionalProperties:false 全量关闭——顶层枚举全部合法键（信封+自有+_元数据），合同外自由字段一律拒绝（外部审查 IS-09）",
   "description": "A.4.3 ContextSnapshot。必填口径按 A 行 108-114：R=结构必填→进 required；C=条件必填→不进 required；O=可选。A.4.3 是 yaml 块、无 R/C/O 列，十四个键均无条件出现，故全部进 required——与 case_manifest.schema.json 对「无条件出现的键（可空值，非可选键）」的处理口径一致；video_account_facts_ref 的可空性按 A 行 410 原文 `VersionedRef | null` 保留在类型上（键必须在，值可为 null），不改写成可选键。A 行 102（A.1.5 版本不可覆盖）：Snapshot 采用追加版本，已被下游引用的版本不得原地覆盖——追加语义是存储层行为，外包给确定性谓词与版本机制（C.3 资产④）。A 行 76：Task / ContextSnapshot / Run / Artifact / Review / BrandMemory 必须携带同一个 brand_id——本对象内 brand_id 与各 VersionedRef.brand_id / SourceRef.brand_id 的一致性属跨字段值比对，Draft-7 无法表达，外包给确定性谓词（C.3 资产④）。",
   "type": "object",
   "required": [
@@ -44,48 +44,83 @@
     },
     "brand_facts_ref": {
       "description": "A 行 406：VersionedRef（单个，非数组、A 未标可空）。指向 A.3.1 BrandFacts。A 行 126：模块之间不允许只传递可变对象 ID，故必须是带 version 的 VersionedRef。被引对象类型是否确为 BrandFacts——A 未给出 object_type 取值域（A 行 120 只写 string），本 Schema 不自造枚举，外包给确定性谓词（C.3 资产④）。",
-      "allOf": [{"$ref": "common.defs.json#/definitions/VersionedRef"}]
+      "allOf": [
+        {
+          "$ref": "common.defs.json#/definitions/VersionedRef"
+        }
+      ]
     },
     "product_facts_refs": {
       "type": "array",
-      "items": {"$ref": "common.defs.json#/definitions/VersionedRef"},
+      "items": {
+        "$ref": "common.defs.json#/definitions/VersionedRef"
+      },
       "description": "A 行 407：VersionedRef[]。指向 A.3.2 ProductFacts。A 未规定最小条数（未写「至少一个」），故不设 minItems——不得自行加严。空数组与「未采集」的区分、以及 object_type 是否确为 ProductFacts，外包给确定性谓词（C.3 资产④）。"
     },
     "audience_facts_refs": {
       "type": "array",
-      "items": {"$ref": "common.defs.json#/definitions/VersionedRef"},
+      "items": {
+        "$ref": "common.defs.json#/definitions/VersionedRef"
+      },
       "description": "A 行 408：VersionedRef[]。指向 A.3.4 AudienceFacts。A 未规定最小条数，不设 minItems。"
     },
     "persona_facts_refs": {
       "type": "array",
-      "items": {"$ref": "common.defs.json#/definitions/VersionedRef"},
+      "items": {
+        "$ref": "common.defs.json#/definitions/VersionedRef"
+      },
       "description": "A 行 409：VersionedRef[]。指向 A.3.5 PersonaFacts。A 未规定最小条数，不设 minItems；A.3.6 行 341「人物出镜型方案需要 primary_persona_ref」属 VideoAccountFacts 侧条件，不在本字段表达。"
     },
     "video_account_facts_ref": {
       "description": "A 行 410：VersionedRef | null（A.4.3 十四字段中唯一显式可空者）。指向 A.3.6 VideoAccountFacts。键必须存在（进 required），值可为 null——null 表示本 Snapshot 未绑定视频号账号事实；何时允许为 null（A 未给出触发条件）外包给确定性谓词（C.3 资产④）。",
       "anyOf": [
-        {"$ref": "common.defs.json#/definitions/VersionedRef"},
-        {"type": "null"}
+        {
+          "$ref": "common.defs.json#/definitions/VersionedRef"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "active_rule_refs": {
       "type": "array",
-      "items": {"$ref": "common.defs.json#/definitions/VersionedRef"},
+      "items": {
+        "$ref": "common.defs.json#/definitions/VersionedRef"
+      },
       "description": "A 行 411：VersionedRef[]。指向 A.9.1 RuleRecord。字段名中的 active 对应 RuleRecord.status=ACTIVE（A 行 826）——被引规则当前是否 ACTIVE、effective_at 是否已生效，需读被引对象，单实例校验看不到，外包给确定性谓词（C.3 资产④）。A 未规定最小条数，不设 minItems。"
     },
     "approved_brand_memory_refs": {
       "type": "array",
-      "items": {"$ref": "common.defs.json#/definitions/VersionedRef"},
+      "items": {
+        "$ref": "common.defs.json#/definitions/VersionedRef"
+      },
       "description": "A 行 412：VersionedRef[]。指向 A.9.6 ApprovedBrandMemory。A 行 423 规则：「首轮 MVP 验收或 Brand Memory 禁用时 approved_brand_memory_refs 必须为空；启用时只能引用 APPROVED 且未 REVOKED 的版本」——两半句本 Schema 均表达不了，外包给确定性谓词（C.3 资产④）：① 前半句的触发条件「是否首轮 MVP 验收 / Brand Memory 是否禁用」是运行期开关，A.4.3 十四字段中没有承载它的字段，不得为表达该规则而自造开关字段，也不得把 maxItems: 0 硬写死（那会让启用态合法实例被误判）；② 后半句需读被引 ApprovedBrandMemory.status（A 行 993：APPROVED | REVOKED）才能判定，单实例校验看不到。A 行 996：只有 APPROVED Memory 可作为后续品牌偏好上下文，且它始终属于 PREFERENCE，不是 FACT 或硬规则。"
     },
     "input_source_refs": {
       "type": "array",
-      "items": {"$ref": "common.defs.json#/definitions/SourceRef"},
+      "items": {
+        "$ref": "common.defs.json#/definitions/SourceRef"
+      },
       "description": "A 行 413：SourceRef[]（内联 SourceRef 对象，非 VersionedRef）。结构见 A.2.3（A 行 128-157）。A.2.3 的内容级禁令「locator 不得包含明文凭证、临时访问令牌或无关系统路径」已写在 common.defs.json 的 SourceRef.locator.description，外包给确定性谓词（C.3 资产④）。A 未规定最小条数，不设 minItems。"
     },
     "snapshot_hash": {
       "type": "string",
       "description": "A 行 414：string。A 行 420「同条件 A/B 使用同一个 snapshot_id 或相同 snapshot_hash」——哈希是否由本 Snapshot 引用集合正确算出、以及两次运行的哈希是否相同，都需要本实例之外的信息（算法定义与另一实例），Schema 表达不了，外包给确定性谓词（C.3 资产④）。A 未规定哈希算法、长度或字符集，故不加 pattern / minLength——不得自行加严。"
+    },
+    "_fixture_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
+    },
+    "_note": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "$comment": "夹具元数据（样例自述/负例声明），运行时下发前剥离全部 _ 前缀字段（Founder 2026-08-18 OQ-BUILD-11 裁决口径）"
     }
-  }
+  },
+  "additionalProperties": false
 }

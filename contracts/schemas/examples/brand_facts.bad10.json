@@ -23,6 +23,23 @@
     "confidence": "HIGH",
     "uncertainty_reason": null
   },
+  "positioning": {
+    "value": "服务 30—45 岁、需要在工作与日常之间切换的城市女性；中高端日常女装，主做有结构但不过度强势的外套、裤装、针织与半裙",
+    "status": "CONFIRMED",
+    "source_refs": [
+      {
+        "source_id": "SRC-BRANDPACK-0002",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实 表行「一句话定位」",
+        "captured_at": "2026-08-17T09:00:00+08:00",
+        "checksum": null
+      }
+    ],
+    "as_of": "2026-08-17T09:00:00+08:00",
+    "confidence": "HIGH",
+    "uncertainty_reason": null
+  },
   "values": {
     "value": [
       "先讲商品解决什么、牺牲什么，再谈是否值得买",
@@ -140,11 +157,12 @@
       "brand_id": "fixture-brand-01"
     }
   ],
+  "rogue_free_text": "任意自由文本",
   "_fixture_note": {
-    "violation": "唯一违约：删除 A.3.1 R 必填字段 positioning（A 行 237）；本 Schema 内层 required 应拦下。",
-    "expected_error_substr": "'positioning' is a required property",
-    "delta_keys_vs_ok1": [
-      "-positioning"
-    ]
+    "delta": "唯一变异：顶层新增合同外自由字段 rogue_free_text",
+    "expected_error_substr": "Additional properties are not allowed",
+    "expected_validator": "additionalProperties",
+    "expected_path": "$",
+    "why": "块 B：additionalProperties:false 全量关闭——拼错字段名/私自扩合同一律拒（审查 IS-09）"
   }
 }

@@ -2,7 +2,7 @@
   "fact_type": "PersonaFacts",
   "brand_id": "fixture-brand-01",
   "version": 1,
-  "schema_version": "0.1",
+  "schema_version": "A-3.5-v2",
   "updated_at": "2026-08-17T10:00:00+08:00",
   "updated_by_role": "BRAND_OPERATOR",
   "persona_id": "R01",
