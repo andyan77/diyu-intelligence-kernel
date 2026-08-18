@@ -69,14 +69,14 @@
   "final_status": "FAIL",
   "note": "L1 只判 FAIL；PENDING_HUMAN ≠ 通过；PASS 只能由 L3 人工判（C.5 / B.1.5）",
   "provenance": {
-    "commit_sha": "c3513c9a38795033fa3583f9f9ed694fc6cf916f",
+    "commit_sha": "4eadcc7942f136d55b794ef295c1abb7781700f7",
     "generator": {
       "path": "tools/run_case.py",
       "sha256": "73942f7ea5a853a88b6ec2f6cc6ccc10439ae507ef18965b070c28298cd3a20b"
     },
     "commit_sha_source": ".git/HEAD + refs/packed-refs（读文件，未执行 git 命令）",
     "repo_root": "/home/faye/笛语智能核",
-    "generated_at": "2026-08-17T22:10:14-07:00",
+    "generated_at": "2026-08-17T23:04:24-07:00",
     "python_version": "3.10.12",
     "deps": {
       "jsonschema": "3.2.0",
