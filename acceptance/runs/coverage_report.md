@@ -8,7 +8,7 @@
 
 ```json
 {
-  "commit_sha": "4eadcc7942f136d55b794ef295c1abb7781700f7",
+  "commit_sha": "db406cedaf17911389b00c38662186c34e05c605",
   "generator": {
     "path": "tools/coverage.py",
     "version": "v0.1",
@@ -16,7 +16,7 @@
   },
   "commit_sha_source": ".git/HEAD + refs/packed-refs（读文件，未执行 git 命令）",
   "repo_root": "/home/faye/笛语智能核",
-  "generated_at": "2026-08-17T23:04:24-07:00",
+  "generated_at": "2026-08-17T23:12:00-07:00",
   "python_version": "3.10.12",
   "deps": {
     "jsonschema": "3.2.0",
