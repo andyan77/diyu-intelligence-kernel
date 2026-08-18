@@ -646,6 +646,60 @@ check("㉔-l 并呈状态却 CONTINUE（备选代替人工选择）→FAIL",
       checks.intent_goal_gate(dict(_PLAN_ALT, next_action="CONTINUE_TO_DECISION"), _CTX23),
       "FAIL", "交回人工")
 
+# ---- ㉕ 数字表达裁决（Founder 2026-08-18 尾批）：保守概括通道 numeric_grounding v0.5 ----
+# **负向测试先行**：本块先于 v0.5 判据写下，用 `git show HEAD:acceptance/detectors/checks.py`
+# 的旧版实跑取「先红」证据——旧口径下 ㉕-a 红（该绿判红）、㉕-b/c 绿（该红判绿，且 ㉕-b/c 的绿
+# 是**碰巧**：商品名「10%羊绒风衣式大衣」把 10 送进 percent 池），共 3 项不符期望。
+# 裁决封闭清单：a)「X以上／不低于X」需 X ≤ 同类最小值；b)「不超过X／X以下」需 X ≥ 同类最大值；
+# c) 原值区间；d) 原值列举。方向只许保守；「约/接近/大概/左右」维持禁止。
+_SNAP25 = {"product": {"inventory": {"value": 800, "unit": "件"},
+                       "price": {"value": 3980, "currency": "CNY"},
+                       "name": {"value": "10%羊绒风衣式大衣"},
+                       "material": {"value": ["黑色面料:90.2%绵羊毛 9.8%山羊绒", "米色面料:90.3%绵羊毛 9.7%山羊绒",
+                                              "晓雾灰面料:90.8%绵羊毛 9.2%山羊绒", "云烟灰面料:90.1%绵羊毛 9.9%山羊绒"]}}}
+# —— 裁决四判例，逐条钉死 ——
+check("㉕-a 判例1「9%以上」→OK（9 ≤ 同类最小值 9.2，下界往低取）",
+      ng({"intent_summary": "该商品含9%以上山羊绒。"}, _SNAP25), "OK", "保守概括通道放行")
+check("㉕-b 判例2「10%以上」→FAIL（向上取整；10 碰巧在 percent 池里也不免责）",
+      ng({"intent_summary": "该商品含10%以上山羊绒。"}, _SNAP25), "FAIL", ("方向不保守", "9.2"))
+check("㉕-c 判例3「约10%」→FAIL（不可判定形式，维持禁止）",
+      ng({"intent_summary": "该商品含约10%山羊绒。"}, _SNAP25), "FAIL", "不可判定的近似表达")
+check("㉕-d 判例4「9.2%–9.9%」→OK（原值区间，走精确命中）",
+      ng({"intent_summary": "山羊绒含量9.2%–9.9%。"}, _SNAP25), "OK")
+# —— 封闭清单其余三形 ——
+check("㉕-e 原值列举→OK",
+      ng({"intent_summary": "四色山羊绒含量分别为9.8%、9.7%、9.2%、9.9%。"}, _SNAP25), "OK")
+check("㉕-f 「不低于9%」→OK（下界同义词）",
+      ng({"intent_summary": "山羊绒不低于9%。"}, _SNAP25), "OK", "不低于")
+check("㉕-g 上界「不超过1000件」→OK（1000 ≥ 同类最大值 800）",
+      ng({"intent_summary": "库存不超过1000件。"}, _SNAP25), "OK", "同类最大值 800")
+check("㉕-h 上界方向反了「不超过500件」→FAIL（须 ≥ 最大值）",
+      ng({"intent_summary": "库存不超过500件。"}, _SNAP25), "FAIL", "只许往高取")
+check("㉕-i 下界方向反了「900件以上」→FAIL",
+      ng({"intent_summary": "库存900件以上。"}, _SNAP25), "FAIL", "只许往低取")
+check("㉕-j 边界值可取「800件以上」→OK（等于最小值，≤ 成立）",
+      ng({"intent_summary": "库存800件以上。"}, _SNAP25), "OK")
+# —— 不可判定形式全家桶（即使数值精确命中快照也判红）——
+check("㉕-k 「3980元左右」→FAIL（3980 是快照原值，但「左右」不可判定）",
+      ng({"intent_summary": "定价3980元左右。"}, _SNAP25), "FAIL", "左右")
+check("㉕-l 「接近800件」→FAIL", ng({"intent_summary": "库存接近800件。"}, _SNAP25), "FAIL", "接近")
+check("㉕-m 「大概3980元」→FAIL", ng({"intent_summary": "售价大概3980元。"}, _SNAP25), "FAIL", "大概")
+# —— 反向护栏：本裁决不得扩张为任意近似数字放行（红线原样）——
+check("㉕-n 真编造仍红：「三千件」（概括通道不给无界数字开口子）",
+      ng({"intent_summary": "库存三千件。"}, _SNAP25), "FAIL", "3000")
+check("㉕-o 真编造仍红：「2999元」", ng({"intent_summary": "售价2999元。"}, _SNAP25), "FAIL", "2999")
+check("㉕-p 真编造带界也红：「5000件以上」（界标记不是免死金牌）",
+      ng({"intent_summary": "库存5000件以上。"}, _SNAP25), "FAIL", "只许往低取")
+# —— 不误伤既有通道 ——
+check("㉕-q 条款号仍豁免：basis 里「约束5」的「约」不得判成近似表达",
+      ng({"confidence": {"basis": ["闸留痕：改为 NEEDS_INPUT（A.5.2 约束5 / A.4.2）"]}}, _SNAP25), "OK")
+check("㉕-r 无界原值仍走精确命中：「库存800件」→OK",
+      ng({"intent_summary": "库存800件。"}, _SNAP25), "OK")
+# —— 射程边界如实登记（类级池混装导致的假红，不藏）——
+check("㉕-s 【已知假红·类级池】「绵羊毛90%以上」→FAIL（percent 池混装山羊绒 9.x，最小值 9.2）",
+      ng({"intent_summary": "面料含绵羊毛90%以上。"}, _SNAP25), "FAIL", "方向不保守")
+
+
 for line in PASSED:
     print(line)
 for line in FAILURES:

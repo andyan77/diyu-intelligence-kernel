@@ -1,4 +1,4 @@
-"""确定性断言库 v0.4（考卷区——改检测器=改考卷，需审批 C.6.3）。
+"""确定性断言库 v0.5（考卷区——改检测器=改考卷，需审批 C.6.3）。
 契约（C.4 铁律1）：每个 check 返回 (verdict, detail)，verdict ∈ {"OK","FAIL","UNKNOWN"}；
 证据不足一律 UNKNOWN 向上冒泡（禁止 default:false / 假绿）。L1 只判 FAIL，不产生 PASS。
 
@@ -18,6 +18,19 @@ detectors_version / tools/coverage.py detectors_version，两处都读本 docstr
   v0.3 → v0.4（校准批二，Founder 2026-08-18 复判批第⑥条产品标准，负向测试先行 tools/test_detectors.py ㉔）：
     **只新增** intent_situational_alternative 一个函数，既有检测器一字未改（含 numeric_grounding
     与防编造面全部护栏）——机器面判「系统已知的重大经营情境该并呈却没并呈／被擅自转向」。
+  v0.4 → v0.5（校准批二尾批，Founder 2026-08-18 **数字表达裁决**＝C.6.3 改检测器批准，
+    负向测试先行 tools/test_detectors.py ㉕；先红证据＝新 18 条期望在旧检测器下 8 项不符，
+    其中 5 项是**假绿**：「10%以上」「约10%」「3980元左右」「接近800件」「大概3980元」）：
+    只动 numeric_grounding（自身语义版 v0.4→v0.5），新增**保守概括通道**（封闭清单）：
+    ① 下界「X以上／不低于X／至少X／超过X」——放行当且仅当 X ≤ 同类快照**最小值**；
+    ② 上界「不超过X／X以下／最多X」——放行当且仅当 X ≥ 同类快照**最大值**；
+    ③ 原值区间与原值列举照旧走逐值精确命中，本通道不介入；
+    ④ 「约／大约／接近／大概／差不多／左右／上下／前后」等**不可判定形式一律判红**，
+       即使数值碰巧在快照池内（本案实证：商品名「10%羊绒风衣式大衣」把 10 送进 percent 池）；
+    ⑤ **带界标记时按界判，精确命中不再免责**——反方向取整（9.2 →「10%以上」）判红。
+    射程边界（如实登记，不得据本通道宣称近似表达已全面可判）：池是**类级**的，同类内混装不同
+    对象的数值时（percent 池同时含山羊绒 9.x 与绵羊毛 90.x），针对子集的真陈述会被判红＝**假红**
+    方向（㉕-s 用例钉死）；概括通道**只对事实类数字生效**，无单位裸数字仍走原「命中任意值」口径。
 """
 import json, os, re, subprocess, sys
 
@@ -265,6 +278,58 @@ def _unit_context(text, start, end):
                     break
     return kind, cls, scale, ordinal, mag_end
 
+# ---- 保守概括通道（Founder 2026-08-18 数字表达裁决；本裁决即 C.6.3 改检测器批准）----
+# 封闭清单，只此四形：a)「X以上／不低于X」需 X ≤ 同类快照**最小值**；b)「不超过X／X以下」需 X ≥ 同类
+# **最大值**；c) 原值区间「min–max」与 d) 原值列举——后两形本就走逐值精确命中，无需本通道。
+# 方向硬性保守：下界只许往低取、上界只许往高取，反方向取整（9.2 →「10%以上」）判红。
+# **带界标记时按界判，精确命中不再免责**：本案实证——商品名「10%羊绒风衣式大衣」把 10 送进了 percent
+# 池，旧口径下「10%以上」「约10%」双双假绿；新口径下两者都红（前者不保守，后者不可判定）。
+# 「约／大约／接近／大概／差不多／左右／上下」等不可判定形式**维持禁止**，即使数值碰巧在池内。
+_BOUND_LEFT = (("不低于", "LOWER"), ("不超过", "UPPER"), ("不高于", "UPPER"), ("差不多", "VAGUE"),
+               ("至少", "LOWER"), ("最多", "UPPER"), ("超过", "LOWER"), ("高于", "LOWER"),
+               ("大于", "LOWER"), ("低于", "UPPER"), ("小于", "UPPER"), ("大约", "VAGUE"),
+               ("约莫", "VAGUE"), ("接近", "VAGUE"), ("大概", "VAGUE"), ("估计", "VAGUE"),
+               ("约", "VAGUE"), ("≥", "LOWER"), ("≤", "UPPER"))
+_BOUND_RIGHT = (("及以上", "LOWER"), ("或以上", "LOWER"), ("及以下", "UPPER"), ("以上", "LOWER"),
+                ("以下", "UPPER"), ("以内", "UPPER"), ("封顶", "UPPER"), ("左右", "VAGUE"),
+                ("上下", "VAGUE"), ("前后", "VAGUE"))
+_BOUND_SKIP_RIGHT = set("及或")
+
+def _bound_qualifier(text, start, end, mag_end):
+    """返回 (kind, marker)，kind ∈ {"LOWER","UPPER","VAGUE",None}。
+
+    左侧标记必须**紧贴**数字（endswith，只跳空白）——否则「按约束5」里的「约」会把条款号
+    误判成近似表达；右侧标记必须**紧跟**数字/量级词/单位之后（startswith，跳空白与「及/或」）。
+    两侧都命中时 VAGUE 优先（「大约9%以上」自相矛盾，按不可判定＝判红方向处理）；同侧多标记
+    取最长（「不超过」压过「超过」，元组已按长度手排）。
+    诚实边界：紧贴数字的构词「约」（如「预约3天」）会被判成近似表达＝**假红**方向，写原值可规避；
+    「最近3天」不入列（已剔除裸「近」，避免高频时间说法被误伤）。
+    """
+    n = len(text)
+    i = start
+    while i > 0 and text[i - 1] in _SPACES:
+        i -= 1
+    left = text[max(0, i - 6):i]
+    j = max(end, mag_end)
+    while j < n and text[j] in _SPACES:
+        j += 1
+    if j < n and text[j] in _SUFFIX_UNIT:          # 跳过单位本身（9「%」以上 / 800「件」以上）
+        j += 1
+    while j < n and (text[j] in _SPACES or text[j] in _BOUND_SKIP_RIGHT):
+        j += 1
+    right = text[j:j + 6]
+    hits = []
+    for marker, kind in _BOUND_LEFT:
+        if left.endswith(marker):
+            hits.append((kind, marker)); break
+    for marker, kind in _BOUND_RIGHT:
+        if right.startswith(marker):
+            hits.append((kind, marker)); break
+    for kind, marker in hits:
+        if kind == "VAGUE":
+            return kind, marker
+    return hits[0] if hits else (None, None)
+
 def _in_identifier(text, start, end):
     """数字是否嵌在字母数字标识符里（S1 / IMG_0565 / ACC-HXJ-001 / B.4.2 / v0.1）。"""
     i, j = start, end
@@ -331,7 +396,7 @@ def _text_numbers_out(text):
         v *= scale
         if ordinal and abs(v) <= 10:
             continue
-        found.append((v, cls))
+        found.append((v, cls) + _bound_qualifier(text, s, e, mag_end))
     return found, unresolved
 
 def _text_numbers_snap(text):
@@ -425,11 +490,12 @@ def _collect_output(node, segs, acc, unresolved):
     elif isinstance(node, bool) or node is None:
         return
     elif isinstance(node, (int, float)):
-        acc.append((float(node), _path_class(segs), ".".join(str(s) for s in segs)))
+        # JSON 数值型没有文本上下文，界标记恒 None（数字本身不会自带「以上」）
+        acc.append((float(node), _path_class(segs), None, None, ".".join(str(s) for s in segs)))
     elif isinstance(node, str):
         p = ".".join(str(s) for s in segs); pcls = _path_class(segs)
         nums, unres = _text_numbers_out(_CLAUSE_REF_RE.sub(" ", node) if _is_sys_trace_path(segs) else node)
-        for v, ucls in nums: acc.append((v, ucls or pcls, p))
+        for v, ucls, qkind, qmark in nums: acc.append((v, ucls or pcls, qkind, qmark, p))
         for raw in unres: unresolved.append((raw, p))
 
 def _nk(v): return round(float(v), 6)
@@ -455,6 +521,12 @@ def numeric_grounding(output, ctx, snapshot_fields=None, threshold=0, **kw):
       属 L3 人工判分面（同声明见本文件 v0.3 段首与 BD-D01/case.yaml A5 行注释）。
     threshold：v0.2 起**仅**作用于「无单位裸数字」的下限，默认 0（全查）；对带事实单位的数字无效。
     snapshot_fields：守卫，这些字段必须作为快照的键 / 路径存在，否则 UNKNOWN 向上冒泡（禁 default:false）。
+    **v0.5 保守概括通道（Founder 2026-08-18 数字表达裁决，封闭清单四形）**：数字带「界标记」时
+      改按界判，不再看是否精确命中——下界（以上/不低于/至少/超过/≥）须 X ≤ 同类最小值，
+      上界（不超过/以下/最多/≤）须 X ≥ 同类最大值，方向反了判红；「约/接近/大概/左右」等
+      不可判定形式一律判红（碰巧在池内也不免责）。原值区间与原值列举不经本通道，照走精确命中。
+      本通道**只对事实类数字生效**；裸数字维持原口径。判据实现见 _bound_qualifier。
+      ⚠ 池是类级的：percent 池混装山羊绒 9.x 与绵羊毛 90.x，针对子集的真陈述会被判红（假红方向）。
     """
     snap = ctx.get("snapshot")
     if snap is None: return "UNKNOWN", "context_snapshot 未加载，无法溯源数字"
@@ -497,8 +569,29 @@ def numeric_grounding(output, ctx, snapshot_fields=None, threshold=0, **kw):
         if exagg_invalid:
             return "UNKNOWN", f"_explicit_exaggeration 含解析不出数值的标注项: {'; '.join(exagg_invalid[:5])}（标注必须精确到数字，不得整句豁免）"
 
-    bad, annotated = [], []
-    for v, cls, path in out_nums:
+    bad, annotated, generalized = [], [], []
+    for v, cls, qkind, qmark, path in out_nums:
+        # ---- 保守概括通道（v0.5，Founder 数字表达裁决）----
+        # 顺序在精确命中之前：带界标记时按「界」判，碰巧在池里也不免责（判例：「10%以上」红）。
+        if qkind == "VAGUE":
+            bad.append((v, f"{_fmt(v)}（不可判定的近似表达「{qmark}」@ {path}——裁决3：约/接近/大概类"
+                           f"无法由快照原值重算核验，维持禁止）"))
+            continue
+        if qkind in ("LOWER", "UPPER") and cls in pools:
+            pool = pools[cls]
+            if not pool:
+                bad.append((v, f"{_fmt(v)}（「{qmark}」概括无同类快照来源可核验 @ {path}）"))
+                continue
+            lo, hi = min(pool), max(pool)
+            if qkind == "LOWER" and _nk(v) <= _nk(lo):
+                generalized.append(f"{_fmt(v)}「{qmark}」≤ 同类最小值 {_fmt(lo)} @ {path}")
+            elif qkind == "UPPER" and _nk(v) >= _nk(hi):
+                generalized.append(f"{_fmt(v)}「{qmark}」≥ 同类最大值 {_fmt(hi)} @ {path}")
+            else:
+                edge = _fmt(lo) if qkind == "LOWER" else _fmt(hi)
+                word = "只许往低取（须 ≤ 同类最小值" if qkind == "LOWER" else "只许往高取（须 ≥ 同类最大值"
+                bad.append((v, f"{_fmt(v)}（「{qmark}」概括方向不保守：{word} {edge}）@ {path}"))
+            continue
         if cls in pools:
             if _nk(v) not in pools[cls]:
                 if _nk(v) in exagg_keys:
@@ -511,6 +604,9 @@ def numeric_grounding(output, ctx, snapshot_fields=None, threshold=0, **kw):
                     annotated.append(f"{_fmt(v)} @ {path}"); continue
                 bad.append((v, f"{_fmt(v)}（裸数字无快照来源 @ {path}）"))
     exagg_note = f"；明示夸张标注豁免 {len(annotated)} 处（R2 标注通道，留痕: {'; '.join(annotated[:3])}）" if annotated else ""
+    if generalized:
+        exagg_note += (f"；保守概括通道放行 {len(generalized)} 处（v0.5 裁决封闭清单，逐条重算留痕: "
+                       f"{'; '.join(generalized[:3])}）")
     if bad:
         # 硬 FAIL 优先于 UNKNOWN：已确证的无源数字是比「无从核验」更强的证据，不得被冒泡掩盖。
         seen, msgs = set(), []

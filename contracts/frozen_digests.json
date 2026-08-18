@@ -361,12 +361,12 @@
       "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/INT-D02/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:577473c99063b2f25c8e66f2dd029aa69e0fe43c87d4b581f22f86f58b4c4f96",
-      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
+      "content_sha256": "sha256:74b5b5d22892e7e45039c84a6e1d38a1ba2b2707ce9f8217031938d79678603d",
+      "note": "校准批二尾批（Founder 2026-08-18 数字表达裁决）：INT-D02 考卷升版 case_version v0.6→v0.7（判据面 numeric_grounding v0.5 保守概括通道）"
     },
     "acceptance/cases/INT-D02/manifest.quick.yaml": {
-      "content_sha256": "sha256:bb89d2a96bd6708e9b3839b17050918f52e33697805eafdceb5301e95e2d4acc",
-      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
+      "content_sha256": "sha256:1005644db03b835e8d18a1b407bc614993c666dc2d0236650fe9598276d71e7e",
+      "note": "校准批二尾批（Founder 2026-08-18 数字表达裁决）：INT-D02 考卷升版 case_version v0.6→v0.7（判据面 numeric_grounding v0.5 保守概括通道）"
     },
     "acceptance/cases/INT-D03/manifest.input-a.yaml": {
       "content_sha256": "sha256:e00e5f8c1b21de5c73aa1b65ec1973ed07240eb3a953db077e2bbfaa59d52083",

@@ -1,0 +1,6 @@
+# 尝试账本条目（C.6 格式；一条一文件）
+attempt_id: ATT-0012
+hypothesis: "prompt v0.5→v0.6（校准批二尾批，Founder 数字表达裁决配套 kernel 侧一句引导）：RUN-0019/0020 两发模型把四色山羊绒含量概括成「9%以上」触 A6 判红——Founder 裁决允许不造成误导的保守概括，但机器只认封闭清单（检测器 v0.5：下界 ≤ 同类最小值 / 上界 ≥ 同类最大值 / 原值区间 / 原值列举；约·接近·大概·左右维持禁止）。kernel 侧对应动作＝在判定纪律 6「数字必须能溯源」后补一句写法引导：**优先写快照原值或原值区间；确需概括只许保守方向（说下限就往低取、说上限就往高取），不写「约/接近/大概/左右」这类无法重算的形式**。只动 prompt 文本一句，不动闸、不动检测器、不动考卷断言编号；与检测器改动分提交（C.2 隔离门）"
+target_failing_run: "RUN-0019-int-d02-quick-calib2 / RUN-0020-int-d02-enhanced-calib2（2026-08-18 live，qwen3-max，prompt v0.5）：第⑥条行为面两发全中（Founder 复判通过），但 model_judgments 写「该商品含9%以上山羊绒，结合3980元定价，符合高端基础款定位」→ A6 numeric_grounding FAIL[BD_FACT_FABRICATION]（旧口径下 9 无逐字对应）。旧口径同时存在反向假绿：「10%以上」「约10%」因商品名「10%羊绒风衣式大衣」把 10 送进 percent 池而放行——两处一并由 v0.5 判据修正"
+regression_after: "tools/test_detectors.py 184/184 全绿（新增 ㉕×19，负向先行：新期望在旧检测器下 8 项不符、含 5 项假绿）+ check_m0 六步全绿 + kernel/intent 离线自测全绿 + module_manifest --check IN_SYNC + 补发 RUN-0021/0022（新编号，RUN-0019/0020 原样保留互链）"
+delta: {fixed: ["模型概括数字与检测器口径的表达面缺口（prompt 侧引导）"], broken: [], net: 1}

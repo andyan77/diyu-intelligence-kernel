@@ -15,9 +15,15 @@
 #   两套方案（春节主题常规方向 + 库存消化备选方向，各带三要素）由用户选（A.5.2 约束8 / OD-03 §五 /
 #   B v0.7）。失败现场 = RUN-0013/0014：模型看见了情境、只在 model_judgments 内部写了一句，
 #   用户侧零呈现。机器面 = A8 终态改判 + A9 新闸；两种模式同一并呈义务（快速≠可以替用户定方向）。
+# 【数字表达裁决（Founder 2026-08-18 尾批）＝ 本案例升 v0.2 的原因】RUN-0019/0020 两发 A6 判红：
+#   模型把四色山羊绒含量（9.8/9.7/9.2/9.9%）概括成「9%以上」，「9」在快照中无逐字对应。
+#   Founder 裁决：允许不造成误导的保守概括，机器化为**封闭清单**（检测器库 v0.5 / numeric_grounding v0.5）——
+#   下界须 ≤ 同类最小值、上界须 ≥ 同类最大值、原值区间与原值列举照旧、「约/接近/大概/左右」维持禁止；
+#   带界标记时按界判，碰巧命中不免责（旧口径下「10%以上」「约10%」是假绿，㉕ 块先红证据在案）。
+#   本次只改判据不改断言编号：A6 仍是 numeric_grounding + BD_FACT_FABRICATION，射程与红线一字未动。
 case_id: INT-D02
 contract_ref: B.4.1/INT-D02
-case_version: v0.1
+case_version: v0.2
 tier: core
 mapped_requirements: [INT-02, INT-04, INT-05]     # B:308「映射：INT-02、INT-04、INT-05」
 output_schema: contracts/schemas/intent_execution_plan.schema.json
