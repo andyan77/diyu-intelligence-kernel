@@ -1,0 +1,6 @@
+# 尝试账本条目（C.6 格式；一条一文件）
+attempt_id: ATT-0004
+hypothesis: "Intent live 冒烟首击暴露协议缺陷：prompt v0.1 纪律9『推断一律放进 model_judgments』与组装层 A.1.2『无支撑判断不得入 TraceBundle』打架——只依据任务原话的推断（如『目标未明』）在事实池里无 ID 可引，模型守纪律留空引用反被 TraceAssemblyError 击毙，且 exit 2 零产物零留痕。两刀：① runner 在 LLM 调用后、解析前无论成败先落盘原始回复（<out>.raw.txt，堵观测缺口——零重试纪律下失败 run 的唯一一手证据就是它）；② prompt v0.1→v0.2 改写纪律9=『判断必须有据』：model_judgments 只放有池内引用的推断，任务原话级结论由 goal_resolution/goal_candidates[].rationale/intent_summary/clarification_question 承载，允许空数组。备案不做（防过度工程化）：刀C『无支撑判断拒入+红旗留痕+运行继续』——等 raw 落盘后的重现证据表明模型在 v0.2 纪律下仍持续违规再动"
+target_failing_run: "2026-08-18 live 冒烟 INT-D01 quick（qwen3-max-2026-01-23，DashScope 回执 id=chatcmpl-b53ec86f-d7c1-94f4-b96c-1bf6b33ab78c）：闸日志正常（AMBIGUOUS+澄清问题接住）后 TraceAssemblyError: model_judgment_entries[0] 没有 supporting_trace_refs → exit 2 零产物；原始回复未留存（即刀①要堵的观测缺口本身，本条为该失败 run 的唯一登记处）"
+regression_after: "kernel/intent/test_intent_offline.py 全绿（含新增 raw 落盘护栏用例）+ python3 -m kernel.intent.module_manifest --check IN_SYNC（prompt_version v0.2；module_version v0.1.0 不动，20 份 Manifest 的 module_contract_versions.intent 回填不受牵连——两字段独立已实证）"
+delta: {fixed: ["live 失败零留痕观测缺口", "prompt 纪律9 与 A.1.2 组装约束冲突"], broken: [], net: 2}
