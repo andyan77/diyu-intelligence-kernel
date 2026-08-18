@@ -49,7 +49,9 @@ BUSINESS_DECISION_BUNDLE_SCHEMA = SCHEMA_BUSINESS_DECISION_BUNDLE
 # 生成参数唯一真源（OD-02 定格）。llm.py 逐字段读它，不得在代码里写死温度/模型名。
 GENERATION_PARAMETERS_PATH = os.path.join(CONTRACTS_DIR, "interaction", "generation_parameters.json")
 
-# RuleRecord 注册表目录（A.9.1 十字段对象，每个 .yaml 一条）。preprocess.load_rule_pool 读它。
+# RuleRecord 注册表目录（A.9.1 十字段对象，每个 .yaml 一条）。合流适配后本模块**不再**直接
+# 扫它组池——规则池唯一来源 = 快照视图 hard_rules（active_rule_refs 经 kernel/facts 解引用，
+# 快照钉定规则集）；本常量保留给离线自测的只读见证面（READONLY_WITNESSES 哈希核验零写入）。
 RULES_DIR = os.path.join(CONTRACTS_DIR, "rules")
 
 # 禁用词表：唯一运营真源（Founder 2026-08-17 预裁决③）。属考卷区，本模块**只读不写**。

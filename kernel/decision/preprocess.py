@@ -16,26 +16,22 @@
 不看模型说了什么。
 
 诚实边界（写在最前面，免得被当成"已覆盖"）：
-  ① load_snapshot **刻意不做 Schema 校验**：当前考卷夹具快照（内联事实形状，如
-     acceptance/cases/BD-D01/fixtures/context_snapshot.json）与 contracts/schemas/
-     context_snapshot.schema.json（A.4.3 引用容器形状）是**两种形状**（本轮 jsonschema 实测
-     13 处 required 缺失，runtime_verified 2026-08-18）。快照形状收敛属另一车道（块 E）施工域，
-     本模块以本文件为唯一适配层消费内联形状，收敛后只改本文件。已登记 UPSTREAM_GAPS.md 第 2 条。
-  ② M0 夹具事实无 A.2.4 status 字段：池内 status 原样透传（多为 None），**不补写 CONFIRMED**——
-     补写等于替夹具编造确定性等级。status 语义核验属事实层 v2 对齐后的批次。
+  ① 快照消费走 kernel/facts 官方收敛通道（块 E 落地后本批合流适配）：load_snapshot =
+     R1-R5/P2/P3 运行时谓词 fail-closed → materialize_legacy_view 解引用产出内联兼容视图，
+     与 kernel/intent/preprocess.load_snapshot 同款接线；旧内联形状**直接拒绝**（两套形状
+     并行 = 假闭环温床，E-05 口径）。原登记的「快照双形状」缺口（UPSTREAM_GAPS 第 2 条）
+     随块 E 迁移关闭，本文件按预案只改本层、零改断言口径。
+  ② 视图内 MISSING 叶子原样进池（value=null, status=MISSING），**不补写不剔除**——
+     缺失可见是 A.1.4 的前提；status 语义级核验（如禁引 MISSING 作支撑）属后续批次。
   ③ 输入闸 IG3 只核验上游 plan 的**自洽性**（BLOCKING 必须 AVAILABLE、missing 无 BLOCKING），
      **不复算 OD-03 需求清单**——复算 = 代上游（Intent）定义语义，越车道。上游算错时本闸看不见，
      该风险属上游考卷（INT 系列）判分面。
+  ④ 规则池唯一来源 = 快照视图的 hard_rules（A.4.3 active_rule_refs 解引用产物，快照钉定
+     本次运行的规则集）；本模块**不再**自行扫 contracts/rules 全量目录——两个来源并存
+     就是「同一事实两个落点」。
 """
 
-import glob
 import json
-import os
-
-try:
-    import yaml
-except ImportError as e:  # 与 kernel/intent 同口径：依赖缺失当场报错，不静默降级
-    raise RuntimeError("需要 PyYAML（requirements.txt 已登记）") from e
 
 from .config import (
     AVAILABILITY_AVAILABLE,
@@ -44,17 +40,29 @@ from .config import (
     IMPACT_BLOCKING,
     NEXT_ACTION_CONTINUE,
     OUTPUT_SCHEMA_VERSION,
-    RULES_DIR,
 )
 
 
 def load_snapshot(path):
-    """读 Context Snapshot 原始 dict。只读，不校验、不改写（诚实边界①）。"""
+    """读 A.4.3 引用式 Context Snapshot → 运行时谓词 → 解引用，返回内联兼容视图 dict。
+
+    与 kernel/intent/preprocess.load_snapshot 同款接线（诚实边界①）：
+      1. kernel.facts.predicates.run_all_runtime：snapshot_hash 实算 / 引用可解析且 ACTIVE /
+         BrandMemory 首轮必空 / locator 无明文凭证 / 同 ID 同版本禁覆盖 / P2 / P3，任何红即抛错；
+      2. kernel.facts.resolve.materialize_legacy_view：解引用产出内联兼容视图
+         {snapshot_id, task_id, brand_id, version, facts, hard_rules}，旧内联形状直接拒绝。
+    视图不含任何 `_` 前缀键（解引用层已剔除迁移注解，防泄题与过期数值溯源面）。
+    """
     with open(path, encoding="utf-8") as f:
         snapshot = json.load(f)
     if not isinstance(snapshot, dict):
         raise ValueError(f"快照不是 JSON 对象：{type(snapshot).__name__}（{path}）")
-    return snapshot
+    from kernel.facts import FactStore, materialize_legacy_view, predicates as _fact_predicates
+    store = FactStore()
+    red = _fact_predicates.run_all_runtime(snapshot, store)
+    if red:
+        raise ValueError("快照未过 kernel/facts 运行时谓词（R1-R5/P2/P3），拒绝装载：\n  " + "\n  ".join(red))
+    return materialize_legacy_view(snapshot, store)
 
 
 def load_plan(path):
@@ -157,21 +165,19 @@ def list_product_ids(snapshot):
 
 # ============================ 规则池 ============================
 
-def load_rule_pool(rules_dir=None):
-    """读 contracts/rules/*.yaml（A.9.1 RuleRecord 注册表），透传不编造。
+def rule_pool_from_snapshot(view):
+    """从快照视图取本次运行的规则池（诚实边界④：快照 active_rule_refs 钉定规则集，
+    kernel/facts 已解引用为完整 A.9.1 RuleRecord dict 清单；本函数只做形状断言与稳定排序）。
 
-    排序按文件名，保证池序确定（prompt 渲染逐字节稳定的前提）。
-    真源没写的键不发明；解析失败当场报错（fail-loud）。
+    排序按 rule_id，保证池序确定（prompt 渲染逐字节稳定的前提）。透传不编造。
     """
-    target_dir = rules_dir or RULES_DIR
-    pool = []
-    for path in sorted(glob.glob(os.path.join(target_dir, "*.yaml"))):
-        with open(path, encoding="utf-8") as f:
-            record = yaml.safe_load(f)
+    pool = view.get("hard_rules")
+    if pool is None:
+        raise ValueError("快照视图缺 hard_rules 键（materialize_legacy_view 契约面），拒绝空手组池")
+    for record in pool:
         if not isinstance(record, dict) or not record.get("rule_id"):
-            raise ValueError(f"RuleRecord 不合形：{path}（缺 rule_id 或不是映射）")
-        pool.append(record)
-    return pool
+            raise ValueError(f"快照视图 hard_rules 含不合形条目：{record!r}（缺 rule_id 或不是映射）")
+    return sorted(pool, key=lambda r: r["rule_id"])
 
 
 def filter_rule_pool_by_brand(pool, brand_id):

@@ -166,8 +166,8 @@ if bundle and report:
          len(bundle.get("blocked_candidate_diagnostics", [])) == 1
          and all(r["result"] == "BLOCK" and r["rule_ref"]["object_id"] == "R-BDD01-002"
                  for r in bundle["blocked_candidate_diagnostics"][0]["blocking_rule_results"]))
-    active_rule_ids = {"R-BDD01-001", "R-BDD01-002", "R-FB01-001"}
-    item("每候选对全部 3 条 ACTIVE 规则各有一条 HardRuleResult 且全 PASS（G.2 第 4 条①）",
+    active_rule_ids = {"R-BDD01-001", "R-BDD01-002"}   # 快照钉定的规则集（A.4.3 active_rule_refs）
+    item("每候选对快照钉定的 2 条 ACTIVE 规则各有一条 HardRuleResult 且全 PASS（G.2 第 4 条①）",
          all({r["rule_ref"]["object_id"] for r in c["hard_rule_results"]} == active_rule_ids
              and all(r["result"] == "PASS" for r in c["hard_rule_results"])
              for c in bundle["candidate_options"]))
@@ -180,8 +180,8 @@ if bundle and report:
          and all(ref in tmap for c in bundle["recognized_conflicts"] for ref in c["trace_refs"]))
     item("Trace 含全部四类（A.1.2 四类分离的存在性）",
          {"FACT", "RULE", "ASSUMPTION", "MODEL_JUDGMENT"} <= set(tmap.values()))
-    item("质检单逐规则带机器可查/仅人可查两栏（G.2 第 4 条红线）",
-         len(report.get("machine_human_register", [])) == 3
+    item("质检单逐规则带机器可查/仅人可查两栏（G.2 第 4 条红线；快照钉定 2 条规则）",
+         len(report.get("machine_human_register", [])) == 2
          and all(r.get("machine_checkable") and r.get("human_only") for r in report["machine_human_register"]))
     item("报告含逐规则评估证据（评估目标 3 个：候选 C1、C2 + 被拦路径×1）",
          len(report.get("rule_evaluations", [])) == 3)
@@ -285,7 +285,8 @@ item("输入闸拦截时不产出 bundle", not os.path.exists(out_gate))
 def preflight_ctx():
     snapshot = preprocess.load_snapshot(SNAPSHOT)
     fact_pool = preprocess.materialize_fact_pool(snapshot)
-    rule_pool = preprocess.filter_rule_pool_by_brand(preprocess.load_rule_pool(), snapshot.get("brand_id"))
+    rule_pool = preprocess.filter_active_rules(
+        preprocess.filter_rule_pool_by_brand(preprocess.rule_pool_from_snapshot(snapshot), snapshot.get("brand_id")))
     return {
         "schema_path": config.SCHEMA_BUSINESS_DECISION_BUNDLE,
         "fact_pool": fact_pool,
@@ -354,15 +355,19 @@ if bundle:
 
 # ============================ 回归护栏（函数级直调，不依赖场景侧影）============================
 
-_snapshot = preprocess.load_snapshot(SNAPSHOT)
+_snapshot = preprocess.load_snapshot(SNAPSHOT)   # A.4.3 引用式 → kernel/facts 内联兼容视图
 _pool = preprocess.materialize_fact_pool(_snapshot)
 _by_id = {f["fact_id"]: f for f in _pool}
-item("护栏① 事实池物化：库存 800 在池且路径正确",
-     _by_id.get("FACT:facts.inventory", {}).get("value") == 800)
-item("护栏② 事实池物化：价格 3980 在池", _by_id.get("FACT:facts.product.price", {}).get("value") == 3980)
+item("护栏① 事实池物化：库存 800 在池且路径正确（视图坐标 facts.product.inventory，Quantity 内层 value）",
+     (_by_id.get("FACT:facts.product.inventory", {}).get("value") or {}).get("value") == 800)
+item("护栏② 事实池物化：价格 3980 在池（Money 内层 amount）",
+     (_by_id.get("FACT:facts.product.price", {}).get("value") or {}).get("amount") == 3980)
 item("护栏③ 商品池识别 = [P13]", preprocess.list_product_ids(_snapshot) == ["P13"])
-_rules = preprocess.filter_rule_pool_by_brand(preprocess.load_rule_pool(), _snapshot.get("brand_id"))
-item("护栏④ 规则池 3 条 ACTIVE 且品牌全等", len(_rules) == 3 and all(r["status"] == "ACTIVE" for r in _rules))
+_rules = preprocess.filter_active_rules(
+    preprocess.filter_rule_pool_by_brand(preprocess.rule_pool_from_snapshot(_snapshot), _snapshot.get("brand_id")))
+item("护栏④ 规则池 = 快照钉定 2 条 ACTIVE（R-BDD01-001/002）且品牌全等",
+     [r["rule_id"] for r in _rules] == ["R-BDD01-001", "R-BDD01-002"]
+     and all(r["status"] == "ACTIVE" for r in _rules))
 _gates = preprocess.check_input_gates(load_json(FROZEN_PLAN), _snapshot, _rules)
 item("护栏⑤ 输入闸集合恰为 IG1..IG6 且对冻结输入全 OK（集合断言防整闸被删）",
      tuple(g["id"] for g in _gates) == EXPECTED_GATE_IDS and all(g["verdict"] == "OK" for g in _gates))
@@ -374,8 +379,12 @@ _unmapped_result, _unmapped_note = rules_engine.evaluate_rule_on_texts(
 item("护栏⑦ 无谓词映射的规则不发结果（fail-closed，无检测器不得判过）",
      _unmapped_result is None and "不发结果" in _unmapped_note)
 _rules_by_id = {r["rule_id"]: r for r in _rules}
+# R-FB01-001 不在 BD-D01 快照钉定集内（active_rule_refs 只含 R-BDD01-001/002）；
+# 分组归属护栏用注册表同形合成 dict 做函数级验证（引擎按 rule_id 查映射表，形状即可）
+_fb_rule = {"rule_id": "R-FB01-001", "status": "ACTIVE", "version": 1,
+            "brand_id": "fixture-brand-01", "target_path": "*"}
 _r1_pass, _ = rules_engine.evaluate_rule_on_texts(_rules_by_id["R-BDD01-001"], ["高级感的呈现"], _groups)
-_fb_block, _ = rules_engine.evaluate_rule_on_texts(_rules_by_id["R-FB01-001"], ["高级感的呈现"], _groups)
+_fb_block, _ = rules_engine.evaluate_rule_on_texts(_fb_rule, ["高级感的呈现"], _groups)
 item("护栏⑩ 词表分组归属：『高级感』只以 R-FB01-001（brand_tone）名义 BLOCK，不冒充低价叫卖证据",
      _r1_pass is not None and _r1_pass["result"] == "PASS"
      and _fb_block is not None and _fb_block["result"] == "BLOCK")
@@ -415,10 +424,10 @@ deviation(
     "本车道不代上游定义（开工令②），故场景面只覆盖 BD-D01；BD-D02/03 的回放待上游夹具落盘后追加。",
 )
 deviation(
-    "GAP-SNAPSHOT-SHAPE｜考卷快照形状 ≠ A.4.3 ContextSnapshot v2（块 E 车道施工域，本批不阻塞）",
-    "BD-D01 快照对 contracts/schemas/context_snapshot.schema.json 校验 13 处 required 缺失"
-    "（runtime_verified 2026-08-18）。本模块以 preprocess 为唯一适配层消费内联形状；"
-    "块 E 收敛后只改 preprocess，不动本测试的断言口径。",
+    "GAP-SNAPSHOT-SHAPE｜✅ 已随块 E 关闭（合流适配完成，留痕防复读旧口径）",
+    "原登记：考卷快照内联形状 ≠ A.4.3 引用式。块 E（PR #15）已把 15 份快照迁为引用式并落"
+    "kernel/facts 官方消费通道；本模块按预案只改 preprocess（运行时谓词 + materialize_legacy_view），"
+    "规则池改为快照钉定（active_rule_refs）。UPSTREAM_GAPS.md 第 2/4/5 条随之更新。",
 )
 
 # ============================ 结论 ============================

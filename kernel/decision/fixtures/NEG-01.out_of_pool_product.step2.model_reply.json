@@ -6,12 +6,12 @@
       "title": "主理人信任路线",
       "strategy": "由主理人出镜，以真实使用体验与面料工艺讲解建立信任，把大衣定位为值得长期持有的核心单品，驱动到店试穿与私域咨询成交",
       "product_roles": [
-        {"product_id": "P13", "role": "HERO", "rationale": "商品事实完整，适合承担信任叙事的主角", "referenced_fact_ids": ["FACT:facts.product.composition"]}
+        {"product_id": "P13", "role": "HERO", "rationale": "商品事实完整，适合承担信任叙事的主角", "referenced_fact_ids": ["FACT:facts.product.material"]}
       ],
-      "referenced_fact_ids": ["FACT:facts.inventory", "FACT:facts.product.price"],
+      "referenced_fact_ids": ["FACT:facts.product.inventory", "FACT:facts.product.price"],
       "referenced_rule_ids": ["R-BDD01-001"],
       "assumptions": [{"statement": "受众对工艺讲解类内容的接受度尚可", "missing_field": "受众调研"}],
-      "model_judgments": [{"statement": "人物信任是合法路径之一", "supporting_ids": ["FACT:facts.inventory"]}],
+      "model_judgments": [{"statement": "人物信任是合法路径之一", "supporting_ids": ["FACT:facts.product.inventory"]}],
       "brand_fit": {"assessment": "ALIGNED", "rationale": "信任叙事与高端定位一致", "referenced_ids": []},
       "audience_fit": {"assessment": "UNKNOWN", "rationale": "缺受众调研", "referenced_ids": []},
       "business_alignment": {"assessment": "ALIGNED", "rationale": "服务库存消化目标", "referenced_ids": []},
@@ -25,12 +25,12 @@
       "title": "产品价值证明路线",
       "strategy": "以面料成分与版型工艺的可验证事实为中心，面向愿意为品质付费的用户建立长期信任，驱动收藏与复访",
       "product_roles": [
-        {"product_id": "P99", "role": "HERO", "rationale": "成分与尺码信息完整可验证", "referenced_fact_ids": ["FACT:facts.product.composition"]}
+        {"product_id": "P99", "role": "HERO", "rationale": "成分与尺码信息完整可验证", "referenced_fact_ids": ["FACT:facts.product.material"]}
       ],
-      "referenced_fact_ids": ["FACT:facts.product.price", "FACT:facts.product.composition"],
+      "referenced_fact_ids": ["FACT:facts.product.price", "FACT:facts.product.material"],
       "referenced_rule_ids": ["R-BDD01-001"],
       "assumptions": [],
-      "model_judgments": [{"statement": "价值证明路线资产沉淀更稳", "supporting_ids": ["FACT:facts.product.composition"]}],
+      "model_judgments": [{"statement": "价值证明路线资产沉淀更稳", "supporting_ids": ["FACT:facts.product.material"]}],
       "brand_fit": {"assessment": "ALIGNED", "rationale": "事实型内容符合品牌调性", "referenced_ids": []},
       "audience_fit": {"assessment": "UNKNOWN", "rationale": "缺受众调研", "referenced_ids": []},
       "business_alignment": {"assessment": "TENSION", "rationale": "与限定周期存在节奏张力", "referenced_ids": []},

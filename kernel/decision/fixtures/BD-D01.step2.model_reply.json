@@ -9,20 +9,20 @@
           "product_id": "P13",
           "role": "HERO",
           "rationale": "该商品成分、价格、尺码事实完整，处于库存消化期，有真实可讲的面料与工艺事实，适合承担信任叙事的主角；若后续画面表现证据不支撑主角位，应降级并重审承载商品",
-          "referenced_fact_ids": ["FACT:facts.product.composition", "FACT:facts.product.lifecycle_stage"]
+          "referenced_fact_ids": ["FACT:facts.product.material", "FACT:facts.product.lifecycle_stage"]
         }
       ],
-      "referenced_fact_ids": ["FACT:facts.inventory", "FACT:facts.product.price", "FACT:facts.product.composition"],
+      "referenced_fact_ids": ["FACT:facts.product.inventory", "FACT:facts.product.price", "FACT:facts.product.material"],
       "referenced_rule_ids": ["R-BDD01-001"],
       "assumptions": [
         {"statement": "受众对工艺讲解类内容的接受度尚可", "missing_field": "受众调研"}
       ],
       "model_judgments": [
-        {"statement": "在价格路径被规则排除后，人物信任是能同时承载销量诉求与品牌价值保护的合法路径之一", "supporting_ids": ["FACT:facts.inventory", "R-BDD01-001"]}
+        {"statement": "在价格路径被规则排除后，人物信任是能同时承载销量诉求与品牌价值保护的合法路径之一", "supporting_ids": ["FACT:facts.product.inventory", "R-BDD01-001"]}
       ],
-      "brand_fit": {"assessment": "ALIGNED", "rationale": "信任叙事与高端定位一致，不触碰价格表达红线", "referenced_ids": ["FACT:facts.brand_positioning", "R-BDD01-001"]},
+      "brand_fit": {"assessment": "ALIGNED", "rationale": "信任叙事与高端定位一致，不触碰价格表达红线", "referenced_ids": ["FACT:facts.brand.positioning", "R-BDD01-001"]},
       "audience_fit": {"assessment": "UNKNOWN", "rationale": "缺受众调研，接受度未验证", "referenced_ids": []},
-      "business_alignment": {"assessment": "ALIGNED", "rationale": "直接服务库存消化目标", "referenced_ids": ["FACT:facts.business_goal"]},
+      "business_alignment": {"assessment": "ALIGNED", "rationale": "直接服务库存消化目标", "referenced_ids": []},
       "production_feasibility": {"assessment": "ALIGNED", "rationale": "主理人可出镜，室内实拍即可完成", "referenced_ids": []},
       "risks": [
         {"condition": "受众对工艺内容兴趣不足", "possible_impact": "观看完成率不高，消化节奏不达预期", "mitigation": "首条内容小范围验证后再定发布节奏", "referenced_ids": []}
@@ -39,18 +39,18 @@
           "product_id": "P13",
           "role": "HERO",
           "rationale": "成分与尺码信息完整可验证，能支撑事实型价值证明；若事实证明力不足则该角色不成立，应回头重审需求证据",
-          "referenced_fact_ids": ["FACT:facts.product.composition", "FACT:facts.product.sizes"]
+          "referenced_fact_ids": ["FACT:facts.product.material", "FACT:facts.product.size_range"]
         }
       ],
-      "referenced_fact_ids": ["FACT:facts.product.price", "FACT:facts.product.composition", "FACT:facts.product.sizes"],
+      "referenced_fact_ids": ["FACT:facts.product.price", "FACT:facts.product.material", "FACT:facts.product.size_range"],
       "referenced_rule_ids": ["R-BDD01-001"],
       "assumptions": [],
       "model_judgments": [
-        {"statement": "价值证明路线的品牌资产沉淀更稳，但见效节奏慢于人物信任路线", "supporting_ids": ["FACT:facts.product.composition", "FACT:facts.inventory"]}
+        {"statement": "价值证明路线的品牌资产沉淀更稳，但见效节奏慢于人物信任路线", "supporting_ids": ["FACT:facts.product.material", "FACT:facts.product.inventory"]}
       ],
-      "brand_fit": {"assessment": "ALIGNED", "rationale": "事实型内容符合品牌不喊口号的调性", "referenced_ids": ["FACT:facts.brand_positioning"]},
+      "brand_fit": {"assessment": "ALIGNED", "rationale": "事实型内容符合品牌不喊口号的调性", "referenced_ids": ["FACT:facts.brand.positioning"]},
       "audience_fit": {"assessment": "UNKNOWN", "rationale": "缺受众调研", "referenced_ids": []},
-      "business_alignment": {"assessment": "TENSION", "rationale": "价值证明偏长效，与限定周期的消化目标存在节奏张力", "referenced_ids": ["FACT:facts.inventory"]},
+      "business_alignment": {"assessment": "TENSION", "rationale": "价值证明偏长效，与限定周期的消化目标存在节奏张力", "referenced_ids": ["FACT:facts.product.inventory"]},
       "production_feasibility": {"assessment": "ALIGNED", "rationale": "面料近景与两种穿法演示可在棚内完成，制作门槛不高", "referenced_ids": []},
       "risks": [
         {"condition": "内容偏知识化", "possible_impact": "转化路径长于库存消化周期", "mitigation": null, "referenced_ids": []}

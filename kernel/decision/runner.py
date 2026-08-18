@@ -461,13 +461,15 @@ def artifact_self_ref(artifact):
 def run(args):
     """一次完整编排。返回 (bundle, report)；异常一律向上抛（由 main 归到退出码 2）。"""
     plan = preprocess.load_plan(args.plan)
-    snapshot = preprocess.load_snapshot(args.snapshot)
+    snapshot = preprocess.load_snapshot(args.snapshot)   # A.4.3 引用式 → kernel/facts 内联兼容视图
     fact_pool = preprocess.materialize_fact_pool(snapshot)
-    # 品牌过滤 + ACTIVE 过滤都发生在**进 prompt 之前**，且只在此处过滤一次——prompt 渲染 /
+    # 规则池唯一来源 = 快照视图 hard_rules（active_rule_refs 解引用产物，快照钉定规则集）。
+    # 品牌过滤 + ACTIVE 过滤在**进 prompt 之前**、且只在此处过滤一次——prompt 渲染 /
     # 规则评估 / 请求装配 / D6 覆盖核验消费同一份池（非 ACTIVE 规则以「已启用」名义被模型
-    # 读到，是对抗审查抓获后封死的口径分叉点）
+    # 读到，是对抗审查抓获后封死的口径分叉点；kernel/facts 谓词已保证引用规则 ACTIVE，
+    # 此处双保险属幂等）
     rule_pool = preprocess.filter_active_rules(
-        preprocess.filter_rule_pool_by_brand(preprocess.load_rule_pool(), snapshot.get("brand_id"))
+        preprocess.filter_rule_pool_by_brand(preprocess.rule_pool_from_snapshot(snapshot), snapshot.get("brand_id"))
     )
     product_ids = preprocess.list_product_ids(snapshot)
     llm_mode = "live" if args.live else "replay"

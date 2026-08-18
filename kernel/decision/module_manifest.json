@@ -21,17 +21,17 @@
   "generated_at": "2026-08-18T12:00:00+00:00",
   "source_sha256": {
     "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "config.py": "32893c61ec24d24c22dfb5a60b3bc4e2316ed74b9ee32b98dc4203107683306f",
+    "config.py": "fe39265f5d612b0dabcad6c6c86823c973bfead2bd0f4dce54af744c19243169",
     "llm.py": "93b6155c87ef99c8f67ddbb8ad1a034160277bddff0b078a78b13181cae1e520",
     "module_manifest.py": "c1ec8fd5e3781e1f5463de094c61c74642904d208122b2a4461d29de8c90e65d",
     "postcheck.py": "0ee921fa0ecac0661c9c1977d5c83fcb00bebbfd7869ae4a4fcfa3e110757828",
-    "preprocess.py": "02dff73adff754c1eb91048b5bb3dd1c5cc63afb5fc4e2c930f206a654ec19c4",
+    "preprocess.py": "ed88a5a8a49f175e9a38bcdcb49ff1ab7cdf23ac450ded6b1851c88cd4eb074f",
     "prompts/decision_step1_conflicts_v0.1.md": "207ffc0251265aa1ccd72793d46167ab7069ab285b2f7b376645798a3d6e1fc0",
     "prompts/decision_step2_candidates_v0.1.md": "512b011a5d7798a1c982eb04596688f65cf3fb24dba265edb14d8775bec79d28",
     "prompts/decision_step3_tradeoffs_v0.1.md": "8544f383804910b028112401e534cce59b6bb200ee1bb5f16e11c99ff9f83a4a",
     "rules_engine.py": "44b7ec158d2759479a27216a917fdc99f8eb94b9c122b44d682fe8c4a2944cd9",
-    "runner.py": "922f517baba8810c389f087e750c6213afe0c0848bba1f822bffee17f84a7e26",
-    "test_decision_offline.py": "7caaf5776617c65d9fdac34976bb212654555fea9051a546f5c59adf93fe5e58",
+    "runner.py": "72fa15f029712a4a97a64e8cab85fc3bbf8a47aad1104dc94a4b17c396f3295e",
+    "test_decision_offline.py": "1a3400eeab9d8a50d49d6aae585419eae34a7654f0b4f202406449fc6a8c2ddb",
     "trace.py": "12d3cf36834497a4f81c6869ca2170491ac4daf9dc9288d3391174f84211b955"
   }
 }

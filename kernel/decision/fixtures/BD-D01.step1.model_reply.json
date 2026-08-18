@@ -6,7 +6,7 @@
       "description": "销量压力与高端品牌价值保护的冲突",
       "side_a": "库存 800 件、商品处于库存消化期，商业目标为库存激活，需要在限定周期内产生真实销售",
       "side_b": "品牌定位 HIGH_END，禁止低价叫卖表达，且价格路径被冻结规则排除，不能用价格手段换销量",
-      "referenced_fact_ids": ["FACT:facts.inventory", "FACT:facts.brand_positioning", "FACT:facts.business_goal", "FACT:facts.product.lifecycle_stage"],
+      "referenced_fact_ids": ["FACT:facts.product.inventory", "FACT:facts.brand.positioning", "FACT:facts.product.lifecycle_stage"],
       "referenced_rule_ids": ["R-BDD01-001", "R-BDD01-002"]
     }
   ],

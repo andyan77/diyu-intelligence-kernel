@@ -4,7 +4,7 @@
     {
       "candidate_refs": ["C1", "C2"],
       "tradeoff": "选 C1 换来更快的见效节奏，付出对出镜状态的依赖；选 C2 换来更稳的资产沉淀，付出更慢的转化节奏",
-      "referenced_ids": ["FACT:facts.inventory"]
+      "referenced_ids": ["FACT:facts.product.inventory"]
     }
   ],
   "system_recommendation": {
