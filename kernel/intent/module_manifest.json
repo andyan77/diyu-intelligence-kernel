@@ -1,7 +1,7 @@
 {
   "module": "intent",
   "module_version": "v0.1.0",
-  "prompt_version": "v0.5",
+  "prompt_version": "v0.6",
   "output_schema": "intent_execution_plan.schema.json@UNVERSIONED(sha256:bf98ed94fc67)",
   "input_schema": "context_snapshot.schema.json",
   "step_structure": [
@@ -9,16 +9,16 @@
     "llm_single_step",
     "deterministic_postcheck_preflight"
   ],
-  "generated_at": "2026-08-18T16:08:12Z",
+  "generated_at": "2026-08-18T17:37:25Z",
   "source_sha256": {
     "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "config.py": "cb82733a06551c74bd55866f1d9228731ea90500ec904a228d39d4b4bbdea6ee",
+    "config.py": "bddc70c8b9279d3ac1dd35739c235591b019c83a960489ecb1659fe3283d586d",
     "llm.py": "854bda47d93451eae7c60c1e60171b5ac31f4ac56e49acaed49fbcc98c5ed2fa",
     "module_manifest.py": "653dac874691b5dc2a7542f384e724fdb67515a24c99a752e04dce6efc5f6369",
     "postcheck.py": "e007a13f58b939bbfd580b74891141fe30abf612ab12da0d95623465210867cc",
     "preprocess.py": "6e00b140193a6c99c77416f56512278a039eb67e4ab3ebf95cd0ed048bc6f8d8",
-    "prompts/intent_v0.5.md": "7acf9963cb433f55a0059ae194da04516d6027e2b3579cff8917a1830a841783",
-    "runner.py": "3a35edbe82cf4287690c8f57a4d9c167046671ebaf5240b357c147c261833e1d",
+    "prompts/intent_v0.6.md": "78a569d552c78ed831e31c0e63a5f83ca90474cb8e150a1a80fb8a076ecad2c9",
+    "runner.py": "f8e628e35e70efd76eea78e5fc1574700c1123685629b522c454a7a3092b74ab",
     "test_intent_offline.py": "47aa081ceee8ee8169971d681655c716b51081165614cfa6c2f8f5b006d9953c",
     "trace.py": "fddb9e68ee510beb4ae04b1ef2845d5c2bbb837ccf6c0424ef9299464d1b3b09"
   }
