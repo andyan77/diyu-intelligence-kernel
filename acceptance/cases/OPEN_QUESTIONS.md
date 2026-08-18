@@ -7,7 +7,8 @@
 
 ## ✅ IA-0 已完成（2026-08-17 签字生效）：**主册 97 条**裁决类条目就此关闭；建设队列类（OQ-BUILD-06/12/14）转 M1+ 执行
 
-> 范围声明（2026-08-17 M0 收口修复批次补）：上行的「关闭」只覆盖**主册 97 条**。建设轮 OQ-BUILD 14 条不在该整体口径内——其中 7 条（01/02/03/04/07/08/13）经本批次逐条实测已在夹具侧落盘关闭，3 条（06/12/14）为建设队列转 M1+，**4 条（05/09/10/11）实测尚未关闭**，逐条证据见下表「关闭状态」列。签字包 `IA-0_冻结签字包.md` §二 同口径。
+> 范围声明（2026-08-17 M0 收口修复批次补）：上行的「关闭」只覆盖**主册 97 条**。建设轮 OQ-BUILD 14 条不在该整体口径内——其中 7 条（01/02/03/04/07/08/13）经本批次逐条实测已在夹具侧落盘关闭，3 条（06/12/14）为建设队列转 M1+，4 条（05/09/10/11）当时实测尚未关闭。签字包 `IA-0_冻结签字包.md` §二 同口径。
+> 范围声明更新（2026-08-18 块 0 裁决）：09/10/11 三条已由 Founder 选择题裁决关闭（逐条见下表）；05 本轮不裁，移入《裁决台账》挂起表（触发点 = IA-3 / CR-D02 启用前）。OQ-BUILD 表就此**清零待裁**（余项均为建设队列或挂起态）。
 
 > 匿名流程 ANON 组补充（2026-08-17 M0 收口修复批次两裁决）：B 合同 v0.4 补登失败标签 `EVAL_BLINDING_PROCEDURE_INVALID`（一枚关闭 P-05 / P-08 / P-11，后果＝该次盲测作废、不算 IA-4 证据、按 B.8.1 修复后重测）+ 匿名流程六执行值全按推荐定格（P-03 / P-04 / P-06 / P-10 / P-12 / P-13）。逐项取值见 `contracts/interaction/anonymity_procedure.md` v1.0 §8，裁决记录见《裁决台账》08-17「修复批次两裁决」行。
 
@@ -37,13 +38,13 @@
 | OQ-BUILD-02 | INT-D02 快速侧怎么跑得起来？B 只说缺人设/品牌信息，但 OD-03 把商业目标列为一票拦停项——目标从考题句里解析 / 另行冻结 / 还是确认快速侧就该停 | IA-0 裁决 | ✅ 已关闭——`acceptance/cases/INT-D02/fixtures/task_input.json` 冻结 `stated_business_goal=INVENTORY_ACTIVATION`（A.4.1 承载，不改 B 考题句）；两份 INT-D02 Manifest 首行同注 |
 | OQ-BUILD-03 | 禁用词表两份口径不一致：品牌包十词 vs 考卷词表（缺"绝绝子/显贵/高级感"，多"跳楼价/亏本价"和虚假稀缺组）——要不要把三词补进考卷词表（改考卷，需批准） | IA-0 裁决 | ✅ 已关闭——`acceptance/detectors/forbidden_lexicon.yaml`「Founder 2026-08-17 IA-0 裁决：补齐数据包·包1 品牌调性禁词（OQ-BUILD-03）」，`brand_tone` 组已含绝绝子 / 显贵 / 高级感 |
 | OQ-BUILD-04 | CR 四案例的商业目标取值（6 份快照现为 PENDING） | IA-0 裁决 | ✅ 已关闭——CR-D01 / CR-D02 / CR-D03 / CR-D04(a/b/c) 六份快照 `facts.business_goal.source` 均写「Founder 2026-08-17 IA-0 裁决（OQ-BUILD-04）」 |
-| OQ-BUILD-05 | CR-D02 的"人工选择记录"（ReviewRecord）夹具由谁建；跨快照承接（Bundle 引 BD 快照、运行在 CR 快照）合法性 | IA-0 裁决 | ⛔ **尚未关闭**（本批次实测）——`acceptance/cases/CR-D02/fixtures/frozen_decision_selection.json` 的 `review_ref.object_id` 仍为 `PENDING_REVIEW_RECORD_IA0`（ReviewRecord 夹具未落盘）；同文件 `_context_snapshot_ref_note` 记载的跨快照承接合法性亦无裁决落痕。**仍属 Founder 待裁项** |
+| OQ-BUILD-05 | CR-D02 的"人工选择记录"（ReviewRecord）夹具由谁建；跨快照承接（Bundle 引 BD 快照、运行在 CR 快照）合法性 | IA-0 裁决 | ⏸ **挂起**（2026-08-18 块 0 处置：本轮不裁）——移入《裁决台账》挂起表，触发点 = IA-3 / CR-D02 启用前；夹具占位 `PENDING_REVIEW_RECORD_IA0` 保持原状（该占位处于门禁扫描盲区一事已由 M0 审查 P1-2 登记） |
 | OQ-BUILD-06 | CR-D04-a 需要真实清晰商品图片文件；仓库现无任何图片实体（构建期从云盘取，M3 前补齐） | 建设队列 | ⏭ 建设队列——转 M1+/M3 执行（IA-0 §二同口径）；仓库现有 `acceptance/cases/CR-D04/fixtures/corrupted_image.jpg` 为「损坏图片」输入 B 的夹具，不是本条要求的清晰商品图片 |
 | OQ-BUILD-07 | E2E-01 / SYS-D01 的"限定周期"具体时间窗口值（OD-03 对库存激活是拦停项，须 Founder 定值） | IA-0 裁决 | ✅ 已关闭——`acceptance/cases/E2E-01/fixtures/context_snapshot.json` 与 `SYS-D01/fixtures/context_snapshot.json` 同写「Founder 2026-08-17 IA-0 裁决：六周（夹具虚构-剧本；OQ-BUILD-07）」 |
 | OQ-BUILD-08 | E2E-03 商业目标值 + 三句缺失考题（CR-D02 / E2E-03 / SYS-D01 的 task_statement） | IA-0 裁决 | ✅ 已关闭——`acceptance/cases/E2E-03/fixtures/context_snapshot.json` `business_goal.source` 写「…正常在售新品→新品推广（OQ-BUILD-08）」；CR-D02 / E2E-03 / SYS-D01 三份 Manifest 的 `task_statement` 均已定稿（注写 Founder 2026-08-17 裁决） |
-| OQ-BUILD-09 | BD-D01 旧夹具与新批快照对同一商品口径不一致（尺码简写/成分只录一行）——统一即改考卷，是否做 | IA-0 裁决 | ⛔ **尚未关闭**（本批次实测）——仓库内未检索到任何引用 OQ-BUILD-09 的裁决落痕；BD-D01 旧夹具与新批快照的口径统一与否无记录。**仍属 Founder 待裁项** |
-| OQ-BUILD-10 | 品牌定位双值并存（B 冻结 HIGH_END vs 品牌包"中高端"【模拟】）——快照已注明以 B 为准，请确认 | IA-0 确认 | ⚠️ **未见 Founder 确认落痕**（本批次实测）——E2E-01 / SYS-D01 快照的 `brand_positioning.coexisting_fixture_statement.note` 已写「与 B 冻结的 HIGH_END 并存，未合并改写；案例判定以 B 冻结值为准」，但该注为执行侧书写，无 IA-0 确认记录。**确认动作仍待 Founder** |
-| OQ-BUILD-11 | _fixture_note/source 元数据下发前剥离（不给被测模块看考点）——执行侧已拟定剥离口径 | IA-0 确认 | ⛔ **尚未关闭**（本批次实测）——INT-D01 / INT-D02 / INT-D03 三份快照的 `_fixture_note` 仍写「整份 JSON 是否原样下发给被测模块，B/A 均未规定 → 冻结前须确认剥离口径」，剥离口径未落盘。**仍属 Founder 待裁项** |
+| OQ-BUILD-09 | BD-D01 旧夹具与新批快照对同一商品口径不一致（尺码简写/成分只录一行）——统一即改考卷，是否做 | IA-0 裁决 | ✅ 已关闭——Founder 2026-08-18 块 0 裁决：**不统一，登记为已知差异**。理由：BD-D01 考点为候选坍缩/库存篡改，与尺码缩写、成分行数口径无关；统一 = 改冻结考卷，须升 case_version 双侧重跑，纯成本无收益。两处写法差异自此为**已知且接受**的状态，后续审查不再作为缺口提出 |
+| OQ-BUILD-10 | 品牌定位双值并存（B 冻结 HIGH_END vs 品牌包"中高端"【模拟】）——快照已注明以 B 为准，请确认 | IA-0 确认 | ✅ 已关闭——Founder 2026-08-18 块 0 确认：**判定以 B 合同冻结值 HIGH_END 为准**；「中高端」仅为品牌包模拟表述，不作判分依据。快照内执行侧注记自此获得 Founder 确认背书，零文件改动（本行即确认留痕） |
+| OQ-BUILD-11 | _fixture_note/source 元数据下发前剥离（不给被测模块看考点）——执行侧已拟定剥离口径 | IA-0 确认 | ✅ 已关闭——Founder 2026-08-18 块 0 裁决：**下发前剥离全部 `_` 前缀元数据字段**（_fixture_note / _source 等出题人备注一律不给被测模块看，防考点泄漏）；剥离由运行脚本执行，剥离字段清单记入该次运行证据；快照冻结校验（hash）仍按**完整夹具文件**计算，剥离只发生在下发通道。夹具文件本身不改（注记原文保留作历史证据） |
 | OQ-BUILD-12 | 其余 13 案例的 case.yaml（三带断言执行文件）建设排期——非 IA-0 前置（IA-0 只冻 Manifest） | 建设队列 | ⏭ 建设队列——转 M1+ 执行（IA-0 §二同口径）；非 IA-0 前置 |
 | OQ-BUILD-13 | 视频号账号编号 account_id 值（数据包未给，未自造，现为 null+PENDING） | IA-0 裁决 | ✅ 已关闭——CR-D01 / CR-D03 / E2E-01 / E2E-03 / SYS-D01 五份快照 `video_account*.account_id` 均写 `ACC-HXJ-001`，`source` = 「Founder 2026-08-17 IA-0 裁决：虚构编号（OQ-BUILD-13）」 |
 | OQ-BUILD-14 | PersonaFacts / VideoAccountFacts 对象注册与版本号（对象落盘后回填 VersionedRef） | 建设队列 | ⏭ 建设队列——转 M1+ 执行（IA-0 §二同口径）；对象落盘后回填 VersionedRef |
