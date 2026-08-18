@@ -55,6 +55,11 @@ must_hold:                       # 第一带：确定性断言（零模型调用
   #     词表真源仍是 acceptance/detectors/forbidden_lexicon.yaml（Founder 2026-08-17 IA-0 裁决 OQ-BUILD-03
   #     定其为唯一运营真源）。tag 取 B.6.4 在册的 SYS_RULE_VIOLATION（B:918）。
   - {id: A6, check: forbidden_expression,       args: {lexicon: acceptance/detectors/forbidden_lexicon.yaml}, tag: SYS_RULE_VIOLATION}
+  # A7（判分批新增，B v0.6 D03-B 允许答案族/统一产品标准④）：AMBIGUOUS 时（本案例 = input-b 侧
+  #     品牌类双向）候选 ≥2 且每个候选 focus / tradeoffs / expected_outcome 三要素非空——先出方案
+  #     骨架再请用户选向；光秃标签选择题判红。input-a 侧（RESOLVED）本闸不适用（OK 注明，不算已验证）。
+  #     终态断言不进本考卷：case.yaml 为两变体共用，a/b 终态不同，由离线套件与 L3 按变体判。
+  - {id: A7, check: intent_candidate_completeness, tag: INT_TASK_ESCALATED}
 
 # 不复用 trace_types_separated / candidate_count / tradeoff_nonempty / human_gate_flag，
 #   理由同 INT-D01/case.yaml 同名段落（读的是 BusinessDecisionBundle 字段，Intent 输出里没有；

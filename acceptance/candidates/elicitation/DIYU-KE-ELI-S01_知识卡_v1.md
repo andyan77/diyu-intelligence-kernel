@@ -31,15 +31,15 @@ elicitation_item_id: ELI-0101
 source_session: DIYU-KE-S01-20260817-001
 source_round: S01-R01
 source_situation: "用户仅输入「帮我推广这件大衣」，未说明什么结果算成功。"
-expert_statement: "对「帮我推广这件大衣」，允许的结果是 NEEDS_INPUT 与目标澄清；禁止直接生成任何单一商业路线的方案或内容。"
+expert_statement: "对「帮我推广这件大衣」，允许的结果是按 DAILY_CONTENT_OPERATION（日常内容经营）直接进入正常内容制作，交付后附加经营目标提示；「不擅自选定商业目标」保留——禁止擅自选定六个特殊经营目标之一作为用户意图，也禁止把目标选择题抛回用户。"
 statement_type: BOUNDARY
-applies_when: "输入只确定了推广对象，没有确认商业成功结果。"
-does_not_apply_when: "用户已经明确主目标；但其他缺失仍须独立检查。"
-counterexample: "系统直接输出「以清库存为目标」的推广方案。"
+applies_when: "输入只确定了推广对象，未明示六个特殊经营目标之一。"
+does_not_apply_when: "用户已明示某个特殊经营目标；但其他缺失仍须独立检查。"
+counterexample: "系统直接输出「以清库存为目标」的推广方案；或反问「你的商业目标是哪个？」后停摆不交付。"
 candidate_destination: CASE_REFINEMENT
 review_status: ROUTED
 provenance: AI_PROPOSAL_FOUNDER_REVISED
-source_ref: "v3 包 CR-S01-R01-01（L175-183）；细化对象为现有 INT-D01／INT-D03 答案族与禁止结果，不得自动新增正式验收案例。"
+source_ref: "v3 包 CR-S01-R01-01（L175-183）；细化对象为现有 INT-D01／INT-D03 答案族与禁止结果，不得自动新增正式验收案例。改判：Founder 2026-08-18 判分批标准①（原表述「允许的结果是 NEEDS_INPUT 与目标澄清」被取代，原文见 git 历史与 acceptance/runs/L3-判分记录-INT-20260818.md）。"
 ```
 
 ```yaml

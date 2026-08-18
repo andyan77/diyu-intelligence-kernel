@@ -1,6 +1,5 @@
 {
-  "_fixture_note": "INT-D02 双模式运行共用的任务输入补充：Founder 2026-08-17 IA-0 裁决（OQ-BUILD-02）——商业目标经 A.4.1 stated_business_goal 字段承载（不改 B 考题句）。快速侧预期已按 Founder 2026-08-17 SPEC-DEV-02 裁决 (c) 更正：本案快照按考点设计不带品牌信息，而 OD-03 §二把品牌促销边界列为 INVENTORY_ACTIVATION 阻断项，故快速侧正确行为=NEEDS_INPUT 先问用户（B:337 禁止快速模式绕过阻断项）；「QUICK 跨过 QUALITY_REDUCING 缺失带假设继续」考点由 INT-D03 input-a 承载。本注释初版所写「缺失仅剩 QUALITY_REDUCING 类」为过时预期，经裁决撤回。",
-  "stated_business_goal": "INVENTORY_ACTIVATION",
+  "_fixture_note": "INT-D02 双模式运行共用的任务输入补充。撤代记录（Founder 2026-08-18 判分批·四点批复2）：原 stated_business_goal=INVENTORY_ACTIVATION 系 IA-0 裁决 OQ-BUILD-02 注入（商业目标经 A.4.1 stated_business_goal 承载、不改 B 考题句）——经 L3 判分定性为「系统主动脑补促销意图」的载体，随 SPEC-DEV-02 撤代一并撤除。本案例按统一产品标准②③执行：解析为 DAILY_CONTENT_OPERATION 正常内容制作，「春节前」只作内容主题与时间场景，无促销信息不写促销、不按促销要资料。原值与历次口径见 git 历史、SPEC-DEV-02 撤代台账行与 acceptance/runs/L3-判分记录-INT-20260818.md。",
   "_migrated_from_snapshot": {
     "INT-D02": {
       "business_goal": {

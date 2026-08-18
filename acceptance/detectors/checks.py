@@ -908,3 +908,62 @@ def intent_confidence_cap(output, ctx, **kw):
         return "FAIL", f"goal_resolution={gr}（关键目标未定）却给出 confidence.level=HIGH"
     return "OK", f"goal_resolution={gr} 且 confidence.level={lvl!r}（非 HIGH）"
 # ===================== Intent 侧确定性断言 v0.2 结束 =====================
+
+
+# ============ Intent 侧判分批新增（Founder 2026-08-18 批准五条统一产品标准；改检测器=改考卷，本批为裁决授权）============
+
+def intent_terminal_state(output, ctx, expect_goal_resolution=None, expect_business_goal=None,
+                          expect_next_action=None, **kw):
+    """案例级终态断言：考卷用 args 声明该案例的预期终态（B v0.6 允许答案族的机器可判面），
+    任何一项不符即 FAIL——「把可直接执行的任务升级成用户决策题」（INT_TASK_ESCALATED）的机器形态
+    正是终态落到 REQUEST_INPUT/AMBIGUOUS 而考卷要求 CONTINUE。expect_business_goal 传字面量
+    "null" 表示「必须为空」。读不到字段 → UNKNOWN（禁 default 放行）。"""
+    if not isinstance(output, dict):
+        return "UNKNOWN", f"输出不是结构化对象（实得 {type(output).__name__}），终态无从判定"
+    expects = (("goal_resolution", expect_goal_resolution),
+               ("business_goal", expect_business_goal),
+               ("next_action", expect_next_action))
+    if all(w is None for _f, w in expects):
+        return "UNKNOWN", "考卷未声明任何预期终态（args 全空），本闸无判定对象——不得默认放行"
+    bad = []
+    for field, want in expects:
+        if want is None:
+            continue
+        if want == "null":
+            if output.get(field) is not None:
+                bad.append(f"{field}={output.get(field)!r}（期望 null）")
+            continue
+        if field not in output:
+            return "UNKNOWN", f"{field} 字段缺失，终态无从判定（缺字段 ≠ 符合预期）"
+        if output.get(field) != want:
+            bad.append(f"{field}={output.get(field)!r}（期望 {want!r}）")
+    if bad:
+        return "FAIL", "终态不符考卷声明：" + "；".join(bad)
+    return "OK", "终态符合考卷声明：" + "；".join(f"{f}={w}" for f, w in expects if w is not None)
+
+
+def intent_candidate_completeness(output, ctx, **kw):
+    """统一产品标准④的机器可判面：AMBIGUOUS 时候选必须是方案骨架——候选 ≥2 且每个候选的
+    focus / tradeoffs / expected_outcome 三要素非空；光秃标签选择题判 FAIL（INT_TASK_ESCALATED）。
+    非 AMBIGUOUS 时本闸不适用（OK 并注明「不适用 ≠ 已验证」）；字段读不出 → UNKNOWN。"""
+    if not isinstance(output, dict):
+        return "UNKNOWN", f"输出不是结构化对象（实得 {type(output).__name__}）"
+    gr = output.get("goal_resolution")
+    if gr is None:
+        return "UNKNOWN", "goal_resolution 字段缺失，无从判定本闸适用性"
+    if gr != "AMBIGUOUS":
+        return "OK", f"goal_resolution={gr}，本闸只在 AMBIGUOUS 下适用（不适用 ≠ 已验证）"
+    cands = output.get("goal_candidates")
+    if not isinstance(cands, list):
+        return "UNKNOWN", "goal_candidates 缺失或非数组（AMBIGUOUS 下这本身已属结构违约，由 schema_valid 判）"
+    if len(cands) < 2:
+        return "FAIL", f"AMBIGUOUS 候选仅 {len(cands)} 个（A.5.2 约束1 要求至少两个）"
+    bad = []
+    for i, c in enumerate(cands):
+        c = c if isinstance(c, dict) else {}
+        lack = [k for k in ("focus", "tradeoffs", "expected_outcome") if not str(c.get(k) or "").strip()]
+        if lack:
+            bad.append(f"候选{i}({c.get('goal')}) 缺 {lack}")
+    if bad:
+        return "FAIL", "候选缺三要素（未经整理的选择题退给用户）：" + "；".join(bad)
+    return "OK", f"{len(cands)} 个候选三要素齐全（方案骨架成立）"

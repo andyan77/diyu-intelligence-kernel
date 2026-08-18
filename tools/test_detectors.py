@@ -549,6 +549,42 @@ check("㉒-g 豁免只限条款号：系统留痕里冒出的无源价格仍 FAI
 check("㉒-h 真阳性不松：正文无源阿拉伯数字仍 FAIL",
       ng({"intent_summary": "预计触达5000人。"}, _SNAP22), "FAIL", "5000")
 
+# ---- ㉓ 判分批新增两闸（intent_terminal_state / intent_candidate_completeness）----
+_CTX23 = {"repo_root": ROOT}
+check("㉓-a 终态符合考卷声明→OK",
+      checks.intent_terminal_state({"goal_resolution": "RESOLVED", "business_goal": "DAILY_CONTENT_OPERATION",
+                                    "next_action": "CONTINUE_TO_DECISION"}, _CTX23,
+                                   expect_goal_resolution="RESOLVED",
+                                   expect_business_goal="DAILY_CONTENT_OPERATION",
+                                   expect_next_action="CONTINUE_TO_DECISION"), "OK")
+check("㉓-b 把任务升级成选择题→FAIL（终态落 REQUEST_INPUT）",
+      checks.intent_terminal_state({"goal_resolution": "AMBIGUOUS", "business_goal": None,
+                                    "next_action": "REQUEST_INPUT"}, _CTX23,
+                                   expect_goal_resolution="RESOLVED",
+                                   expect_business_goal="DAILY_CONTENT_OPERATION",
+                                   expect_next_action="CONTINUE_TO_DECISION"), "FAIL", "REQUEST_INPUT")
+check("㉓-c 考卷未声明预期→UNKNOWN（禁默认放行）",
+      checks.intent_terminal_state({"goal_resolution": "RESOLVED"}, _CTX23), "UNKNOWN")
+check("㉓-d expect=null 语义：business_goal 非空→FAIL",
+      checks.intent_terminal_state({"business_goal": "CONVERSION"}, _CTX23, expect_business_goal="null"),
+      "FAIL", "CONVERSION")
+_CAND_OK = {"goal": "BRAND_STORY", "rationale": "r", "focus": "侧重故事", "tradeoffs": "深但慢", "expected_outcome": "认同"}
+_CAND_BARE = {"goal": "BRAND_AWARENESS", "rationale": "r"}
+check("㉓-e AMBIGUOUS 候选三要素齐→OK",
+      checks.intent_candidate_completeness({"goal_resolution": "AMBIGUOUS",
+                                            "goal_candidates": [_CAND_OK, dict(_CAND_OK, goal="BRAND_AWARENESS")]},
+                                           _CTX23), "OK")
+check("㉓-f 光秃标签候选→FAIL",
+      checks.intent_candidate_completeness({"goal_resolution": "AMBIGUOUS",
+                                            "goal_candidates": [_CAND_OK, _CAND_BARE]}, _CTX23),
+      "FAIL", "BRAND_AWARENESS")
+check("㉓-g 候选不足两个→FAIL",
+      checks.intent_candidate_completeness({"goal_resolution": "AMBIGUOUS", "goal_candidates": [_CAND_OK]},
+                                           _CTX23), "FAIL")
+check("㉓-h 非 AMBIGUOUS 不适用→OK 且注明",
+      checks.intent_candidate_completeness({"goal_resolution": "RESOLVED", "goal_candidates": []}, _CTX23),
+      "OK", "不适用")
+
 for line in PASSED:
     print(line)
 for line in FAILURES:

@@ -29,10 +29,10 @@
 #   e2e_output_contract.md v1.0 阶段C 九部分 Schema，与 CR 类同口径；同批 case_version v0.1→v0.2（B.2.1 升版规则，详见下方字段处注释）。
 
 case_id: E2E-02
-case_version: "v0.5"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
+case_version: "v0.6"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
 prd_version: "v0.2"                           # 版本基线见 M0-EP01_文档版本一致性声明.md 一、现行版本基线
-data_contract_version: "v0.3"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
-acceptance_contract_version: "v0.5"           # 同上（附录 B v0.4：M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID，Founder 2026-08-17 批准）
+data_contract_version: "v0.4"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
+acceptance_contract_version: "v0.6"           # 同上（附录 B v0.4：M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID，Founder 2026-08-17 批准）
 context_snapshot_id: "SNAP-E2E01-0001"        # 复用 E2E-01 同一快照（B:749 相同企业事实 / B:172 相同 Context Snapshot）
 snapshot_hash: "sha256:ae54bf8889156452cdcf0645d75fb63edd1e35090ed143edc7ac8573066e5e12"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "高端品牌羊绒大衣库存 800 件，请通过视频号内容建立长期品牌资产，不以本期销量为主要目标。"  # 合成=E2E-01 定稿句 + B:751 目标替换句（Founder 批准的合成规则）

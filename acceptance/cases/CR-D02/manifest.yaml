@@ -8,11 +8,11 @@
 
 case_id: CR-D02
 # 与 acceptance/cases/BD-D01/case.yaml 的 v0.1 对齐；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
-case_version: "v0.4"
+case_version: "v0.5"
 
 prd_version: "v0.2"
-data_contract_version: "v0.3"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
-acceptance_contract_version: "v0.5"
+data_contract_version: "v0.4"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
+acceptance_contract_version: "v0.6"
 
 # 起草时为规划名、快照尚未构建；2026-08-17 现状：快照已落盘 acceptance/cases/CR-D02/fixtures/context_snapshot.json，snapshot_hash 已回填
 # hash 已于 2026-08-17 按快照实算回填（OQ-CR-D01-06 ✅预裁决 08-17，四份 CR Manifest 同一处）

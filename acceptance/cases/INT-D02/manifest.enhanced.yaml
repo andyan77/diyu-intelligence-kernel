@@ -12,10 +12,10 @@
 #   注：「两份除 execution_mode 外其余字段必须一致（含共用同一 Context Snapshot）」是本 Manifest 起草口径，B 未就本案例规定——
 #   B.2.2「同条件」（B:168-182）自述管的是正式 A/B 两侧（笛语 vs 基线），不管同一诊断案例的双模式两次运行 → OQ-INT-D02-01。
 case_id: INT-D02
-case_version: "v0.4"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
+case_version: "v0.5"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
 prd_version: "v0.2"                           # M0-EP01 文档版本一致性声明：主 PRD v0.1 EFFECTIVE
-data_contract_version: "v0.3"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
-acceptance_contract_version: "v0.5"           # M0-EP01：附录 B 三个核心模块智能验收合同 v0.4 EFFECTIVE（M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID）
+data_contract_version: "v0.4"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
+acceptance_contract_version: "v0.6"           # M0-EP01：附录 B 三个核心模块智能验收合同 v0.4 EFFECTIVE（M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID）
 context_snapshot_id: "SNAP-INTD02-0001"       # 起草时为规划名、快照尚未构建；两份 Manifest 共用同一快照 id 属本 Manifest 起草口径，B 未就本案例规定 → OQ-INT-D02-01 ✅预裁决 08-17；2026-08-17 现状：快照已落盘 acceptance/cases/INT-D02/fixtures/context_snapshot.json
 snapshot_hash: "sha256:2667e188c62f3098b774e805e6da75cb3315ff930717c7da55cf68f1ee1b1efc"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "为这件羊绒大衣制作春节前视频号内容。"   # 照抄 B:312「输入」引文，一字不改
