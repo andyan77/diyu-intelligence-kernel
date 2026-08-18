@@ -1,0 +1,6 @@
+# 尝试账本条目（C.6 格式；一条一文件）
+attempt_id: ATT-0005
+hypothesis: "冒烟通过后的手册 §6 搭车批次（取证 6 发开跑前定格 kernel）：① 冒烟第 3 发原始回复录制为 live 夹具入 fixtures/（真实模型回复的取证与回归素材，verbatim 不改字）；② SPEC-DEV-01 注释同步——postcheck/test 里「已登记台账待 Founder 裁决/可推翻」字样更正为「Founder 2026-08-17 已认可」（台账早前已注明随下一 kernel 批次同步）；③ P9 数字溯源收紧为独立数字串命中：命中两侧不得贴字母或数字，堵『摘要数字借长串（SKU/哈希）内部数字过溯源』的假绿洞；千分位串内借位等文本级盲区如实留在诚实边界注释，不假装全覆盖"
+target_failing_run: "P9 借位洞运行态实证（2026-08-18 构造复现）：intent_summary=『商品需在7天内完成推广。』+ 快照仅含 SKU 1G9971081 → 修复前 _p9_numeric_grounding 判 OK（『1 个数字均可在快照文本中找到』）=假绿；对抗核验早前已静态点名同款借位（『7天内』借 SKU 尾数）。夹具源：live 冒烟第 3 发 DashScope id=chatcmpl-f0cd5add-f381-9b96-9624-2748cab8b56f（qwen3-max-2026-01-23，prompt v0.2，PREFLIGHT_OK）"
+regression_after: "kernel/intent/test_intent_offline.py 全绿（新增护栏⑥：上述构造在修复后判 FAIL、正常数字仍 OK）+ python3 -m kernel.intent.module_manifest --check IN_SYNC"
+delta: {fixed: ["P9 数字借位假绿洞", "SPEC-DEV-01 注释滞后于 Founder 认可", "live 真实回复零夹具"], broken: [], net: 3}
