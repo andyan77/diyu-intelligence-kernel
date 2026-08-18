@@ -85,3 +85,4 @@
 | IA-0 重签 | Founder（Faye） | 2026-08-18T02:39:10+08:00 | 修复批次六项 BLOCK 全关闭后的最终资产（受审树 24e24a3，回执《M0收口回执.md》） | ✅ 生效；20 份 Manifest approved_at 同批回填 |
 | 主模型级联补签 | Founder（Faye） | 2026-08-18T15:19:52+08:00 | 20 份 Manifest（model 两字段/case_version/构建版本字段升版后全量）+ generation_parameters.json v1.1 + 本签字包刷新行 | 现行有效（与 P0-6 重签共同构成在案签字链） |
 | 内容真实性三层边界（块 C）签字 | Founder（Faye） | 2026-08-18T16:04:02+08:00 | 20 份 Manifest（块 C 四版本指针 PRD v0.2 / A v0.3 / B v0.5 / creative_stage v1.1 + case_version 升格后全量；B v0.5、A v0.3、PRD v0.2、baseline_C v1.1 四份修订随本批生效）；Founder 本轮批复原文「确认签字」 | 现行有效（签字提交只动 20 行 approved_at，内容指纹由门 R6 实时核验） |
+| M1-EP01 收尾（块 E）签字 | Founder（Faye） | 2026-08-18T17:41:56+08:00 | 20 份 Manifest（块 E 迁移级联后全量：15 快照迁 A.4.3 引用式 + facts 池 49 对象 + snapshot_hash 重算 + case_version 升格 16 份 v0.4 / 4 份 v0.5；考卷面经 Manifest 的 R4/R6/fact_fixtures 锚定随本批生效）；Founder 本轮批复原文「确认签字」，迁移方案此前已批（08-18「按实测执行、无调整」+ 三边界令） | 现行有效（签字提交只动 20 行 approved_at；值级对账 991/991 见 acceptance/runs/migration_reconciliation.md） |
