@@ -1,0 +1,6 @@
+# 尝试账本条目（C.6 格式；一条一文件）
+attempt_id: ATT-0010
+hypothesis: "prompt v0.3→v0.4 靶向迭代（校准修订批④重跑期，单点边界修正）：v0.3 给 DAILY_CONTENT_OPERATION 的正面定义（『让商品被看见、被理解』）与『建立品牌长期价值』语义重叠，模型把 D03-b 的明示品牌意图有理有据地归入日常内容经营（raw 自述『通过持续内容积累品牌资产…归入日常』）。修正=两处补边界句：①判定纪律 1-② 增例——『建立品牌长期价值/打造品牌/讲品牌』类表述＝明示品牌类经营意图，落品牌类特殊目标或 AMBIGUOUS，不得归日常；②第 4 节 DAILY 定义补『以品牌本身为对象的长期建设不属日常内容经营』。只动 prompt 文本，不动闸/检测器/考卷；一次迭代为限，再偏如实停并报 Founder"
+target_failing_run: "RUN-0017-int-d03-input-b-recal（2026-08-18 live，qwen3-max，prompt v0.3）：任务原话明示『建立品牌长期价值，不以本期销量为主要目标』，B v0.6 D03-B 预期族=品牌类双向方案骨架（AMBIGUOUS+三要素候选），实得 RESOLVED+DAILY_CONTENT_OPERATION+CONTINUE——迁移考点的品牌侧被默认路径吞掉；回执 PENDING_HUMAN 零红（终态闸不进 D03 共用考卷属设计内，该偏差由本条+L3 判分承载）"
+regression_after: "kernel/intent/test_intent_offline.py 全绿（replay 夹具不受 prompt 文本影响）+ module_manifest --check IN_SYNC + 补发 RUN-0018（新编号，RUN-0017 保留互链）"
+delta: {fixed: ["DAILY 定义与品牌长期建设的语义边界洞"], broken: [], net: 1}
