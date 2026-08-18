@@ -255,7 +255,8 @@ def _scn(name, case, variant, fixture, with_stated_goal=False):
 SCENARIOS = (
     _scn("INT-D01.quick", "INT-D01", "quick", "INT-D01.quick.model_reply.json"),
     _scn("INT-D01.enhanced", "INT-D01", "enhanced", "INT-D01.enhanced.model_reply.txt"),
-    _scn("INT-D02.quick", "INT-D02", "quick", "INT-D02.quick.model_reply.json", with_stated_goal=True),
+    # stated_goal 注入已随 SPEC-DEV-02 撤代撤除（Founder 2026-08-18 判分批·四点批复2）
+    _scn("INT-D02.quick", "INT-D02", "quick", "INT-D02.quick.model_reply.json"),
     _scn("INT-D03.input-a", "INT-D03", "input-a", "INT-D03.input-a.model_reply.json"),
     _scn("INT-D03.input-b", "INT-D03", "input-b", "INT-D03.input-b.model_reply.json"),
     _scn("NEG-01.forced_continue", "INT-D01", "quick", "NEG-01.forced_continue.model_reply.json"),
@@ -308,47 +309,43 @@ def main(argv):
     for scn in SCENARIOS:
         results[scn["name"]] = run_scenario(scn, work_dir)
 
-    # ---- D01：模糊目标不得擅自确定（两种模式各一遍） -----------------------------
+    # ---- D01：日常经营表述＝正常目标识别（B v0.6，Founder 判分批统一产品标准①③⑤）------
     for name in ("INT-D01.quick", "INT-D01.enhanced"):
         r = results[name]
         plan = r.plan or {}
-        item("%s goal_resolution=AMBIGUOUS（承认目标没说清）" % name,
-             plan.get("goal_resolution") == "AMBIGUOUS",
-             "实得 %r（B.4.1/INT-D01 允许答案族：必须保留 AMBIGUOUS）" % plan.get("goal_resolution"))
-        item("%s business_goal 为空（A.5.2 约束1）" % name,
-             plan.get("business_goal") is None,
-             "实得 %r——静默确定唯一目标是 B.4.1/INT-D01 的禁止结果" % plan.get("business_goal"))
-        item("%s 候选 ≥ 2 且互不相同（A.5.2 约束1）" % name,
-             len({c.get("goal") for c in (plan.get("goal_candidates") or [])}) >= 2,
+        item("%s 解析为 DAILY_CONTENT_OPERATION 且 RESOLVED（「推广」＝正常目标识别，不出选择题）" % name,
+             plan.get("goal_resolution") == "RESOLVED"
+             and plan.get("business_goal") == "DAILY_CONTENT_OPERATION",
+             "实得 goal_resolution=%r business_goal=%r（B v0.6 D01 允许答案族）"
+             % (plan.get("goal_resolution"), plan.get("business_goal")))
+        item("%s next_action=CONTINUE_TO_DECISION（不把目标选择题抛回用户）" % name,
+             plan.get("next_action") == "CONTINUE_TO_DECISION",
+             "实得 %r——以「未指定经营目标」为由停摆＝INT_TASK_ESCALATED" % plan.get("next_action"))
+        item("%s goal_candidates 为空（RESOLVED 路径不留候选）" % name,
+             not (plan.get("goal_candidates") or []),
              "实得候选 %s" % [c.get("goal") for c in (plan.get("goal_candidates") or [])])
-        item("%s next_action=REQUEST_INPUT（A.5.2 约束1）" % name,
-             plan.get("next_action") == "REQUEST_INPUT",
-             "实得 %r——「已给出两个候选」不得成为 CONTINUE 的理由" % plan.get("next_action"))
         conf = (plan.get("confidence") or {}).get("level")
-        item("%s confidence 非 HIGH（B.4.1/INT-D01 禁止结果）" % name, conf != "HIGH",
-             "实得 %r——关键目标未知时不得给 HIGH" % conf)
+        item("%s confidence 非 HIGH（B v0.6：事实依据不足时不得 HIGH；表达面缺失在场）" % name, conf != "HIGH",
+             "实得 %r" % conf)
         ok, bad = preflight_state(r)
         item("%s Preflight 九项全 OK" % name, ok, "非 OK 项：%s" % bad)
 
-    # ---- D02：快速模式带已声明目标（期望值按仲裁2 = 真源推导，不按首轮规格 L80 的字面）----
-    # 仲裁2（M1-EP02 修复批次）：kernel 行为按 OD-03 §二 原文——「品牌促销边界（最低折扣线 / 禁用表达）」
-    # 是 INVENTORY_ACTIVATION 的**追加阻断项**；INT-D02 快照按 B.4.1/INT-D02「输入」刻意不带品牌事实。
-    # 两者相乘，快速侧出现 BLOCKING 缺失 → NEEDS_INPUT，这是**正确行为**，不是缺陷。
-    # B:320「非阻断信息缺失时允许继续」是条件句（前提是"非阻断"），不构成"快速模式可绕过阻断项"。
+    # ---- D02：春节＝主题不＝促销（B v0.6，Founder 判分批统一产品标准②③；SPEC-DEV-02 已撤代）----
+    # 撤代记录：原期望「stated INVENTORY_ACTIVATION → 促销边界阻断 → NEEDS_INPUT」随 Founder
+    # 2026-08-18 判分批撤代——stated_business_goal 注入已从 task_input.json 撤除（四点批复2），
+    # OD-03 v1.1 把促销边界改为条件阻断（仅明示促销/清库存意图时 BLOCKING）。
     r = results["INT-D02.quick"]
     plan = r.plan or {}
     missing = plan.get("missing_context") or []
     blocking_paths = [m.get("field_path") for m in missing if m.get("impact") == "BLOCKING"]
     d02_conditions = {
-        "goal_resolution=NEEDS_INPUT": plan.get("goal_resolution") == "NEEDS_INPUT",
-        "business_goal=null（A.5.2 约束2）": plan.get("business_goal") is None,
-        "next_action=REQUEST_INPUT（A.5.2 约束2）": plan.get("next_action") == "REQUEST_INPUT",
-        "BLOCKING 缺失含 brand.promotion_boundary（OD-03 §二 库存激活行）":
-            "brand.promotion_boundary" in blocking_paths,
+        "goal_resolution=RESOLVED": plan.get("goal_resolution") == "RESOLVED",
+        "business_goal=DAILY_CONTENT_OPERATION": plan.get("business_goal") == "DAILY_CONTENT_OPERATION",
+        "next_action=CONTINUE_TO_DECISION（不被可选信息拦停）": plan.get("next_action") == "CONTINUE_TO_DECISION",
+        "无促销边界 BLOCKING（OD-03 v1.1 条件阻断：未明示促销意图不阻断）":
+            "brand.promotion_boundary" not in blocking_paths,
     }
-    # 四个子条件合并成一项：它们同源于「D02 快速侧按 OD-03 必然被阻断项拦下」这一个期望，
-    # 拆开会把同一个根因报成四次失败，读起来像四个 bug。
-    item("INT-D02.quick 按 OD-03 被促销边界阻断（NEEDS_INPUT + 目标清空 + REQUEST_INPUT）",
+    item("INT-D02.quick 春节主题正常制作（RESOLVED + DAILY_CONTENT_OPERATION + CONTINUE，促销边界不阻断）",
          all(d02_conditions.values()),
          "未成立的子条件：%s；实得 goal_resolution=%r business_goal=%r next_action=%r，BLOCKING 缺失=%s"
          % ([k for k, v in d02_conditions.items() if not v], plan.get("goal_resolution"),
@@ -361,8 +358,8 @@ def main(argv):
     # 闸留痕必须进产物（K2）：只打 stderr 的话，拿到 plan.json 的人分不清这个 NEEDS_INPUT
     # 是模型自己判的还是系统改判的——而这两件事的处置完全不同。
     basis_text = " ".join(str(b) for b in ((plan.get("confidence") or {}).get("basis") or []))
-    item("INT-D02.quick 改判与目标出处写进 confidence.basis（可从产物追溯，不只在 stderr）",
-         "系统改判" in basis_text and "--stated-goal" in basis_text,
+    item("INT-D02.quick 目标出处写进 confidence.basis（可从产物追溯，不只在 stderr）",
+         "business_goal 来源" in basis_text and "DAILY_CONTENT_OPERATION" in basis_text,
          "basis 实得：%s" % basis_text[:300])
     item("INT-D02.quick 退出码与 Preflight 结论一致",
          r.code == (0 if (r.report or {}).get("overall") == "OK" else 1),
@@ -386,29 +383,32 @@ def main(argv):
          "缺失 %d 项；非 QUALITY_REDUCING=%s；无 ASSUMPTION 配对=%s"
          % (len(missing_a), non_qr_a, unpaired_a))
 
-    # 标签如实（M1-EP02 修复批次 K6）：首轮这一项叫「目标确实迁移了」，但它实际断言的是
-    # **两侧终态不同**——b 侧的 business_goal 是被 G2 硬闸清空成 null 的（人设阻断），
-    # 不是"模型把目标解析成了另一个"。用"迁移"当标签会让读者以为这一项证明了后者。
-    # 故拆成两项：一项如实描述终态，另一项去断言**闸前**解析出的目标确实不同（那才是"迁移"）。
-    item("INT-D03 两侧 business_goal 终态不同（a=已解析目标；b=被人设阻断闸清空为 null）",
+    # 标签如实（判分批改版）：一项如实描述终态不同，另一项断言**迁移的实质**——a 侧解析出
+    # 特殊目标（用户明示库存消化），b 侧走品牌类双向（AMBIGUOUS + 品牌类候选，B v0.6 D03 允许族）。
+    item("INT-D03 两侧 business_goal 终态不同（a=INVENTORY_ACTIVATION；b=AMBIGUOUS 待用户选向 → null）",
          plan_a.get("business_goal") != plan_b.get("business_goal"),
          "两侧同为 %r" % plan_a.get("business_goal"))
 
-    # 闸前解析目标：直接读两份 replay 夹具里模型给出的 business_goal（那是硬闸动手之前的值）。
-    # 读夹具而不是读 plan，正是因为 plan 里的 b 侧已经被闸清空了。
-    def _fixture_goal(fixture_name):
+    def _fixture_json(fixture_name):
         with open(os.path.join(FIXTURES_DIR, fixture_name), encoding="utf-8") as fh:
-            return runner.llm.parse_model_json(fh.read()).get("business_goal")
+            return runner.llm.parse_model_json(fh.read())
 
-    goal_a_raw = _fixture_goal("INT-D03.input-a.model_reply.json")
-    goal_b_raw = _fixture_goal("INT-D03.input-b.model_reply.json")
-    item("INT-D03 闸前解析目标两侧不同（同一快照、只换任务原话 → 目标确实迁移；A.5.2 约束6 的前半句）",
-         goal_a_raw is not None and goal_b_raw is not None and goal_a_raw != goal_b_raw,
-         "a 侧闸前目标=%r，b 侧闸前目标=%r" % (goal_a_raw, goal_b_raw))
+    goal_a_raw = _fixture_json("INT-D03.input-a.model_reply.json").get("business_goal")
+    fix_b = _fixture_json("INT-D03.input-b.model_reply.json")
+    b_cand_goals = {c.get("goal") for c in (fix_b.get("goal_candidates") or [])}
+    item("INT-D03 迁移实质：a 侧解析出特殊目标，b 侧落品牌类双向候选（A.5.2 约束6 前半句 + B v0.6 D03-B）",
+         goal_a_raw == "INVENTORY_ACTIVATION"
+         and fix_b.get("goal_resolution") == "AMBIGUOUS"
+         and b_cand_goals and b_cand_goals <= {"BRAND_STORY", "BRAND_AWARENESS"},
+         "a 侧闸前目标=%r，b 侧 goal_resolution=%r 候选=%s"
+         % (goal_a_raw, fix_b.get("goal_resolution"), sorted(b_cand_goals)))
 
     set_a, set_b = set(field_paths(plan_a.get("required_context"))), set(field_paths(plan_b.get("required_context")))
-    item("INT-D03 两侧 required_context 双向差集非空（A.5.2 约束6 的机器可判部分）",
-         bool(set_a - set_b) and bool(set_b - set_a),
+    # 口径更新（判分批）：b 侧新预期是 AMBIGUOUS（目标未定只挂通用件），a 侧带库存激活追加项，
+    # 差异天然单向（a⊃b）。约束6 的机器可判部分改为「集合确实不同且 a 侧有目标特有项」，
+    # 双向差集要求随旧预期（b=BRAND_STORY RESOLVED）一并退役。
+    item("INT-D03 两侧 required_context 集合不同且 a 侧有目标特有项（A.5.2 约束6 的机器可判部分）",
+         set_a != set_b and bool(set_a - set_b),
          "a-b=%s，b-a=%s——目标变了但需要的上下文没变，说明 resolver 没按目标分岔"
          % (sorted(set_a - set_b), sorted(set_b - set_a)))
 
@@ -417,13 +417,19 @@ def main(argv):
     item("INT-D03 两侧 Preflight 九项全 OK", ok_a and ok_b,
          "a 非 OK：%s；b 非 OK：%s" % (bad_a, bad_b))
 
-    item("INT-D03.input-b 因人设阻断进入 NEEDS_INPUT（OD-03 §二 品牌故事行）",
-         plan_b.get("goal_resolution") == "NEEDS_INPUT"
-         and "persona" in [m.get("field_path") for m in (plan_b.get("missing_context") or [])
-                           if m.get("impact") == "BLOCKING"],
-         "实得 goal_resolution=%r，阻断缺失=%s"
-         % (plan_b.get("goal_resolution"),
-            [m.get("field_path") for m in (plan_b.get("missing_context") or []) if m.get("impact") == "BLOCKING"]))
+    # B v0.6 D03-B（Founder 判分批标准④）：先做方案骨架再请人挑——AMBIGUOUS + 候选≥2 且
+    # 每个候选三要素（focus/tradeoffs/expected_outcome）非空 + REQUEST_INPUT。
+    b_cands = plan_b.get("goal_candidates") or []
+    b_incomplete = [c.get("goal") for c in b_cands
+                    if not (str(c.get("focus") or "").strip()
+                            and str(c.get("tradeoffs") or "").strip()
+                            and str(c.get("expected_outcome") or "").strip())]
+    item("INT-D03.input-b 品牌类双向先出方案骨架（AMBIGUOUS + 候选≥2 三要素齐 + REQUEST_INPUT，B v0.6）",
+         plan_b.get("goal_resolution") == "AMBIGUOUS"
+         and len(b_cands) >= 2 and not b_incomplete
+         and plan_b.get("next_action") == "REQUEST_INPUT",
+         "实得 goal_resolution=%r 候选数=%d 三要素缺失候选=%s next_action=%r（光秃标签选择题=INT_TASK_ESCALATED）"
+         % (plan_b.get("goal_resolution"), len(b_cands), b_incomplete, plan_b.get("next_action")))
 
     # ---- 确定性：同一份输入连跑两次必须逐字节一致 --------------------------------
     # 按名字取而不是按下标：场景表增删一条就会让下标指向另一个场景，而那时这一项仍然"通过"——
@@ -526,7 +532,8 @@ def main(argv):
 
     control(
         "对照① AMBIGUOUS 却不发 goal_candidates 键 → P1 必 FAIL（A.5.2 约束1「候选至少两个」）",
-        results["INT-D01.quick"].plan, ctx_d01, "P1",
+        # 载体切换（判分批）：D01 新预期是 RESOLVED，AMBIGUOUS 载体改用 D03.input-b（品牌类双向候选）
+        results["INT-D03.input-b"].plan, ctx_d03, "P1",
         lambda p: p.pop("goal_candidates", None),
         extra_why="｜本项依赖考卷侧 Schema 修复（AMBIGUOUS 分支补 required:[goal_candidates]）："
                   "JSON Schema 的 then.properties 对**缺席的键**是空操作，键不发就绕过 minItems:2。"
@@ -591,15 +598,16 @@ def main(argv):
          _bg_availability("春节大促冲一波") == "MISSING" and _bg_availability("CONVERSION") == "AVAILABLE",
          "枚举外→%s，枚举内→%s" % (_bg_availability("春节大促冲一波"), _bg_availability("CONVERSION")))
 
-    _d01_plan = results["INT-D01.quick"].plan
-    _d01_fixture_q = json.load(open(os.path.join(FIXTURES_DIR, "INT-D01.quick.model_reply.json"),
+    # 载体切换（判分批）：D01 新预期 RESOLVED 无澄清问题，AMBIGUOUS 载体改用 D03.input-b
+    _amb_plan = results["INT-D03.input-b"].plan
+    _amb_fixture_q = json.load(open(os.path.join(FIXTURES_DIR, "INT-D03.input-b.model_reply.json"),
                                     encoding="utf-8")).get("clarification_question")
-    _bg_items = [r for r in (_d01_plan or {}).get("missing_context", [])
+    _bg_items = [r for r in (_amb_plan or {}).get("missing_context", [])
                  if "business_goal" in r.get("field_path", "")]
     item("护栏③ 澄清问题落点：模型定制问句替换 business_goal 项的模板 resolution_question（B:283）",
-         bool(_d01_fixture_q) and bool(_bg_items)
-         and _bg_items[0].get("resolution_question") == _d01_fixture_q,
-         "夹具问句=%r，产物问句=%r" % (_d01_fixture_q,
+         bool(_amb_fixture_q) and bool(_bg_items)
+         and _bg_items[0].get("resolution_question") == _amb_fixture_q,
+         "夹具问句=%r，产物问句=%r" % (_amb_fixture_q,
                                        _bg_items[0].get("resolution_question") if _bg_items else None))
 
     _d01_raw = os.path.join(work_dir, "INT-D01.quick.plan.json.raw.txt")
@@ -656,23 +664,18 @@ def main(argv):
         "状态：**执行侧对冻结真源的解释，非真源原文**，Founder 2026-08-17 已认可（台账 SPEC-DEV-01 行）；日后推翻走台账修订。"
         "推翻时改的是上述两处代码，不改考卷。")
     deviation(
-        "SPEC-DEV-02｜INT-D02 快速侧进 NEEDS_INPUT 是**正确行为**（已仲裁，非缺陷）",
-        "OD-03 §二 把「品牌促销边界（最低折扣线 / 禁用表达）」列为 INVENTORY_ACTIVATION 的追加阻断项；"
-        "INT-D02 快照按 B.4.1/INT-D02「输入」刻意不带品牌事实。两者相乘，快速侧出现 BLOCKING 缺失 → NEEDS_INPUT。"
-        "仲裁2 钉定：kernel 行为按 OD-03 原文，B:320「非阻断信息缺失时允许继续」是**条件句**"
-        "（前提是缺的那些是非阻断项），不构成「快速模式可绕过阻断项」——本文件因此把 D02 的期望值改成真源推导值，"
-        "不是放宽断言。首轮写的「A 与 B 互斥」是不准确的归因（B 那句本就带前提），已删。"
-        "遗留冲突（不阻塞本批，登记待裁）：Founder 2026-08-17 IA-0 裁决（OQ-BUILD-02）称补上 stated_business_goal 后"
-        "「快速侧缺失项仅剩 QUALITY_REDUCING 类（人设 / 品牌信息）」，与 OD-03 §二 该行对「品牌信息」impact 归属的"
-        "写法不一致，须回 OD-03 定夺；已登记台账。"
-        "该目标下「QUICK 跨过 QR 并逐项产生 ASSUMPTION」这一考点，本文件由 INT-D03.input-a 承载（同为 INVENTORY_ACTIVATION，"
-        "但其快照带品牌事实，实测 5 项 QR 缺失全部生成 ASSUMPTION），考点未落空。")
+        "SPEC-DEV-02｜**已撤代**（Founder 2026-08-18 判分批）：INT-D02 快速侧不再进 NEEDS_INPUT",
+        "原仲裁2（快速侧被促销边界阻断=正确行为）已被五条统一产品标准取代：OD-03 v1.1 把促销边界改为"
+        "条件阻断（仅用户明示促销/清库存/折扣意图时 BLOCKING），stated_business_goal 注入已从"
+        "task_input.json 撤除（四点批复2）。新预期=RESOLVED + DAILY_CONTENT_OPERATION + CONTINUE，"
+        "春节只作主题/场景。原口径原文见 git 历史与 acceptance/runs/L3-判分记录-INT-20260818.md；"
+        "「QUICK 跨过 QR 并逐项产生 ASSUMPTION」考点仍由 INT-D03.input-a 承载，考点未落空。")
     deviation(
-        "SPEC-DEV-03｜INT-D03 input-b 侧同样进 NEEDS_INPUT",
-        "OD-03 §二 把「主理人人设事实」列为 BRAND_STORY 的追加阻断项，而 INT-D03 共用快照未带入 persona。"
-        "故 b 侧 goal_resolution=NEEDS_INPUT、plan.business_goal=null。接口规格 L80 的「goal 不同」在字面上仍成立，"
-        "但「目标迁移」的实证改由 required_context 双向差集承担（本文件已如此断言）。此项属真源推导的必然结果，"
-        "非缺陷，登记以免被误读成「Intent 认不出品牌故事目标」。")
+        "SPEC-DEV-03｜**已退役**（Founder 2026-08-18 判分批）：INT-D03 input-b 侧新预期为 AMBIGUOUS 方案骨架",
+        "原推导（persona 阻断 → NEEDS_INPUT）基于旧夹具「模型直接解析 BRAND_STORY」；判分批 B v0.6 把"
+        "b 侧预期改为「先出双方案骨架（品牌故事/品牌认知，候选三要素齐）再请用户选向」＝AMBIGUOUS +"
+        " REQUEST_INPUT，2026-08-18 live 取证 RUN-0009 实测模型正是此行为。persona 阻断项在用户选定"
+        " BRAND_STORY 后的下一轮运行中照常生效，OD-03 §二 品牌故事行未被架空。")
 
     # ---- 结论 ---------------------------------------------------------------------
     if SPEC_DEVIATIONS:

@@ -471,6 +471,12 @@ _UNIVERSAL_REQUIREMENTS = (
 
 # 分目标追加阻断项（OD-03 §二 L19「在通用四件之上」，L23-L28 六行逐行对映）。
 _GOAL_REQUIREMENTS = {
+    # OD-03 v1.1（Founder 2026-08-18 判分批）：日常内容经营无追加阻断项——通用四件齐即做，
+    # 人设/受众/材质凭证等照 §三 非阻断处理（交付后提示补充）。空元组是设计值，不是漏配。
+    "DAILY_CONTENT_OPERATION": (),
+    # INVENTORY_ACTIVATION 的促销边界在 OD-03 v1.1 下是**条件阻断**：仅用户明示促销/清库存/
+    # 折扣意图时 BLOCKING。本目标只能经用户明示进入（模型擅自选定六特殊目标被禁），故解析到
+    # 本目标即满足「明示」条件，下表 promotion_boundary 保持 BLOCKING 不变。
     "INVENTORY_ACTIVATION": (
         {
             # OD-03 L23｜库存数量与有效性

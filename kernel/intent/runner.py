@@ -60,13 +60,14 @@ from .config import BUSINESS_GOAL_FIELD_PATH as GOAL_FIELD_PATH
 
 # 仓库根：kernel/intent/runner.py → parents[2]
 REPO_ROOT = Path(__file__).resolve().parents[2]
-PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "intent_v0.2.md"
+PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "intent_v0.3.md"
 _DEFAULT_PLAN_SCHEMA_PATH = REPO_ROOT / "contracts" / "schemas" / "intent_execution_plan.schema.json"
 
-# A:204 逐字六枚举（BusinessGoal）。落在本文件是为了让 CLI 在 config.py 未就绪时也能自校，
-# 且启动时会与 contracts/schemas/intent_execution_plan.schema.json 的 enum 实时比对（见 _load_plan_schema）——
-# 常量与冻结契约打架时当场报错，不替任何一方拍板。
+# A:204 逐字七枚举（BusinessGoal，A v0.4 判分批新增 DAILY_CONTENT_OPERATION）。落在本文件是为了
+# 让 CLI 在 config.py 未就绪时也能自校，且启动时会与 contracts/schemas/intent_execution_plan.schema.json
+# 的 enum 实时比对（见 _load_plan_schema）——常量与冻结契约打架时当场报错，不替任何一方拍板。
 BUSINESS_GOALS = (
+    "DAILY_CONTENT_OPERATION",
     "BRAND_AWARENESS", "PRODUCT_LAUNCH", "CONVERSION",
     "INVENTORY_ACTIVATION", "BRAND_STORY", "CUSTOMER_EDUCATION",
 )
@@ -217,11 +218,14 @@ def render_prompt(template, task_statement, execution_mode, stated_goal, fact_po
 # ============================ 二、模型输出 → 确定性覆盖 ============================
 
 def normalize_candidates(model_out):
-    """模型候选 → A.5.2 goal_candidates 形状（goal / rationale / supporting_trace_refs）。
+    """模型候选 → A.5.2 v0.4 goal_candidates 形状（goal / rationale / focus / tradeoffs /
+    expected_outcome / supporting_trace_refs）。
 
-    只做三件确定性的事：丢弃不在六枚举里的 goal（不是六选一就不是合法候选）、字段改名、按 goal 去重
+    只做三件确定性的事：丢弃不在枚举里的 goal（枚举外就不是合法候选）、字段改名、按 goal 去重
     （同一个目标写两遍不构成"两个候选"）。
-    **绝不补候选**：凑不够两个就让约束1 走不通，由 G3 降级成 NEEDS_INPUT——凑候选就是在编目标。
+    **绝不补候选、绝不补三要素**：凑不够两个就让约束1 走不通，由 G3 降级成 NEEDS_INPUT——凑候选
+    就是在编目标；三要素缺就让它空着，交给 Schema 与 P 闸判红（A v0.4：光秃标签选择题=INT_TASK_ESCALATED），
+    替模型补一句"侧重点"同样是编。
     supporting_trace_refs 逐字保留模型给的 ID（含池外 ID），删掉就等于把幻觉引用擦干净，postcheck P6 再也看不见。
     """
     seen, candidates = set(), []
@@ -235,6 +239,9 @@ def normalize_candidates(model_out):
         candidates.append({
             "goal": goal,
             "rationale": str(raw.get("rationale") or ""),
+            "focus": str(raw.get("focus") or ""),
+            "tradeoffs": str(raw.get("tradeoffs") or ""),
+            "expected_outcome": str(raw.get("expected_outcome") or ""),
             "supporting_trace_refs": list(raw.get("referenced_fact_ids") or []),
         })
     return candidates
@@ -335,14 +342,15 @@ def apply_hard_gates(goal_resolution, business_goal, candidates, missing, execut
         elif execution_mode == "QUICK":
             next_action = "CONTINUE_TO_DECISION"
         else:
-            # ENHANCED：B.4.1 INT-D02「只追问能改变当前任务判断的关键信息」。
-            # 哪些 QUALITY_REDUCING 项算"能改变判断"属 OD-03 口径，本文件不猜——v1 取保守侧：
-            # 增强模式下只要还有缺失就先问（有缺失照样 CONTINUE 才是 INT_MISSING_CONTEXT_MISSED 的温床）。
-            # 若 OD-03 后续给出筛选谓词，收窄发生在 resolve_requirements 一侧，本文件不改。
-            next_action = "REQUEST_INPUT" if missing else "CONTINUE_TO_DECISION"
+            # ENHANCED（B v0.6 / OD-03 v1.1，Founder 2026-08-18 判分批标准③⑤）：可选信息不作
+            # 执行前障碍——非阻断缺失不再触发追问（v1「有缺失就先问」的保守侧被判分批明确判死：
+            # 把可执行任务解释成缺条件无法继续＝INT_TASK_ESCALATED）。「高价值追问」的判定是语义
+            # 判断，确定性层不猜，取「零个追问」默认；诚实面不降：跨过的缺失照样逐项 ASSUMPTION
+            # + 降置信（G5/G6），且交付后提示补充。
+            next_action = "CONTINUE_TO_DECISION"
             if missing:
-                notes.append("增强模式取保守侧：仍有缺失项（%d 项），next_action=REQUEST_INPUT 先追问"
-                             "（QUALITY_REDUCING 项的必要性筛选属 OD-03 口径，本层不自决）" % len(missing))
+                notes.append("增强模式（B v0.6）：剩余缺失均为非阻断可选信息（%d 项），不作执行前障碍，"
+                             "逐项留假设并降置信，交付后提示补充" % len(missing))
 
     # 候选只在 AMBIGUOUS 下保留：目标已解析还挂着候选，会诱导下游把候选当"可选方案"接着跑
     # （B.4.1 INT-D01 禁止结果：以"已给出两个目标候选"为由设置 CONTINUE_TO_DECISION）。
@@ -358,23 +366,26 @@ def apply_hard_gates(goal_resolution, business_goal, candidates, missing, execut
 
 
 def build_assumption_entries(missing, execution_mode, next_action):
-    """G5：QUICK 真正跨过的每一项 QUALITY_REDUCING 缺失 → 一条 ASSUMPTION（A.4.2 / A.5.2 约束4）。
+    """G5：继续执行时跨过的每一项 QUALITY_REDUCING 缺失 → 一条 ASSUMPTION（A.4.2 / A.5.2 约束4）。
 
+    v2（判分批）：不再限 QUICK——增强模式在 B v0.6 下同样会跨过非阻断缺失继续（可选信息不作
+    执行前障碍），跨过就必须留假设，两种模式同一诚实口径。
     statement 里**不写任何替代取值**：假设的内容是"在缺这项的情况下继续"，不是"这项大概是 X"——
     后者就是 B.4.1 INT-D02 禁止结果里的编造。
     """
-    if execution_mode != "QUICK" or next_action != "CONTINUE_TO_DECISION":
+    if next_action != "CONTINUE_TO_DECISION":
         return []
     entries = []
     for item in missing:
         if item.get("impact") != "QUALITY_REDUCING":
             continue                      # 阻断项不可能走到这里（G2 已拦），保留判断作为第二道防线
         field_path = item.get("field_path")
+        mode_word = "快速" if execution_mode == "QUICK" else "增强"
         entries.append({
             "trace_id": f"ASSUMPTION:{field_path}",
             "trace_type": "ASSUMPTION",
             "statement": (
-                f"缺少「{field_path}」（用途：{item.get('purpose')}）。快速模式下跨过该缺失继续，"
+                f"缺少「{field_path}」（用途：{item.get('purpose')}）。{mode_word}模式下跨过该缺失继续，"
                 "本次不对其取值做任何假定，也不得据此写出确定表述；补齐后须重新运行 Intent。"
             ),
             "target_paths": [field_path] if field_path else [],

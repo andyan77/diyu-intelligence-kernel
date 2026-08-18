@@ -1,40 +1,18 @@
 ```json
 {
-  "goal_resolution": "AMBIGUOUS",
-  "business_goal": null,
-  "goal_candidates": [
-    {
-      "goal": "PRODUCT_LAUNCH",
-      "rationale": "「推广」若指把这件大衣当作要主推的款讲清楚，属新品推广；但任务原话没有交代它是不是新上架的款。",
-      "referenced_fact_ids": ["FACT:product.name", "FACT:product.style_attributes"]
-    },
-    {
-      "goal": "CONVERSION",
-      "rationale": "「推广」也可能是希望这条内容直接带来下单。款号与价格在场，具备讲清楚成交信息的条件；原话未说以成交为准。",
-      "referenced_fact_ids": ["FACT:product.sku", "FACT:product.price"]
-    },
-    {
-      "goal": "BRAND_AWARENESS",
-      "rationale": "若这次是想让更多人先认识这个品牌、这件大衣只是载体，则属品牌认知。但事实池里没有任何品牌定位或调性可依据，这一条只能作为候选提出。",
-      "referenced_fact_ids": ["FACT:brand"]
-    }
-  ],
-  "intent_summary": "这次任务是为一件羊绒风衣式大衣做视频号内容。任务原话只说「推广」，没有指明是要推新品、要成交，还是要做品牌认知，商业目标未明确到六选一。品牌事实在快照中标为缺失，因此关于品牌定位、调性与禁语的任何说法本次都没有补写。",
-  "clarification_question": "这次推广要拿到的结果，是让更多人先认识这件大衣，还是直接促成下单？",
+  "goal_resolution": "RESOLVED",
+  "business_goal": "DAILY_CONTENT_OPERATION",
+  "goal_candidates": [],
+  "intent_summary": "这次任务是为一件羊绒风衣式大衣做视频号内容。任务原话说「推广」，属日常内容经营的正常表述：把这件商品讲清楚、让更多人看见。原话没有明示清库存、冲转化、讲品牌等特殊经营意图，本次不设任何特殊经营目标；品牌、人设、账号与受众事实本次不在场，未提供的内容一律没有补写。",
+  "clarification_question": null,
   "referenced_fact_ids": [
     "FACT:product.name",
     "FACT:product.sku",
     "FACT:product.price",
-    "FACT:product.style_attributes",
-    "FACT:brand"
+    "FACT:product.selling_points"
   ],
-  "model_judgments": [
-    {
-      "text": "事实池里的品牌一项标为缺失，因此「做品牌认知」只能作为待确认候选提出，不能当成已成立的目标。",
-      "referenced_fact_ids": ["FACT:brand"]
-    }
-  ],
-  "confidence_level": "LOW",
-  "confidence_reason": "商业目标未定，且品牌侧事实整体缺失，只能给最低档。"
+  "model_judgments": [],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "商品事实清楚，日常内容经营属正常目标识别；人设与受众等表达面信息缺失，给中档。"
 }
 ```
