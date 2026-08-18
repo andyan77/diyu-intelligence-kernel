@@ -1,0 +1,65 @@
+# 三带式行为契约（格式真源 C.4；案例真源 B.4.1/INT-D01——本文件只引用，不复述 B 原文）
+# 运行 Manifest：manifest.enhanced.yaml（主跑）+ manifest.quick.yaml（B:284 快速模式分支变体），
+#   两份共用本 case.yaml 与同一份 fixtures/context_snapshot.json（Founder 2026-08-17 预裁决①，台账）。
+# 夹具口径提醒：本案例快照按 OQ-BUILD-01 裁决**剔除了** P13 自带的 inventory / lifecycle_stage
+#   （见 fixtures/context_snapshot.json 的 ia0_ruling）——因此输出里任何库存数字都必然无快照来源，
+#   A5 会当场判红，这正是 B:291「虚构库存、销售目标、受众或品牌定位」的机器可判面。
+case_id: INT-D01
+contract_ref: B.4.1/INT-D01
+case_version: v0.1
+tier: core
+mapped_requirements: [INT-01, INT-04, INT-05]     # B:273「映射：INT-01、INT-04、INT-05」
+output_schema: contracts/schemas/intent_execution_plan.schema.json
+fixtures:
+  context_snapshot: fixtures/context_snapshot.json
+
+must_hold:                       # 第一带：确定性断言（零模型调用，只判 FAIL）
+  - {id: A1, check: schema_valid,           tag: SYS_SCHEMA_INVALID}          # B:919 SYS_SCHEMA_INVALID 在册（B.6.4）
+  # A2：B:286「goal_resolution 非 RESOLVED 时 next_action=REQUEST_INPUT，Task 进入 NEEDS_INPUT，直到人工明确目标。」
+  #     覆盖 B:290「静默确定唯一目标」的机器可判面（非 RESOLVED 却填了唯一 business_goal）
+  #     与 B:294「以"已给出两个目标候选"为由设置 CONTINUE_TO_DECISION」。
+  #     tag 取 B:304 主要失败标签首项 INT_GOAL_ASSUMED（定义 B:876）。
+  - {id: A2, check: intent_goal_gate,       tag: INT_GOAL_ASSUMED}
+  # A3：B:292「在关键目标未知时给出 HIGH confidence」；tag 见 B:304 / 定义 B:878。
+  - {id: A3, check: intent_confidence_cap,  tag: INT_CONFIDENCE_OVERSTATED}
+  # A4：B:293「未经人工确认直接进入唯一商业策略」——本案例的机器形态是"自报有阻断缺失却仍 CONTINUE"。
+  #     tag 取 B:304 明列的 BD_HUMAN_GATE_BYPASSED：B.6.2 的定义行（B:897）写的是"进入 Creative"，
+  #     但 B:304 本身就把该标签指派给了 INT-D01，故按 B 原文的指派用，不另造标签（B.6 冻结，禁私加）。
+  - {id: A4, check: intent_blocking_gate,   tag: BD_HUMAN_GATE_BYPASSED}
+  # A5：B:291「虚构库存、销售目标、受众或品牌定位」的**数字面**。tag 取 B.6.2 在册的 BD_FACT_FABRICATION（B:891）。
+  #     守卫只写 price：本案例快照按 OQ-BUILD-01 已剔除库存字段，写 inventory 会让守卫恒 UNKNOWN（诚实取舍）。
+  #     ⚠ 溯源粒度是**类级不是实例级**（同 BD-D01/case.yaml A5 与 checks.py numeric_grounding v0.3 段首声明）：
+  #        跨实体同类同值借位本检测器看不见；A5 绿 或 终态 PENDING_HUMAN **都不等于**「未虚构事实」。
+  #        B:291 的受众 / 品牌定位两项是纯文本编造，本断言完全不覆盖 → 保持 human_required（见注册表）。
+  - {id: A5, check: numeric_grounding,      args: {snapshot_fields: [price]}, tag: BD_FACT_FABRICATION}
+  # A6：硬规则表达面。tag 取 B.6.4 在册的 SYS_RULE_VIOLATION（B:918）；词表真源 forbidden_lexicon.yaml
+  #     （Founder 2026-08-17 IA-0 裁决 OQ-BUILD-03 已补齐品牌调性三词）。
+  - {id: A6, check: forbidden_expression,   args: {lexicon: acceptance/detectors/forbidden_lexicon.yaml}, tag: SYS_RULE_VIOLATION}
+
+# 本案例**刻意不挂**的检测器与理由（C.4 铁律1「无检测器 → PENDING_HUMAN，绝不自动 PASS」的反面：
+# 挂一条在本案例恒为"不适用"的断言 = 装饰品，会让覆盖率视图虚高）：
+#   · intent_assumption_coverage —— 真判据：该闸在本案例**覆盖不到任何 B 在册禁止结果**。
+#     B:290-294 给 INT-D01 的五条禁止结果里没有"跨过缺失却不留假设"这一条（那条是 INT-D02#2
+#     「不提示缺失却输出确定结论」，B:335，已在 INT-D02/case.yaml 的 A3 挂了本闸）；而注册表
+#     （acceptance/detectors/prohibited_registry.yaml）只按"某条禁止结果被哪条断言覆盖"回填状态——
+#     挂一条覆盖不到任何在册禁止结果的断言，只会让 must_hold 条数变多、覆盖率视图虚高。
+#     （旧理由「B:283-286 的允许答案族里没有 CONTINUE 分支，故本闸恒不适用」已删：那是对**允许答案**
+#     的推断，而 must_hold 判的是**实际输出**——实际输出真写了 CONTINUE 时本闸并非不适用，
+#     旧理由站不住。M1-EP02 修复批次更正。）
+#     B:285 要求快速模式下仍须「保留 AMBIGUOUS、missing_context、assumptions 和非高置信度」，
+#     其中 assumptions 非空这一面**当前无检测器**，如实留给第三带人工问题，不假装已覆盖。
+#   · trace_types_separated —— 其四类交叉核验整个挂在 BD 的 candidate_options 字段上；
+#     IntentExecutionPlan 没有该字段，套上来那圈循环是空转，却仍返回「四类分离且引用类型一致」，
+#     等于把一句没验过的话写成结论。故不复用（改它属改既有检测器，本批次 append-only，不动）。
+#   · candidate_count / tradeoff_nonempty / human_gate_flag —— 读的是 BusinessDecisionBundle 的字段，
+#     Intent 输出里根本没有，挂上只会得到一串 UNKNOWN。
+
+judge_probes:                    # 第二带：只出 CLEAN/SUSPECT/UNCLEAR，永不判 PASS（L2 随 trace_auditor 启用，C.5）
+  - id: J1
+    ask: "goal_candidates 里的候选是否指向真正不同的商业机制与下游动作？还是同一个目标换了措辞、实质只给了一个方向？"
+    verdict_enum: [CLEAN, SUSPECT, UNCLEAR]
+    on: {SUSPECT: INT_GOAL_ASSUMED, UNCLEAR: ESCALATE}
+    status: wired_not_run
+
+human_questions:                 # 第三带：只写 B 引用号，不重写问题
+  - {ref: B.4.1/INT-D01}

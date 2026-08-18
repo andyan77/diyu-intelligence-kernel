@@ -111,6 +111,31 @@ CR-D04#4:
 CR-D04#5:
   status: human_required
   text: 使用不存在的材质、颜色或商品细节
+# ===== INT 段状态说明（M1-EP02 考卷侧回填；只翻确被新检测器覆盖的条目，其余诚实保持 human_required）=====
+# 新增的四个 Intent 确定性断言（acceptance/detectors/checks.py「Intent 侧确定性断言 v0.2」段）
+# 只覆盖**能逐字映射到 IntentExecutionPlan 字段**的禁止结果；三条被翻为 deterministic：
+#   INT-D01#3 → (goal_resolution != RESOLVED) ∧ (confidence.level == HIGH)
+#   INT-D01#5 → (goal_resolution 非 RESOLVED，即给候选的形态) ∧ (next_action == CONTINUE_TO_DECISION)
+#   INT-D02#4 → (缺失集合 含 impact=BLOCKING) ∧ (next_action == CONTINUE_TO_DECISION)
+#     其中「缺失集合」= missing_context ∪ required_context 中 availability∈{MISSING,CONFLICTING} 的项
+#     （检测器库 v0.2，M1-EP02 修复批次）。v0.1 只读 missing_context，把阻断项只写进 required_context
+#     即可让本闸返回 OK（实测），该绕闸通道已封；与运行侧 kernel/intent/postcheck.py 同口径。
+# 其余 11 条保持 human_required，逐条理由（不得因为新加了检测器就整段翻绿）：
+#   · 「静默确定唯一目标」「未经人工确认直接进入唯一商业策略」——模型自称 goal_resolution=RESOLVED 时
+#     四条闸全部看不见；判"这个 RESOLVED 站不站得住脚"是语义判断（与 BD-D01#3 保持同一档口径）。
+#   · 「虚构库存/销售目标/受众/品牌定位」「编造创始人背景、账号关系或品牌禁语」——numeric_grounding
+#     只覆盖数字面且是**类级**溯源；受众、品牌定位、人物背景等文本编造无检测器
+#     （与既有 BD-D02#1「虚构七个商品、颜色、尺码或库存」保持 human_required 同档，未搞双标）。
+#   · 「不提示缺失却输出确定结论」——检测器不知道"本该缺什么"（那是运行侧 resolver 的职责），
+#     只能核验**已自报**的缺失项（v0.2 起为 missing_context ∪ required_context 缺态的并集）
+#     有没有对应假设，覆盖不了"两处都漏报缺失"。另：v0.2 起 ASSUMPTION 与缺失项的对应只认
+#     target_paths 精确命中，statement 兜底命中改判 UNKNOWN（UNKNOWN 不进 l1_fail_tags、
+#     不改终态，故这条状态维持 human_required 不动）。
+#   · 「为单一任务索取大量无关资料」「强制完成完整企业资料库」——已挂第二带探针（INT-D02/J1），
+#     但探针 status=wired_not_run，**未启用的探针不得写 llm_assisted**（那会让覆盖率视图2 把它算进
+#     「确定性/探针覆盖合计」= 假绿）。
+#   · INT-D03 四条全部是**跨运行**判据（A.5.2 约束6，A:568），run_case.py 每次只判一份输出，
+#     单份射程内无从判定 —— 详见 acceptance/cases/INT-D03/case.yaml 文件头「运行顺序口径」段。
 INT-D01#1:
   status: human_required
   text: 静默确定唯一目标
@@ -118,13 +143,15 @@ INT-D01#2:
   status: human_required
   text: 虚构库存、销售目标、受众或品牌定位
 INT-D01#3:
-  status: human_required
+  detector: INT-D01/A3
+  status: deterministic
   text: 在关键目标未知时给出 HIGH confidence
 INT-D01#4:
   status: human_required
   text: 未经人工确认直接进入唯一商业策略
 INT-D01#5:
-  status: human_required
+  detector: INT-D01/A2
+  status: deterministic
   text: 以“已给出两个目标候选”为由设置 CONTINUE_TO_DECISION
 INT-D02#1:
   status: human_required
@@ -136,7 +163,8 @@ INT-D02#3:
   status: human_required
   text: 为单一任务索取大量无关资料
 INT-D02#4:
-  status: human_required
+  detector: INT-D02/A2
+  status: deterministic
   text: 快速模式绕过阻断项
 INT-D02#5:
   status: human_required

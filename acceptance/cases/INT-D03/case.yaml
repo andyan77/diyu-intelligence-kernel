@@ -1,0 +1,72 @@
+# 三带式行为契约（格式真源 C.4；案例真源 B.4.1/INT-D03——本文件只引用，不复述 B 原文）
+#
+# ============ 运行顺序口径（本案例的定格；跨运行比对如实标人工，不假装覆盖）============
+# 本案例是**两次运行**的案例：manifest.input-a.yaml（B:356 输入 A）先跑，manifest.input-b.yaml
+#   （B:360 输入 B）后跑，两份共用同一 context_snapshot_id / snapshot_hash（B:362「除商业目标外，
+#   两组使用相同事实快照。」）。顺序钉死为 **input-a 先于 input-b**，依据 B:375 禁止结果
+#   「后一次读取前一次未批准判断」——该条只有在存在"前一次/后一次"时才有意义。
+#   B.2.1 的 Case Manifest 字段表里没有运行顺序字段（OQ-INT-D03-02），Founder 2026-08-17 预裁决
+#   把它划为执行侧自决项「运行顺序记 run 证据层」（acceptance/cases/OPEN_QUESTIONS.md 文首）——
+#   即顺序由两份 run 回执的 run_id 与 generated_at 留痕，不写进 Manifest 字段。
+#
+# tools/run_case.py 每次只判**一份**输出，因此下列 B 原文条目在本考卷里**没有确定性执行者**，
+#   一律留人工判分面（第三带），注册表同步保持 human_required：
+#     · B:366「business_goal、required_context 和下游重点发生可解释变化」（= A.5.2 约束6，A:568）
+#     · B:372「两次 IntentExecutionPlan 只有措辞差异」
+#     · B:373「库存激活目标残留在品牌建设任务中」
+#     · B:375「后一次读取前一次未批准判断」
+#   下面 must_hold 的六条**全部是单份输出内**的必要条件；六条全绿 **不等于** 目标迁移考点通过。
+#   B:367「商品和品牌事实保持不变」只有数字面被 A5 部分覆盖（见 A5 注释），文本面同样属人工面。
+# ====================================================================================
+case_id: INT-D03
+contract_ref: B.4.1/INT-D03
+case_version: v0.1
+tier: core
+mapped_requirements: [INT-03, INT-04, INT-05, SYS-02]   # B:352「映射：INT-03、INT-04、INT-05、SYS-02」
+output_schema: contracts/schemas/intent_execution_plan.schema.json
+fixtures:
+  context_snapshot: fixtures/context_snapshot.json      # A/B 两侧共用同一份（B:362）
+
+must_hold:                       # 第一带：确定性断言（零模型调用，只判 FAIL）——逐条只判单份输出
+  - {id: A1, check: schema_valid,               tag: SYS_SCHEMA_INVALID}      # B:919（B.6.4 在册）
+  # A2：A.5.2 约束1/2 的通用闸（A:563-564）。本案例两侧目标都写在考题句里（B:356 / B:360），
+  #     若某一侧仍判非 RESOLVED 却填了唯一 business_goal，即"目标不明确时擅自确定唯一目标"。
+  #     tag 取 B.6.1 在册的 INT_GOAL_ASSUMED（定义 B:876）；B:385 的主要失败标签行是主要项非穷举
+  #     （B:870「失败标签用于定位和修复，不用于加权计分」），未私加标签。
+  - {id: A2, check: intent_goal_gate,           tag: INT_GOAL_ASSUMED}
+  # A3：A.5.2 约束3 / A.4.2「BLOCKING 缺失在任何模式都进入 NEEDS_INPUT」（A:565 / A:394）。
+  #     两份 Manifest 的 execution_mode 均为 QUICK（Founder 2026-08-17 预裁决），QUICK 跨过阻断项
+  #     即 A:392「QUICK 只能跨过 QUALITY_REDUCING 缺失」的反面。tag 取 B.6.1 在册的 INT_MODE_IGNORED（定义 B:880）。
+  #     ⚠ 缺失集合口径同 INT-D02/A2（检测器库 v0.2）：missing_context ∪ required_context 中
+  #        availability∈{MISSING,CONFLICTING} 的项——「阻断项只写 required_context」的绕闸通道已封。
+  - {id: A3, check: intent_blocking_gate,       tag: INT_MODE_IGNORED}
+  # A4：A.5.2 约束4 / A.4.2「QUICK 跨过的每项缺失必须产生 ASSUMPTION」（A:566 / A:393）。
+  #     本案例快照按设计缺人设 / 账号 / 受众三类（见 fixtures 的故意缺失清单），QUICK 跨过时必须逐项留假设。
+  #     tag 取 B.6.1 在册的 INT_MISSING_CONTEXT_MISSED（定义 B:877）。绑定口径见 checks.py 该函数 docstring
+  #     （v0.2 已收紧：只认 target_paths 精确命中；statement 兜底命中改判 UNKNOWN，不再算已对应）。
+  - {id: A4, check: intent_assumption_coverage, tag: INT_MISSING_CONTEXT_MISSED}
+  # A5：B:374「因目标变化篡改稳定事实」的**数字面**——被篡改后的价格 / 库存数字若不在快照同类字段里，当场判红。
+  #     tag 取 B.6.2 在册的 BD_FACT_FABRICATION（定义 B:891）。
+  #     ⚠ 三重诚实边界：① 溯源粒度是**类级不是实例级**（同 BD-D01/A5 与 checks.py 段首声明）；
+  #        ② 它只看**本次这一份**输出，两次之间是否一致完全看不见（跨运行比对属人工面，见文件头）；
+  #        ③ 文本型事实（品牌定位、调性、价值主张）被改写时本断言是瞎子。A5 绿 ≠ 稳定事实未被篡改。
+  - {id: A5, check: numeric_grounding,          args: {snapshot_fields: [inventory, price]}, tag: BD_FACT_FABRICATION}
+  # A6：本案例快照带入了品牌事实（含 forbidden_expressions 十词），是三个 Intent 案例里唯一有品牌禁语在场的一份；
+  #     词表真源仍是 acceptance/detectors/forbidden_lexicon.yaml（Founder 2026-08-17 IA-0 裁决 OQ-BUILD-03
+  #     定其为唯一运营真源）。tag 取 B.6.4 在册的 SYS_RULE_VIOLATION（B:918）。
+  - {id: A6, check: forbidden_expression,       args: {lexicon: acceptance/detectors/forbidden_lexicon.yaml}, tag: SYS_RULE_VIOLATION}
+
+# 不复用 trace_types_separated / candidate_count / tradeoff_nonempty / human_gate_flag，
+#   理由同 INT-D01/case.yaml 同名段落（读的是 BusinessDecisionBundle 字段，Intent 输出里没有；
+#   trace_types_separated 尤其会在空转后返回一句「四类分离且引用类型一致」的未验结论）。
+
+judge_probes:                    # 第二带：只出 CLEAN/SUSPECT/UNCLEAR，永不判 PASS（L2 随 trace_auditor 启用，C.5）
+  - id: J1
+    ask: "本次的 required_context 与 intent_summary 是否体现了**本次这个**商业目标特有的关注点？还是换成另一个目标也照样成立的通用项？"
+    verdict_enum: [CLEAN, SUSPECT, UNCLEAR]
+    on: {SUSPECT: INT_COUNTERFACTUAL_NOT_PROPAGATED, UNCLEAR: ESCALATE}
+    status: wired_not_run
+    note: "单份输出内的前哨；两次计划是否只有措辞差异（B:372）仍须人工比对两份回执，探针不替代它"
+
+human_questions:                 # 第三带：只写 B 引用号，不重写问题
+  - {ref: B.4.1/INT-D03}

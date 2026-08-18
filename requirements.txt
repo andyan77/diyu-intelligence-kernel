@@ -21,15 +21,25 @@
 #   不放宽成 `>=`：放宽等于"证据在哪个版本下取得的"这句话失去答案。
 #   注意：若本机 python3 仍是 apt 的 PyYAML 5.4.1，check_m0 的环境行会打印一条漂移提示——
 #   那是设计内的诚实提示（提示不改判绿）；要与证据同条件复跑，请在钉版 venv 里跑。
+#   【状态更新 2026-08-17（M1-EP02）】上两行描述的是当时（M0 P0-5 批次）的实跑事实，此后已演进：
+#   ① check_m0 现为**六步**（M1-EP01 增补 [6/6] 事实层 Schema 回归）；② RUN-000x / coverage 证据已随
+#   检测器库 v0.2 在**系统实装环境（apt PyYAML 5.4.1）**重出，provenance.deps 如实记 5.4.1——与钉版
+#   6.0.2 的偏差已在回执内留痕（本机无钉版 venv；未新建 venv 未装包，属如实记录而非同条件复跑）。
 #
 # 覆盖面：本文件只锁 tools/ 与 acceptance/detectors/ 真实 import 的第三方包。
 #   实扫结果（AST 遍历 tools/*.py + acceptance/detectors/*.py 全部 Import/ImportFrom 节点，
 #   含函数体内嵌 import）只有两个第三方名：yaml、jsonschema。逐文件归属：
-#   - jsonschema：tools/validate_schema.py、tools/freeze_gate.py（Draft7Validator / RefResolver）
+#   - jsonschema：tools/validate_schema.py、tools/freeze_gate.py、tools/test_fact_schemas.py
+#                 （Draft7Validator / RefResolver；test_fact_schemas.py 是 M1-EP01 增补的门禁第六步，
+#                  本段此前漏列它，同批按实扫补上——漏列同样会让"少装哪个包会红哪一步"答错）
 #   - PyYAML    ：acceptance/detectors/checks.py、tools/coverage.py、tools/freeze_gate.py、
-#                 tools/run_case.py（yaml.safe_load）
-#   tools/test_detectors.py 与 tools/test_freeze_gate_mutations.py **不在上表**：两者为纯 stdlib，
-#   只是在字符串里出现 .yaml 路径名，并不 import yaml（曾被误记为 PyYAML 消费方，已按实扫更正）。
+#                 tools/run_case.py、tools/test_detectors.py（yaml.safe_load）
+#   tools/test_detectors.py 的归属更正（M1-EP02 修复批次）：该文件此前被本段写成"纯 stdlib、
+#   只是在字符串里出现 .yaml 路径名，并不 import yaml"——**与实情不符**。它的模块级 import 行就是
+#   `import importlib.util, json, os, sys, yaml`，用来读三份 INT case.yaml 做考卷绑定冒烟（㉑ 段）。
+#   即：干净环境里少装 PyYAML，门禁第 3 步会直接 ImportError。原句已删，改按实扫归入 PyYAML 消费方。
+#   tools/test_freeze_gate_mutations.py **仍不在上表**：实扫其 import 行只有 stdlib（glob / hashlib /
+#   importlib.util / io / json / os / re / shutil / subprocess / sys …），文件里的 ".yaml" 全是路径字符串。
 #   tools/check_m0.py 本身**纯 stdlib**，不引入任何新依赖（统一入口不该比被它调用的脚本更难装）。
 #   传递依赖（attrs / pyrsistent / six 等）由 pip 按 jsonschema 的元数据解析，本文件不代为钉死——
 #   钉死未经实测的传递依赖等于凭空宣称已验证。

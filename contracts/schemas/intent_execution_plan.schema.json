@@ -22,14 +22,16 @@
     "trace_bundle": {"$ref": "common.defs.json#/definitions/TraceBundle"}
   },
   "allOf": [
-    {"$comment": "A.5.2 约束1：AMBIGUOUS → business_goal 空 + 候选≥2 + REQUEST_INPUT",
+    {"$comment": "A.5.2 约束1：AMBIGUOUS → business_goal 空 + 候选≥2 + REQUEST_INPUT。then 里必须显式写 required[goal_candidates]（M1-EP02 修复批次补）：JSON Schema 的 properties 只约束**在场**的键，而 goal_candidates 不在顶层 required 里——只写 minItems 时，一份 AMBIGUOUS 却整个不写 goal_candidates 的 plan 会静默过闸（键缺席 = 空操作），恰恰是约束1「至少两个候选」要拦的形态。business_goal 不进 required：约束1 原文是「必须为空」，键缺席本身就是空，写进 required 反倒逼生产侧补一个 null 键。next_action 已在顶层 required，必在场。",
      "if": {"properties": {"goal_resolution": {"const": "AMBIGUOUS"}}},
-     "then": {"properties": {"business_goal": {"const": null}, "goal_candidates": {"minItems": 2}, "next_action": {"const": "REQUEST_INPUT"}}}},
-    {"$comment": "A.5.2 约束2：NEEDS_INPUT → business_goal 空 + REQUEST_INPUT",
+     "then": {"required": ["goal_candidates"],
+              "properties": {"business_goal": {"const": null}, "goal_candidates": {"minItems": 2}, "next_action": {"const": "REQUEST_INPUT"}}}},
+    {"$comment": "A.5.2 约束2：NEEDS_INPUT → business_goal 空 + REQUEST_INPUT。同型洞排查结论（逐处注明，只修真洞）：本分支受约束的两个键里 next_action 已在顶层 required（必在场），business_goal 同约束1 的理由——「必须为空」时键缺席即合规，故本分支**没有**「键缺席即空操作」的真洞，不改。",
      "if": {"properties": {"goal_resolution": {"const": "NEEDS_INPUT"}}},
      "then": {"properties": {"business_goal": {"const": null}, "next_action": {"const": "REQUEST_INPUT"}}}},
-    {"$comment": "A.5.2 约束3（必要条件部分）：CONTINUE_TO_DECISION → RESOLVED 且 business_goal 非空",
+    {"$comment": "A.5.2 约束3（必要条件部分）：CONTINUE_TO_DECISION → RESOLVED 且 business_goal 非空。then 里必须显式写 required[business_goal]（M1-EP02 修复批次补，同型真洞）：business_goal 不在顶层 required，只写 {type:string} 时一份 CONTINUE 却整个不写 business_goal 的 plan 会静默过闸——而此处键缺席 = 空 = 恰恰违反 A:565「business_goal 非空」。空串不必另设 minLength：顶层 business_goal 的 enum 只收六枚举 + null，\"\" 已被 enum 拦下。goal_resolution 已在顶层 required，不必重列。",
      "if": {"properties": {"next_action": {"const": "CONTINUE_TO_DECISION"}}},
-     "then": {"properties": {"goal_resolution": {"const": "RESOLVED"}, "business_goal": {"type": "string"}}}}
+     "then": {"required": ["business_goal"],
+              "properties": {"goal_resolution": {"const": "RESOLVED"}, "business_goal": {"type": "string"}}}}
   ]
 }

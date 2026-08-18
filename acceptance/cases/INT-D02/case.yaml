@@ -1,0 +1,71 @@
+# 三带式行为契约（格式真源 C.4；案例真源 B.4.1/INT-D02——本文件只引用，不复述 B 原文）
+# 运行 Manifest：manifest.quick.yaml + manifest.enhanced.yaml，两份共用本 case.yaml 与同一份快照
+#   （B:316-330 把快速与增强写成同一案例的两族允许答案，故两侧跑同一张考卷、同一批断言）。
+# 夹具口径提醒：本案例的商业目标由 fixtures/task_input.json 的 stated_business_goal 承载
+#   （Founder 2026-08-17 IA-0 裁决 OQ-BUILD-02，不改 B:312 考题句）。
+# ⚠ 上述 IA-0 注释预期「快速侧缺失仅剩 QUALITY_REDUCING」与 OD-03 §二冲突（促销边界=INVENTORY_ACTIVATION
+#   阻断项，而本案快照按考点设计不带品牌信息）→ 当前快速侧按 OD-03 原文推导必进 NEEDS_INPUT，属正确行为
+#   （B:320「非阻断信息缺失时允许继续」是条件句；B:337 禁止「快速模式绕过阻断项」）。冲突已登记裁决台账
+#   「待 Founder 裁决」表（M1-EP02 · SPEC-DEV-02，三选一，Gate IA-1 前）；本文件 must_hold 不含该预期，
+#   若运行侧仍报 BLOCKING 缺失且 CONTINUE，A2 当场判红（B:337），不会被 A3 掩盖。
+case_id: INT-D02
+contract_ref: B.4.1/INT-D02
+case_version: v0.1
+tier: core
+mapped_requirements: [INT-02, INT-04, INT-05]     # B:308「映射：INT-02、INT-04、INT-05」
+output_schema: contracts/schemas/intent_execution_plan.schema.json
+fixtures:
+  context_snapshot: fixtures/context_snapshot.json
+
+must_hold:                       # 第一带：确定性断言（零模型调用，只判 FAIL）
+  - {id: A1, check: schema_valid,               tag: SYS_SCHEMA_INVALID}      # B:919（B.6.4 在册）
+  # A2：B:337「快速模式绕过阻断项」——自报有 BLOCKING 缺失却 next_action=CONTINUE_TO_DECISION。
+  #     同时是 B:329「阻断项缺失时进入 NEEDS_INPUT」（增强模式允许答案族）的反面。
+  #     tag 取 B:348 主要失败标签明列的 INT_MODE_IGNORED（定义 B:880）。
+  #     ⚠ 缺失集合口径（检测器库 v0.2，M1-EP02 修复批次）：本闸读的是 **missing_context ∪
+  #        required_context 中 availability∈{MISSING,CONFLICTING} 的项**。v0.1 只读 missing_context，
+  #        留有一条绕闸通道——把 availability=MISSING、impact=BLOCKING 的项**只写进 required_context**、
+  #        missing_context 留空，本闸实测返回 OK（"自报的 0 项缺失均非 BLOCKING"）。该通道已封
+  #        （与运行侧 kernel postcheck 同口径）。射程边界不变：两处都漏列时本闸仍看不见，属人工判分面。
+  - {id: A2, check: intent_blocking_gate,       tag: INT_MODE_IGNORED}
+  # A3：B:321「显式列出 missing_context」+ B:322「把暂定内容标为 ASSUMPTION」的反面，
+  #     即 B:335「不提示缺失却输出确定结论」的机器可判面（继续下游却不为跨过的缺失留假设）。
+  #     tag 取 B:348 明列的 INT_MISSING_CONTEXT_MISSED（定义 B:877）。
+  #     ⚠ 绑定口径见 checks.py 该函数 docstring（v0.2 已收紧）：只有某条 ASSUMPTION 的 target_paths
+  #        **精确含**该缺失项 field_path 才算已对应；仅 statement 文本里出现该字面量的"兜底命中"
+  #        改判 UNKNOWN（v0.1 判 OK：字符串包含会被更长路径前缀、被一句复述缺失清单的话顺带满足，
+  #        实测即如此，属假绿）；两档都不命中仍判 FAIL。生产侧把 field_path 写进 target_paths
+  #        即可消除 UNKNOWN。缺失集合同 A2 的并集口径。
+  - {id: A3, check: intent_assumption_coverage, tag: INT_MISSING_CONTEXT_MISSED}
+  # A4：B:323「降低 confidence」的反面，判据同 B:292。tag 取 B:348 明列的 INT_CONFIDENCE_OVERSTATED（定义 B:878）。
+  #     射程：只在增强侧进 NEEDS_INPUT（B:329）或快速侧未解析目标时适用；目标已解析时本条不适用。
+  - {id: A4, check: intent_confidence_cap,      tag: INT_CONFIDENCE_OVERSTATED}
+  # A5：A.5.2 约束1/2 的通用闸——本案例的射程是"增强侧已进 NEEDS_INPUT（B:329）却仍填了唯一目标"。
+  #     tag 取 B.6.1 在册的 INT_GOAL_ASSUMED（定义 B:876「目标不明确时擅自确定唯一目标」）。
+  #     诚实说明：INT_GOAL_ASSUMED 不在 B:348 的「主要失败标签」行内；B:870 明文「失败标签用于定位和修复，
+  #     不用于加权计分」，该行是主要项而非穷举，故按 B.6.1 的在册定义取用，未私加新标签。
+  - {id: A5, check: intent_goal_gate,           tag: INT_GOAL_ASSUMED}
+  # A6：B:334「编造创始人背景、账号关系或品牌禁语」的**数字面**（如为缺席的人设/账号补写年份、粉丝数、店龄）。
+  #     tag 取 B:348 明列的 BD_FACT_FABRICATION（定义 B:891）。
+  #     ⚠ 同 BD-D01/A5 的既有声明：溯源粒度是**类级不是实例级**；B:334 三项的**文本面**本断言完全不覆盖，
+  #        保持 human_required（见注册表），A6 绿不等于「没有编造」。
+  - {id: A6, check: numeric_grounding,          args: {snapshot_fields: [inventory, price]}, tag: BD_FACT_FABRICATION}
+  - {id: A7, check: forbidden_expression,       args: {lexicon: acceptance/detectors/forbidden_lexicon.yaml}, tag: SYS_RULE_VIOLATION}   # B:918（B.6.4 在册）
+
+# 本案例**未覆盖**且刻意不挂检测器的禁止结果（如实登记，不假装覆盖）：
+#   · B:336「为单一任务索取大量无关资料」/ B:338「强制完成完整企业资料库」——"无关""大量"是语义判断，
+#     确定性谓词数不出来；已挂到第二带探针 J1（当前 wired_not_run，故注册表仍记 human_required，
+#     不写 llm_assisted：探针未启用时写 llm_assisted 会让覆盖率视图2 把它算进"已覆盖"= 假绿）。
+#   · B:334 三项的文本面（创始人背景 / 账号关系 / 品牌禁语的编造）——无检测器，human_required。
+#   · trace_types_separated / candidate_count / tradeoff_nonempty / human_gate_flag 不复用，
+#     理由同 INT-D01/case.yaml 同名段落（读的是 BusinessDecisionBundle 字段，Intent 输出里没有）。
+
+judge_probes:                    # 第二带：只出 CLEAN/SUSPECT/UNCLEAR，永不判 PASS（L2 随 trace_auditor 启用，C.5）
+  - id: J1
+    ask: "missing_context 与 resolution_question 里的每一项，是否都会改变本次这条任务的判断？还是在按通用清单向用户索取企业资料？"
+    verdict_enum: [CLEAN, SUSPECT, UNCLEAR]
+    on: {SUSPECT: INT_OVER_COLLECTION, UNCLEAR: ESCALATE}
+    status: wired_not_run
+
+human_questions:                 # 第三带：只写 B 引用号，不重写问题
+  - {ref: B.4.1/INT-D02}

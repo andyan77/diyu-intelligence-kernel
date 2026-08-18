@@ -69,18 +69,18 @@
   "final_status": "FAIL",
   "note": "L1 只判 FAIL；PENDING_HUMAN ≠ 通过；PASS 只能由 L3 人工判（C.5 / B.1.5）",
   "provenance": {
-    "commit_sha": "a548be5fc72f0ab6e363d82c8f15a81fa2be3c13",
+    "commit_sha": "c3513c9a38795033fa3583f9f9ed694fc6cf916f",
     "generator": {
       "path": "tools/run_case.py",
       "sha256": "73942f7ea5a853a88b6ec2f6cc6ccc10439ae507ef18965b070c28298cd3a20b"
     },
     "commit_sha_source": ".git/HEAD + refs/packed-refs（读文件，未执行 git 命令）",
     "repo_root": "/home/faye/笛语智能核",
-    "generated_at": "2026-08-17T10:44:04-07:00",
+    "generated_at": "2026-08-17T22:10:14-07:00",
     "python_version": "3.10.12",
     "deps": {
       "jsonschema": "3.2.0",
-      "PyYAML": "6.0.2"
+      "PyYAML": "5.4.1"
     },
     "argv": [
       "tools/run_case.py",
@@ -96,8 +96,8 @@
       "term_count": 16,
       "term_count_basis": "实读词表现数（与 checks.forbidden_expression 同口径：只计 list 值键下的非空字符串）"
     },
-    "detectors_version": "v0.1",
-    "detectors_sha256": "4a4ee730a2fc501cf58857431ec387fde66551339dbe1ba8d136f7658668f30b",
+    "detectors_version": "v0.2",
+    "detectors_sha256": "27077f020274327afbcd47c9d3026a3003907d5a4f65104a884affe03bb2457c",
     "detectors_path": "acceptance/detectors/checks.py",
     "note": "证据绑定生成时刻的工作区内容；与 HEAD 的一致性由干净 clone 回执核验"
   }

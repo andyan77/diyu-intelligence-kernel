@@ -1,6 +1,16 @@
-"""确定性断言库 v0.1（考卷区——改检测器=改考卷，需审批 C.6.3）。
+"""确定性断言库 v0.2（考卷区——改检测器=改考卷，需审批 C.6.3）。
 契约（C.4 铁律1）：每个 check 返回 (verdict, detail)，verdict ∈ {"OK","FAIL","UNKNOWN"}；
-证据不足一律 UNKNOWN 向上冒泡（禁止 default:false / 假绿）。L1 只判 FAIL，不产生 PASS。"""
+证据不足一律 UNKNOWN 向上冒泡（禁止 default:false / 假绿）。L1 只判 FAIL，不产生 PASS。
+
+版本变更史（版本号是给回执 provenance 用的区分力，内容变了就必须升——见 tools/run_case.py
+detectors_version / tools/coverage.py detectors_version，两处都读本 docstring 首行）：
+  v0.1 → v0.2（M1-EP02 修复批次）：只动新增的四个 intent_* 检测器，既有 BD 侧函数一字未改。
+    ① intent_blocking_gate / intent_assumption_coverage 的「缺失集合」改为**并集**
+       （missing_context ∪ required_context 中 availability∈{MISSING,CONFLICTING} 的项），
+       堵「把阻断项只写进 required_context、missing_context 留空」的绕闸通道；
+    ② intent_assumption_coverage 的 statement 子串**兜底命中降为 UNKNOWN**
+       （只有 target_paths 精确含 field_path 才算已对应）。
+"""
 import json, os, re, subprocess, sys
 
 def _texts(obj, out):
@@ -506,3 +516,348 @@ def forbidden_expression(output, ctx, lexicon=None, **kw):
         return "UNKNOWN", (f"词表 {lexicon} 有 {len(malformed)} 个键的值不是列表（{malformed}），"
                            f"这部分词条未参与核验——已核验的 {len(terms)} 词零命中，但覆盖面残缺")
     return "OK", f"词表 {len(terms)} 词零命中"
+
+# ===================== Intent 侧确定性断言 v0.2（M1-EP02，append-only）=====================
+# 为什么要单开四个 Intent 专用检测器，而不复用 BD 那几个：
+#   既有 candidate_count / tradeoff_nonempty / trace_types_separated / human_gate_flag 读的都是
+#   BusinessDecisionBundle 的字段（candidate_options / comparative_tradeoffs / human_selection_required），
+#   IntentExecutionPlan 里根本没有这些键——套上去只会得到一串 UNKNOWN 或**空转的 OK**。
+#   尤其 trace_types_separated：它的四类交叉核验整个挂在 `candidate_options` 上，对 Intent 输出
+#   那一圈 for 循环是空转，却仍返回「N 条 trace 四类分离且引用类型一致」——一句没验过的话被写成结论
+#   （详见三份 INT case.yaml 里逐条写明的取舍理由）。故本段只加 Intent 自己的四条闸，**不改既有函数**。
+#
+# 四条闸各自的真源（B 为唯一案例真源，A 为字段口径真源）：
+#   intent_goal_gate          A.5.2 约束1/2（A:563-564）；B:286 / B:290 / B:294
+#   intent_blocking_gate      A.5.2 约束3（A:565）+ A.4.2「BLOCKING 缺失在任何模式都进入 NEEDS_INPUT」(A:394)；B:337
+#   intent_assumption_coverage A.5.2 约束4（A:566）+ A.4.2「QUICK 跨过的每项缺失必须产生 ASSUMPTION」(A:393)；B:321-322
+#   intent_confidence_cap     B:292「在关键目标未知时给出 HIGH confidence」；B:323
+#
+# **未覆盖面（如实披露，不得据这四条宣称 Intent 已被机器覆盖）**：
+#   ① A.5.2 约束6（同一快照只换目标时计划必须变）是**跨运行**判据，单份输出里无从判定——
+#      INT-D03 的核心考点因此仍是人工判分面，三份 case.yaml 与注册表均按 human_required 如实登记；
+#   ② 四条闸读的都是**输出自报的字段**。模型若隐瞒缺失项（两个数组都少列一条）、或自称
+#      goal_resolution=RESOLVED，这些闸一律看不见——「模型不自报就查不到」是它们共同的射程边界，
+#      对应的禁止结果（如「静默确定唯一目标」）保持 human_required，不得因为闸绿了就宣称已覆盖。
+#
+# v0.2 两处口径变更（M1-EP02 修复批次，逐条写明"为什么"）：
+#   ① 缺失集合改**并集**：missing_context 全体 ∪ required_context 中 availability∈{MISSING,CONFLICTING}
+#      的条目。v0.1 只读 missing_context，留下一条假绿通道——把一条 availability=MISSING、
+#      impact=BLOCKING 的需求只写进 required_context、missing_context 留空，两条闸就都"过"了，
+#      而事实上它就是缺的。A.4.2 的 availability 字段本身即权威判据（A:385）。
+#      与运行侧 kernel/intent/postcheck.py 的 _collect_missing 同口径（同批同改，两侧不得分叉）。
+#   ② ASSUMPTION 配对的 statement 子串兜底**降为 UNKNOWN**：只有 target_paths 精确含 field_path
+#      才算已对应。v0.1 把"statement 文本里出现该 field_path 字面量"直接算 OK，而字符串包含会被
+#      更长路径的前缀（fp=facts.persona 命中 "facts.persona.tone …"）、被一句复述缺失清单的话
+#      顺带满足——那是**假绿方向**的兜底。降为 UNKNOWN 后：确凿未对应仍是 FAIL，只有兜底命中的
+#      变成"无从确认"，向上冒泡交人看。运行侧 postcheck P3 同批同改。
+
+_INT_GOAL_RESOLUTIONS = ("RESOLVED", "AMBIGUOUS", "NEEDS_INPUT")   # A.5.2（A:545）
+_INT_IMPACTS = ("BLOCKING", "QUALITY_REDUCING")                     # A.4.2（A:385）
+_INT_UNAVAILABLE = ("MISSING", "CONFLICTING")                       # A.4.2 availability 三枚举里的"缺"两态
+
+
+def _int_plan_guard(output):
+    """四条 Intent 闸共用的输入形态守卫：返回 None 表示可以往下读，否则返回 UNKNOWN 的理由。
+
+    为什么空对象也要拦：`{}` 上任何 `.get()` 都返回 None，四条闸会一路走到「字段缺失」分支，
+    读起来像"这份输出只是少了几个字段"，实际是**根本没有输出**。两者的处置不同，不能混成一句话。
+    """
+    if not isinstance(output, dict):
+        return f"输出不是 IntentExecutionPlan 对象（实得 {type(output).__name__}），无从读取字段"
+    if not output:
+        return "输出为空对象（无任何字段），无从核验——空输出不等于合规"
+    return None
+
+
+def _int_is_blank(v):
+    """business_goal 是否为空。A.5.2 约束1/2 的原文是「business_goal 必须为空」，
+    对应 schema 的 `{"const": null}`；键不在场与空白串一并视为空（宽松方向只放过"确实没填"，
+    任何**填了值**的形态都会走 FAIL 分支，不存在因判空而漏红的路径）。"""
+    return v is None or (isinstance(v, str) and not v.strip())
+
+
+def _int_impact_rank(item):
+    """缺失项的"严重度"排序键，只用于同一 field_path 在两个数组里写法打架时取严（fail-closed）。
+    BLOCKING(2) > impact 不可判(1) > QUALITY_REDUCING(0)：把阻断项在另一处降级成 QR 是最自然的
+    绕闸写法，若按"先入为准"就留下旁路；不可判排在 QR 之上，是因为"读不出"至少要冒 UNKNOWN，
+    不能被一条 QR 覆盖成 OK。"""
+    im = item.get("impact")
+    if im == "BLOCKING":
+        return 2
+    return 0 if im == "QUALITY_REDUCING" else 1
+
+
+def _int_missing_union(output):
+    """缺失集合（**并集口径**，v0.2）。返回 (items, availability 不可判的 field_path 列表, err)；
+    err 非 None 时调用方直接冒 UNKNOWN。
+
+    集合 = missing_context 全体 ∪ required_context 中 availability∈{MISSING,CONFLICTING} 的条目，
+    按 field_path 去重、冲突取严（见 _int_impact_rank）。为什么不能只读 missing_context：见本段
+    段首 v0.2 变更说明①（只读一处 = 把阻断项写进 required_context 即可绕闸）。
+
+    两处的"字段缺失"都返回 UNKNOWN 而不是当成空集：
+      · missing_context 缺席 ≠ 没有缺失项——漏写它的输出恰恰是最该被人看一眼的形态；
+      · required_context 缺席 → 无从确认 missing_context 是不是全集（并集的另一半读不到了），
+        照样是"无从核验"而非"没有别的缺失项"。（两者都是 A.5.2 顶层 required 字段，缺席时
+        schema_valid 会另判红；本闸不替它判，只如实说自己核验不了。）
+    第二个返回值（availability 不可判）：required_context 里 availability 既不是 AVAILABLE、
+      也不在 {MISSING,CONFLICTING} 里的条目——不能算进缺失集合（值读不出，不确定它真缺），
+      也不能当没看见（否则把 availability 写歪一个字母就是新的绕闸通道），故单独带出，
+      由调用方在"继续下游"分支上冒 UNKNOWN。
+    """
+    mc = output.get("missing_context")
+    if mc is None:
+        return None, None, "missing_context 字段缺失，无从核验（字段不在场 ≠ 没有缺失项）"
+    if not isinstance(mc, list):
+        return None, None, f"missing_context 不是数组（实得 {type(mc).__name__}），无从逐项核验"
+    bad = [i for i, x in enumerate(mc) if not isinstance(x, dict)]
+    if bad:
+        return None, None, f"missing_context 第 {bad} 项不是对象，读不出 impact / field_path"
+    rc = output.get("required_context")
+    if rc is None:
+        return None, None, ("required_context 字段缺失，缺失集合（missing_context ∪ required_context "
+                            "缺态）无从核验——阻断项可以只写在 required_context 里，读不到它就"
+                            "无从确认 missing_context 已是全集")
+    if not isinstance(rc, list):
+        return None, None, f"required_context 不是数组（实得 {type(rc).__name__}），无从逐项核验"
+    badr = [i for i, x in enumerate(rc) if not isinstance(x, dict)]
+    if badr:
+        return None, None, f"required_context 第 {badr} 项不是对象，读不出 availability / impact / field_path"
+
+    unreadable_avail, order, index = [], [], {}
+    for origin, arr in (("missing_context", mc), ("required_context", rc)):
+        for pos, x in enumerate(arr):
+            if origin == "required_context":
+                av = x.get("availability")
+                if av == "AVAILABLE":
+                    continue                     # 在场的需求不是缺失项，跳过（不制造假红）
+                if av not in _INT_UNAVAILABLE:
+                    unreadable_avail.append(x.get("field_path"))
+                    continue
+            fp = x.get("field_path")
+            # field_path 读不出的条目也要进集合（由调用方冒 UNKNOWN），用位置键占位避免互相吞并
+            key = fp if isinstance(fp, str) and fp.strip() else "__unbindable__%s#%d" % (origin, pos)
+            if key not in index:
+                index[key] = x
+                order.append(key)
+            elif _int_impact_rank(x) > _int_impact_rank(index[key]):
+                index[key] = x
+    return [index[k] for k in order], unreadable_avail, None
+
+
+def intent_goal_gate(output, ctx, **kw):
+    """A.5.2 约束1/2 的确定性投影：goal_resolution 非 RESOLVED 时，business_goal 必须为空
+    且 next_action 必须为 REQUEST_INPUT（A:563-564；B:286 / B:290 / B:294）。
+
+    三态口径：
+      OK      goal_resolution=RESOLVED（本闸不适用；RESOLVED 本身是否站得住脚是 L3 人工判分面）
+              或 非 RESOLVED 且两项都合规；
+      FAIL    非 RESOLVED 却填了唯一 business_goal / 或 next_action 不是 REQUEST_INPUT；
+      UNKNOWN goal_resolution 或 next_action 读不出来（禁 default:false）。
+    枚举外取值（如 "resolved_ish"）**照样按"非 RESOLVED"判**，不放行——取值合法性由 schema_valid
+    另判，本闸不因为一个陌生枚举值就把闸打开（那正是绕过通道）。
+    """
+    err = _int_plan_guard(output)
+    if err:
+        return "UNKNOWN", err
+    gr = output.get("goal_resolution")
+    if gr is None:
+        return "UNKNOWN", "goal_resolution 字段缺失，无从判定本闸是否适用（缺字段 ≠ 已解析）"
+    if not isinstance(gr, str):
+        return "UNKNOWN", f"goal_resolution 不是字符串（实得 {type(gr).__name__}），无从判定"
+    if gr == "RESOLVED":
+        return "OK", "goal_resolution=RESOLVED，A.5.2 约束1/2 不适用（RESOLVED 是否站得住脚属人工判分面）"
+    off = "" if gr in _INT_GOAL_RESOLUTIONS else f"（另注：{gr!r} 不在 A.5.2 三枚举内，枚举合法性由 schema_valid 判）"
+    bg = output.get("business_goal")
+    if not _int_is_blank(bg):
+        return "FAIL", f"goal_resolution={gr} 却给出唯一 business_goal={bg!r}——目标未解析不得填入唯一目标{off}"
+    na = output.get("next_action")
+    if na is None:
+        return "UNKNOWN", f"goal_resolution={gr} 且 business_goal 为空，但 next_action 字段缺失，无从核验是否 REQUEST_INPUT{off}"
+    if na != "REQUEST_INPUT":
+        return "FAIL", f"goal_resolution={gr} 却 next_action={na!r}（非 REQUEST_INPUT）——未把决定权交回人工{off}"
+    return "OK", f"goal_resolution={gr}：business_goal 为空且 next_action=REQUEST_INPUT{off}"
+
+
+def intent_blocking_gate(output, ctx, **kw):
+    """A.5.2 约束3 / A.4.2「BLOCKING 缺失在任何模式都进入 NEEDS_INPUT」的确定性投影
+    （A:565 / A:394；B:337「快速模式绕过阻断项」）：缺失集合含 BLOCKING 项时
+    next_action 不得为 CONTINUE_TO_DECISION。
+
+    缺失集合 = missing_context ∪ required_context 中 availability∈{MISSING,CONFLICTING} 的项
+    （v0.2 并集口径，见 _int_missing_union 与本段段首变更说明①；与 kernel postcheck 同口径）。
+
+    三态口径：
+      OK      next_action 不是 CONTINUE_TO_DECISION（本闸不适用），或 CONTINUE 且无 BLOCKING 缺失；
+      FAIL    CONTINUE 且缺失集合里至少一项 impact=BLOCKING；
+      UNKNOWN missing_context / required_context / next_action 读不出；或 CONTINUE 且有项目的
+              impact 取值不可判、或 required_context 有项目的 availability 取值不可判
+              （读不出就无从确认"没有阻断项"，不得默认放行）。
+    FAIL 优先于 UNKNOWN：已确证的阻断项是比"某几项读不出"更强的证据，不该被冒泡掩盖
+    （同 numeric_grounding 的既定顺序）。
+    射程边界：只看输出**自报**的两个数组。模型两处都漏列阻断项时本闸看不见，
+    该形态属人工判分面（见本段段首「未覆盖面」②）。
+    """
+    err = _int_plan_guard(output)
+    if err:
+        return "UNKNOWN", err
+    items, avail_bad, err = _int_missing_union(output)
+    if err:
+        return "UNKNOWN", err
+    na = output.get("next_action")
+    if na is None:
+        return "UNKNOWN", "next_action 字段缺失，无从判定是否在带阻断项的情况下继续下游"
+    blocking = [x.get("field_path") for x in items if x.get("impact") == "BLOCKING"]
+    unreadable = [x.get("field_path") for x in items if x.get("impact") not in _INT_IMPACTS]
+    if na != "CONTINUE_TO_DECISION":
+        return "OK", (f"next_action={na!r}，未继续下游，本闸（A.5.2 约束3）不适用"
+                      f"（输出自报阻断缺失 {len(blocking)} 项）")
+    if blocking:
+        return "FAIL", f"存在 BLOCKING 缺失 {blocking} 却 next_action=CONTINUE_TO_DECISION——阻断项被跨过"
+    if unreadable:
+        return "UNKNOWN", (f"next_action=CONTINUE_TO_DECISION，但 {len(unreadable)} 项缺失的 impact 取值不可判"
+                           f"（{unreadable}，合法值 {list(_INT_IMPACTS)}）——无从确认其中没有阻断项")
+    if avail_bad:
+        return "UNKNOWN", (f"next_action=CONTINUE_TO_DECISION，但 required_context 有 {len(avail_bad)} 项的 "
+                           f"availability 取值不可判（{avail_bad}，合法值 AVAILABLE / "
+                           f"{list(_INT_UNAVAILABLE)}）——无从确认它们是不是也是阻断缺失")
+    return "OK", (f"next_action=CONTINUE_TO_DECISION，自报的 {len(items)} 项缺失"
+                  f"（missing_context ∪ required_context 缺态）均非 BLOCKING")
+
+
+def intent_assumption_coverage(output, ctx, **kw):
+    """A.5.2 约束4 / A.4.2「QUICK 跨过的每项缺失必须产生 ASSUMPTION」的确定性投影
+    （A:566 / A:393；B:321-322）：next_action=CONTINUE_TO_DECISION 且有缺失项时，
+    每项必须是 QUALITY_REDUCING，且每项都能在 ASSUMPTION 类 trace 里找到对应条目。
+
+    缺失集合 = missing_context ∪ required_context 中 availability∈{MISSING,CONFLICTING} 的项
+    （v0.2 并集口径，同 intent_blocking_gate；只读 missing_context 会漏掉"只写在 required_context
+    里的缺失项"，那些项同样被跨过，同样必须留假设）。
+
+    **绑定口径（考卷侧确定性约定，A/B 均未规定用哪个字段表达"对应"；v0.2 收紧）**：
+      ① 该 ASSUMPTION 条目的 target_paths 数组含该项 field_path（精确相等）→ 判为**已对应**；
+      ② 都没有 target_paths 命中，但某条 ASSUMPTION 的 statement 文本里出现该 field_path 字面量
+         → 判 **UNKNOWN**（兜底命中，不再算 OK）。理由：字符串包含会被更长路径的前缀
+         （fp=facts.persona 命中 "facts.persona.tone …"）、被一句复述缺失清单的话顺带满足——
+         用它发绿灯就是假绿；但它也确实不能证明"没有对应"，故冒泡交人看，不判红。
+      ③ 两条都不命中 → FAIL（A:566 要求"产生**对应** ASSUMPTION"，任何确定性方式都看不出对应
+         关系时等同于没有对应）。
+      生产侧消除 UNKNOWN 的办法只有一个：把 field_path 写进 target_paths（A.9.2 该字段就是干这个的）。
+    ASSUMPTION 条目池 = trace_bundle.entries ∪ 顶层 assumptions 数组中 trace_type=ASSUMPTION 的条目
+    （A.5.2 两处都可承载 TraceEntry，取并集，不预设生产侧写在哪一处）。
+
+    **与运行侧的已知口径分叉（如实登记，不假装两侧等价）**：kernel/intent/postcheck.py 的 P3 属同批
+      同改项，本文件写作时实读其 _assumption_covers 已是同样的①②③三档；两侧由不同施工代理并行落盘，
+      以各自最终版本为准，发现分叉即以本批规格为准同批修正。P3 的触发前置是 `execution_mode==QUICK 且 CONTINUE`
+      （A:566 原文只约束 QUICK 继续）；本闸拿不到 execution_mode（tools/run_case.py 传入的 ctx 只有
+      repo_root / output_path / output_schema / snapshot），故**不分模式**，凡 CONTINUE 即适用。
+      方向是考卷侧更严，不是更松；ENHANCED 模式下 CONTINUE 却不留假设时本闸照判，属考卷侧自决。
+
+    三态口径：
+      OK      非 CONTINUE 分支（不适用）/ CONTINUE 但缺失集合为空 / 逐项 QUALITY_REDUCING 且逐项有
+              target_paths 精确对应的 ASSUMPTION；
+      FAIL    CONTINUE 且有 BLOCKING 缺失 / ASSUMPTION 池为空 / 有缺失项两档都不命中；
+      UNKNOWN 字段读不出、只有 statement 兜底命中、impact 取值不可判、field_path 不可读、
+              required_context 的 availability 取值不可判、trace_bundle.entries 与 assumptions 均缺失。
+    """
+    err = _int_plan_guard(output)
+    if err:
+        return "UNKNOWN", err
+    items, avail_bad, err = _int_missing_union(output)
+    if err:
+        return "UNKNOWN", err
+    na = output.get("next_action")
+    if na is None:
+        return "UNKNOWN", "next_action 字段缺失，无从判定本闸（A.5.2 约束4）是否适用"
+    if na != "CONTINUE_TO_DECISION":
+        return "OK", f"next_action={na!r}，未继续下游，本闸（A.5.2 约束4）不适用"
+    if not items:
+        if avail_bad:
+            return "UNKNOWN", (f"缺失集合读出来是空的，但 required_context 有 {len(avail_bad)} 项的 "
+                               f"availability 取值不可判（{avail_bad}）——无从确认真的没有被跨过的缺失项")
+        return "OK", ("next_action=CONTINUE_TO_DECISION 且缺失集合"
+                      "（missing_context ∪ required_context 缺态）为空——无被跨过的缺失项")
+    blocking = [x.get("field_path") for x in items if x.get("impact") == "BLOCKING"]
+    if blocking:
+        return "FAIL", f"CONTINUE 却跨过 BLOCKING 缺失 {blocking}——A.5.2 约束4 只允许跨过 QUALITY_REDUCING"
+    unreadable = [x.get("field_path") for x in items if x.get("impact") not in _INT_IMPACTS]
+    tb = output.get("trace_bundle")
+    entries = tb.get("entries") if isinstance(tb, dict) else None
+    asums = output.get("assumptions")
+    # 结构漂移必须冒 UNKNOWN 而不是"当它不存在"：entries 若是 dict / 字符串，下面的 list() 会安静地
+    # 拆成键名或单字并被 isinstance 过滤掉，池就凭空少了一批条目 → 判出一个**看似确凿**的 FAIL。
+    # 假红同样是失真，条件不明时只能向上冒泡。
+    for name, v in (("trace_bundle.entries", entries), ("assumptions", asums)):
+        if v is not None and not isinstance(v, list):
+            return "UNKNOWN", f"{name} 不是数组（实得 {type(v).__name__}），ASSUMPTION 对应关系无从核验"
+    if entries is None and not isinstance(asums, list):
+        return "UNKNOWN", "trace_bundle.entries 与 assumptions 均读不出，ASSUMPTION 对应关系无从核验"
+    pool = [e for e in list(entries or []) + list(asums or [])
+            if isinstance(e, dict) and e.get("trace_type") == "ASSUMPTION"]
+    if not pool:
+        return "FAIL", (f"CONTINUE 且跨过 {len(items)} 项缺失，但 ASSUMPTION 类 trace 条目为 0 条"
+                        f"——跨过缺失却不留假设，正是「不提示缺失却输出确定结论」的形态")
+    uncovered, weak, unbindable = [], [], []
+    for x in items:
+        fp = x.get("field_path")
+        if not isinstance(fp, str) or not fp.strip():
+            unbindable.append(fp)
+            continue
+        if any(fp in [p for p in (e.get("target_paths") or []) if isinstance(p, str)] for e in pool):
+            continue                                  # ① target_paths 精确命中 = 已对应
+        # ② statement 兜底：先做类型收窄再做 `in`——非字符串的 statement（结构漂移）若直接参与 `in`，
+        #    对 dict 会静默去匹配**键名**、对数字直接抛 TypeError；前者是假绿通道，后者会炸掉整轮判分。
+        if any(fp in (e.get("statement") if isinstance(e.get("statement"), str) else "") for e in pool):
+            weak.append(fp)
+        else:
+            uncovered.append(fp)
+    if uncovered:
+        return "FAIL", (f"以下被跨过的缺失项找不到对应 ASSUMPTION 条目（绑定口径：target_paths 精确含该 "
+                        f"field_path；statement 兜底命中只算 UNKNOWN，见本函数 docstring）: {uncovered}")
+    if weak:
+        return "UNKNOWN", (f"以下被跨过的缺失项只有 statement 文本里出现过 field_path 字面量、没有任何 "
+                           f"ASSUMPTION 的 target_paths 精确命中（{weak}）——字符串包含会被更长路径的前缀或"
+                           f"一句复述缺失清单的话顺带满足，据此发绿灯即假绿；对应关系无从确认，"
+                           f"生产侧把 field_path 写进 target_paths 即可消除本项")
+    if unbindable:
+        return "UNKNOWN", (f"{len(unbindable)} 项缺失的 field_path 不可读（{unbindable}），"
+                           f"无从与 ASSUMPTION 条目建立对应——其余项已逐项命中")
+    if unreadable:
+        return "UNKNOWN", (f"{len(unreadable)} 项缺失的 impact 取值不可判（{unreadable}），"
+                           f"无从确认其为 QUALITY_REDUCING——ASSUMPTION 对应关系本身已逐项命中")
+    if avail_bad:
+        return "UNKNOWN", (f"required_context 有 {len(avail_bad)} 项的 availability 取值不可判"
+                           f"（{avail_bad}）——无从确认缺失集合已完整；已进集合的项均已逐项命中")
+    return "OK", (f"CONTINUE 跨过的 {len(items)} 项缺失（missing_context ∪ required_context 缺态）"
+                  f"均为 QUALITY_REDUCING，且逐项有 target_paths 精确对应的 ASSUMPTION（池 {len(pool)} 条）")
+
+
+def intent_confidence_cap(output, ctx, **kw):
+    """B:292「在关键目标未知时给出 HIGH confidence」的确定性投影（另见 B:323 快速模式「降低 confidence」）：
+    goal_resolution 非 RESOLVED 时 confidence.level 不得为 HIGH。
+
+    「关键目标未知」的机器判据取 goal_resolution != RESOLVED——这是输出里唯一表达"目标是否已定"的
+    字段（A:545）。模型自称 RESOLVED 却其实没定，本闸看不见，那属「静默确定唯一目标」的人工判分面。
+    三态：OK（RESOLVED 不适用 / 非 RESOLVED 且非 HIGH）；FAIL（非 RESOLVED 且 HIGH）；
+    UNKNOWN（goal_resolution 或 confidence.level 读不出——**不得**因为读不到就当成没超标）。
+    """
+    err = _int_plan_guard(output)
+    if err:
+        return "UNKNOWN", err
+    gr = output.get("goal_resolution")
+    if gr is None:
+        return "UNKNOWN", "goal_resolution 字段缺失，无从判定本闸是否适用（缺字段 ≠ 目标已定）"
+    if not isinstance(gr, str):
+        return "UNKNOWN", f"goal_resolution 不是字符串（实得 {type(gr).__name__}），无从判定"
+    if gr == "RESOLVED":
+        return "OK", "goal_resolution=RESOLVED，置信度上限约束不适用（B:292 只约束关键目标未知时）"
+    conf = output.get("confidence")
+    if not isinstance(conf, dict):
+        return "UNKNOWN", f"confidence 不是对象（实得 {type(conf).__name__}），置信度无从核验"
+    lvl = conf.get("level")
+    if lvl is None:
+        return "UNKNOWN", "confidence.level 字段缺失，置信度无从核验（读不到 ≠ 未超标）"
+    if lvl == "HIGH":
+        return "FAIL", f"goal_resolution={gr}（关键目标未定）却给出 confidence.level=HIGH"
+    return "OK", f"goal_resolution={gr} 且 confidence.level={lvl!r}（非 HIGH）"
+# ===================== Intent 侧确定性断言 v0.2 结束 =====================
