@@ -8,7 +8,7 @@
 
 ```json
 {
-  "commit_sha": "c3513c9a38795033fa3583f9f9ed694fc6cf916f",
+  "commit_sha": "4eadcc7942f136d55b794ef295c1abb7781700f7",
   "generator": {
     "path": "tools/coverage.py",
     "version": "v0.1",
@@ -16,7 +16,7 @@
   },
   "commit_sha_source": ".git/HEAD + refs/packed-refs（读文件，未执行 git 命令）",
   "repo_root": "/home/faye/笛语智能核",
-  "generated_at": "2026-08-17T22:10:14-07:00",
+  "generated_at": "2026-08-17T23:04:24-07:00",
   "python_version": "3.10.12",
   "deps": {
     "jsonschema": "3.2.0",
@@ -32,7 +32,7 @@
     },
     "prohibited_registry": {
       "path": "acceptance/detectors/prohibited_registry.yaml",
-      "sha256": "b98095c1874b7c39241e087dbbb3207f950ebe5de6a4ae90a0476a1402088ffc"
+      "sha256": "cb616867cd8fe91085104fe10ab719235bc2bc64107467d8cdeabff0c06dc96c"
     }
   },
   "detectors_version": "v0.2",
