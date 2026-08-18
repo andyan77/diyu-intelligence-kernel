@@ -16,8 +16,9 @@ fi
 # 「最近一次新增 ATT 条目的提交，必须晚于最近一次动 kernel/ 的提交」（用祖先关系判先后，
 # 不用时间戳——脚本化连提可落在同一秒，时间戳会误判）。
 # 边界：仓库尚无任何 ATT 条目 → 只要本次动 kernel/ 就拒绝（bootstrap 也得先登记，条目里如实写
-# target_failing_run: null + bootstrap 理由，不硬编失败 run）。本地钩子可被 --no-verify 绕过，
-# 服务端强制力仍只有 CI（与 C.2 同一残余面，ci.yml 头注已如实披露）。
+# target_failing_run: null + bootstrap 理由，不硬编失败 run）。本地钩子可被 --no-verify 绕过；
+# C.2 隔离门已于 IA-1 送签前置收尾块（2026-08-18）复刻进 ci.yml（PR 事件逐 commit，同判据同源），
+# 本 C.6.1 门的服务端强制力**仍未复刻**（该块「不新增检查种类」，残余面见 ci.yml 头注）。
 if [ "$k" = "1" ]; then
   # 用 git log 而非 rev-list：rev-list 不接受 --diff-filter（实测报 usage 错、被吞成空串，
   # 导致「查不到任何 ATT 条目」的假阴性——本缺陷由钩子上线前的三向实测抓获，勿回退写法）

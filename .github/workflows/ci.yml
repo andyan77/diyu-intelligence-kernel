@@ -13,21 +13,28 @@
 # 在管理员点下那一步之前，本工作流只是"会跑并会报红"，**不构成**"红了就合不进去"的强制力——
 # 这条差别必须在 P0-6 回执里如实写明，不得用"CI 已就位"一句盖过去。
 #
-# 残余面（诚实披露，别把本文件读成"门禁已全覆盖"）：
-#   · C.2 隔离门（一个 commit 不得同时改 kernel/ 与 acceptance/|contracts/）目前**只在本地钩子**里，
-#     本工作流没有复刻它——复刻需要按 push/PR 两种事件分别求 base ref 做 diff，属另一件事，
-#     未做就是未做，不在此处假装已覆盖；
+# 残余面（诚实披露，别把本文件读成"门禁已全覆盖"；IA-1 送签前置收尾块 2026-08-18 更新）：
+#   · ~~C.2 隔离门只在本地钩子~~ → 已复刻进本工作流（下方「C.2 隔离门」步，判据与 .githooks/pre-commit
+#     前 9 行逐字同源：kernel/ 与 acceptance/|contracts/ 不得同 commit）。真实覆盖粒度如实写明：
+#     **pull_request 事件逐 commit 核验**（工作提交必须分区，--no-verify 绕过本地钩子在此被抓）；
+#     push-to-main 事件跳过——main 只能经 PR 合入（分支保护），而 squash 合并产物本就是把已核验的
+#     分区提交折叠成单提交，对它再跑逐 commit 判据会把每次合并都误判成混区；PR 内的 merge commit
+#     （>1 父提交）跳过并打印留痕（其引入的改动已由其父链上的工作提交逐个受检）。
+#   · C.6.1 尝试账本门（kernel 改动须先登记 ATT 条目）**仍只在本地钩子**——本块「不新增检查种类」，
+#     其服务端复刻未派发，未做就是未做；
 #   · 冻结门**运行态**按 M0 设计必然红（PENDING_BUILD），故不计入 check_m0 判绿条件，CI 同理；
 #   · CI 绿 ≠ Founder 已签字 ≠ 案例质量合格（口径见 tools/check_m0.py 文件头「诚实边界」）。
 #
-# 供应链残余面（诚实披露，**未做就是未做**）：
-#   · `pip install` **未**加 --require-hashes：那要求把传递依赖（attrs / pyrsistent / six /
-#     setuptools）连同哈希一起钉死，而 requirements.txt 明写"不代为钉死未经实测的传递依赖"
-#     （钉死未实测的东西 = 凭空宣称已验证）。两条纪律冲突，本批次选择保留后者并在此披露；
-#     要补 --require-hashes，须先把传递依赖在干净环境实测一轮，属独立一件事。
-#   · pip / setuptools 自身**未**钉版；python-version: '3.10' 解析到当轮最新 patch，
-#     不是钉死的解释器——本地取证用的是 3.10.12，两边 patch 号可能不同。
-#   · 本工作流**未启用任何缓存**（setup-python 无 cache 输入、无 actions/cache 步），缓存投毒面为零。
+# 供应链封闭化（IA-1 送签前置收尾块 2026-08-18；原「残余面」三条中前两条已关闭）：
+#   · `pip install --require-hashes -r requirements-lock.txt`：直接 + 传递依赖（attrs / pyrsistent /
+#     six / setuptools）全量钉版 + sha256 哈希——锁文件由干净 venv 实测生成（生成方法与实测记录见
+#     requirements-lock.txt 头注），版本或字节与清单不符即安装失败；requirements.txt 仍是直接依赖
+#     的人读真源，改它必须同批重生成锁文件；
+#   · pip 钉版 25.2（安装锁文件前先钉 pip 自身）；python-version 钉到 patch：'3.10.12'（与本地取证
+#     解释器同 patch，原 '3.10' 浮动 patch 的披露作废）；
+#   · 本工作流**未启用任何缓存**（setup-python 无 cache 输入、无 actions/cache 步），缓存投毒面为零；
+#   · 仍未封闭（如实保留）：ubuntu-latest 运行器镜像自身（OS 包、预装工具链）随 GitHub 滚动——
+#     钉死那一层要自托管 runner 或容器镜像 digest，超出「测试依赖」范围，未做就是未做。
 
 name: M0 门禁
 
@@ -63,23 +70,54 @@ jobs:
       # 该仓库中存在的提交；注释里的 v4 / v5 只是给人看的可读标签，生效的是 SHA。
       # 升级动作 = 重新解析新 tag 的 SHA 并同批改注释，不得只改注释。
       - name: 取代码
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1（2026-08-18 GitHub API 解析 tag 实值；原 v4 SHA 触发 Node 20 弃用警告，E-18/告别块清除）
         with:
           # fetch-depth: 0 取全历史。默认的 1 只有一个提交，freeze_gate / check_m0 归属行里那个
-          # SHA 在浅克隆里无从复查。另需在 P0-6 回执里写明：pull_request 事件下 checkout 检出的是
-          # 临时 merge commit，那个 SHA **不存在于仓库历史**，要引用请用 push 事件或 workflow_dispatch 那轮。
+          # SHA 在浅克隆里无从复查，C.2 隔离门步的逐 commit diff 也需要完整父链。另需在 P0-6 回执里写明：
+          # pull_request 事件下 checkout 检出的是临时 merge commit，那个 SHA **不存在于仓库历史**，
+          # 要引用请用 push 事件或 workflow_dispatch 那轮。
           fetch-depth: 0
 
-      # 基线解释器与 requirements.txt 头部注释同源：3.10。两边必须一起改。
-      # 注意 '3.10' 会解析到当轮最新 patch，不是钉死的解释器（见文件头「供应链残余面」）。
-      - name: 装 Python 3.10
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
-        with:
-          python-version: '3.10'
+      # C.2 隔离门服务端复刻（IA-1 送签前置收尾块；判据与 .githooks/pre-commit 前 9 行逐字同源）。
+      # 只在 pull_request 事件逐 commit 核验；push/main 与 merge commit 的跳过理由见文件头「残余面」。
+      # 本步失败 → 本 job（required check check_m0）红 → 合并被分支保护物理拒绝——不是第二套考卷，
+      # 是把本地那道门搬到绕不过去的地方（--no-verify 在此失效）。
+      - name: C.2 隔离门（服务端，逐 commit）
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          fail=0
+          for c in $(git rev-list --reverse "$BASE_SHA".."$HEAD_SHA"); do
+            if [ "$(git rev-list --no-walk --count --merges "$c")" = "1" ]; then
+              echo "SKIP [C.2] $c 是 merge commit（>1 父），其改动已由父链工作提交逐个受检"
+              continue
+            fi
+            files=$(git diff-tree --no-commit-id --name-only -r "$c")
+            echo "$files" | grep -q  '^kernel/'                && k=1 || k=0
+            echo "$files" | grep -qE '^(acceptance|contracts)/' && e=1 || e=0
+            if [ "$k" = "1" ] && [ "$e" = "1" ]; then
+              echo "REJECT [C.2 隔离门·服务端] commit $c 同时改考生区(kernel/)与考卷/考试条件区(acceptance/|contracts/)——请拆分为两次提交后重推。"
+              fail=1
+            fi
+          done
+          [ "$fail" = "0" ] && echo "C.2 隔离门（服务端）：$(git rev-list --count "$BASE_SHA".."$HEAD_SHA") 个提交逐一核验，零混区"
+          exit "$fail"
 
-      # 钉版安装。不加 --upgrade、不放宽 ==：requirements.txt 钉的就是 M0 全部运行证据的取证条件。
-      - name: 装钉版依赖
-        run: pip install -r requirements.txt
+      # 基线解释器钉到 patch：3.10.12（与本地取证解释器同 patch；requirements-lock.txt 头注同源，两边必须一起改）。
+      - name: 装 Python 3.10.12
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0（2026-08-18 GitHub API 解析 tag 实值；原 v5 SHA 触发 Node 20 弃用警告，E-18/告别块清除）
+        with:
+          python-version: '3.10.12'
+
+      # 封闭化安装（见文件头「供应链封闭化」）：先钉 pip 自身，再按全量哈希锁装——
+      # 任何包版本或字节与 requirements-lock.txt 不符即安装失败，不要退回 `pip install -r requirements.txt`。
+      - name: 装封闭锁依赖
+        run: |
+          python -m pip install 'pip==25.2'
+          pip install --require-hashes -r requirements-lock.txt
 
       # 与本地自测命令**逐字一致**的那一条。它自己会打印 CHECK_M0_GREEN / CHECK_M0_RED 与归属块，
       # 非 0 退出即 job 红。不要在这里追加 `|| true` 之类的兜底——那等于把门禁关掉还留个绿勾。
