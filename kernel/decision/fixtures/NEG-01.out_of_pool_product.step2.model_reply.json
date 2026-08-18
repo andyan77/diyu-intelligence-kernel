@@ -1,0 +1,47 @@
+{
+  "_fixture_note": "负样例：C2 的商品换成池外 P99（快照商品池只有 P13）。期望：装配照建、postcheck D9 判红、runner 退出码 1（BD_FACT_FABRICATION 结构面留取证材料）。仅 product_id 一处与正样例不同。",
+  "candidates": [
+    {
+      "candidate_id": "C1",
+      "title": "主理人信任路线",
+      "strategy": "由主理人出镜，以真实使用体验与面料工艺讲解建立信任，把大衣定位为值得长期持有的核心单品，驱动到店试穿与私域咨询成交",
+      "product_roles": [
+        {"product_id": "P13", "role": "HERO", "rationale": "商品事实完整，适合承担信任叙事的主角", "referenced_fact_ids": ["FACT:facts.product.material"]}
+      ],
+      "referenced_fact_ids": ["FACT:facts.product.inventory", "FACT:facts.product.price"],
+      "referenced_rule_ids": ["R-BDD01-001"],
+      "assumptions": [{"statement": "受众对工艺讲解类内容的接受度尚可", "missing_field": "受众调研"}],
+      "model_judgments": [{"statement": "人物信任是合法路径之一", "supporting_ids": ["FACT:facts.product.inventory"]}],
+      "brand_fit": {"assessment": "ALIGNED", "rationale": "信任叙事与高端定位一致", "referenced_ids": []},
+      "audience_fit": {"assessment": "UNKNOWN", "rationale": "缺受众调研", "referenced_ids": []},
+      "business_alignment": {"assessment": "ALIGNED", "rationale": "服务库存消化目标", "referenced_ids": []},
+      "production_feasibility": {"assessment": "ALIGNED", "rationale": "室内实拍可完成", "referenced_ids": []},
+      "risks": [{"condition": "受众兴趣不足", "possible_impact": "消化节奏不达预期", "mitigation": null, "referenced_ids": []}],
+      "why_this_option": "见效节奏相对更快",
+      "why_not_primary_alternative": "对出镜状态依赖更高；不接受该依赖应改选 C2"
+    },
+    {
+      "candidate_id": "C2",
+      "title": "产品价值证明路线",
+      "strategy": "以面料成分与版型工艺的可验证事实为中心，面向愿意为品质付费的用户建立长期信任，驱动收藏与复访",
+      "product_roles": [
+        {"product_id": "P99", "role": "HERO", "rationale": "成分与尺码信息完整可验证", "referenced_fact_ids": ["FACT:facts.product.material"]}
+      ],
+      "referenced_fact_ids": ["FACT:facts.product.price", "FACT:facts.product.material"],
+      "referenced_rule_ids": ["R-BDD01-001"],
+      "assumptions": [],
+      "model_judgments": [{"statement": "价值证明路线资产沉淀更稳", "supporting_ids": ["FACT:facts.product.material"]}],
+      "brand_fit": {"assessment": "ALIGNED", "rationale": "事实型内容符合品牌调性", "referenced_ids": []},
+      "audience_fit": {"assessment": "UNKNOWN", "rationale": "缺受众调研", "referenced_ids": []},
+      "business_alignment": {"assessment": "TENSION", "rationale": "与限定周期存在节奏张力", "referenced_ids": []},
+      "production_feasibility": {"assessment": "ALIGNED", "rationale": "面料近景可低门槛完成", "referenced_ids": []},
+      "risks": [{"condition": "内容偏知识化", "possible_impact": "转化路径长于消化周期", "mitigation": null, "referenced_ids": []}],
+      "why_this_option": "不依赖出镜人状态",
+      "why_not_primary_alternative": "见效节奏慢；周期压力优先应改选 C1"
+    }
+  ],
+  "ruled_out_paths": [
+    {"summary": "促销让利路线（以限时折扣驱动清库存）", "referenced_rule_ids": ["R-BDD01-002"]}
+  ],
+  "confidence_reason": "负样例夹具"
+}

@@ -1,0 +1,78 @@
+{
+  "_fixture_note": "变体夹具：在正样例两候选之外，模型多提了一个 strategy 含禁用词『清仓』的第三候选 C3。期望：规则引擎在 step3 之前把 C3 拦下（R-BDD01-001 低价叫卖组 + R-FB01-001 全组双 BLOCK）、C3 不进取舍步也不建假设/判断条目、诊断 explanation 不回写命中原词、D7 对全产物仍零命中、终态 DEGRADED_TWO（存活两候选）+ 阻断诊断两条（C3 + 促销路线）、退出码 0。C3 只给身份/标题/策略三键：被拦候选不进装配，规则扫描与诊断只消费这三处；真实模型会给全字段，此处最小化以聚焦考点。C1/C2 与正样例逐字节相同。",
+  "candidates": [
+    {
+      "candidate_id": "C1",
+      "title": "主理人信任路线",
+      "strategy": "由主理人出镜，以真实使用体验与面料工艺讲解建立信任，把大衣定位为值得长期持有的核心单品，驱动到店试穿与私域咨询成交",
+      "product_roles": [
+        {
+          "product_id": "P13",
+          "role": "HERO",
+          "rationale": "该商品成分、价格、尺码事实完整，处于库存消化期，有真实可讲的面料与工艺事实，适合承担信任叙事的主角；若后续画面表现证据不支撑主角位，应降级并重审承载商品",
+          "referenced_fact_ids": ["FACT:facts.product.material", "FACT:facts.product.lifecycle_stage"]
+        }
+      ],
+      "referenced_fact_ids": ["FACT:facts.product.inventory", "FACT:facts.product.price", "FACT:facts.product.material"],
+      "referenced_rule_ids": ["R-BDD01-001"],
+      "assumptions": [
+        {"statement": "受众对工艺讲解类内容的接受度尚可", "missing_field": "受众调研"}
+      ],
+      "model_judgments": [
+        {"statement": "在价格路径被规则排除后，人物信任是能同时承载销量诉求与品牌价值保护的合法路径之一", "supporting_ids": ["FACT:facts.product.inventory", "R-BDD01-001"]}
+      ],
+      "brand_fit": {"assessment": "ALIGNED", "rationale": "信任叙事与高端定位一致，不触碰价格表达红线", "referenced_ids": ["FACT:facts.brand.positioning", "R-BDD01-001"]},
+      "audience_fit": {"assessment": "UNKNOWN", "rationale": "缺受众调研，接受度未验证", "referenced_ids": []},
+      "business_alignment": {"assessment": "ALIGNED", "rationale": "直接服务库存消化目标", "referenced_ids": []},
+      "production_feasibility": {"assessment": "ALIGNED", "rationale": "主理人可出镜，室内实拍即可完成", "referenced_ids": []},
+      "risks": [
+        {"condition": "受众对工艺内容兴趣不足", "possible_impact": "观看完成率不高，消化节奏不达预期", "mitigation": "首条内容小范围验证后再定发布节奏", "referenced_ids": []}
+      ],
+      "why_this_option": "在价格路径被规则排除后，人物信任路径依托现成的出镜与讲解条件，见效节奏相对更快",
+      "why_not_primary_alternative": "相比产品价值证明路线，本路线对主理人出镜状态依赖更高；若不接受该依赖，应改选 C2"
+    },
+    {
+      "candidate_id": "C2",
+      "title": "产品价值证明路线",
+      "strategy": "以面料成分与版型工艺的可验证事实为中心，把这件大衣贵在哪里讲清楚，面向愿意为品质付费的用户建立长期信任，驱动收藏与复访",
+      "product_roles": [
+        {
+          "product_id": "P13",
+          "role": "HERO",
+          "rationale": "成分与尺码信息完整可验证，能支撑事实型价值证明；若事实证明力不足则该角色不成立，应回头重审需求证据",
+          "referenced_fact_ids": ["FACT:facts.product.material", "FACT:facts.product.size_range"]
+        }
+      ],
+      "referenced_fact_ids": ["FACT:facts.product.price", "FACT:facts.product.material", "FACT:facts.product.size_range"],
+      "referenced_rule_ids": ["R-BDD01-001"],
+      "assumptions": [],
+      "model_judgments": [
+        {"statement": "价值证明路线的品牌资产沉淀更稳，但见效节奏慢于人物信任路线", "supporting_ids": ["FACT:facts.product.material", "FACT:facts.product.inventory"]}
+      ],
+      "brand_fit": {"assessment": "ALIGNED", "rationale": "事实型内容符合品牌不喊口号的调性", "referenced_ids": ["FACT:facts.brand.positioning"]},
+      "audience_fit": {"assessment": "UNKNOWN", "rationale": "缺受众调研", "referenced_ids": []},
+      "business_alignment": {"assessment": "TENSION", "rationale": "价值证明偏长效，与限定周期的消化目标存在节奏张力", "referenced_ids": ["FACT:facts.product.inventory"]},
+      "production_feasibility": {"assessment": "ALIGNED", "rationale": "面料近景与两种穿法演示可在棚内完成，制作门槛不高", "referenced_ids": []},
+      "risks": [
+        {"condition": "内容偏知识化", "possible_impact": "转化路径长于库存消化周期", "mitigation": null, "referenced_ids": []}
+      ],
+      "why_this_option": "不依赖出镜人状态，事实可验证，品牌资产沉淀更稳",
+      "why_not_primary_alternative": "见效节奏慢于人物信任路线；若限定周期的消化压力优先，应改选 C1"
+    },
+    {
+      "candidate_id": "C3",
+      "title": "第三方向试探路线",
+      "strategy": "以直接的价格动作在季末做清仓承接，快速回笼资金",
+      "assumptions": [
+        {"statement": "季末仍有清货窗口", "missing_field": "档期确认"}
+      ],
+      "model_judgments": [
+        {"statement": "价格动作可以最快回笼资金", "supporting_ids": ["FACT:facts.product.inventory"]}
+      ]
+    }
+  ],
+  "ruled_out_paths": [
+    {"summary": "促销让利路线（以限时折扣驱动清库存）", "referenced_rule_ids": ["R-BDD01-002"]}
+  ],
+  "confidence_reason": "变体夹具：考规则引擎的候选级拦截与隔离"
+}

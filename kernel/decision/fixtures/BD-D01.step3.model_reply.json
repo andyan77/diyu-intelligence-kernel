@@ -1,0 +1,15 @@
+{
+  "comparative_tradeoffs": [
+    {
+      "candidate_refs": ["C1", "C2"],
+      "tradeoff": "选 C1 换来更快的见效节奏与更直接的信任建立，付出对主理人出镜状态的持续依赖；选 C2 换来不依赖个人与更稳的品牌资产沉淀，付出更慢的转化节奏与更长的证明链条。二者在叙事路径与风险承担上实质不同，不可互相替代",
+      "referenced_ids": ["FACT:facts.product.inventory", "FACT:facts.product.material"]
+    }
+  ],
+  "system_recommendation": {
+    "candidate_id": "C1",
+    "judgment_statement": "为了在限定周期内推进库存消化、面向接受度尚未验证的受众、优先控制节奏风险：在两条合法路径中更倾向主理人信任路线；若品牌方更看重长期资产沉淀且能接受更慢节奏，应改选 C2",
+    "supporting_ids": ["FACT:facts.product.inventory", "FACT:facts.product.lifecycle_stage", "R-BDD01-002"]
+  },
+  "confidence_reason": "取舍两向均有事实与规则支撑；受众侧证据缺失使推荐只到中等把握"
+}

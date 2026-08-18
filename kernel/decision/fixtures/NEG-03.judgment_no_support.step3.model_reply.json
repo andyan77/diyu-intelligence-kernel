@@ -1,0 +1,16 @@
+{
+  "_fixture_note": "负样例：推荐判断 supporting_ids 为空（A.9.2：MODEL_JUDGMENT 必须有支撑 Trace）。期望：trace 组装层 TraceAssemblyError、runner 退出码 2、不产出半成品 bundle。",
+  "comparative_tradeoffs": [
+    {
+      "candidate_refs": ["C1", "C2"],
+      "tradeoff": "选 C1 换来更快的见效节奏，付出对出镜状态的依赖；选 C2 换来更稳的资产沉淀，付出更慢的转化节奏",
+      "referenced_ids": ["FACT:facts.product.inventory"]
+    }
+  ],
+  "system_recommendation": {
+    "candidate_id": "C1",
+    "judgment_statement": "更倾向主理人信任路线",
+    "supporting_ids": []
+  },
+  "confidence_reason": "负样例夹具"
+}

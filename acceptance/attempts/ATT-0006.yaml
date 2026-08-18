@@ -1,0 +1,9 @@
+# 尝试账本条目（C.6 格式；一条一文件，"无新条目"由 C.6.1 钩子按新增文件的提交时序机器判定）
+# 编号更正×2：本条目施工时编 ATT-0002（与块 E kernel/facts 条目撞号）、改 ATT-0004（又与
+# Intent 取证车道条目撞号）；按 append-only 纪律现号 ATT-0006，内容不变。三车道并行下的
+# 撞号根因是「取号无锁」，如实留痕不追改他人条目。
+attempt_id: ATT-0006
+hypothesis: "初建 kernel/decision 七类资产（C.3：三步 LLM 冲突识别→候选生成→逐候选取舍 + 确定性前后处理与规则引擎；G.2 第 4 条四点纪律落地）——bootstrap 条目：模块从无到有，非既有 prompt 的调优。M2-EP01 提前段（D §十一 琥珀段授权），非 IA-2 取证"
+target_failing_run: null   # bootstrap 例外（同 ATT-0001 口径）：模块尚不存在，无既往失败 run 可指；此后任何 prompt/编排改动必须指向真实失败 run，不得再用 null
+regression_after: null     # 建成后由 BD-D01 离线回放自测（test_decision_offline.py）与将来首批真实 RUN 回执填充；BD-D02/03 待冻结上游夹具落盘（kernel/decision/UPSTREAM_GAPS.md 第 1 条）
+delta: {fixed: [], broken: [], net: 0}   # C.6.2 结构化建设第一步 net=0 属正常（豁免死循环信号统计的先例口径）

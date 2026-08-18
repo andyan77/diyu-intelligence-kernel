@@ -1,0 +1,9 @@
+{
+  "_fixture_note": "负样例：两个候选 candidate_id 同为 C1（对抗审查抓获的 blocker 场景——重号会让假设/判断引用与人工选择失去唯一落点）。期望：装配前唯一性硬闸 RuntimeError、退出码 2、不产出半成品 bundle。候选只给最小键：闸在深校验之前触发。",
+  "candidates": [
+    {"candidate_id": "C1", "title": "甲路线", "strategy": "以真实体验讲解建立信任"},
+    {"candidate_id": "C1", "title": "乙路线", "strategy": "以可验证事实支撑价值证明"}
+  ],
+  "ruled_out_paths": [],
+  "confidence_reason": "负样例夹具"
+}
