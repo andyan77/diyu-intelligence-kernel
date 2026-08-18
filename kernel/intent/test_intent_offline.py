@@ -627,6 +627,16 @@ def main(argv):
          _bad_code == 2 and not os.path.exists(_bad_out) and os.path.exists(_bad_out + ".raw.txt"),
          "code=%s plan存在=%s raw存在=%s" % (_bad_code, os.path.exists(_bad_out), os.path.exists(_bad_out + ".raw.txt")))
 
+    _p9_borrow = postcheck._p9_numeric_grounding(
+        {"intent_summary": "商品需在7天内完成推广。"},
+        {"snapshot": {"product": {"sku": "1G9971081"}}})
+    _p9_normal = postcheck._p9_numeric_grounding(
+        {"intent_summary": "定价3980元。"},
+        {"snapshot": {"product": {"price": 3980}}})
+    item("护栏⑥ P9 独立数字串：借长串内部数字判 FAIL、独立出现仍 OK（ATT-0005 借位洞回归）",
+         _p9_borrow[0] == "FAIL" and _p9_normal[0] == "OK",
+         "借位=%s（应 FAIL），正常=%s（应 OK）" % (_p9_borrow[0], _p9_normal[0]))
+
     # ---- 收尾：只读取证 + 零网络 ---------------------------------------------------
     changed = [p for p, h in before.items() if sha256_of(p) != h]
     item("G2 考卷区文件字节未变（三份 INT 快照 + 禁用词表）", not changed, "被改动：%s" % changed)
@@ -643,7 +653,7 @@ def main(argv):
         " OD-03 §一 #2 引的是约束3 不是约束5 / 字面孤读会把 A 约束1 分支与 B:285 变成死条文）逐条写在"
         " postcheck._p4_constraint5 的文档串里。"
         "落地位置：postcheck P4 + runner.apply_hard_gates 的 G2 分支（口径同源于 config.BUSINESS_GOAL_FIELD_PATH）。"
-        "状态：**执行侧对冻结真源的解释，非真源原文**，已登记裁决台账「待 Founder 裁决」表；Founder 可推翻。"
+        "状态：**执行侧对冻结真源的解释，非真源原文**，Founder 2026-08-17 已认可（台账 SPEC-DEV-01 行）；日后推翻走台账修订。"
         "推翻时改的是上述两处代码，不改考卷。")
     deviation(
         "SPEC-DEV-02｜INT-D02 快速侧进 NEEDS_INPUT 是**正确行为**（已仲裁，非缺陷）",

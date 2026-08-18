@@ -9,17 +9,17 @@
     "llm_single_step",
     "deterministic_postcheck_preflight"
   ],
-  "generated_at": "2026-08-18T10:33:42Z",
+  "generated_at": "2026-08-18T10:40:08Z",
   "source_sha256": {
     "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "config.py": "47919bd419bfcac667e12d1086d0d455fdebcd16cd8bff8ac5ba150d41361cb6",
     "llm.py": "854bda47d93451eae7c60c1e60171b5ac31f4ac56e49acaed49fbcc98c5ed2fa",
     "module_manifest.py": "653dac874691b5dc2a7542f384e724fdb67515a24c99a752e04dce6efc5f6369",
-    "postcheck.py": "09b9c81081ddf37f2cb9430b9882ea59b168c64a71332e4f9f6e8a07f3f0ee9f",
+    "postcheck.py": "aa22b4b0f25228df92b8a4c946c7d83d1d63638cceb1cf12534bf2fd72e69426",
     "preprocess.py": "c6587e41d49ddbc76067eda5e8963c8a5af3d402a1c5dd1f1fb6931acd4aaa82",
     "prompts/intent_v0.2.md": "352d3fabf8b70662880609973f5d84d127c8115877bf5161e9ddf48714944002",
     "runner.py": "b841d80cb7efc791ace22a32bdf407128e914ab842b8305e8fbfa717883eeee8",
-    "test_intent_offline.py": "16b219e7b9836b9ed63e535688a5258519ca430428610f633bd4094adf1373ca",
+    "test_intent_offline.py": "49bf6b161a3ed24a8822a14d10c099ebc6ff106adbd38c279e3a390b2c46d12c",
     "trace.py": "fddb9e68ee510beb4ae04b1ef2845d5c2bbb837ccf6c0424ef9299464d1b3b09"
   }
 }
