@@ -1,0 +1,21 @@
+{
+  "goal_resolution": "RESOLVED",
+  "business_goal": "DAILY_CONTENT_OPERATION",
+  "goal_candidates": [],
+  "intent_summary": "任务要求为一件羊绒大衣制作春节前的视频号内容，属于典型的‘做内容’类日常经营表述，未明示任何特殊经营意图（如清库存、冲转化、讲品牌故事等）。因此目标明确归入日常内容经营，旨在让商品在节前被看见、被理解。",
+  "clarification_question": null,
+  "referenced_fact_ids": [
+    "FACT:product.name",
+    "FACT:product.lifecycle_stage"
+  ],
+  "model_judgments": [
+    {
+      "text": "该产品处于库存消化期，但任务原话未提及清库存或促销意图，因此不能据此推断目标为INVENTORY_ACTIVATION。",
+      "referenced_fact_ids": [
+        "FACT:product.lifecycle_stage"
+      ]
+    }
+  ],
+  "confidence_level": "HIGH",
+  "confidence_reason": "任务原话属于标准的日常内容经营表述，且无任何特殊经营意图的明示，符合DAILY_CONTENT_OPERATION的判定条件。"
+}

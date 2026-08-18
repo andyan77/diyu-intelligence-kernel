@@ -1,0 +1,11 @@
+{
+  "goal_resolution": "RESOLVED",
+  "business_goal": "DAILY_CONTENT_OPERATION",
+  "goal_candidates": [],
+  "intent_summary": "任务原话明确表示‘用同一件羊绒大衣建立品牌长期价值，不以本期销量为主要目标’，属于日常内容经营类表述——即通过持续、有深度的内容让商品被看见、被理解，从而积累品牌资产。该意图未明示任何特殊经营目标（如清库存、促转化、讲品牌故事等），因此归入日常内容经营。",
+  "clarification_question": null,
+  "referenced_fact_ids": [],
+  "model_judgments": [],
+  "confidence_level": "HIGH",
+  "confidence_reason": "任务原话符合判定纪律第1条中‘日常经营表述’的定义，且未提及任何特殊经营意图，可直接解析为DAILY_CONTENT_OPERATION。"
+}

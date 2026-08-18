@@ -1,0 +1,20 @@
+{
+  "goal_resolution": "RESOLVED",
+  "business_goal": "DAILY_CONTENT_OPERATION",
+  "goal_candidates": [],
+  "intent_summary": "本次任务原话为“帮我推广羊绒大衣”，属于典型的日常内容经营类表述，旨在让商品被看见、被理解。未明示任何特殊经营意图（如清库存、冲转化、讲品牌故事等），因此目标明确归入日常内容经营。",
+  "clarification_question": null,
+  "referenced_fact_ids": ["FACT:product.name", "FACT:product.category", "FACT:product.material", "FACT:product.style_attributes", "FACT:product.selling_points"],
+  "model_judgments": [
+    {
+      "text": "该产品为含9.2%–9.9%山羊绒的混纺大衣，属于中高比例羊绒制品，符合高端基础款定位。",
+      "referenced_fact_ids": ["FACT:product.material"]
+    },
+    {
+      "text": "产品设计强调风衣式廓形与可调节腰带，支持敞开与收腰两种穿着方式，具备造型多样性卖点。",
+      "referenced_fact_ids": ["FACT:product.style_attributes", "FACT:product.selling_points"]
+    }
+  ],
+  "confidence_level": "HIGH",
+  "confidence_reason": "任务原话属于标准日常经营表述，且事实池提供了完整的产品基础信息，足以支撑目标归类为DAILY_CONTENT_OPERATION。"
+}
