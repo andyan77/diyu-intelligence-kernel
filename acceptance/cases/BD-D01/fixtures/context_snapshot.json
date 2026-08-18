@@ -1,20 +1,104 @@
 {
   "snapshot_id": "SNAP-BDD01-0001",
+  "task_id": "TASK-BDD01-0001",
   "brand_id": "fixture-brand-01",
-  "_fixture_note": "BD-D01 冻结事实照抄 B.4.2/BD-D01 + 衡叙集夹具包 P13 商品事实（截图溯源见数据包）；库存为夹具虚构（剧本）",
-  "facts": {
-    "inventory": {"value": 800, "unit": "件", "source": "夹具虚构（剧本）"},
-    "brand_positioning": {"value": "HIGH_END", "source": "BD-D01 冻结事实"},
-    "business_goal": {"value": "INVENTORY_ACTIVATION", "source": "BD-D01 冻结事实"},
-    "product": {
-      "product_id": "P13", "name": "10%羊绒风衣式大衣",
-      "price": {"value": 3980, "currency": "CNY", "as_of": "2026-08-17", "source": "截图 IMG_0684"},
-      "composition": "黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）",
-      "sizes": ["XS", "S", "M", "L", "XL"], "lifecycle_stage": "库存消化期"
-    }
+  "version": 1,
+  "created_at": "2026-08-18T16:30:00+08:00",
+  "brand_facts_ref": {
+    "object_type": "BrandFacts",
+    "object_id": "FS-BRAND-BDD01-0001",
+    "version": 1,
+    "brand_id": "fixture-brand-01"
   },
-  "hard_rules": [
-    {"rule_id": "R-BDD01-001", "statement": "禁止低价叫卖表达（forbidden_expression: LOW_PRICE_SELLING）", "status": "ACTIVE", "source": "BD-D01 冻结事实"},
-    {"rule_id": "R-BDD01-002", "statement": "促销让利路径违反高端品牌禁令（两候选降级分支冻结规则）", "status": "ACTIVE", "source": "B.4.2/BD-D01 降级分支"}
-  ]
+  "product_facts_refs": [
+    {
+      "object_type": "ProductFacts",
+      "object_id": "FS-PRODUCT-BDD01-P13",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    }
+  ],
+  "audience_facts_refs": [],
+  "persona_facts_refs": [],
+  "video_account_facts_ref": null,
+  "active_rule_refs": [
+    {
+      "object_type": "RuleRecord",
+      "object_id": "R-BDD01-001",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    },
+    {
+      "object_type": "RuleRecord",
+      "object_id": "R-BDD01-002",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    }
+  ],
+  "approved_brand_memory_refs": [],
+  "input_source_refs": [
+    {
+      "source_id": "SRC-BDD01-0001",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "文件级溯源（原快照 _fixture_note 逐字）：BD-D01 冻结事实照抄 B.4.2/BD-D01 + 衡叙集夹具包 P13 商品事实（截图溯源见数据包）；库存为夹具虚构（剧本）",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-BDD01-0002",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0684",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-BDD01-0003",
+      "brand_id": "fixture-brand-01",
+      "source_type": "FOUNDER_CONFIRMATION",
+      "locator": "BD-D01 冻结事实",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-BDD01-0004",
+      "brand_id": "fixture-brand-01",
+      "source_type": "BRAND_OPERATOR_INPUT",
+      "locator": "夹具虚构（剧本）",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    }
+  ],
+  "snapshot_hash": "sha256:afa0f18fc5809863a4abdad479e6dfead4ea2f13ddcf1a2d5e0bf0c039288024",
+  "_fixture_note": {
+    "original_fixture_note": "BD-D01 冻结事实照抄 B.4.2/BD-D01 + 衡叙集夹具包 P13 商品事实（截图溯源见数据包）；库存为夹具虚构（剧本）",
+    "migration": {
+      "batch": "块E-①（Founder 2026-08-18 批准，逐字迁移零丢失）",
+      "constants": {
+        "created_at": "2026-08-18T16:30:00+08:00",
+        "captured_at_fill": "2026-08-17T00:00:00+08:00",
+        "task_id_convention": "TASK-<case>-0001（夹具约定，无上游 Task 对象）"
+      },
+      "field_annotations": {
+        "facts.product.price": {
+          "original_as_of": "2026-08-17"
+        },
+        "hard_rules[0]": {
+          ".": {
+            "statement": "禁止低价叫卖表达（forbidden_expression: LOW_PRICE_SELLING）",
+            "status": "ACTIVE",
+            "source": "BD-D01 冻结事实"
+          }
+        },
+        "hard_rules[1]": {
+          ".": {
+            "statement": "促销让利路径违反高端品牌禁令（两候选降级分支冻结规则）",
+            "status": "ACTIVE",
+            "source": "B.4.2/BD-D01 降级分支"
+          }
+        }
+      }
+    }
+  }
 }

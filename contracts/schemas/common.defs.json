@@ -16,13 +16,16 @@
           "type": "string"
         },
         "object_id": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "version": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1
         },
         "brand_id": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         }
       },
       "additionalProperties": false
@@ -303,11 +306,13 @@
         "brand_id",
         "source_type",
         "locator",
-        "captured_at"
+        "captured_at",
+        "checksum"
       ],
       "properties": {
         "source_id": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "brand_id": {
           "type": "string"
@@ -444,7 +449,7 @@
           }
         },
         {
-          "$comment": "A.2.4 约束2：PROVISIONAL——必须有 confidence、来源和不确定原因",
+          "$comment": "A.2.4 约束2 + 块 E ④d（E-11）：PROVISIONAL 必须带非空 value——临时值是「有值待核」，无值即 MISSING，界线拉直（复审乙 P1-05 实测无 value 可过）",
           "if": {
             "required": [
               "status"
@@ -457,6 +462,7 @@
           },
           "then": {
             "required": [
+              "value",
               "confidence",
               "source_refs",
               "uncertainty_reason"
@@ -474,6 +480,19 @@
               },
               "uncertainty_reason": {
                 "type": "string"
+              },
+              "value": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "string",
+                      "maxLength": 0
+                    }
+                  ]
+                }
               }
             }
           }
@@ -772,8 +791,10 @@
     },
     "Range": {
       "type": "object",
-      "$comment": "A.3.4 内联类型（A 行 312-317）：min(可空) / max(可空) / unit",
+      "$comment": "A.3.4 内联类型（A 行 312-317）+ 块 E ④e（E-12）：nullable 统一口径「键必须存在、值可为 null」——min/max 可空但不可缺席；min≤max 数值自洽由 kernel/facts 谓词承担（④f）",
       "required": [
+        "min",
+        "max",
         "unit"
       ],
       "properties": {
@@ -810,16 +831,19 @@
       ],
       "properties": {
         "fact_set_id": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "fact_type": {
           "type": "string"
         },
         "brand_id": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "version": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1
         },
         "schema_version": {
           "type": "string"

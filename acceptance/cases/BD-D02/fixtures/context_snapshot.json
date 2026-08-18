@@ -1,78 +1,162 @@
 {
   "snapshot_id": "SNAP-BDD02-0001",
+  "task_id": "TASK-BDD02-0001",
   "brand_id": "fixture-brand-01",
-  "_fixture_note": "BD-D02 商品池 = 衡叙集夹具包·包2 的 P01/P02/P03 三件套（依据 acceptance/cases/OPEN_QUESTIONS.md 文首「素材映射表」——Founder 2026-08-17 随 8 主题一并批准，该表 BD-D02 行原文「P01+P02+P03 三件套」）。「同一详情页共享穿搭图的西装+西装裤+针织马甲可直接构成有限商品池」是执行侧的构造判断，映射表未作此表述，显式标注供 IA-0 复核。商品硬事实（款号/吊牌价/面料成分/里料/尺码）一字不改照抄截图原文，每字段标来源；库存与生命周期阶段为夹具虚构-剧本；商品池规模照抄 B.4.2/BD-D02「冻结事实」原文「商品池只有三个商品」。商品池边界：企业商品池 SKU 只有这 3 个，池外任何单品都不是企业商品池 SKU，禁止补写第 4 件商品/颜色/尺码/库存。故意缺失禁补：P03 里料在数据包原文即为『缺失』，此处保留缺失状态、不推断。未收录『关联图片编号』字段（数据包·包2 有该字段）：各字段的 source 已逐条标注对应截图号，图号清单不重复落盘；此为刻意省略，非事实缺失。hard_rules 为空：B.4.2/BD-D02 全段未列具名规则或禁令，与 acceptance/cases/BD-D02/manifest.yaml 的 hard_rule_refs: [] 一致。现状更新（本轮核对）：contracts/rules/ 已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三个 RuleRecord 对象（均 version 1、status ACTIVE），原「该目录只有 .gitkeep、无任何 RuleRecord 对象」的陈述已失效；但 B 未在本案例冻结规则，是否把品牌级禁语 R-FB01-001 补挂进本快照 hard_rules 与 Manifest，属改考卷内容，由 IA-0 裁决后回填（OQ-BD-D02-04），本快照不自行补挂。品牌名一律用虚构名『衡叙集』，brand_id 固定 fixture-brand-01。",
-  "facts": {
-    "product_pool_size": {
-      "value": 3,
-      "unit": "个商品",
-      "source": "B.4.2/BD-D02「冻结事实」原文『商品池只有三个商品，用户要求“做十套穿搭”。』"
+  "version": 1,
+  "created_at": "2026-08-18T16:30:00+08:00",
+  "brand_facts_ref": {
+    "object_type": "BrandFacts",
+    "object_id": "FS-BRAND-BDD02-MISSING",
+    "version": 1,
+    "brand_id": "fixture-brand-01"
+  },
+  "product_facts_refs": [
+    {
+      "object_type": "ProductFacts",
+      "object_id": "FS-PRODUCT-BDD02-P01",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
     },
-    "product_pool": [
-      {
-        "product_id": "P01",
-        "name": {"value": "人字纹亮丝麻西装", "source": "夹具虚构-剧本"},
-        "category": {"value": "西装", "source": "截图 IMG_0567"},
-        "sku": {"value": "1H7911911Q", "source": "截图 IMG_0567"},
-        "price": {
+    {
+      "object_type": "ProductFacts",
+      "object_id": "FS-PRODUCT-BDD02-P02",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    },
+    {
+      "object_type": "ProductFacts",
+      "object_id": "FS-PRODUCT-BDD02-P03",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    }
+  ],
+  "audience_facts_refs": [],
+  "persona_facts_refs": [],
+  "video_account_facts_ref": null,
+  "active_rule_refs": [],
+  "approved_brand_memory_refs": [],
+  "input_source_refs": [
+    {
+      "source_id": "SRC-BDD02-0001",
+      "brand_id": "fixture-brand-01",
+      "source_type": "BRAND_OPERATOR_INPUT",
+      "locator": "夹具虚构-剧本",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-BDD02-0002",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0567",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-BDD02-0003",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0573 / 截图 IMG_0575",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-BDD02-0004",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0568",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-BDD02-0005",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0573 / 截图 IMG_0577",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-BDD02-0006",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0577",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-BDD02-0007",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0569",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-BDD02-0008",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0580 / 截图 IMG_0596",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    }
+  ],
+  "snapshot_hash": "sha256:95643dc49f032b839db51d0801d56d1b9a9353b04fe6a2b14fc7acba6f02e1bd",
+  "_fixture_note": {
+    "original_fixture_note": "BD-D02 商品池 = 衡叙集夹具包·包2 的 P01/P02/P03 三件套（依据 acceptance/cases/OPEN_QUESTIONS.md 文首「素材映射表」——Founder 2026-08-17 随 8 主题一并批准，该表 BD-D02 行原文「P01+P02+P03 三件套」）。「同一详情页共享穿搭图的西装+西装裤+针织马甲可直接构成有限商品池」是执行侧的构造判断，映射表未作此表述，显式标注供 IA-0 复核。商品硬事实（款号/吊牌价/面料成分/里料/尺码）一字不改照抄截图原文，每字段标来源；库存与生命周期阶段为夹具虚构-剧本；商品池规模照抄 B.4.2/BD-D02「冻结事实」原文「商品池只有三个商品」。商品池边界：企业商品池 SKU 只有这 3 个，池外任何单品都不是企业商品池 SKU，禁止补写第 4 件商品/颜色/尺码/库存。故意缺失禁补：P03 里料在数据包原文即为『缺失』，此处保留缺失状态、不推断。未收录『关联图片编号』字段（数据包·包2 有该字段）：各字段的 source 已逐条标注对应截图号，图号清单不重复落盘；此为刻意省略，非事实缺失。hard_rules 为空：B.4.2/BD-D02 全段未列具名规则或禁令，与 acceptance/cases/BD-D02/manifest.yaml 的 hard_rule_refs: [] 一致。现状更新（本轮核对）：contracts/rules/ 已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三个 RuleRecord 对象（均 version 1、status ACTIVE），原「该目录只有 .gitkeep、无任何 RuleRecord 对象」的陈述已失效；但 B 未在本案例冻结规则，是否把品牌级禁语 R-FB01-001 补挂进本快照 hard_rules 与 Manifest，属改考卷内容，由 IA-0 裁决后回填（OQ-BD-D02-04），本快照不自行补挂。品牌名一律用虚构名『衡叙集』，brand_id 固定 fixture-brand-01。",
+    "migration": {
+      "batch": "块E-①（Founder 2026-08-18 批准，逐字迁移零丢失）",
+      "constants": {
+        "created_at": "2026-08-18T16:30:00+08:00",
+        "captured_at_fill": "2026-08-17T00:00:00+08:00",
+        "task_id_convention": "TASK-<case>-0001（夹具约定，无上游 Task 对象）"
+      },
+      "field_annotations": {
+        "facts.product_pool[0].price": {
           "fixture_field": "吊牌价",
           "raw_text": "980元",
-          "value": 980,
-          "currency": "CNY",
-          "as_of": "2026-08-17",
-          "source": "截图 IMG_0567"
+          "original_as_of": "2026-08-17"
         },
-        "composition": {"value": "79%莱赛尔 15.7%亚麻 5.3%聚酯纤维(含聚酯薄膜纤维) (含微量其他纤维)", "source": "截图 IMG_0567"},
-        "lining": {"value": "100%聚酯纤维", "source": "截图 IMG_0567"},
-        "style_attributes": {"value": ["H型正肩西装", "一粒同色扣", "无袋盖隐形口袋", "袖口排扣"], "source": "截图 IMG_0573 / 截图 IMG_0575"},
-        "selling_points": {"value": ["“H型正肩西装+人字纹亮丝阔腿裤”", "“一粒同色扣 + 无袋盖隐形口袋”"], "source": "截图 IMG_0573 / 截图 IMG_0575", "note": "数据包字段名为『已确认卖点』，只收录已确认项"},
-        "sizes": {"value": ["S", "M", "L", "XL"], "source": "截图 IMG_0567"},
-        "lifecycle_stage": {"value": "当季在售", "source": "夹具虚构-剧本"},
-        "inventory": {"value": 126, "unit": "件", "source": "夹具虚构-剧本"}
-      },
-      {
-        "product_id": "P02",
-        "name": {"value": "人字纹亮丝麻西装裤", "source": "夹具虚构-剧本"},
-        "category": {"value": "西装裤", "source": "截图 IMG_0568"},
-        "sku": {"value": "1H7953411Q", "source": "截图 IMG_0568"},
-        "price": {
+        "facts.product_pool[0].lining": {
+          ".": {
+            "value": "100%聚酯纤维",
+            "source": "截图 IMG_0567"
+          }
+        },
+        "facts.product_pool[0].selling_points": {
+          "note": "数据包字段名为『已确认卖点』，只收录已确认项"
+        },
+        "facts.product_pool[1].price": {
           "fixture_field": "吊牌价",
           "raw_text": "798元",
-          "value": 798,
-          "currency": "CNY",
-          "as_of": "2026-08-17",
-          "source": "截图 IMG_0568"
+          "original_as_of": "2026-08-17"
         },
-        "composition": {"value": "79%莱赛尔 15.7%亚麻 5.3%聚酯纤维(含聚酯薄膜纤维) (含微量其他纤维)", "source": "截图 IMG_0568"},
-        "lining": {"value": "100%聚酯纤维", "source": "截图 IMG_0568"},
-        "style_attributes": {"value": ["人字纹亮丝阔腿裤", "双褶设计", "宽大裤腿"], "source": "截图 IMG_0573 / 截图 IMG_0577"},
-        "selling_points": {"value": ["“腹部两侧各两道收褶，预留充足立体空间，包容性强，适合久坐人群”", "“纵向褶线视觉拉长腿部”"], "source": "截图 IMG_0577", "note": "数据包字段名为『已确认卖点』，只收录已确认项"},
-        "sizes": {"value": ["S", "M", "L", "XL"], "source": "截图 IMG_0568"},
-        "lifecycle_stage": {"value": "当季在售", "source": "夹具虚构-剧本"},
-        "inventory": {"value": 188, "unit": "件", "source": "夹具虚构-剧本"}
-      },
-      {
-        "product_id": "P03",
-        "name": {"value": "亮丝麻针织马甲", "source": "夹具虚构-剧本"},
-        "category": {"value": "针织马甲", "source": "截图 IMG_0569"},
-        "sku": {"value": "1H7934051Q", "source": "截图 IMG_0569"},
-        "price": {
+        "facts.product_pool[1].lining": {
+          ".": {
+            "value": "100%聚酯纤维",
+            "source": "截图 IMG_0568"
+          }
+        },
+        "facts.product_pool[1].selling_points": {
+          "note": "数据包字段名为『已确认卖点』，只收录已确认项"
+        },
+        "facts.product_pool[2].price": {
           "fixture_field": "吊牌价",
           "raw_text": "598元",
-          "value": 598,
-          "currency": "CNY",
-          "as_of": "2026-08-17",
-          "source": "截图 IMG_0569"
+          "original_as_of": "2026-08-17"
         },
-        "composition": {"value": "53.9%莱赛尔 19.7%聚酯纤维 10.1%醋纤 8.9%亚麻 4.9%锦纶 2.5%聚酯薄膜纤维（装饰及罗纹除外）", "source": "截图 IMG_0569"},
-        "lining": {"value": null, "status": "缺失", "source": "截图 IMG_0569", "note": "数据包原文即为『缺失』——故意缺失，禁止补写或推断"},
-        "style_attributes": {"value": ["V领", "无袖", "前开扣", "短款针织马甲"], "source": "截图 IMG_0580 / 截图 IMG_0596"},
-        "selling_points": {"value": ["单品图确认 V 领、无袖、前开扣；可与同页西装和西装裤组合"], "source": "截图 IMG_0580 / 截图 IMG_0596", "note": "数据包字段名为『已确认卖点』，只收录已确认项"},
-        "sizes": {"value": ["S", "M", "L", "XL"], "source": "截图 IMG_0569"},
-        "lifecycle_stage": {"value": "当季在售", "source": "夹具虚构-剧本"},
-        "inventory": {"value": 94, "unit": "件", "source": "夹具虚构-剧本"}
+        "facts.product_pool[2].lining": {
+          ".": {
+            "value": null,
+            "status": "缺失",
+            "source": "截图 IMG_0569",
+            "note": "数据包原文即为『缺失』——故意缺失，禁止补写或推断"
+          }
+        },
+        "facts.product_pool[2].selling_points": {
+          "note": "数据包字段名为『已确认卖点』，只收录已确认项"
+        }
       }
-    ]
-  },
-  "hard_rules": []
+    }
+  }
 }

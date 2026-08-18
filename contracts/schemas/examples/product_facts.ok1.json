@@ -1,246 +1,246 @@
 {
-  "fact_set_id": "FS-PRODUCT-P01-0001",
-  "fact_type": "ProductFacts",
-  "brand_id": "fixture-brand-01",
-  "version": 1,
-  "schema_version": "A-3.2-v2",
-  "updated_at": "2026-08-17T10:00:00+08:00",
-  "updated_by_role": "BRAND_OPERATOR",
-  "product_id": "P01",
-  "sku": {
-    "value": "1H7911911Q",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-IMG-0567",
-        "brand_id": "fixture-brand-01",
-        "source_type": "IMAGE_INPUT",
-        "locator": "IMG_0567 商品信息页 款号行",
-        "captured_at": "2026-08-17T09:12:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "name": {
-    "value": "人字纹亮丝麻西装",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-OP-P01-NAME",
-        "brand_id": "fixture-brand-01",
-        "source_type": "BRAND_OPERATOR_INPUT",
-        "locator": "夹具数据包 v1.0 包2 P01 商品名字段",
-        "captured_at": "2026-08-17T09:30:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "category": {
-    "value": "西装",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-IMG-0567",
-        "brand_id": "fixture-brand-01",
-        "source_type": "IMAGE_INPUT",
-        "locator": "IMG_0567 商品信息页 品类行",
-        "captured_at": "2026-08-17T09:12:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "price": {
-    "value": {
-      "amount": 980,
-      "currency": "CNY",
-      "as_of": "2026-08-17T00:00:00+08:00"
-    },
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-IMG-0567",
-        "brand_id": "fixture-brand-01",
-        "source_type": "IMAGE_INPUT",
-        "locator": "IMG_0567 商品信息页 吊牌价「980元」",
-        "captured_at": "2026-08-17T09:12:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T00:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "inventory": {
-    "value": {
-      "value": 126,
-      "unit": "件",
-      "as_of": "2026-08-17T08:00:00+08:00"
-    },
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-INV-20260817",
-        "brand_id": "fixture-brand-01",
-        "source_type": "BRAND_OPERATOR_INPUT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-商品事实 P01（库存数为夹具虚构-剧本字段，按数据合成三分法标注，台账 08-16「数据合成三分法」行；原 SYSTEM_RECORD/库存快照 系仓库不存在的系统记录，块 B 按审查 X-04a 修正）",
-        "captured_at": "2026-08-17T08:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T08:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "material": {
-    "value": [
-      "79%莱赛尔",
-      "15.7%亚麻",
-      "5.3%聚酯纤维(含聚酯薄膜纤维)",
-      "(含微量其他纤维)"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-IMG-0567",
-        "brand_id": "fixture-brand-01",
-        "source_type": "IMAGE_INPUT",
-        "locator": "IMG_0567 商品信息页 面料成分行",
-        "captured_at": "2026-08-17T09:12:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "style_attributes": {
-    "value": [
-      "H型正肩西装",
-      "一粒同色扣",
-      "无袋盖隐形口袋",
-      "袖口排扣"
-    ],
-    "status": "PROVISIONAL",
-    "source_refs": [
-      {
-        "source_id": "SRC-EXTRACT-P01-STYLE",
-        "brand_id": "fixture-brand-01",
-        "source_type": "MODEL_EXTRACTION",
-        "locator": "IMG_0573、IMG_0575 详情页文案抽取",
-        "captured_at": "2026-08-17T09:40:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": "MEDIUM",
-    "uncertainty_reason": "版型风格特征由详情页文案抽取所得，未经品牌运营逐条确认"
-  },
-  "selling_points": {
-    "value": [
-      "H型正肩西装+人字纹亮丝阔腿裤",
-      "一粒同色扣 + 无袋盖隐形口袋"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-IMG-0573",
-        "brand_id": "fixture-brand-01",
-        "source_type": "IMAGE_INPUT",
-        "locator": "IMG_0573 详情页 卖点文案",
-        "captured_at": "2026-08-17T09:14:00+08:00",
-        "checksum": null
-      },
-      {
-        "source_id": "SRC-IMG-0575",
-        "brand_id": "fixture-brand-01",
-        "source_type": "IMAGE_INPUT",
-        "locator": "IMG_0575 详情页 卖点文案",
-        "captured_at": "2026-08-17T09:15:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "image_refs": [
-    {
-      "source_id": "SRC-IMG-0565",
-      "brand_id": "fixture-brand-01",
-      "source_type": "IMAGE_INPUT",
-      "locator": "IMG_0565 商品图",
-      "captured_at": "2026-08-17T09:10:00+08:00",
-      "checksum": null
-    },
-    {
-      "source_id": "SRC-IMG-0570",
-      "brand_id": "fixture-brand-01",
-      "source_type": "IMAGE_INPUT",
-      "locator": "IMG_0570 面料说明图",
-      "captured_at": "2026-08-17T09:11:00+08:00",
-      "checksum": null
-    },
-    {
-      "source_id": "SRC-IMG-0573",
-      "brand_id": "fixture-brand-01",
-      "source_type": "IMAGE_INPUT",
-      "locator": "IMG_0573 详情页图",
-      "captured_at": "2026-08-17T09:14:00+08:00",
-      "checksum": null
-    }
+ "fact_set_id": "FS-PRODUCT-P01-0001",
+ "fact_type": "PRODUCT_FACTS",
+ "brand_id": "fixture-brand-01",
+ "version": 1,
+ "schema_version": "A-3.2-v2",
+ "updated_at": "2026-08-17T10:00:00+08:00",
+ "updated_by_role": "BRAND_OPERATOR",
+ "product_id": "P01",
+ "sku": {
+  "value": "1H7911911Q",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-IMG-0567",
+    "brand_id": "fixture-brand-01",
+    "source_type": "IMAGE_INPUT",
+    "locator": "IMG_0567 商品信息页 款号行",
+    "captured_at": "2026-08-17T09:12:00+08:00",
+    "checksum": null
+   }
   ],
-  "size_range": {
-    "value": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-IMG-0567",
-        "brand_id": "fixture-brand-01",
-        "source_type": "IMAGE_INPUT",
-        "locator": "IMG_0567 商品信息页 尺码范围行",
-        "captured_at": "2026-08-17T09:12:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": "HIGH",
-    "uncertainty_reason": null
+  "as_of": null,
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "name": {
+  "value": "人字纹亮丝麻西装",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-OP-P01-NAME",
+    "brand_id": "fixture-brand-01",
+    "source_type": "BRAND_OPERATOR_INPUT",
+    "locator": "夹具数据包 v1.0 包2 P01 商品名字段",
+    "captured_at": "2026-08-17T09:30:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "category": {
+  "value": "西装",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-IMG-0567",
+    "brand_id": "fixture-brand-01",
+    "source_type": "IMAGE_INPUT",
+    "locator": "IMG_0567 商品信息页 品类行",
+    "captured_at": "2026-08-17T09:12:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "price": {
+  "value": {
+   "amount": 980,
+   "currency": "CNY",
+   "as_of": "2026-08-17T00:00:00+08:00"
   },
-  "lifecycle_stage": {
-    "value": "当季在售",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-OP-P01-LIFECYCLE",
-        "brand_id": "fixture-brand-01",
-        "source_type": "BRAND_OPERATOR_INPUT",
-        "locator": "夹具数据包 v1.0 包2 P01 生命周期阶段字段",
-        "captured_at": "2026-08-17T09:30:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T00:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-IMG-0567",
+    "brand_id": "fixture-brand-01",
+    "source_type": "IMAGE_INPUT",
+    "locator": "IMG_0567 商品信息页 吊牌价「980元」",
+    "captured_at": "2026-08-17T09:12:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T00:00:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "inventory": {
+  "value": {
+   "value": 126,
+   "unit": "件",
+   "as_of": "2026-08-17T08:00:00+08:00"
   },
-  "visual_profile_ref": {
-    "object_type": "VisualProfile",
-    "object_id": "VP-P01-0001",
-    "version": 1,
-    "brand_id": "fixture-brand-01"
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-INV-20260817",
+    "brand_id": "fixture-brand-01",
+    "source_type": "BRAND_OPERATOR_INPUT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-商品事实 P01（库存数为夹具虚构-剧本字段，按数据合成三分法标注，台账 08-16「数据合成三分法」行；原 SYSTEM_RECORD/库存快照 系仓库不存在的系统记录，块 B 按审查 X-04a 修正）",
+    "captured_at": "2026-08-17T08:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T08:00:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "material": {
+  "value": [
+   "79%莱赛尔",
+   "15.7%亚麻",
+   "5.3%聚酯纤维(含聚酯薄膜纤维)",
+   "(含微量其他纤维)"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-IMG-0567",
+    "brand_id": "fixture-brand-01",
+    "source_type": "IMAGE_INPUT",
+    "locator": "IMG_0567 商品信息页 面料成分行",
+    "captured_at": "2026-08-17T09:12:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "style_attributes": {
+  "value": [
+   "H型正肩西装",
+   "一粒同色扣",
+   "无袋盖隐形口袋",
+   "袖口排扣"
+  ],
+  "status": "PROVISIONAL",
+  "source_refs": [
+   {
+    "source_id": "SRC-EXTRACT-P01-STYLE",
+    "brand_id": "fixture-brand-01",
+    "source_type": "MODEL_EXTRACTION",
+    "locator": "IMG_0573、IMG_0575 详情页文案抽取",
+    "captured_at": "2026-08-17T09:40:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": "MEDIUM",
+  "uncertainty_reason": "版型风格特征由详情页文案抽取所得，未经品牌运营逐条确认"
+ },
+ "selling_points": {
+  "value": [
+   "H型正肩西装+人字纹亮丝阔腿裤",
+   "一粒同色扣 + 无袋盖隐形口袋"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-IMG-0573",
+    "brand_id": "fixture-brand-01",
+    "source_type": "IMAGE_INPUT",
+    "locator": "IMG_0573 详情页 卖点文案",
+    "captured_at": "2026-08-17T09:14:00+08:00",
+    "checksum": null
+   },
+   {
+    "source_id": "SRC-IMG-0575",
+    "brand_id": "fixture-brand-01",
+    "source_type": "IMAGE_INPUT",
+    "locator": "IMG_0575 详情页 卖点文案",
+    "captured_at": "2026-08-17T09:15:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "image_refs": [
+  {
+   "source_id": "SRC-IMG-0565",
+   "brand_id": "fixture-brand-01",
+   "source_type": "IMAGE_INPUT",
+   "locator": "IMG_0565 商品图",
+   "captured_at": "2026-08-17T09:10:00+08:00",
+   "checksum": null
+  },
+  {
+   "source_id": "SRC-IMG-0570",
+   "brand_id": "fixture-brand-01",
+   "source_type": "IMAGE_INPUT",
+   "locator": "IMG_0570 面料说明图",
+   "captured_at": "2026-08-17T09:11:00+08:00",
+   "checksum": null
+  },
+  {
+   "source_id": "SRC-IMG-0573",
+   "brand_id": "fixture-brand-01",
+   "source_type": "IMAGE_INPUT",
+   "locator": "IMG_0573 详情页图",
+   "captured_at": "2026-08-17T09:14:00+08:00",
+   "checksum": null
   }
+ ],
+ "size_range": {
+  "value": [
+   "S",
+   "M",
+   "L",
+   "XL"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-IMG-0567",
+    "brand_id": "fixture-brand-01",
+    "source_type": "IMAGE_INPUT",
+    "locator": "IMG_0567 商品信息页 尺码范围行",
+    "captured_at": "2026-08-17T09:12:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "lifecycle_stage": {
+  "value": "当季在售",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-OP-P01-LIFECYCLE",
+    "brand_id": "fixture-brand-01",
+    "source_type": "BRAND_OPERATOR_INPUT",
+    "locator": "夹具数据包 v1.0 包2 P01 生命周期阶段字段",
+    "captured_at": "2026-08-17T09:30:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T00:00:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "visual_profile_ref": {
+  "object_type": "VisualProfile",
+  "object_id": "VP-P01-0001",
+  "version": 1,
+  "brand_id": "fixture-brand-01"
+ }
 }

@@ -8,7 +8,7 @@
 
 case_id: CR-D01
 # 与 acceptance/cases/BD-D01/case.yaml 的 v0.1 对齐；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
-case_version: "v0.3"
+case_version: "v0.4"
 
 prd_version: "v0.2"
 data_contract_version: "v0.3"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
@@ -17,7 +17,7 @@ acceptance_contract_version: "v0.5"
 # 起草时为规划名、快照尚未构建；2026-08-17 现状：快照已落盘 acceptance/cases/CR-D01/fixtures/context_snapshot.json，snapshot_hash 已回填
 # 两份变体共用同一快照与同一 hash（B:521「使用相同商品、商业目标和已选候选」）；hash 已于 2026-08-17 按快照实算回填（OQ-CR-D01-06 ✅预裁决 08-17）
 context_snapshot_id: "SNAP-CRD01-0001"
-snapshot_hash: "sha256:a2274a8606a004948f91d73e14358421335f2f88d4be3a2927c050c8b4fc130f"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+snapshot_hash: "sha256:0c7cfd015b687f38ec5d4e53e93c5b7f8f8e515d456b616cf0d0ecd80f37ccca"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # 逐字引自 B:521 与本次运行的人设分支 B:524（含列表符号，未改字）；另一分支 B:523 见 manifest.persona-owner.yaml。
 # B 把两种人设写在同一句「分别切换」指令下，逐运行任务陈述的最终措辞已于 2026-08-17 定稿（OQ-CR-D01-02 ✅预裁决 08-17）

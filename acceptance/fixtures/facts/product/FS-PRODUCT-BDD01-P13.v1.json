@@ -1,0 +1,114 @@
+{
+  "fact_set_id": "FS-PRODUCT-BDD01-P13",
+  "fact_type": "PRODUCT_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.2-v2",
+  "updated_at": "2026-08-18T16:30:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "product_id": "P13",
+  "name": {
+    "status": "CONFIRMED",
+    "value": "10%羊绒风衣式大衣",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD01-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "文件级溯源（原快照 _fixture_note 逐字）：BD-D01 冻结事实照抄 B.4.2/BD-D01 + 衡叙集夹具包 P13 商品事实（截图溯源见数据包）；库存为夹具虚构（剧本）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "price": {
+    "status": "CONFIRMED",
+    "value": {
+      "amount": 3980,
+      "currency": "CNY",
+      "as_of": "2026-08-17T00:00:00+08:00"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD01-0002",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0684",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "material": {
+    "status": "CONFIRMED",
+    "value": [
+      "黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD01-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "文件级溯源（原快照 _fixture_note 逐字）：BD-D01 冻结事实照抄 B.4.2/BD-D01 + 衡叙集夹具包 P13 商品事实（截图溯源见数据包）；库存为夹具虚构（剧本）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "size_range": {
+    "status": "CONFIRMED",
+    "value": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD01-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "文件级溯源（原快照 _fixture_note 逐字）：BD-D01 冻结事实照抄 B.4.2/BD-D01 + 衡叙集夹具包 P13 商品事实（截图溯源见数据包）；库存为夹具虚构（剧本）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "lifecycle_stage": {
+    "status": "CONFIRMED",
+    "value": "库存消化期",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD01-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "文件级溯源（原快照 _fixture_note 逐字）：BD-D01 冻结事实照抄 B.4.2/BD-D01 + 衡叙集夹具包 P13 商品事实（截图溯源见数据包）；库存为夹具虚构（剧本）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "category": {
+    "status": "MISSING",
+    "value": null
+  },
+  "inventory": {
+    "status": "CONFIRMED",
+    "value": {
+      "value": 800,
+      "unit": "件",
+      "as_of": "2026-08-17T00:00:00+08:00"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD01-0004",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "夹具虚构（剧本）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  }
+}

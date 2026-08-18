@@ -7,7 +7,7 @@
 case_id: BD-D02
 
 # 与同批 BD 案例一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不写进版本号。
-case_version: "v0.3"
+case_version: "v0.4"
 
 # 以下三行版本取自 M0-EP01_文档版本一致性声明.md「一、现行版本基线」：主 PRD v0.1 / 附录 A v0.2 / 附录 B v0.4
 #（起草时基线为 A v0.1 / B v0.3；2026-08-17 A 补 emotion 字段升 v0.2、B 补登 EVAL_BLINDING_PROCEDURE_INVALID 升 v0.4，三行字段值已同批对齐）
@@ -18,7 +18,7 @@ acceptance_contract_version: "v0.5"
 # 起草时 BD-D02 尚无 fixtures/ 夹具；2026-08-17 现状：快照已落盘 acceptance/cases/BD-D02/fixtures/context_snapshot.json，snapshot_hash 已回填
 # B:448「商品池只有三个商品」属该快照的事实层内容，已于 2026-08-17 建快照时冻结（OQ-BD-D02-03 ✅预裁决 08-17）。
 context_snapshot_id: "SNAP-BDD02-0001"
-snapshot_hash: "sha256:09e9ef3b7b0508a70bbdcfb117c862ba1ae51141c5f03b5e578b901492b9b488"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+snapshot_hash: "sha256:277533dfe29e3bf89dc6f899b586ab5905a55f1085e4ed1989627cd3ba9ea19e"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # B.4.2/BD-D02 未给任务原文（无「输入」小节、无「能力问题」小节）→ 起草时不填看似合理的假值。
 # 用户任务原文（B:448 语义中的「做十套穿搭」请求）已由 Founder 于 2026-08-17 冻结定稿（OQ-BD-D02-02，裁决台账 08-17）。

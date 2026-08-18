@@ -1,0 +1,166 @@
+{
+  "fact_set_id": "FS-PRODUCT-E2E03-P11",
+  "fact_type": "PRODUCT_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.2-v2",
+  "updated_at": "2026-08-18T16:30:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "product_id": "P11",
+  "name": {
+    "status": "CONFIRMED",
+    "value": "荧光绿高腰阔腿裤",
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0024",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 P11 商品名【虚构-剧本】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "category": {
+    "status": "CONFIRMED",
+    "value": "裤子",
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0025",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0671",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "price": {
+    "status": "CONFIRMED",
+    "value": {
+      "amount": 2280,
+      "currency": "CNY",
+      "as_of": "2026-08-17T00:00:00+08:00"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0026",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0671；价格事实有效日统一记为 2026-08-17【虚构-剧本】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "material": {
+    "status": "CONFIRMED",
+    "value": [
+      "面料1：棉100%",
+      "面料：棉 100%"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0027",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0667（「面料1：棉100%」）；截图 IMG_0671（「面料：棉 100%」）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "style_attributes": {
+    "status": "CONFIRMED",
+    "value": [
+      "荧光绿、高腰、阔腿、附腰带；商品指数标注版型“合身”、弹力“无弹”、厚度“适中”"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0028",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0664、截图 IMG_0667",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "selling_points": {
+    "status": "CONFIRMED",
+    "value": [
+      "颜色“荧光绿”；面料“棉100%”；高腰腰带结构与阔腿裤型"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0029",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0667、截图 IMG_0669、截图 IMG_0671",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "size_range": {
+    "status": "CONFIRMED",
+    "value": [
+      "34",
+      "36",
+      "38",
+      "40"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0030",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0670（号型原文照抄）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "lifecycle_stage": {
+    "status": "CONFIRMED",
+    "value": "正常在售新品",
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0031",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 P11【虚构-剧本】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "inventory": {
+    "status": "CONFIRMED",
+    "value": {
+      "value": 180,
+      "unit": "件",
+      "as_of": "2026-08-17T00:00:00+08:00"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0031",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 P11【虚构-剧本】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "image_refs": [
+    {
+      "source_id": "SRC-E2E03-IMGTXT",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "IMG_0664—IMG_0671",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    }
+  ]
+}

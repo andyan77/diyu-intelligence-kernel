@@ -196,6 +196,7 @@ def sub_once(tree, relpath, pattern, repl):
 
 E2E01_MF = "acceptance/cases/E2E-01/manifest.yaml"
 E2E01_SNAP = "acceptance/cases/E2E-01/fixtures/context_snapshot.json"
+E2E01_POOL_P13 = "acceptance/fixtures/facts/product/FS-PRODUCT-E2E01-P13.v1.json"
 GEN_PARAMS = "contracts/interaction/generation_parameters.json"
 ANON_DOC = "contracts/interaction/anonymity_procedure.md"
 INTERACTION_README = "contracts/interaction/README.md"
@@ -283,26 +284,58 @@ def m7_delete_one_manifest(tree):
 
 
 def m8_tamper_snapshot(tree):
-    """M8 改快照内容（企业事实 facts.inventory.value 库存 800 → 801）。期望：R4（snapshot_hash 与实算不符）。
+    """M8 改考卷事实值（E2E-01 P13 库存 800 → 801）。期望：R4。
 
-    走**结构路径**改而不是文本串替换：`"value": 800` 在本快照里出现两次（顶层 facts.inventory 与
-    facts.product.inventory），文本锚点不唯一，改错一处会让「门为什么红」变得不可归因。
-    改完当场用出厂门自己的 canonical_snapshot_hash 断言哈希确实变了——门算的是**规范化** JSON sha256
-    （键排序 + 紧凑分隔符），纯格式改动本就不该变哈希（设计如此，不是漏判），
-    这一句断言保证本条测的是真的内容篡改，而不是一次格式级 no-op 骗出来的红。"""
-    p = os.path.join(tree, E2E01_SNAP)
-    before = GATE.canonical_snapshot_hash(p)
+    锚点同步（块 E ① 迁移，2026-08-18）：快照迁为 A.4.3 引用式后，事实值的实体载体从快照文件
+    搬进 facts 池（acceptance/fixtures/facts/**）——本条原来改 `facts.inventory.value`，现改
+    池对象 FS-PRODUCT-E2E01-P13 的 `inventory.value.value`。守护语义不变：**改考卷事实值门必须红**；
+    执行面从「R4 快照 hash 不符」变为「R4 fact_fixtures 正文 digest 不符」（check_fact_fixture_freeze），
+    不锚池 = 迁移后改库存/价格门照绿（本条重锚前实测即如此）。快照文件自身的改动面由 M27 另测。"""
+    p = os.path.join(tree, E2E01_POOL_P13)
     with io.open(p, encoding="utf-8") as f:
         obj = json.load(f)
-    node = obj["facts"]["inventory"]
+    node = obj["inventory"]["value"]
     if node.get("value") != 800:
-        raise AssertionError("M8 前置不成立：facts.inventory.value=%r（应为 800）" % node.get("value"))
+        raise AssertionError("M8 前置不成立：inventory.value.value=%r（应为 800）" % node.get("value"))
     node["value"] = 801
     with io.open(p, "w", encoding="utf-8") as f:
         json.dump(obj, f, ensure_ascii=False, indent=2)
         f.write("\n")
+
+
+def m27_tamper_snapshot_ref(tree):
+    """M27（块 E 新增）：改快照文件本身——把一条 product_facts_refs 的 version 1→2（指向不存在的
+    未来版本）。期望：R4（Manifest snapshot_hash 与实算不符——快照正文任何改动即过期）。
+    与 M8 合起来覆盖迁移后的两个改考卷面：池值面（M8）与快照引用面（本条）。"""
+    p = os.path.join(tree, E2E01_SNAP)
+    before = GATE.canonical_snapshot_hash(p)
+    with io.open(p, encoding="utf-8") as f:
+        obj = json.load(f)
+    refs = obj["product_facts_refs"]
+    if not refs or refs[0].get("version") != 1:
+        raise AssertionError("M27 前置不成立：product_facts_refs[0].version=%r（应为 1）"
+                             % (refs and refs[0].get("version")))
+    refs[0]["version"] = 2
+    with io.open(p, "w", encoding="utf-8") as f:
+        json.dump(obj, f, ensure_ascii=False, indent=2)
+        f.write("\n")
     if GATE.canonical_snapshot_hash(p) == before:
-        raise AssertionError("M8 改后规范化 hash 未变，变异没生效（成了格式级 no-op）")
+        raise AssertionError("M27 改后规范化 hash 未变，变异没生效")
+
+
+def m28_od02_model_split(tree):
+    """M28（块 E ④g / E-01 防复发活体证据）：把 OD-02「A/B 主模型」行的模型串改回 qwen-max-0107，
+    参数文件与 Manifest 不动——复刻主模型真源分裂（复审甲P0-1/乙P0-01 实测存在过四个提交窗口的状态）。
+    期望：R8（check_od02_model_identity 三角全等）。重锚前实测：门只验参数文件↔Manifest 互洽，分裂无检测器。"""
+    p = os.path.join(tree, "contracts/OD-02_模型与参数定格记录.md")
+    with io.open(p, encoding="utf-8") as f:
+        text = f.read()
+    anchor = "| **A/B 主模型**（笛语侧与基线侧同用） | **qwen3-max-2026-01-23**"
+    if anchor not in text:
+        raise AssertionError("M28 前置不成立：OD-02 主模型行锚点未命中")
+    text = text.replace(anchor, "| **A/B 主模型**（笛语侧与基线侧同用） | **qwen-max-0107**", 1)
+    with io.open(p, "w", encoding="utf-8") as f:
+        f.write(text)
 
 
 def m9_blank_required_field(tree):
@@ -540,8 +573,12 @@ CHECKS = [
      m6_duplicate_case_id, "sign", "RED", ("R12",), (), None),
     ("M7", "删除一份 Manifest（齐套被破坏）",
      m7_delete_one_manifest, "sign", "RED", ("R1",), (), None),
-    ("M8", "快照内容改一处取值（库存 800→801）",
+    ("M8", "考卷事实值改一处取值（facts 池 库存 800→801，块 E 重锚）",
      m8_tamper_snapshot, "sign", "RED", ("R4",), (), None),
+    ("M27", "快照引用面改动（product ref version 1→2，快照正文过期）",
+     m27_tamper_snapshot_ref, "sign", "RED", ("R4",), (), None),
+    ("M28", "OD-02 主模型行与参数真源分裂（E-01 同款，三角全等防复发）",
+     m28_od02_model_split, "sign", "RED", ("R8",), (), None),
     ("M9", "Manifest 必填字段 task_statement 置空串",
      m9_blank_required_field, "sign", "RED", ("R2",), (), None),
     ("M10", "删 B.7 一行需求映射并同步 digest（逼 R13 独立命中）",
@@ -638,6 +675,27 @@ def main():
                   % (expect,
                      ("（含 %s）" % "/".join(want_rules)) if want_rules else "",
                      detail))
+        # ---- Z-12（块 E 并入）：运行态逐条横扫——每个送签态 RED 变异在**同一副本树**上再以
+        # 运行态跑一遍，断言被测红线在运行态同样命中（运行态基线本就有 R2×40，故只断言
+        # want ⊆ fired，不断言集合全等；「运行态表现按同一实现推断」的披露②到此改为实测）。
+        sweep_total = sweep_pass = 0
+        for cid, desc, mutate, mode, expect, want_rules, forbid_rules, exact_rules in CHECKS:
+            if mode != "sign" or expect != "RED" or not want_rules:
+                continue
+            tree = os.path.join(work, cid)
+            if not os.path.isdir(tree):
+                continue
+            sweep_total += 1
+            rc, out, rules = run_gate(tree, mode="run")
+            fired = "、".join(sorted(rules, key=lambda r: int(r[1:]))) or "无"
+            ok = is_red(rc, out) and bool(set(want_rules) & rules)
+            sweep_pass += ok
+            if not ok:
+                failures.append(("Z12·%s" % cid,
+                                 "运行态未复现被测红线：期望含 %s，实得 {%s}" % ("/".join(want_rules), fired), out))
+            print("[Z12·%-3s] %-4s 运行态复测 | 期望含 %s | 实得 {%s}"
+                  % (cid, "PASS" if ok else "FAIL", "/".join(want_rules), fired))
+        print("[Z12] 运行态横扫 %d/%d 全部命中被测红线" % (sweep_pass, sweep_total))
     finally:
         if os.environ.get("KEEP_MUTATION_TREES") == "1":
             print("\n副本树保留于 %s（KEEP_MUTATION_TREES=1）" % work)
@@ -668,11 +726,13 @@ def main():
         return 1
     injected = [c for c in CHECKS if c[4] == "RED"]
     print("PASS —— %d 项全过：门在 %d 个缺陷面上逐一转红，且未变异副本在送签态判绿、"
-          "运行态只红设计内类别（重签后仅 R2）。" % (len(CHECKS), len(injected)))
+          "运行态只红设计内类别（重签后仅 R2）；Z-12 运行态横扫 %d 条 RED 变异逐条复测命中。"
+          % (len(CHECKS) + sweep_total, len(injected), sweep_total))
     print("本结论只覆盖上列注入点，**不等于**门无漏判。如实披露三点：")
-    print("  ① 未被变异覆盖的红线（R5 / R6 / R7）本次仍无活体证据，不得据此宣称『十三条红线全部已验证』；")
-    print("  ② 双模式已取证的只有 M0-run 这一条运行态基线 + M19/M20 两条豁免边界；"
-          "其余变异只在送签态取证，运行态表现按同一实现推断、未逐条实测；")
+    print("  ① R5/R6/R7 的活体证据已由 M21-M24 补齐（块 A，2026-08-18）——原「仍无活体证据」披露过期作废；"
+          "R13 由 M10 承载；现十三条红线均有至少一条变异活体证据；")
+    print("  ② 运行态取证（块 E Z-12，2026-08-18 起）：全部送签态 RED 变异在运行态逐条复测命中被测红线"
+          "（Z12 横扫段）——原「运行态表现按同一实现推断、未逐条实测」披露过期作废；")
     print("  ③ M10/M14/M16 用 sync_digest_registry **显式重写了冻结历史**来隔离被测红线——"
           "这条路径本身是 frozen_digests.json `_chain_algorithm` 里如实交代的残余面："
           "链把「顺手弄绿」抬成「显式重写历史」，不等于正文不可篡改。")

@@ -74,6 +74,17 @@
           "$comment": "A.3.5 real_anchors（A v0.3，Founder 2026-08-18 R3 裁决）：真实锚点清单，完全选填（O）；列出该人设必须如实的身份要素，锚点之外默认演绎自由。用普通 FactValueStringArray（CONFIRMED 禁空数组）——『确认无锚点』用不填本字段表达，不占用空数组白名单"
         }
       }
+    },
+    {
+      "$comment": "块 E ④c（E-10）：fact_type/schema_version 绑本族常量——复审实测错族对象可过对应 Schema（信封只判 string）。常量值=examples ok 例现行值；族 Schema 升版时同批改此处",
+      "properties": {
+        "fact_type": {
+          "const": "PERSONA_FACTS"
+        },
+        "schema_version": {
+          "const": "A-3.5-v3"
+        }
+      }
     }
   ],
   "properties": {

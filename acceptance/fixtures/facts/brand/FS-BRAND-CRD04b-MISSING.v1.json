@@ -1,0 +1,37 @@
+{
+  "fact_set_id": "FS-BRAND-CRD04b-MISSING",
+  "fact_type": "BRAND_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.1-v2",
+  "updated_at": "2026-08-18T16:30:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "brand_name": {
+    "status": "MISSING",
+    "value": null
+  },
+  "positioning": {
+    "status": "MISSING",
+    "value": null
+  },
+  "values": {
+    "status": "MISSING",
+    "value": null
+  },
+  "tone": {
+    "status": "MISSING",
+    "value": null
+  },
+  "target_customer_summary": {
+    "status": "MISSING",
+    "value": null
+  },
+  "forbidden_expressions": {
+    "status": "MISSING",
+    "value": null
+  },
+  "commercial_constraints": {
+    "status": "MISSING",
+    "value": null
+  }
+}

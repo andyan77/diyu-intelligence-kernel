@@ -1,88 +1,88 @@
 {
-  "fact_set_id": "FS-PERSONA-R01-0001",
-  "fact_type": "PersonaFacts",
-  "brand_id": "fixture-brand-01",
-  "version": 1,
-  "schema_version": "A-3.5-v2",
-  "updated_at": "2026-08-17T10:00:00+08:00",
-  "updated_by_role": "BRAND_OPERATOR",
-  "persona_id": "R01",
-  "voice_traits": {
-    "value": [
-      "句子不快，先把问题和条件说清，再给判断",
-      "常用门店试穿、退换原因、面料取舍和一件衣服穿了多久来举例",
-      "很少直接下购买指令"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-VOICE",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「说话风格」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "beliefs": {
-    "value": null,
-    "status": "MISSING",
-    "source_refs": [],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "audience_relationship": {
-    "value": "把观众视为长期熟客和共同判断者；允许观众带着不同体型、预算和生活阶段反驳她，不用“教育消费者”的姿态压过真实反馈",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-RELATION",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「与粉丝关系」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "forbidden_styles": {
-    "value": [
-      "姐妹们冲",
-      "闭眼买",
-      "谁穿谁好看",
-      "全网最低",
-      "错过后悔"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-FORBIDDEN",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「绝不使用的表达」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "_fixture_note": {
-    "violation": "负例 1：缺 R 必填字段。相对 persona_facts.ok1.json 整体删除 identity（A.3.5 表内 identity 为 FactValue<string>、必填 R，A 行 324）。缺失必须表达为 status=MISSING 的 FactValue，而不是省略字段本身，故本例应被 required 拦下。其余字段与 ok1 相同、均合法。",
-    "expected_error_substr": "'identity' is a required property",
-    "delta_keys_vs_ok1": [
-      "~beliefs",
-      "-identity",
-      "-speaker_constraints"
-    ]
-  }
+ "fact_set_id": "FS-PERSONA-R01-0001",
+ "fact_type": "PERSONA_FACTS",
+ "brand_id": "fixture-brand-01",
+ "version": 1,
+ "schema_version": "A-3.5-v2",
+ "updated_at": "2026-08-17T10:00:00+08:00",
+ "updated_by_role": "BRAND_OPERATOR",
+ "persona_id": "R01",
+ "voice_traits": {
+  "value": [
+   "句子不快，先把问题和条件说清，再给判断",
+   "常用门店试穿、退换原因、面料取舍和一件衣服穿了多久来举例",
+   "很少直接下购买指令"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-VOICE",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「说话风格」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "beliefs": {
+  "value": null,
+  "status": "MISSING",
+  "source_refs": [],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "audience_relationship": {
+  "value": "把观众视为长期熟客和共同判断者；允许观众带着不同体型、预算和生活阶段反驳她，不用“教育消费者”的姿态压过真实反馈",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-RELATION",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「与粉丝关系」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "forbidden_styles": {
+  "value": [
+   "姐妹们冲",
+   "闭眼买",
+   "谁穿谁好看",
+   "全网最低",
+   "错过后悔"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-FORBIDDEN",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「绝不使用的表达」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "_fixture_note": {
+  "violation": "负例 1：缺 R 必填字段。相对 persona_facts.ok1.json 整体删除 identity（A.3.5 表内 identity 为 FactValue<string>、必填 R，A 行 324）。缺失必须表达为 status=MISSING 的 FactValue，而不是省略字段本身，故本例应被 required 拦下。其余字段与 ok1 相同、均合法。",
+  "expected_error_substr": "'identity' is a required property",
+  "delta_keys_vs_ok1": [
+   "~beliefs",
+   "-identity",
+   "-speaker_constraints"
+  ]
+ }
 }

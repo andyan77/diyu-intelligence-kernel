@@ -1,0 +1,172 @@
+{
+  "fact_set_id": "FS-PRODUCT-BDD02-P02",
+  "fact_type": "PRODUCT_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.2-v2",
+  "updated_at": "2026-08-18T16:30:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "product_id": "P02",
+  "name": {
+    "status": "CONFIRMED",
+    "value": "人字纹亮丝麻西装裤",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "夹具虚构-剧本",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "category": {
+    "status": "CONFIRMED",
+    "value": "西装裤",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0004",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0568",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "sku": {
+    "status": "CONFIRMED",
+    "value": "1H7953411Q",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0004",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0568",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "price": {
+    "status": "CONFIRMED",
+    "value": {
+      "amount": 798,
+      "currency": "CNY",
+      "as_of": "2026-08-17T00:00:00+08:00"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0004",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0568",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "material": {
+    "status": "CONFIRMED",
+    "value": [
+      "79%莱赛尔 15.7%亚麻 5.3%聚酯纤维(含聚酯薄膜纤维) (含微量其他纤维)"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0004",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0568",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "style_attributes": {
+    "status": "CONFIRMED",
+    "value": [
+      "人字纹亮丝阔腿裤",
+      "双褶设计",
+      "宽大裤腿"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0005",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0573 / 截图 IMG_0577",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "selling_points": {
+    "status": "CONFIRMED",
+    "value": [
+      "“腹部两侧各两道收褶，预留充足立体空间，包容性强，适合久坐人群”",
+      "“纵向褶线视觉拉长腿部”"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0006",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0577",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "size_range": {
+    "status": "CONFIRMED",
+    "value": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0004",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0568",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "lifecycle_stage": {
+    "status": "CONFIRMED",
+    "value": "当季在售",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "夹具虚构-剧本",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "inventory": {
+    "status": "CONFIRMED",
+    "value": {
+      "value": 188,
+      "unit": "件",
+      "as_of": "2026-08-17T00:00:00+08:00"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "夹具虚构-剧本",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  }
+}

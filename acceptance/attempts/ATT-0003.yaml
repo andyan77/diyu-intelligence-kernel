@@ -1,0 +1,6 @@
+# 尝试账本条目（C.6 格式；一条一文件）
+attempt_id: ATT-0003
+hypothesis: "块 E ④f/自证面：kernel/facts 增 P4 谓词（Range min≤max，Draft-07 无跨值比较故落谓词层）并建 test_facts_offline.py（10 类负向 N1-N10 证明谓词与存取层在坏输入上真的红）——非 prompt 调优"
+target_failing_run: "复审乙 P2-03（Range min>max 结构层可过 VALID，实测）+ 本批构造复现：对 {min:45,max:30} 跑 Draft7 校验 → 0 违约（结构层天然盲区）；prompt 与编排零改动"
+regression_after: "kernel/facts/test_facts_offline.py 42/42 GREEN + tools/test_fact_schemas.py 210/210（含 audience predbad1 恰命中 P4）"
+delta: {fixed: ["E-13(Range)", "E-07(负向自证)"], broken: [], net: 2}

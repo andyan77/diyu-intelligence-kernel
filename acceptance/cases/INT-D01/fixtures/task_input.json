@@ -1,0 +1,13 @@
+{
+  "_migrated_from_snapshot": {
+    "INT-D01": {
+      "business_goal": {
+        "value": null,
+        "status": "MISSING",
+        "source": "故意缺失（夹具设计）",
+        "note": "B.4.1/INT-D01「输入」原文「商品存在，但未提供新品曝光、库存激活、转化或品牌建设目标。」——快照不得带入任何 business_goal 值；任务原话由 Manifest 的 task_statement 承载"
+      }
+    }
+  },
+  "_migration_note": "块 E ① 迁移（Founder 2026-08-18 批准）：A.4.3 十四字段不含以下键，按「business_goal 去 task 层」先例逐字迁入本文件；_migrated_from_snapshot 为原节点逐字留存"
+}

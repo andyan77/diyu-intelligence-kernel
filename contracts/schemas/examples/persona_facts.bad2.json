@@ -1,102 +1,102 @@
 {
-  "fact_set_id": "FS-PERSONA-R01-0001",
-  "fact_type": "PersonaFacts",
-  "brand_id": "fixture-brand-01",
-  "version": 1,
-  "schema_version": "A-3.5-v2",
-  "updated_at": "2026-08-17T10:00:00+08:00",
-  "updated_by_role": "BRAND_OPERATOR",
-  "persona_id": "R01",
-  "identity": {
-    "value": "衡叙集虚构品牌主理人，44 岁；负责商品取舍、定价边界和门店反馈复盘",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-IDENTITY",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「身份」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "voice_traits": {
-    "value": "句子不快，先把问题和条件说清，再给判断；常用门店试穿、退换原因、面料取舍和一件衣服穿了多久来举例；很少直接下购买指令",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-VOICE",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「说话风格」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "beliefs": {
-    "value": null,
-    "status": "MISSING",
-    "source_refs": [],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "audience_relationship": {
-    "value": "把观众视为长期熟客和共同判断者；允许观众带着不同体型、预算和生活阶段反驳她，不用“教育消费者”的姿态压过真实反馈",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-RELATION",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「与粉丝关系」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "forbidden_styles": {
-    "value": [
-      "姐妹们冲",
-      "闭眼买",
-      "谁穿谁好看",
-      "全网最低",
-      "错过后悔"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-FORBIDDEN",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「绝不使用的表达」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "_fixture_note": {
-    "violation": "负例 2：类型违约（Schema 真能拦住）。相对 persona_facts.ok1.json，只把 voice_traits.value 从 string[] 写成一整条 string——A.3.5 voice_traits 为 FactValue<string[]>（A 行 325），common.defs.json/FactValueStringArray 把 value 收窄为 array | null，故字符串必被拦下。其余字段与 ok1 相同、均合法；本例不依赖任何 Schema 管不住的语义违约。",
-    "expected_error_substr": "'句子不快，先把问题和条件说清，再给判断；常用门店试穿、退换原因、面料取舍和一件衣服穿了多久来举例；很少直接下购买指令' is not of type 'array', 'null'",
-    "delta_keys_vs_ok1": [
-      "~beliefs",
-      "~identity",
-      "-speaker_constraints",
-      "~voice_traits"
-    ]
-  }
+ "fact_set_id": "FS-PERSONA-R01-0001",
+ "fact_type": "PERSONA_FACTS",
+ "brand_id": "fixture-brand-01",
+ "version": 1,
+ "schema_version": "A-3.5-v2",
+ "updated_at": "2026-08-17T10:00:00+08:00",
+ "updated_by_role": "BRAND_OPERATOR",
+ "persona_id": "R01",
+ "identity": {
+  "value": "衡叙集虚构品牌主理人，44 岁；负责商品取舍、定价边界和门店反馈复盘",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-IDENTITY",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「身份」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "voice_traits": {
+  "value": "句子不快，先把问题和条件说清，再给判断；常用门店试穿、退换原因、面料取舍和一件衣服穿了多久来举例；很少直接下购买指令",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-VOICE",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「说话风格」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "beliefs": {
+  "value": null,
+  "status": "MISSING",
+  "source_refs": [],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "audience_relationship": {
+  "value": "把观众视为长期熟客和共同判断者；允许观众带着不同体型、预算和生活阶段反驳她，不用“教育消费者”的姿态压过真实反馈",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-RELATION",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「与粉丝关系」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "forbidden_styles": {
+  "value": [
+   "姐妹们冲",
+   "闭眼买",
+   "谁穿谁好看",
+   "全网最低",
+   "错过后悔"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-FORBIDDEN",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「绝不使用的表达」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "_fixture_note": {
+  "violation": "负例 2：类型违约（Schema 真能拦住）。相对 persona_facts.ok1.json，只把 voice_traits.value 从 string[] 写成一整条 string——A.3.5 voice_traits 为 FactValue<string[]>（A 行 325），common.defs.json/FactValueStringArray 把 value 收窄为 array | null，故字符串必被拦下。其余字段与 ok1 相同、均合法；本例不依赖任何 Schema 管不住的语义违约。",
+  "expected_error_substr": "'句子不快，先把问题和条件说清，再给判断；常用门店试穿、退换原因、面料取舍和一件衣服穿了多久来举例；很少直接下购买指令' is not of type 'array', 'null'",
+  "delta_keys_vs_ok1": [
+   "~beliefs",
+   "~identity",
+   "-speaker_constraints",
+   "~voice_traits"
+  ]
+ }
 }

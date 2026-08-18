@@ -75,6 +75,17 @@
           "$comment": "块 B：空数组白名单字段（A 点名三字段之一），CONFIRMED+[] 合法"
         }
       }
+    },
+    {
+      "$comment": "块 E ④c（E-10）：fact_type/schema_version 绑本族常量——复审实测错族对象可过对应 Schema（信封只判 string）。常量值=examples ok 例现行值；族 Schema 升版时同批改此处",
+      "properties": {
+        "fact_type": {
+          "const": "VIDEO_ACCOUNT_FACTS"
+        },
+        "schema_version": {
+          "const": "A-3.6-v2"
+        }
+      }
     }
   ],
   "properties": {

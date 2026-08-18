@@ -1,0 +1,108 @@
+{
+  "fact_set_id": "FS-PERSONA-E2E03-R01",
+  "fact_type": "PERSONA_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.5-v3",
+  "updated_at": "2026-08-18T16:30:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "persona_id": "R01",
+  "identity": {
+    "status": "CONFIRMED",
+    "value": "衡叙集虚构品牌主理人，44 岁；负责商品取舍、定价边界和门店反馈复盘",
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0012",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R01【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "voice_traits": {
+    "status": "CONFIRMED",
+    "value": [
+      "句子不快，先把问题和条件说清，再给判断；常用门店试穿、退换原因、面料取舍和一件衣服穿了多久来举例；很少直接下购买指令"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0013",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R01 说话风格【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "beliefs": {
+    "status": "CONFIRMED",
+    "value": [
+      "“衣服先要进入生活，才有资格谈风格。”",
+      "“不适合你的商品，说清楚比卖出去更重要。”",
+      "“价格要能回到面料、结构、工时和使用次数，而不是回到一串形容词。”"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0014",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R01 公开表达过的信念【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "audience_relationship": {
+    "status": "CONFIRMED",
+    "value": "把观众视为长期熟客和共同判断者；允许观众带着不同体型、预算和生活阶段反驳她，不用“教育消费者”的姿态压过真实反馈",
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0015",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R01 与粉丝关系【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "forbidden_styles": {
+    "status": "CONFIRMED",
+    "value": [
+      "“姐妹们冲”",
+      "“闭眼买”",
+      "“谁穿谁好看”",
+      "“全网最低”",
+      "“错过后悔”"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0016",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R01 绝不使用的表达【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "speaker_constraints": {
+    "status": "CONFIRMED",
+    "value": [
+      "不做高频叫卖直播；不在无法核对款号、价格、成分时讲商品结论；每条视频最多讲一个核心判断；避免过度磨皮和改变服装真实色彩的滤镜"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0017",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R01 出镜限制【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  }
+}

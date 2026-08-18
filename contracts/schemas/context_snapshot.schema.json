@@ -24,23 +24,29 @@
   "properties": {
     "snapshot_id": {
       "type": "string",
-      "description": "A 行 401：string。A 行 419「每次模块运行固定引用一个 Snapshot」——约束的是 Run / Request 侧（A.5.1 IntentRequest.context_snapshot_ref 等）在一次运行中不得换引用，不是本对象自身结构，外包给确定性谓词与状态机（C.3 资产④）。A 行 420「同条件 A/B 使用同一个 snapshot_id 或相同 snapshot_hash」——需跨两次运行比对两个实例，单实例校验看不到，外包给确定性谓词（C.3 资产④）。"
+      "description": "A 行 401：string。A 行 419「每次模块运行固定引用一个 Snapshot」——约束的是 Run / Request 侧（A.5.1 IntentRequest.context_snapshot_ref 等）在一次运行中不得换引用，不是本对象自身结构，外包给确定性谓词与状态机（C.3 资产④）。A 行 420「同条件 A/B 使用同一个 snapshot_id 或相同 snapshot_hash」——需跨两次运行比对两个实例，单实例校验看不到，外包给确定性谓词（C.3 资产④）。",
+      "minLength": 1
     },
     "task_id": {
       "type": "string",
-      "description": "A 行 402：string。A 行 76：该 Task 记录必须与本 Snapshot 携带同一个 brand_id——跨对象比对，外包给确定性谓词（C.3 资产④）。A 行 454（A.4.4 迁移表）：用户补齐资料或明确目标后「必须生成新 Task 或 Snapshot 版本后重跑 Intent」——生命周期动作，Schema 表达不了，外包给状态机（C.3 资产④）。"
+      "description": "A 行 402：string。A 行 76：该 Task 记录必须与本 Snapshot 携带同一个 brand_id——跨对象比对，外包给确定性谓词（C.3 资产④）。A 行 454（A.4.4 迁移表）：用户补齐资料或明确目标后「必须生成新 Task 或 Snapshot 版本后重跑 Intent」——生命周期动作，Schema 表达不了，外包给状态机（C.3 资产④）。",
+      "minLength": 1
     },
     "brand_id": {
       "type": "string",
-      "description": "A 行 403：string。A 行 76：每个 Task、ContextSnapshot、Run、Artifact、Review 和 BrandMemory 记录必须携带同一个 brand_id；本对象内所有 VersionedRef.brand_id 与 SourceRef.brand_id 必须等于本字段（单品牌隔离，A.1.3 行 74 立规、A 行 1053 列为不得丢失的语义）——值级跨字段比对，Draft-7 表达不了，外包给确定性谓词（C.3 资产④）。"
+      "description": "A 行 403：string。A 行 76：每个 Task、ContextSnapshot、Run、Artifact、Review 和 BrandMemory 记录必须携带同一个 brand_id；本对象内所有 VersionedRef.brand_id 与 SourceRef.brand_id 必须等于本字段（单品牌隔离，A.1.3 行 74 立规、A 行 1053 列为不得丢失的语义）——值级跨字段比对，Draft-7 表达不了，外包给确定性谓词（C.3 资产④）。",
+      "minLength": 1
     },
     "version": {
       "type": "integer",
-      "description": "A 行 404：integer。A 行 421「Fact 更新后创建新 Snapshot」与 A 行 102「Snapshot 采用追加版本，已被下游引用的版本不得原地覆盖」——两者都需要历史版本与上游 Fact 版本作对照，单实例校验看不到，外包给确定性谓词与版本机制（C.3 资产④）。"
+      "description": "A 行 404：integer。A 行 421「Fact 更新后创建新 Snapshot」与 A 行 102「Snapshot 采用追加版本，已被下游引用的版本不得原地覆盖」——两者都需要历史版本与上游 Fact 版本作对照，单实例校验看不到，外包给确定性谓词与版本机制（C.3 资产④）。",
+      "minimum": 1,
+      "$comment": "块 E ④f（E-13）：version≥1（A 行 102 版本语义下 0/负版本为空洞值）"
     },
     "created_at": {
       "type": "string",
-      "description": "A 行 405：datetime。类型口径与 common.defs.json 中 SourceRef.captured_at / FactSetEnvelope.updated_at 一致——只判 string，不加 format 收紧。"
+      "description": "A 行 405：datetime。块 E ④b（E-04）：补 format: date-time——A 真源即 datetime，此前「只判 string」与块 B 对 common.defs 的全量 format 口径不一致（复审乙 P0-04 实测漏网），非加严，是补齐既定口径；FormatChecker 由 tools/test_fact_schemas.py 与 tools/validate_schema.py 双端强制",
+      "format": "date-time"
     },
     "brand_facts_ref": {
       "description": "A 行 406：VersionedRef（单个，非数组、A 未标可空）。指向 A.3.1 BrandFacts。A 行 126：模块之间不允许只传递可变对象 ID，故必须是带 version 的 VersionedRef。被引对象类型是否确为 BrandFacts——A 未给出 object_type 取值域（A 行 120 只写 string），本 Schema 不自造枚举，外包给确定性谓词（C.3 资产④）。",

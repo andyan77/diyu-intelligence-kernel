@@ -182,9 +182,21 @@ def main():
         print(f"REJECT [C.6 熔断锁] {lock} 存在，解锁走 B.8.1 三条路"); sys.exit(2)
     output = json.load(open(a.output, encoding="utf-8"))
     snap_path = os.path.join(a.case_dir, case.get("fixtures", {}).get("context_snapshot", ""))
+    snapshot = json.load(open(snap_path, encoding="utf-8")) if os.path.exists(snap_path) else None
+    if snapshot is not None:
+        # 块 E ②：快照已迁移为 A.4.3 引用式（块 E ①），检测器消费内联兼容视图——
+        # 解引用走 kernel/facts 唯一入口；R1-R5 运行时谓词先行，任何红即拒跑（fail-closed，
+        # 用坏快照跑出的绿是假绿）。旧内联形状 materialize_legacy_view 直接拒绝，无双形状容错。
+        sys.path.insert(0, repo_root)
+        from kernel.facts import FactStore, materialize_legacy_view, predicates as fact_predicates
+        _store = FactStore()
+        _red = fact_predicates.run_all_runtime(snapshot, _store)
+        if _red:
+            print("REJECT [kernel/facts 运行时谓词] 快照未过 R1-R5：\n  " + "\n  ".join(_red)); sys.exit(2)
+        snapshot = materialize_legacy_view(snapshot, _store)
     ctx = {"repo_root": repo_root, "output_path": os.path.abspath(a.output),
            "output_schema": os.path.join(repo_root, case["output_schema"]) if case.get("output_schema") else None,
-           "snapshot": json.load(open(snap_path, encoding="utf-8")) if os.path.exists(snap_path) else None}
+           "snapshot": snapshot}
     spec = importlib.util.spec_from_file_location("checks", os.path.join(repo_root, "acceptance/detectors/checks.py"))
     checks = importlib.util.module_from_spec(spec); spec.loader.exec_module(checks)
     results, fails, unknowns = [], [], []

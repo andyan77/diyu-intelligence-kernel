@@ -1,0 +1,12 @@
+{
+  "_migrated_from_snapshot": {
+    "SYS-D01": {
+      "time_window": {
+        "value": "六周",
+        "source": "Founder 2026-08-17 IA-0 裁决：六周（夹具虚构-剧本；OQ-BUILD-07）",
+        "note": "商业目标不入本快照（目标属 A.4.1 Task 层 stated_business_goal，由 Manifest 的 task_statement 承载；参照 INT-D03 快照做法）。本字段只登记「限定周期」这一时间面缺口：contracts/OD-03 在目标为 INVENTORY_ACTIVATION 时把「时间窗口（多久内消化）」列为 BLOCKING，故须 Founder 于 IA-0 定值，执行侧不得填数。"
+      }
+    }
+  },
+  "_migration_note": "块 E ① 迁移（Founder 2026-08-18 批准）：A.4.3 十四字段不含以下键，按「business_goal 去 task 层」先例逐字迁入本文件；_migrated_from_snapshot 为原节点逐字留存"
+}

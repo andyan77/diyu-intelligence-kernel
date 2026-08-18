@@ -8,7 +8,7 @@
 
 case_id: CR-D04
 # 与 acceptance/cases/BD-D01/case.yaml 的 v0.1 对齐；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
-case_version: "v0.3"
+case_version: "v0.4"
 
 prd_version: "v0.2"
 data_contract_version: "v0.3"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
@@ -18,7 +18,7 @@ acceptance_contract_version: "v0.5"
 # 三份变体各用一份快照（-0001 输入 A / -0002 输入 B / -0003 输入 C），因三条输入的视觉材料本身不同（B:638/639/641）；
 # 三份快照的素材差异与 hash 已于 2026-08-17 构建并实算回填（OQ-CR-D04-03 ✅预裁决 08-17；hash 回填见 OQ-CR-D01-06）
 context_snapshot_id: "SNAP-CRD04-0001"
-snapshot_hash: "sha256:ff36bef665300331ea7224a841c2c20d2d57567ccbfccce744a7f0baed282006"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+snapshot_hash: "sha256:eb8319c4acbd39def47151c25bd5a40351734df25d8447add91218c6fc2cac67"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # 逐字照抄 B:638（仅去除 Markdown 粗体标记 **，未改字）；另两条输入见 manifest.input-b / input-c.yaml。
 # 最终逐运行任务陈述照此冻结（OQ-CR-D04-02 ✅预裁决 08-17）
