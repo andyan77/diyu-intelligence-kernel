@@ -1,0 +1,97 @@
+{
+  "run_id": "RUN-0008-int-d03-input-a",
+  "case_id": "INT-D03",
+  "case_version": "v0.1",
+  "contract_ref": "B.4.1/INT-D03",
+  "output_file": "acceptance/runs/RUN-0008-int-d03-input-a.plan.json",
+  "l1_assertions": [
+    {
+      "id": "A1",
+      "check": "schema_valid",
+      "tag": "SYS_SCHEMA_INVALID",
+      "verdict": "OK",
+      "detail": "schema 校验通过"
+    },
+    {
+      "id": "A2",
+      "check": "intent_goal_gate",
+      "tag": "INT_GOAL_ASSUMED",
+      "verdict": "OK",
+      "detail": "goal_resolution=RESOLVED，A.5.2 约束1/2 不适用（RESOLVED 是否站得住脚属人工判分面）"
+    },
+    {
+      "id": "A3",
+      "check": "intent_blocking_gate",
+      "tag": "INT_MODE_IGNORED",
+      "verdict": "OK",
+      "detail": "next_action=CONTINUE_TO_DECISION，自报的 5 项缺失（missing_context ∪ required_context 缺态）均非 BLOCKING"
+    },
+    {
+      "id": "A4",
+      "check": "intent_assumption_coverage",
+      "tag": "INT_MISSING_CONTEXT_MISSED",
+      "verdict": "OK",
+      "detail": "CONTINUE 跨过的 5 项缺失（missing_context ∪ required_context 缺态）均为 QUALITY_REDUCING，且逐项有 target_paths 精确对应的 ASSUMPTION（池 10 条）"
+    },
+    {
+      "id": "A5",
+      "check": "numeric_grounding",
+      "tag": "BD_FACT_FABRICATION",
+      "verdict": "FAIL",
+      "detail": "数字无快照来源: 1（price 类无同类快照来源 @ required_context.10.resolution_question）; 1（price 类无同类快照来源 @ missing_context.3.resolution_question）; 1（price 类无同类快照来源 @ confidence.limiting_factors.5）"
+    },
+    {
+      "id": "A6",
+      "check": "forbidden_expression",
+      "tag": "SYS_RULE_VIOLATION",
+      "verdict": "OK",
+      "detail": "词表 16 词零命中"
+    }
+  ],
+  "l1_fail_tags": [
+    "BD_FACT_FABRICATION"
+  ],
+  "l1_unknown_count": 0,
+  "judge_probes": [
+    {
+      "id": "J1",
+      "verdict": "NOT_RUN",
+      "status": "wired_not_run"
+    }
+  ],
+  "final_status": "FAIL",
+  "note": "L1 只判 FAIL；PENDING_HUMAN ≠ 通过；PASS 只能由 L3 人工判（C.5 / B.1.5）",
+  "provenance": {
+    "commit_sha": "eb1d0f7b19ac2a901db4470ddff6acae0bcd6c0d",
+    "generator": {
+      "path": "tools/run_case.py",
+      "sha256": "040bca3820225e2ef13c1e536d8176cb90ec4f155bc93885704a759590d9b7d8"
+    },
+    "commit_sha_source": ".git/HEAD + refs/packed-refs（读文件，未执行 git 命令）",
+    "repo_root": "/home/faye/笛语智能核",
+    "generated_at": "2026-08-18T03:52:49-07:00",
+    "python_version": "3.10.12",
+    "deps": {
+      "jsonschema": "3.2.0",
+      "PyYAML": "5.4.1"
+    },
+    "argv": [
+      "tools/run_case.py",
+      "acceptance/cases/INT-D03",
+      "acceptance/runs/RUN-0008-int-d03-input-a.plan.json",
+      "--run-id",
+      "RUN-0008-int-d03-input-a"
+    ],
+    "lexicon": {
+      "path": "acceptance/detectors/forbidden_lexicon.yaml",
+      "referenced_by_case": true,
+      "sha256": "af3d1e95e52e379e611e9b4c1509f95bdd1538d0b612f2838d16f24a0498bc78",
+      "term_count": 16,
+      "term_count_basis": "实读词表现数（与 checks.forbidden_expression 同口径：只计 list 值键下的非空字符串）"
+    },
+    "detectors_version": "v0.2",
+    "detectors_sha256": "e4e01504c2b31ec3faaa8b098263fa70167aa0499442b8a894b4c9496f420d56",
+    "detectors_path": "acceptance/detectors/checks.py",
+    "note": "证据绑定生成时刻的工作区内容；与 HEAD 的一致性由干净 clone 回执核验"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "goal_resolution": "AMBIGUOUS",
+  "business_goal": null,
+  "goal_candidates": [
+    {
+      "goal": "PRODUCT_LAUNCH",
+      "rationale": "任务提到推广一款具体产品（10%羊绒风衣式大衣），且提供了完整的产品信息如价格、材质、版型等，符合新品上市推广特征。",
+      "referenced_fact_ids": ["FACT:product.name", "FACT:product.price", "FACT:product.material"]
+    },
+    {
+      "goal": "INVENTORY_ACTIVATION",
+      "rationale": "推广已有详细SKU和价格信息的单品，可能是为了加速现有库存周转，尤其在未提及其为全新上市的情况下。",
+      "referenced_fact_ids": ["FACT:product.sku", "FACT:product.price"]
+    }
+  ],
+  "intent_summary": "本次任务要求推广一款名为“10%羊绒风衣式大衣”的具体产品，提供了价格、材质、版型等详细参数，但未说明推广背后的商业目的。无法确定是新品上市、清库存、提升品牌认知还是其他目标。",
+  "clarification_question": "这次推广羊绒大衣，核心是要达成什么商业结果？比如是新品上市、清理库存、还是提升品牌认知？",
+  "referenced_fact_ids": ["FACT:product.name", "FACT:product.price", "FACT:product.material", "FACT:product.sku"],
+  "model_judgments": [
+    {
+      "text": "该产品定价为3980元人民币，属于较高价位段，结合禁止低价叫卖的规则，可推断品牌定位偏高端。",
+      "referenced_fact_ids": ["FACT:product.price"]
+    },
+    {
+      "text": "产品材质中羊绒含量在9.2%至9.9%之间，虽标称‘羊绒大衣’，但实际以绵羊毛为主，可能影响其作为纯羊绒产品的教育或故事讲述重点。",
+      "referenced_fact_ids": ["FACT:product.material"]
+    }
+  ],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "任务原话过于简略，但事实池提供了较完整的产品数据，能支撑有限的合理推测，不足以锁定单一目标。"
+}

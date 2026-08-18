@@ -1,0 +1,16 @@
+{
+  "goal_resolution": "RESOLVED",
+  "business_goal": "INVENTORY_ACTIVATION",
+  "goal_candidates": [],
+  "intent_summary": "任务原话明确指出‘用这件羊绒大衣促进春节前库存消化’，其中‘库存消化’直接对应六个商业目标中的 INVENTORY_ACTIVATION。目标已明确到六选一的程度。",
+  "clarification_question": null,
+  "referenced_fact_ids": ["FACT:product.lifecycle_stage"],
+  "model_judgments": [
+    {
+      "text": "该产品处于库存消化期，与任务原话中‘促进春节前库存消化’的表述一致，支持将商业目标判定为 INVENTORY_ACTIVATION。",
+      "referenced_fact_ids": ["FACT:product.lifecycle_stage"]
+    }
+  ],
+  "confidence_level": "HIGH",
+  "confidence_reason": "任务原话使用‘库存消化’这一表述，与 INVENTORY_ACTIVATION 定义完全匹配，且事实池确认产品处于库存消化期，判断有直接依据。"
+}

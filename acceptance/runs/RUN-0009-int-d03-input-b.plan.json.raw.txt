@@ -1,0 +1,22 @@
+{
+  "goal_resolution": "AMBIGUOUS",
+  "business_goal": null,
+  "goal_candidates": [
+    {
+      "goal": "BRAND_STORY",
+      "rationale": "任务强调‘建立品牌长期价值’且‘不以本期销量为主要目标’，符合通过讲述产品背后的理念、价值观或使用场景来传递品牌内核的做法；品牌价值观也强调‘一件衣服应能进入真实生活，并在不同场景中被反复使用’，与讲好单品故事高度契合。",
+      "referenced_fact_ids": ["FACT:brand.values"]
+    },
+    {
+      "goal": "BRAND_AWARENESS",
+      "rationale": "任务聚焦于‘用同一件羊绒大衣建立品牌长期价值’，可能意在通过高辨识度单品提升品牌认知；品牌定位为中高端日常女装，需强化用户对品牌调性与品类优势的记忆，而非即时转化。",
+      "referenced_fact_ids": ["FACT:brand.positioning", "FACT:brand.values"]
+    }
+  ],
+  "intent_summary": "本次任务要求围绕一件羊绒大衣构建品牌长期价值，明确排除以本期销量为主要目标。但未说明具体是想传递品牌理念、提升认知度，还是其他长期目标，商业目标在六个标准选项中无法唯一确定。",
+  "clarification_question": "这次用羊绒大衣建立长期价值，核心是想让人记住品牌的什么？是品牌的故事和价值观（BRAND_STORY），还是让更广人群知道衡叙集是谁、做什么的（BRAND_AWARENESS）？",
+  "referenced_fact_ids": ["FACT:brand.values", "FACT:brand.positioning"],
+  "model_judgments": [],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "任务原话排除了短期销售导向，结合品牌价值观可合理推断出两个长期目标方向，但无法进一步区分优先级。"
+}
