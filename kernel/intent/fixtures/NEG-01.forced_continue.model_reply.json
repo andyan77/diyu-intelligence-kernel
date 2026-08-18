@@ -1,0 +1,17 @@
+{
+  "goal_resolution": "RESOLVED",
+  "business_goal": "INVENTORY_ACTIVATION",
+  "next_action": "CONTINUE_TO_DECISION",
+  "goal_candidates": [],
+  "intent_summary": "这件羊绒风衣式大衣要做库存激活，材料已经够用，可以直接进入下一步。",
+  "clarification_question": null,
+  "referenced_fact_ids": ["FACT:product.name", "FACT:product.selling_points"],
+  "model_judgments": [
+    {
+      "text": "这件大衣的卖点已经写得比较完整，按库存激活推进不需要再补材料。",
+      "referenced_fact_ids": ["FACT:product.selling_points"]
+    }
+  ],
+  "confidence_level": "HIGH",
+  "confidence_reason": "商品事实齐备，目标明确。"
+}

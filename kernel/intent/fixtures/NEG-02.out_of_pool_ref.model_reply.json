@@ -1,0 +1,27 @@
+{
+  "goal_resolution": "AMBIGUOUS",
+  "business_goal": null,
+  "goal_candidates": [
+    {
+      "goal": "INVENTORY_ACTIVATION",
+      "rationale": "这件大衣看起来压着货，先把量走掉比较合理。",
+      "referenced_fact_ids": ["FACT:product.stock_level"]
+    },
+    {
+      "goal": "CONVERSION",
+      "rationale": "款号与价格在场，可以直接讲成交。",
+      "referenced_fact_ids": ["FACT:product.price"]
+    }
+  ],
+  "intent_summary": "这件羊绒风衣式大衣目前有一批存货待走，先按走量或成交两个方向给出候选。",
+  "clarification_question": "这次是先把存货走掉，还是把这件大衣当成常规款去做成交？",
+  "referenced_fact_ids": ["FACT:product.name", "FACT:product.stock_level"],
+  "model_judgments": [
+    {
+      "text": "从商品当前状态看，存货压力应当是这次任务的主要背景。",
+      "referenced_fact_ids": ["FACT:product.stock_level"]
+    }
+  ],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "目标未定，但商品状态给了方向。"
+}

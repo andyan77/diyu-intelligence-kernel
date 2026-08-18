@@ -1,0 +1,31 @@
+{
+  "goal_resolution": "AMBIGUOUS",
+  "business_goal": null,
+  "goal_candidates": [
+    {
+      "goal": "INVENTORY_ACTIVATION",
+      "rationale": "若这件大衣目前压着货，「推广」很可能是想把量走掉。",
+      "referenced_fact_ids": ["FACT:product.name", "FACT:product.stock_level"]
+    },
+    {
+      "goal": "CONVERSION",
+      "rationale": "款号与价格都在场，也可能是希望这条内容直接带来下单。",
+      "referenced_fact_ids": ["FACT:product.sku", "FACT:product.price"]
+    }
+  ],
+  "intent_summary": "这次任务是为一件羊绒风衣式大衣做视频号内容。任务原话只说「推广」，没有说明是想走量还是要成交，商业目标还没有明确到六选一的程度。",
+  "clarification_question": "这次推广是想先把这件大衣的存货走掉，还是把它当常规款去做成交？",
+  "referenced_fact_ids": [
+    "FACT:product.name",
+    "FACT:product.sku",
+    "FACT:product.price"
+  ],
+  "model_judgments": [
+    {
+      "text": "「推广」这句话本身落不到六个商业目标中的某一个，需要人来指明。",
+      "referenced_fact_ids": ["FACT:product.name"]
+    }
+  ],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "商品事实清楚，但商业目标尚未确定。"
+}

@@ -1,0 +1,21 @@
+{
+  "goal_resolution": "RESOLVED",
+  "business_goal": "INVENTORY_ACTIVATION",
+  "goal_candidates": [],
+  "intent_summary": "任务原话明确要用这件羊绒风衣式大衣促进春节前的库存消化，商业目标是库存激活。品牌的商业硬约束与禁用表达清单在场，内容必须在这两条边界内表达；人设与受众事实不在场，相关说法没有补写。",
+  "clarification_question": null,
+  "referenced_fact_ids": [
+    "FACT:product.name",
+    "FACT:product.inventory",
+    "FACT:brand.commercial_constraints",
+    "FACT:brand.forbidden_expressions"
+  ],
+  "model_judgments": [
+    {
+      "text": "任务原话直接点名「库存消化」，并给出「春节前」这一时间窗口，目标无需推断即可落到六选一。",
+      "referenced_fact_ids": ["FACT:product.inventory"]
+    }
+  ],
+  "confidence_level": "HIGH",
+  "confidence_reason": "任务原话逐字点名库存消化与时间窗口，目标无歧义。"
+}
