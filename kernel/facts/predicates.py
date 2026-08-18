@@ -90,6 +90,28 @@ def predicate_ref_object_type(inst):
     return out
 
 
+def predicate_range_sane(inst):
+    """P4（块 E ④f / E-13）：Range 数值自洽——min 与 max 均非 null 时必须 min ≤ max。
+    Draft-07 无跨值比较，故落谓词层（三件套分工：Schema 管形状，谓词管数值关系）。"""
+    out = []
+
+    def walk(node, path="$"):
+        if isinstance(node, dict):
+            mn, mx = node.get("min"), node.get("max")
+            if (isinstance(mn, (int, float)) and isinstance(mx, (int, float))
+                    and "unit" in node and mn > mx):
+                out.append("P4 %s: Range min=%r > max=%r（空洞区间，A.3.4 语义不成立）" % (path, mn, mx))
+            for k, v in node.items():
+                if not str(k).startswith("_"):
+                    walk(v, path + "." + str(k))
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                walk(v, "%s[%d]" % (path, i))
+
+    walk(inst)
+    return out
+
+
 # ============================== 运行时 R1-R5（块 E ③） ==============================
 
 
@@ -186,4 +208,5 @@ def run_all_runtime(snapshot, store=None):
     out += runtime_no_duplicate_identity(store)
     out += predicate_single_brand(snapshot)
     out += predicate_ref_object_type(snapshot)
+    out += predicate_range_sane(snapshot)
     return out
