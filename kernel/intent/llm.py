@@ -95,7 +95,7 @@ def _build_live_payload(prompt_text, params):
         )
     return {
         "model": params["model_name"],
-        # 单轮 user 消息：Prompt 全文即 prompts/intent_v0.1.md 渲染结果。
+        # 单轮 user 消息：Prompt 全文即 prompts/intent_v0.2.md 渲染结果。
         # 不加 system 消息——加了就等于运行时又叠了一层没被冻结的指令（B.2.4）。
         "messages": [{"role": "user", "content": prompt_text}],
         "temperature": params["temperature"],

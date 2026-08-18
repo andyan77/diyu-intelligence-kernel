@@ -22,7 +22,7 @@
 | 文件 | 配套快照 / 任务原话 | 手写这份回复是为了考什么 |
 |---|---|---|
 | `INT-D01.quick.model_reply.json` | `acceptance/cases/INT-D01/fixtures/context_snapshot.json`｜「帮我推广羊绒大衣。」QUICK | 模型**承认目标没说清**：`AMBIGUOUS` + 两个实质不同候选 + 一个澄清问题（B.4.1/INT-D01 允许答案族） |
-| `INT-D01.enhanced.model_reply.txt` | 同上，ENHANCED | 同上；**并且外面套了 ` ```json ` 围栏**——真实模型经常这么回，用来实跑 `llm.parse_model_json` 的剥围栏路径。故扩展名是 `.txt`：它在磁盘上不是合法 JSON，标成 `.json` 会误导任何按扩展名解析的工具。**诚实边界：带围栏本身是一次格式违约**（`prompts/intent_v0.1.md` 三、明令「不要输出 markdown 代码围栏」），当前实现选择**容忍并剥除**，且**不留任何痕迹**——产物里看不出这次模型没按格式回。A.4.6 的 `FORMAT_INVALID` 尚未接线到本模块，故这属**已知容忍项**，不是"格式已合规"。接线之后这份夹具应当同时被记一次格式违约 |
+| `INT-D01.enhanced.model_reply.txt` | 同上，ENHANCED | 同上；**并且外面套了 ` ```json ` 围栏**——真实模型经常这么回，用来实跑 `llm.parse_model_json` 的剥围栏路径。故扩展名是 `.txt`：它在磁盘上不是合法 JSON，标成 `.json` 会误导任何按扩展名解析的工具。**诚实边界：带围栏本身是一次格式违约**（`prompts/intent_v0.2.md` 三、明令「不要输出 markdown 代码围栏」），当前实现选择**容忍并剥除**，且**不留任何痕迹**——产物里看不出这次模型没按格式回。A.4.6 的 `FORMAT_INVALID` 尚未接线到本模块，故这属**已知容忍项**，不是"格式已合规"。接线之后这份夹具应当同时被记一次格式违约 |
 | `INT-D02.quick.model_reply.json` | `acceptance/cases/INT-D02/fixtures/context_snapshot.json`｜「为这件羊绒大衣制作春节前视频号内容。」QUICK + `--stated-goal INVENTORY_ACTIVATION` | 模型自报 `confidence_level: HIGH`——用来实测「模型自报只会被调低、不会被调高」（runner G6） |
 | `INT-D03.input-a.model_reply.json` | `acceptance/cases/INT-D03/fixtures/context_snapshot.json`｜「用这件羊绒大衣促进春节前库存消化。」QUICK | 目标迁移的 A 侧：解析为 `INVENTORY_ACTIVATION` |
 | `INT-D03.input-b.model_reply.json` | 同一份快照｜「用同一件羊绒大衣建立品牌长期价值，不以本期销量为主要目标。」QUICK | 目标迁移的 B 侧：解析为 `BRAND_STORY`。两侧共用同一份快照，唯一变量是任务原话（B.4.1/INT-D03「输入」） |
@@ -32,7 +32,7 @@
 
 ## 手写这些回复时守的三条纪律
 
-1. **只写模型有权写的字段**：`prompts/intent_v0.1.md` 的输出契约九个键。唯一例外是 `NEG-01`
+1. **只写模型有权写的字段**：`prompts/intent_v0.2.md` 的输出契约九个键。唯一例外是 `NEG-01`
    刻意多写的 `next_action`——那正是它要考的越权行为，不是笔误。
 2. **引用 ID 逐字取自事实池**：`FACT:<field_path>`，由 `preprocess.materialize_fact_pool` 从对应快照物化。
    例外只有 `NEG-02`（顶层引用）与 `NEG-03`（候选引用）刻意编造的那一个 ID。

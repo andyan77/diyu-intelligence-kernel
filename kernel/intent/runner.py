@@ -60,7 +60,7 @@ from .config import BUSINESS_GOAL_FIELD_PATH as GOAL_FIELD_PATH
 
 # 仓库根：kernel/intent/runner.py → parents[2]
 REPO_ROOT = Path(__file__).resolve().parents[2]
-PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "intent_v0.1.md"
+PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "intent_v0.2.md"
 _DEFAULT_PLAN_SCHEMA_PATH = REPO_ROOT / "contracts" / "schemas" / "intent_execution_plan.schema.json"
 
 # A:204 逐字六枚举（BusinessGoal）。落在本文件是为了让 CLI 在 config.py 未就绪时也能自校，
@@ -103,7 +103,7 @@ def _from_config(default, *names):
 # ============================ 一、Prompt 渲染（确定性） ============================
 
 def load_prompt(path=None):
-    """读 prompts/intent_v0.1.md，返回 (正文模板, prompt_version)。
+    """读 config.PROMPT_INTENT_PATH 指到的 prompt 文件（当前 prompts/intent_v0.2.md），返回 (正文模板, prompt_version)。
 
     文件头 YAML 用 `---` 包起来；prompt_version 是 module_manifest.py 的取值来源，
     这里同样按它取值并打到 stderr——一次运行用的是哪版 Prompt 必须能从日志里读出来。
@@ -622,7 +622,9 @@ def run(args):
     prompt_text = render_prompt(template, args.task, args.mode, args.stated_goal, fact_pool, rule_pool)
     mode = "live" if args.live else f"replay:{args.replay}"
     print(f"[intent.runner] prompt_version={prompt_version} mode={args.mode} llm_mode={mode.split(':')[0]}", file=sys.stderr)
-    model_out = llm.parse_model_json(llm.call_llm(prompt_text, mode))
+    raw_reply = llm.call_llm(prompt_text, mode)
+    _persist_raw_reply(args.out, raw_reply)
+    model_out = llm.parse_model_json(raw_reply)
 
     # --- 确定性覆盖 + 硬闸 ---
     goal_resolution, business_goal, goal_notes = resolve_goal(model_out, args.stated_goal)
@@ -683,6 +685,18 @@ def _write_json(path, payload):
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def _persist_raw_reply(out_path, raw_text):
+    """模型原始回复落盘（<out>.raw.txt）：在解析之前写、无论后续成败都留。
+
+    零重试纪律（B.2.4）下失败 run 的唯一一手证据就是原始回复；ATT-0004 的失败 run
+    （TraceAssemblyError 早于任何写盘）事后连模型说了什么都无从取证，此处即堵该观测缺口。
+    """
+    target = Path(str(out_path) + ".raw.txt")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(raw_text if raw_text.endswith("\n") else raw_text + "\n", encoding="utf-8")
+    print(f"[intent.runner] 原始回复已落盘：{target}", file=sys.stderr)
 
 
 def main(argv=None):

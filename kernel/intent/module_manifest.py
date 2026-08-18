@@ -16,7 +16,7 @@
 真源指针（按小节名书写、不锁行号——同 tools/freeze_gate.py 与 config.py 的纪律，行号会漂移）：
   · 本文件产出的键集与 step_structure 取值 ← M1-EP02 kernel/intent 接口规格「module_manifest.py」行
   · module / module_version                 ← kernel/intent/config.py（MODULE_NAME / MODULE_VERSION，唯一落点）
-  · prompt_version                          ← prompts/intent_v0.1.md 文件头 YAML，**经 runner.load_prompt 读**
+  · prompt_version                          ← config.PROMPT_INTENT_PATH 指到的 prompt 文件头 YAML，**经 runner.load_prompt 读**
                                               （同一份解析逻辑只许有一处，见 read_prompt_version 注释）
   · output_schema / input_schema            ← contracts/schemas/*.schema.json 的 $id
 
@@ -119,7 +119,7 @@ def collect_source_sha256(base_dir=None):
 
 
 def read_prompt_version():
-    """取 prompts/intent_v0.1.md 文件头的 prompt_version。
+    """取 config.PROMPT_INTENT_PATH 指到的 prompt 文件头的 prompt_version。
 
     **刻意复用 runner.load_prompt 而不是在这里再写一遍 YAML 文件头解析**：
     清单要回答的是「这次运行用的是哪版 Prompt」，那就必须与 runner 真正读到的那个值同源。
