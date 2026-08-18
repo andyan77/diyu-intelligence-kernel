@@ -1,0 +1,28 @@
+{
+  "goal_resolution": "AMBIGUOUS",
+  "business_goal": null,
+  "goal_candidates": [
+    {
+      "goal": "BRAND_STORY",
+      "rationale": "任务原话强调‘用同一件羊绒大衣建立品牌长期价值’，聚焦于通过具体产品传递品牌理念与价值观，而非短期销售或单纯曝光，符合品牌故事目标中‘以产品为载体讲述品牌为何存在、如何思考’的特征。",
+      "focus": "通过深度解读一件产品的设计逻辑、材料选择与使用场景，传递品牌的核心价值观和长期承诺。",
+      "tradeoffs": "优点是能强化用户对品牌底层逻辑的信任，代价是内容需要更高信息密度和判断力，可能不如泛曝光内容易传播。",
+      "expected_outcome": "适用于希望用户理解‘为什么这个品牌值得长期关注’的阶段，尤其适合已有明确品牌价值观但需具象化落地的场景。",
+      "referenced_fact_ids": ["FACT:brand.values", "FACT:brand.tone", "FACT:product.name"]
+    },
+    {
+      "goal": "BRAND_AWARENESS",
+      "rationale": "‘建立品牌长期价值’也可理解为提升品牌在目标人群中的认知深度与正面联想，尤其当该大衣作为代表性单品反复出现时，可强化品牌识别与心智占位。",
+      "focus": "让目标用户更清晰地记住品牌是谁、代表什么风格与态度，通过高辨识度单品形成视觉与理念锚点。",
+      "tradeoffs": "优点是有助于扩大品牌在潜在客群中的可见度和记忆度，代价是若缺乏独特叙事容易流于表面形象展示。",
+      "expected_outcome": "适用于品牌已具备基础产品力，需在竞争环境中建立差异化认知的阶段。",
+      "referenced_fact_ids": ["FACT:brand.positioning", "FACT:brand.target_customer_summary", "FACT:product.style_attributes"]
+    }
+  ],
+  "intent_summary": "本次任务明确表示不以本期销量为主要目标，而是希望通过同一件羊绒大衣建立品牌长期价值。这已超出日常内容经营范畴，属于明示的品牌类经营意图，但未明确区分是侧重讲述品牌故事还是提升品牌认知。",
+  "clarification_question": "这次用羊绒大衣建立品牌长期价值，更侧重于向用户解释品牌的设计哲学和价值观（比如为什么这样选料、牺牲了什么），还是更侧重让用户记住衡叙集这个品牌代表什么风格和态度？",
+  "referenced_fact_ids": ["FACT:brand.values", "FACT:brand.positioning", "FACT:brand.target_customer_summary", "FACT:product.name", "FACT:product.style_attributes"],
+  "model_judgments": [],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "任务原话明确指向品牌长期建设，排除了日常内容经营和转化类目标，但在品牌故事与品牌认知之间缺乏足够区分依据。"
+}

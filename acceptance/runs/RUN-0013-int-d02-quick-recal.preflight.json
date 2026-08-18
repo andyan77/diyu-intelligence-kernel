@@ -1,0 +1,69 @@
+{
+  "stage": "PREFLIGHT",
+  "checks": [
+    {
+      "id": "P1",
+      "item": "结构校验：IntentExecutionPlan Schema（内含 A.5.2 约束1/2 条件式）｜出处 A.5.2 A:540-564 + contracts/schemas/intent_execution_plan.schema.json + B PRE-01-I",
+      "verdict": "OK",
+      "machine_checkable": true,
+      "detail": "结构合规（含约束1/2 条件式）；schema=intent_execution_plan.schema.json"
+    },
+    {
+      "id": "P2",
+      "item": "A.5.2 约束3（A:565）：CONTINUE_TO_DECISION 需 RESOLVED + business_goal 非空 + 无 BLOCKING 缺失｜缺失口径 OD-03 四-2（CONFLICTING 视同缺失）",
+      "verdict": "OK",
+      "machine_checkable": true,
+      "detail": "CONTINUE 三条件齐备（RESOLVED / goal=DAILY_CONTENT_OPERATION / 无 BLOCKING 缺失，共 5 项缺失）"
+    },
+    {
+      "id": "P3",
+      "item": "A.5.2 约束4（A:566）：QUICK 继续时跨过的缺失必须全为 QUALITY_REDUCING、逐项有 target_paths 绑定的 ASSUMPTION，且 confidence 不得停在 HIGH｜出处 A:393 + OD-03 四-1 + OD-03 三（非阻断项白名单）",
+      "verdict": "OK",
+      "machine_checkable": true,
+      "detail": "5 项跨过的缺失全为 QUALITY_REDUCING、逐项有 target_paths 精确绑定的 ASSUMPTION（共 5 条），且 confidence.level=LOW（非 HIGH）"
+    },
+    {
+      "id": "P4",
+      "item": "A.5.2 约束5（A:567）：存在 BLOCKING 缺失 → goal_resolution=NEEDS_INPUT；AMBIGUOUS 且阻断缺失仅 business_goal 时放行（M1-EP02 仲裁1 自洽解，Founder 2026-08-17 已认可，台账 SPEC-DEV-01 行）｜阻断项清单 OD-03 一（通用四项）+ OD-03 二（分目标追加）",
+      "verdict": "OK",
+      "machine_checkable": true,
+      "detail": "无 BLOCKING 缺失（缺失共 5 项），约束5 不触发"
+    },
+    {
+      "id": "P5",
+      "item": "A.5.2 约束7（A:569）+ 常量（A:543-544）：task_type=VIDEO_CONTENT_CREATION、platform=WECHAT_VIDEO｜出处 OD-03 一-4（本期仅视频号，其他平台不得静默适配）",
+      "verdict": "OK",
+      "machine_checkable": true,
+      "detail": "常量面合规（VIDEO_CONTENT_CREATION/WECHAT_VIDEO）；语义面（摘要是否真为视频号内容任务）不在本项射程"
+    },
+    {
+      "id": "P6",
+      "item": "Trace ID 池成员与四类分离：FACT/RULE trace_id 必须来自预物化池、RULE 条目须引用规则版本（A:68）、trace_id 前缀不得与 trace_type 打架（A:72）、goal_candidates.supporting_trace_refs 不得悬空｜出处 A.1.2 四类依据分离（A:63-73）+ A.9.2 TraceBundle + A.5.2（A:547-550,558）",
+      "verdict": "OK",
+      "machine_checkable": true,
+      "detail": "11 条 trace 的 FACT/RULE ID 全部在池内，候选支撑引用无悬空"
+    },
+    {
+      "id": "P7",
+      "item": "置信上限：goal_resolution≠RESOLVED 时 confidence.level 不得 HIGH｜出处 A.5.2 约束1/2（A:563-564）+ common.defs ConfidenceStatement + OD-03 四-1（降 confidence）",
+      "verdict": "OK",
+      "machine_checkable": true,
+      "detail": "goal_resolution=RESOLVED，本项不设上限（当前 level=LOW）"
+    },
+    {
+      "id": "P8",
+      "item": "禁用表达词表：intent_summary + assumptions 文本零命中（只读 acceptance/detectors/forbidden_lexicon.yaml）｜出处 OD-03 二（促销边界/禁用表达清单）+ 词表源 BD-D01 冻结 forbidden_expression",
+      "verdict": "OK",
+      "machine_checkable": true,
+      "detail": "词表 16 词，intent_summary + assumptions 零命中"
+    },
+    {
+      "id": "P9",
+      "item": "数字溯源：intent_summary 中的阿拉伯数字须在 ContextSnapshot 序列化文本中出现｜出处 A.1.2 FACT 必须来自当前 Snapshot（A:63-73）+ 项目宪法北极星1（数字必须溯源到快照）",
+      "verdict": "OK",
+      "machine_checkable": true,
+      "detail": "intent_summary 未发现阿拉伯数字；中文数字不在本项射程（本项看不见，≠ 摘要里没有数字）"
+    }
+  ],
+  "overall": "OK"
+}
