@@ -1,0 +1,29 @@
+{
+  "_neg_note": "负向夹具（校准批二 G7 反向）：模型自称「已解析＋情境备选」，但本次快照（INT-D01，商品事实无 lifecycle_stage/inventory）里没有任何 OD-03 §五 登记在册的情境——模型自造情境把可执行任务变成选择题。期望：runner 撤销备选、退回 RESOLVED 继续，并留改判痕。",
+  "goal_resolution": "RESOLVED_WITH_ALTERNATIVE",
+  "business_goal": "DAILY_CONTENT_OPERATION",
+  "goal_candidates": [
+    {
+      "goal": "DAILY_CONTENT_OPERATION",
+      "rationale": "原话「帮我推广羊绒大衣」属日常内容经营表述。",
+      "focus": "把商品讲清楚。",
+      "tradeoffs": "稳但不冲量。",
+      "expected_outcome": "商品被看见。",
+      "referenced_fact_ids": ["FACT:product.name"]
+    },
+    {
+      "goal": "INVENTORY_ACTIVATION",
+      "rationale": "这类大衣通常在季末需要清库存。",
+      "focus": "对准动销。",
+      "tradeoffs": "见效快但偏促销。",
+      "expected_outcome": "库存走得更快。",
+      "referenced_fact_ids": ["FACT:product.name"]
+    }
+  ],
+  "intent_summary": "为一件羊绒大衣做推广内容；同时给出一个动销方向供选择。",
+  "clarification_question": "这次先按常规内容做，还是对准动销？",
+  "referenced_fact_ids": ["FACT:product.name"],
+  "model_judgments": [],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "目标可解析。"
+}

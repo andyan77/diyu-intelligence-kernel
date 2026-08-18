@@ -63,7 +63,7 @@ FORBIDDEN_LEXICON_PATH = os.path.join(REPO_ROOT, "acceptance", "detectors", "for
 
 KERNEL_INTENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROMPTS_DIR = os.path.join(KERNEL_INTENT_DIR, "prompts")
-PROMPT_INTENT_PATH = os.path.join(PROMPTS_DIR, "intent_v0.4.md")
+PROMPT_INTENT_PATH = os.path.join(PROMPTS_DIR, "intent_v0.5.md")
 FIXTURES_DIR = os.path.join(KERNEL_INTENT_DIR, "fixtures")
 MODULE_MANIFEST_PATH = os.path.join(KERNEL_INTENT_DIR, "module_manifest.json")
 

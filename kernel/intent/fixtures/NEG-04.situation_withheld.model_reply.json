@@ -1,0 +1,17 @@
+{
+  "_neg_note": "负向夹具（校准批二 G7）：情境在场（INT-D02 快照 product.lifecycle_stage=库存消化期）、用户原话未提及、模型仍判 RESOLVED+DAILY 径直继续——第⑥条所指「装作不知道」。现场取自 RUN-0013/0014。期望：runner G7 拦停为 REQUEST_INPUT 并留红旗，且**系统不代生成备选方案骨架**（候选保持空）。",
+  "goal_resolution": "RESOLVED",
+  "business_goal": "DAILY_CONTENT_OPERATION",
+  "goal_candidates": [],
+  "intent_summary": "这次任务是为一件羊绒风衣式大衣制作春节前的视频号内容：商品、时间和平台都已明确，按日常内容经营直接制作。",
+  "clarification_question": null,
+  "referenced_fact_ids": ["FACT:product.name", "FACT:product.lifecycle_stage"],
+  "model_judgments": [
+    {
+      "text": "该产品处于库存消化期，但任务原话未提及清库存或促销意图，因此不能据此推断目标为 INVENTORY_ACTIVATION。",
+      "referenced_fact_ids": ["FACT:product.lifecycle_stage"]
+    }
+  ],
+  "confidence_level": "HIGH",
+  "confidence_reason": "任务要素完整。"
+}

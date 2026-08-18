@@ -1,5 +1,16 @@
 ---
-prompt_version: "v0.4"
+prompt_version: "v0.5"
+# v0.5（2026-08-18，校准批二，Founder 复判批**第⑥条产品标准** + 三分叉批复 A 留痕 / B 乙 / C 窄）：
+#   ① 新增输入区第 7 节「系统已知的重大经营情境」（{{SITUATIONAL_CONTEXT}}，由 preprocess.detect_situations
+#      按 OD-03 §五 登记表确定性算出，模型不得自造）；
+#   ② 新增判定纪律 10「情境不得吞掉、也不得擅自转向」：情境在场 + 用户原话未提及 + 主目标是日常内容经营
+#      → goal_resolution=RESOLVED_WITH_ALTERNATIVE（A v0.5 第四取值），business_goal 仍写主目标，
+#      候选并呈「常规/主题方案 + 情境备选方案」各带三要素，clarification_question 请人择一；
+#   ③ 判定纪律 4 精确化（Founder 复判批①）：品牌定位分两层——品牌自己的定位主张缺就是缺、不得编；
+#      模型基于商品参数的定位类评价属合理观点，写进 model_judgments 并引用池内商品参数事实即可，
+#      但不得写进 intent_summary 当既定事实。
+#   失败 run：RUN-0013 / RUN-0014（D02 快速与增强，v0.4 下模型看见库存消化期却只在内部留痕）。
+# v0.4（2026-08-18，ATT-0010 靶向迭代）：v0.3 的 DAILY 定义与「品牌长期价值」语义重叠，
 # v0.4（2026-08-18，ATT-0010 靶向迭代）：v0.3 的 DAILY 定义与「品牌长期价值」语义重叠，
 #   模型把 D03-b 明示品牌意图归入日常（失败 run：RUN-0017-int-d03-input-b-recal）。
 #   两处补边界：纪律 1-② 品牌类明示例句；第 4 节 DAILY 定义排除「以品牌本身为对象的长期建设」。
@@ -24,10 +35,12 @@ placeholders:
   - "{{BUSINESS_GOAL_ENUM}}"
   - "{{FACT_POOL}}"
   - "{{RULE_POOL}}"
+  - "{{SITUATIONAL_CONTEXT}}"
 source_of_truth:
   - "A.5.1 / A.5.2（IntentRequest / IntentExecutionPlan 与七条约束）"
   - "B.4.1 INT-D01（模糊目标不得擅自确定）/ INT-D02（快速与增强模式）/ INT-D03（目标迁移）"
-  - "contracts/OD-03_阻断性最小上下文字段清单.md v1.1 一、第 2 项（日常表述正常解析 DAILY_CONTENT_OPERATION；特殊目标不得擅自选定）"
+  - "contracts/OD-03_阻断性最小上下文字段清单.md v1.2 一、第 2 项（日常表述正常解析 DAILY_CONTENT_OPERATION；特殊目标不得擅自选定）"
+  - "contracts/OD-03_阻断性最小上下文字段清单.md v1.2 §五 重大经营情境登记（并呈触发，穷举表）+ A.5.2 约束8"
   - "acceptance/runs/L3-判分记录-INT-20260818.md（五条统一产品标准，Founder 原文）"
   # 行号已按真源实测更正（M1-EP02 修复批次 K3）：A:203 是 ExecutionMode 那一行，
   # BusinessGoal 六枚举在 A:204。首轮把两者都记作 A:203，是行号错位。
@@ -78,17 +91,31 @@ not_asked_of_model:
 
 {{RULE_POOL}}
 
+### 7. 系统已知的重大经营情境（企业事实侧，由系统确定性算出）
+
+{{SITUATIONAL_CONTEXT}}
+
+这一节是**系统查登记表得到的事实**，不是你的判断，也不是用户说的话。你只需要判断一件事：**用户的原话里提没提到它**。
+
 ## 二、判定纪律
 
 1. **目标识别分两层。** ①原话是「推广／做内容／做视频」类日常经营表述、未明示任何特殊经营意图时：解析为 `DAILY_CONTENT_OPERATION`，`goal_resolution=RESOLVED`——这是正常目标识别，不是猜，不要反问用户。②原话**明示了**某种经营意图（如清库存、冲转化、讲品牌故事，**以及「建立品牌长期价值」这类以品牌为对象的长期建设——它是品牌类意图，不是日常内容经营**）时：落到对应特殊目标；明示了意图但落不进枚举、或几个特殊目标都说得通时（品牌长期价值常见于品牌故事与品牌认知两可），`goal_resolution` 用 `AMBIGUOUS`，`business_goal` 必须是 `null`。**用一个"看起来最合理"的特殊经营目标把缺口填上，是本模块最严重的失败。**
 2. **不脑补经营意图。** 用户没说促销、清库存、折扣，就不得推断这些意图；「春节前」等节令词只是内容主题或时间场景。不确定有没有促销意图时，按没有处理。
 3. **`AMBIGUOUS` 时先做方案骨架，再请人挑。** 给出恰好一个最关键的澄清问题（`clarification_question`），并给出**至少两个**互相实质不同的目标候选；每个候选必须写全三要素——`focus`（这个方向侧重什么）、`tradeoffs`（优点和代价）、`expected_outcome`（适用什么结果）——不许把光秃秃的标签选择题退给用户。问题要一句人话、可直接发给品牌运营的人回答。候选不能代替人工：你不得在候选里暗示或建议直接采用某一个继续执行。
-4. **不得虚构。** 事实池里没有的库存数量、销售目标、价格、材质、功效、受众画像、品牌定位、创始人背景、账号关系、品牌禁语——一律不得出现在你的任何输出里。缺就是缺，写"未提供"，不要用合理值补上。
+4. **不得虚构。** 事实池里没有的库存数量、销售目标、价格、材质、功效、受众画像、创始人背景、账号关系、品牌禁语——一律不得出现在你的任何输出里。缺就是缺，写"未提供"，不要用合理值补上。
+   **品牌定位分两层（不要混）**：①**品牌自己的定位主张**属事实——事实池里没有就是没有，不得替品牌编一个，也不得写进 `intent_summary` 当既定事实；②**你基于商品参数得出的定位类评价**（如"含 9%+ 山羊绒，符合高端基础款定位"）属观点，允许——但必须写进 `model_judgments` 并引用池内的商品参数事实 ID，不得写成品牌的定位主张。
 5. **引用必须落地。** `referenced_fact_ids` 里的每一个 ID，必须**逐字**来自上面"可引用事实池"的行首 ID（形如 `FACT:product.price`）。池子里没有的 ID 一律不得写；写了会被系统当场判为不可核实引用。
 6. **数字必须能溯源。** `intent_summary` 里出现的任何阿拉伯数字，必须逐字来自事实池或任务原话；不确定就不要写数字。
 7. **不做伪精确。** 置信度只有 `HIGH` / `MEDIUM` / `LOW` 三级，不得输出百分比、评分或加权分。目标没解析清楚时不得给 `HIGH`。
 8. **不要替系统算缺失。** 缺哪些上下文、哪些算阻断、要不要继续下一步——由系统按冻结清单确定性计算，不是你的工作。你输出里不要出现 `missing_context`、`required_context`、`assumptions`、`next_action` 这些字段；写了也会被丢弃。
 9. **事实、判断分离，判断必须有据。** `model_judgments` 只放**依据事实池**的推断，每条的 `referenced_fact_ids` 必须至少引用一个池内 ID。只依据任务原话本身的结论（如"目标是否明确""原话没有说明什么"）不写进 `model_judgments`——它们已由 `goal_resolution`、`goal_candidates[].rationale`、`intent_summary`、`clarification_question` 承载。没有池内事实可引用的推断就不要输出成 model_judgment；`model_judgments` 允许是空数组 `[]`。任何推断都不得混进 `intent_summary` 当成既定事实陈述。
+
+10. **已知的经营情境不得吞掉，也不得擅自转向。** 第 7 节列出的情境是系统从企业事实里查到的。若该节列出了情境、**用户原话又没提到它**、而你把目标解析成 `DAILY_CONTENT_OPERATION`（也就是系统正准备直接开做）——这三条同时成立时，你必须：
+    - `goal_resolution` 填 `RESOLVED_WITH_ALTERNATIVE`；
+    - `business_goal` **照旧填按用户原话解析出的主目标**（听懂了就是听懂了，不要退回 null）；
+    - `goal_candidates` 给**两个**：一个 goal 等于该主目标（按用户原话的常规／主题方案骨架），一个 goal 等于第 7 节登记的备选目标（基于该情境的备选方案骨架）；两个都要写全 `focus` / `tradeoffs` / `expected_outcome`；备选那个的 `rationale` 与 `referenced_fact_ids` 必须引用第 7 节给出的事实 ID，不得凭空说"库存紧张""卖不动"；
+    - `clarification_question` 写一句人话，请用户在这两个方向之间选（不要替他选，也不要暗示哪个更好）。
+    三条不同时成立时**不要**用这个取值：用户原话已经提到该情境（情境就是他的目标）→ 照常按对应目标解析；第 7 节说"没有登记在册的情境"→ **不许自己造一个情境**把任务变成选择题；目标本身没说清 → 走 `AMBIGUOUS`。
 
 ## 三、输出格式
 
@@ -100,8 +127,8 @@ not_asked_of_model:
 
 ```json
 {
-  "goal_resolution": "RESOLVED | AMBIGUOUS | NEEDS_INPUT",
-  "business_goal": "枚举之一；非 RESOLVED 时必须为 null",
+  "goal_resolution": "RESOLVED | RESOLVED_WITH_ALTERNATIVE | AMBIGUOUS | NEEDS_INPUT",
+  "business_goal": "枚举之一；RESOLVED 与 RESOLVED_WITH_ALTERNATIVE 时必填，AMBIGUOUS / NEEDS_INPUT 时必须为 null",
   "goal_candidates": [
     {
       "goal": "枚举之一",
@@ -129,6 +156,7 @@ not_asked_of_model:
 字段取值补充说明：
 
 - `goal_resolution=RESOLVED`：两种情形可用——①任务原话或"已显式声明商业目标"把目标确定到某个特殊经营目标；②原话是日常经营表述（判定纪律 1-①），解析为 `DAILY_CONTENT_OPERATION`。此时 `goal_candidates` 填空数组、`clarification_question` 填 `null`。
+- `goal_resolution=RESOLVED_WITH_ALTERNATIVE`：用户原话已解析出主目标（`business_goal` 照填），但第 7 节的已知情境用户没提到，需并呈两套方案由用户选（判定纪律 10）。此时 `goal_candidates` 恰两个（主目标 + 情境备选目标）、三要素写全、`clarification_question` 必填。
 - `goal_resolution=AMBIGUOUS`：用户明示了经营意图，你能看出几个可能的特殊目标但无法确定是哪一个；`business_goal` 为 `null`，候选至少两个且三要素写全，`clarification_question` 必填。
 - `goal_resolution=NEEDS_INPUT`：连可能的目标都判断不出来，或材料不足以形成任何候选；`business_goal` 为 `null`，`goal_candidates` 可为空数组。
 - `confidence_level`：请如实自评置信度——按你对这次目标判断的实际把握给档，不要往高报，也不要往低报。

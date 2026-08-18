@@ -671,19 +671,17 @@ _GOAL_REQUIREMENTS = {
 # 只在目标已解析时才评估（接口规格：goal=None 时只出通用四项）——目标都还没定，
 # 讨论"人设缺了要不要降 confidence"没有意义，只会给 Founder 增加噪音。
 _QUALITY_REDUCING_REQUIREMENTS = (
-    {
-        # OD-03 L32｜人设 / 账号事实（缺 → 暂定人设标 ASSUMPTION、降 confidence、不得编造创始人背景——INT-D02）
-        "field_path": "persona",
-        "purpose": "人设事实（缺 → 暂定人设标 ASSUMPTION、降 confidence、不得编造创始人背景）",
-        "impact": IMPACT_QUALITY_REDUCING,
-        "od03": "OD-03 §三 L32",
-        # L32 把"人设 / 账号"并列写成一项，这里拆成两条 ContextRequirement：
-        # 两者在快照里是两个独立键（facts.persona / facts.video_account，实测），且 A.4.2 要求
-        # "QUICK 跨过的每项缺失必须产生 ASSUMPTION"——拆开才能一缺一假设、假设文本各自贴切。
-        # 拆分不改变 impact（两条都是 QUALITY_REDUCING），不构成对 OD-03 的加严或放宽。
-        "candidates": (("facts.persona", "facts.persona_facts"),),
-        "question": "出镜或讲述的人设是谁？（缺了会用暂定人设，且不会编创始人经历）",
-    },
+    # 【OD-03 v1.2 移出两项（Founder 2026-08-18 复判批①，分叉 A「留痕」）】
+    #   · persona（出镜人）→ 创作侧自决项：系统按账号人设与内容需求自定出镜形式，仅用户明示禁真人
+    #     出镜时受限；不再作缺失项、不再向用户追问。原条目连同其模板问句一并删除（留在这里"只是不问"
+    #     会让 required_context 仍旧列出它——那还是把清单摊给用户看）。
+    #   · audience（受众）→ 派生项：从品牌资料的调性人群直接读取；品牌资料缺席时按创作侧自决处理。
+    #   两项的自决/派生事实由 build_self_decided_entries() 各留一条 ASSUMPTION 痕（不进 missing_context、
+    #   不生成 resolution_question）——Founder 分叉 A 批复「留」：不给用户增加问题，但以后追查
+    #   「这条视频为什么这么拍」时有据可查。
+    #   **不变的红线**：不得编造创始人背景（B.4.1/INT-D02 禁止结果）；BRAND_STORY 目标下的
+    #   「主理人人设事实」仍是 _GOAL_REQUIREMENTS 里的 BLOCKING 项（G.1 窄门），本次不触及；
+    #   「虚构受众」仍在 B.4.1/INT-D01 禁止结果内。
     {
         # OD-03 L32｜人设 / 账号事实（账号侧）
         "field_path": "video_account",
@@ -692,15 +690,6 @@ _QUALITY_REDUCING_REQUIREMENTS = (
         "od03": "OD-03 §三 L32",
         "candidates": (("facts.video_account", "facts.video_account_facts"),),
         "question": "发在哪个视频号上？这个号平时讲什么、和顾客什么关系？",
-    },
-    {
-        # OD-03 L32｜受众调研
-        "field_path": "audience",
-        "purpose": "受众调研",
-        "impact": IMPACT_QUALITY_REDUCING,
-        "od03": "OD-03 §三 L32",
-        "candidates": (("facts.audience", "facts.audience_facts"),),
-        "question": "这条视频主要说给谁听？有没有做过受众了解？",
     },
     {
         # OD-03 L32｜材质证明（除非涉及功效声明，届时升为对应目标的阻断项）
@@ -824,7 +813,7 @@ def _resolve_business_goal(goal, snapshot):
     两者都没有 → MISSING → BLOCKING → 上层强制 NEEDS_INPUT（A.4.2「BLOCKING 缺失在任何模式都进入
     NEEDS_INPUT」＋ OD-03 L15「听不出来必须问，不许猜」）。
 
-    **快照侧枚举守卫**（M1-EP02 修复批次 K1）：facts.business_goal 有值但**不在 A.2.6 六枚举内**时，
+    **快照侧枚举守卫**（M1-EP02 修复批次 K1）：facts.business_goal 有值但**不在 A.2.6 七枚举内**时，
     本函数判 MISSING，而不是把这个值当成"目标已在场"。
     理由是 OD-03 L15 原文「商业目标六选一已解析；听不出来必须问，不许猜」——快照里写着
     "春节大促" / "冲一波销量" 这类自由文本，落不到六选一，就是**没解析**；
@@ -834,7 +823,7 @@ def _resolve_business_goal(goal, snapshot):
     因为那说明 runner 没做枚举校验，是代码缺陷）；快照侧是数据问题，判缺失并追问才是正确处置。
     """
     if goal is not None:
-        # goal 已经在 resolve_requirements 入口校验过属于六枚举，这里不再重复校验。
+        # goal 已经在 resolve_requirements 入口校验过属于七枚举，这里不再重复校验。
         return AVAILABILITY_AVAILABLE, []
     node = _get_by_path(snapshot, "facts.business_goal")
     availability = _availability_of_node(node)
@@ -843,7 +832,7 @@ def _resolve_business_goal(goal, snapshot):
         raw = node.get("value") if _is_fact_leaf(node) else node
         if raw not in BUSINESS_GOALS:
             sys.stderr.write(
-                "[intent.preprocess] 枚举守卫：快照 facts.business_goal=%r 不在 A.2.6 六枚举内，"
+                "[intent.preprocess] 枚举守卫：快照 facts.business_goal=%r 不在 A.2.6 七枚举内，"
                 "按 OD-03 L15「听不出来必须问，不许猜」判 MISSING（fail-closed，不当作目标已在场）\n"
                 % (raw,)
             )
@@ -858,7 +847,7 @@ def resolve_requirements(goal, snapshot, task_statement):
     全过程零模型参与——模型只负责把用户那句话解析成六个目标之一（或说不出来），剩下的都是查表。
 
     参数：
-      goal            六枚举之一，或 None。None = 目标未解析（AMBIGUOUS / NEEDS_INPUT）。
+      goal            七枚举之一，或 None。None = 目标未解析（AMBIGUOUS / NEEDS_INPUT）。
                       按接口规格，goal=None 时**只出通用四项**——目标都没定，谈分目标追加项没有意义，
                       列一堆"库存激活才需要的字段"只会误导 Founder 以为系统已经认定了目标。
       snapshot        load_snapshot() 的返回值（M0 扁平夹具形状，容错读取）。
@@ -875,11 +864,11 @@ def resolve_requirements(goal, snapshot, task_statement):
     但 availability 字段本身保留 CONFLICTING 原值，不改写成 MISSING（改写会抹掉"有冲突"与"没有"的区别）。
     """
     if goal is not None and goal not in BUSINESS_GOALS:
-        # fail-loud：目标值不在六枚举内说明调用方（runner）没做枚举校验就把模型输出直接透传进来了。
+        # fail-loud：目标值不在七枚举内说明调用方（runner）没做枚举校验就把模型输出直接透传进来了。
         # 悄悄当成 None 处理会掩盖这个 bug，而且 A.4.2「目标不明确时不得填入唯一 business_goal」
         # 要求的是显式走"未解析"分支，不是猜。
         raise ValueError(
-            "goal 必须是 A.2.6 BusinessGoal 六枚举之一或 None，收到：%r。"
+            "goal 必须是 A.2.6 BusinessGoal 七枚举之一或 None，收到：%r。"
             "模型给出枚举外目标时，runner 应传 None 走未解析分支。" % (goal,)
         )
 
@@ -928,3 +917,81 @@ def resolve_requirements(goal, snapshot, task_statement):
 
     missing = [item for item in required if item["availability"] != AVAILABILITY_AVAILABLE]
     return required, missing
+
+
+# ============================ 创作侧自决 / 派生项留痕（OD-03 v1.2） ============================
+# Founder 2026-08-18 复判批①＋分叉 A：两项移出缺失清单后**不问用户，但各留一行痕**。
+# 为什么写成 ASSUMPTION 而不是新开字段：A.5.2 的 assumptions 是 TraceEntry[]，
+# common.defs 的 trace_type 只有 FACT/RULE/ASSUMPTION/MODEL_JUDGMENT 四值——系统在没有该信息时
+# 自行决定/派生，正是"假设"的本义；新开字段就是私自扩冻结合同。
+# statement 里**不写任何具体取值**（不写"出镜人定为主理人""受众定为都市白领"）——写了就是编造。
+_SELF_DECIDED_TRACES = (
+    {
+        "trace_id": "ASSUMPTION:persona.on_camera_form",
+        "target_paths": ["persona"],
+        "statement": ("出镜形式属创作侧自决项（OD-03 v1.2 §三）：本次不就出镜人向用户追问，由创作侧按账号人设"
+                      "与内容需求决定；本步不预设任何具体人物或其经历，也不得据此写出确定表述。"
+                      "用户明示禁真人出镜时该自决受限。"),
+    },
+    {
+        "trace_id": "ASSUMPTION:audience.derived",
+        "target_paths": ["audience"],
+        "statement": ("受众属派生项（OD-03 v1.2 §三）：本次不就受众向用户追问，应从品牌资料的调性人群读取；"
+                      "品牌资料缺席时按创作侧自决处理，本步不预设任何受众画像。"),
+    },
+)
+
+
+def build_self_decided_entries():
+    """两条自决/派生留痕（与执行模式、是否继续无关——停在选择点时同样要留痕）。"""
+    return [{"trace_id": t["trace_id"], "trace_type": "ASSUMPTION", "statement": t["statement"],
+             "target_paths": list(t["target_paths"]), "confidence": None}
+            for t in _SELF_DECIDED_TRACES]
+
+
+# ============================ 重大经营情境登记（OD-03 §五） ============================
+# 真源＝Founder 2026-08-18 **第⑥条产品标准**；判据＝A.5.2 约束8。
+# **本表是穷举**：不在表内的事实值一律不得触发并呈（系统自造情境把可执行任务变成选择题，
+# 等于换个花样违反标准①③⑤）。扩表走 OD-03 版本升级 + Founder 签字。
+_SITUATIONAL_ALTERNATIVES = (
+    {
+        "situation_id": "INVENTORY_CLEARANCE",
+        "label": "库存消化期",
+        "field_path": "product.lifecycle_stage",
+        "match_values": ("库存消化期",),
+        "alternative_goal": "INVENTORY_ACTIVATION",
+        "od03": "OD-03 §五",
+        # 触发面（分叉 C 窄口径）：只在主目标属"常规/主题类"（系统正要直接开做）时并呈。
+        # 用户已明示该情境（情境即其目标）、或目标尚未解析时不触发——后者系统本就在请人裁决，
+        # 再塞一个方向只会加重用户负担（违标准⑤）。
+        "trigger_primary_goals": ("DAILY_CONTENT_OPERATION",),
+    },
+)
+
+
+def detect_situations(snapshot):
+    """确定性侧：查快照事实里有没有登记在册的重大经营情境。
+
+    返回 list[dict]：situation_id / label / field_path / observed_value / alternative_goal /
+    fact_id（供模型引用的池内 ID）/ trigger_primary_goals。
+    只读 facts 区（企业事实），不看 _fixture_note 之类元数据——第⑥条管的是"据企业事实已知"。
+    **本函数只回答"情境在不在"**；"用户原话提没提"是语义判断，交模型（C.3 形态裁决：确定性的归代码，
+    语义的归模型），"该并呈有没有并呈"由 runner G7 与考卷 A9 判。
+    """
+    found = []
+    for spec in _SITUATIONAL_ALTERNATIVES:
+        availability, _refs = _probe(snapshot, ((("facts." + spec["field_path"]),),))
+        if availability != AVAILABILITY_AVAILABLE:
+            continue
+        node = _get_by_path(snapshot, "facts." + spec["field_path"])
+        if node is _ABSENT:
+            continue
+        value = node.get("value") if isinstance(node, dict) and "value" in node else node
+        if value not in spec["match_values"]:
+            continue
+        found.append({"situation_id": spec["situation_id"], "label": spec["label"],
+                      "field_path": spec["field_path"], "observed_value": value,
+                      "alternative_goal": spec["alternative_goal"], "od03": spec["od03"],
+                      "fact_id": "FACT:" + spec["field_path"],
+                      "trigger_primary_goals": tuple(spec["trigger_primary_goals"])})
+    return found
