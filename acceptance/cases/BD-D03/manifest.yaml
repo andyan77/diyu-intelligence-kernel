@@ -44,9 +44,9 @@ baseline_prompt_versions:
   decision_stage: null
   creative_stage: null
 
-diyu_build_version: "PENDING_BUILD"
+diyu_build_version: "v0.1.0-intent-only"  # Founder 2026-08-18 确认：0.1.0 版构建、当前只含 Intent 模块；BD/Creative 落地时随其签字批升版
 module_contract_versions:
-  intent: "PENDING_BUILD"
+  intent: "v0.1.0"  # 2026-08-18 级联补充令回填：值=kernel/intent/module_manifest.json 的 module_version（M1-EP02 落地）
   business_decision: "PENDING_BUILD"
   creative: "PENDING_BUILD"
 

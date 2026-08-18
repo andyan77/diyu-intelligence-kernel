@@ -34,9 +34,9 @@ e2e_output_contract_version: null             # 同上，真源 B.2.3（B:184-20
 baseline_prompt_versions:
   decision_stage: null                        # B.2.4（B:206-208）的基线两阶段调用同样写在「正式基线／端到端 A/B」名下；B 未要求 B.4 诊断案例跑基线侧
   creative_stage: null
-diyu_build_version: "PENDING_BUILD"           # 笛语侧尚未构建，无可引用的构建版本
+diyu_build_version: "v0.1.0-intent-only"  # Founder 2026-08-18 确认：0.1.0 版构建、当前只含 Intent 模块；BD/Creative 落地时随其签字批升版
 module_contract_versions:
-  intent: "PENDING_BUILD"
+  intent: "v0.1.0"  # 2026-08-18 级联补充令回填：值=kernel/intent/module_manifest.json 的 module_version（M1-EP02 落地）
   business_decision: "PENDING_BUILD"
   creative: "PENDING_BUILD"
 model_provider: "Alibaba Cloud DashScope"  # Founder 2026-08-17 IA-0 定格（实测两家 models 接口后裁决；参数真源 contracts/interaction/generation_parameters.json）
