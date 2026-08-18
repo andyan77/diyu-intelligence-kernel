@@ -5,15 +5,15 @@
   "max_tokens_stage_D": 4096,
   "max_tokens_stage_C": 8192,
   "model_provider": "Alibaba Cloud DashScope",
-  "model_name": "qwen-max-0107",
-  "model_version": "snapshot-0107（models 接口回执 2026-08-17）",
+  "model_name": "qwen3-max-2026-01-23",
+  "model_version": "snapshot-2026-01-23（真实调用回执 2026-08-18，OD-02 v1.1 §四，request_id chatcmpl-e5c5f74f-08…）",
   "multimodal_model": "qwen-vl-max",
   "multimodal_model_version_pinning": "alias_locked_no_snapshot",
   "auditor_model": "deepseek-v4-pro",
   "output_language": "zh-CN",
-  "_version": "v1.0",
+  "_version": "v1.1",
   "_status": "EFFECTIVE（已生效；Founder（Faye）重签 2026-08-18T02:39:10+08:00，M0 收口修复批次 P0-6，回执《M0收口回执.md》@24e24a3）",
   "_content_frozen_at": "2026-08-17（M0 收口修复批次 P0-1）",
   "_hash_algorithm": "sha256(规范化 JSON)：UTF-8 + 键排序(sort_keys) + 紧凑分隔符(\",\" / \":\") + ensure_ascii=false，写作 \"sha256:<hex>\"；与 tools/freeze_gate.py 的 canonical_snapshot_hash 同算法。冻结门按本文件当前内容实时重算，并与 Case Manifest 的 generation_parameters_hash 比对",
-  "_note": "Founder 2026-08-17 IA-0 定格（预裁决⑧ + 当日两家 models 接口实测确认；《裁决台账》08-17「IA-0 冻结签字生效」行）。本文件是 generation_parameters_hash 的唯一真源，同时是 Case Manifest 中 model_provider / model_name / model_version 的溯源落点：主模型 qwen-max-0107 两侧同用（B.2.2 同条件）；multimodal_model 为无快照版，锁别名并逐次运行留存接口返回的实际 model 回执；auditor_model 为跨厂商审计侧（trace_auditor / L2 探针），非 A/B 参赛方。M0 收口修复批次 P0-1 本次只做三件事：补齐模型身份字段、补齐冻结元数据、把原内嵌在取值字符串里的中文说明移入本字段——temperature / top_p / seed / max_tokens_stage_D / max_tokens_stage_C 五个生成参数取值一字未动。文件内容变更后 generation_parameters_hash 须由冻结门重算并同步 20 份 Manifest（修复批次 P0-2 / P0-4）。v1.0 内容定稿（2026-08-17 M0 收口修复批次）"
+  "_note": "Founder 2026-08-17 IA-0 定格（预裁决⑧ + 当日两家 models 接口实测确认；《裁决台账》08-17「IA-0 冻结签字生效」行）。本文件是 generation_parameters_hash 的唯一真源，同时是 Case Manifest 中 model_provider / model_name / model_version 的溯源落点：主模型 qwen-max-0107 两侧同用（B.2.2 同条件）；multimodal_model 为无快照版，锁别名并逐次运行留存接口返回的实际 model 回执；auditor_model 为跨厂商审计侧（trace_auditor / L2 探针），非 A/B 参赛方。M0 收口修复批次 P0-1 本次只做三件事：补齐模型身份字段、补齐冻结元数据、把原内嵌在取值字符串里的中文说明移入本字段——temperature / top_p / seed / max_tokens_stage_D / max_tokens_stage_C 五个生成参数取值一字未动。文件内容变更后 generation_parameters_hash 须由冻结门重算并同步 20 份 Manifest（修复批次 P0-2 / P0-4）。v1.0 内容定稿（2026-08-17 M0 收口修复批次） ▸ v1.1（2026-08-18 主模型级联落地，Founder 派发块）：qwen-max-0107 实测不可调用（OD-02 v1.1 §四 两端点 404/400 回执），按 Founder 2026-08-18 块 0 裁决替换为 qwen3-max-2026-01-23；仅 model_name / model_version 两字段变更，生成参数五值与其余字段一字未动；指纹随本次变更重算并同步 20 份 Manifest（case_version 级联升版，B.2.1）"
 }

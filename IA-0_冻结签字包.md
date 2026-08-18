@@ -15,7 +15,7 @@
 
 | 项 | 定格值 | 真源 |
 |---|---|---|
-| A/B 主模型（笛语侧与基线侧同用） | qwen-max-0107（快照版；2026-08-17 models 接口实测回执） | 台账 08-17「IA-0 冻结签字生效」行；contracts/OD-02_模型与参数定格记录.md §一 |
+| A/B 主模型（笛语侧与基线侧同用） | qwen3-max-2026-01-23（快照版；2026-08-18 真实调用回执，OD-02 v1.1 §四。原定格 qwen-max-0107 实测不可调用，Founder 2026-08-18 块 0 裁决替换并于同日级联落地 20 份 Manifest 与参数真源 v1.1） | 台账 08-17「IA-0 冻结签字生效」行；contracts/OD-02_模型与参数定格记录.md §一 |
 | 多模态（商品图 VisualProfile） | qwen-vl-max（无快照版：锁别名，逐次运行留存接口返回的实际 model 回执） | contracts/interaction/generation_parameters.json |
 | trace_auditor / L2 探针 | deepseek-v4-pro（跨厂商审计侧，非 A/B 参赛方） | contracts/interaction/generation_parameters.json |
 | 生成参数 | temperature 0.3｜top_p 0.8｜seed 20260817｜max_tokens 阶段 D 4096 / 阶段 C 8192｜输出语言 zh-CN | contracts/interaction/generation_parameters.json |
@@ -47,7 +47,7 @@
 | 5. 模型让不让「打草稿」 | 允许 `<thinking>` 块，匿名化前整段剥离 | OPEN_QUESTIONS.md 文首⑤；anonymity_procedure.md §8 P-14 |
 | 6. 匿名流程人选与细则（P-01~P-14） | 三关键定格：脚本随机 + 密封文件 + git 哈希封存 / 阶段 D 与终审独立随机 / 揭盲后禁回改。其余执行值与违规标签由 M0 收口修复批次两裁决补齐：B v0.4 新增失败标签 EVAL_BLINDING_PROCEDURE_INVALID（一枚关闭 P-05/P-08/P-11，后果＝该次盲测作废、不算 IA-4 证据、按 B.8.1 修复后重测）+ 六执行值（P-04 隔夜且≥12h／P-03 取两类问卷较晚时刻／P-10 两次独立随机／P-12 三组记录归属与冻结时点／P-13 独立作答判据／P-06 证据目录结构） | OPEN_QUESTIONS.md 文首⑥；台账 08-17「修复批次两裁决」行；anonymity_procedure.md v1.0 §8 |
 | 7. PRD 与 A 的口播包「情绪」字段分歧 | A 合同 v0.1→v0.2：VoicePackage 补 `emotion`（情绪）字段，对齐 PRD 7.2 | OPEN_QUESTIONS.md 文首⑦；A_模块接口与核心数据字典.md |
-| 8. OD-02 定格 | 已定格：qwen-max-0107 两侧同用 / qwen-vl-max 锁别名 / 审计 deepseek-v4-pro；参数真源 contracts/interaction/generation_parameters.json（值见 §一） | contracts/OD-02_模型与参数定格记录.md §一§二；台账 08-17 |
+| 8. OD-02 定格 | 已定格并经 2026-08-18 v1.1 修订：qwen3-max-2026-01-23 两侧同用（原 qwen-max-0107 实测不可调用，块 0 裁决替换）/ qwen-vl-max 锁别名 / 审计 deepseek-v4-pro；参数真源 contracts/interaction/generation_parameters.json（值见 §一） | contracts/OD-02_模型与参数定格记录.md §一§二；台账 08-17 |
 
 执行侧自决项（同批登记，不占 Founder 时间）：hash=sha256 规范化 JSON、Schema 补版本戳、PENDING 冻结断言门、运行顺序记 run 证据层、allowed_tools 空＝零外部工具（内部编排豁免 B.2.2）、Persona 冻结落点＝快照内容。落盘见 OPEN_QUESTIONS.md 文首。
 
