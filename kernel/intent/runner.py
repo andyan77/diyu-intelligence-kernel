@@ -63,7 +63,7 @@ from .config import BUSINESS_GOAL_FIELD_PATH as GOAL_FIELD_PATH
 
 # 仓库根：kernel/intent/runner.py → parents[2]
 REPO_ROOT = Path(__file__).resolve().parents[2]
-PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "intent_v0.5.md"
+PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "intent_v0.6.md"
 _DEFAULT_PLAN_SCHEMA_PATH = REPO_ROOT / "contracts" / "schemas" / "intent_execution_plan.schema.json"
 
 # A:204 逐字七枚举（BusinessGoal，A v0.4 判分批新增 DAILY_CONTENT_OPERATION）。落在本文件是为了
