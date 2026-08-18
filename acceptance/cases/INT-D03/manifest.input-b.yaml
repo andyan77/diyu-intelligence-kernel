@@ -39,4 +39,4 @@ model_version: "snapshot-2026-01-23（真实调用回执 2026-08-18，OD-02 v1.1
 generation_parameters_hash: "sha256:440cefd72ac9827def71162ae5eecb333c718ac8b0502fac8bb9909f5ef8faf1"  # 由 tools/freeze_gate.py 的 canonical_snapshot_hash 对 contracts/interaction/generation_parameters.json 当前内容实算回填（M0 收口修复批次 P0-2）；IA-0 首签时的旧值 sha256:24b85c93… 已因 P0-1 重写该参数文件而失真，故按其 _hash_algorithm 字段「冻结门按本文件当前内容实时重算」重算。参数**取值**仍是 Founder 2026-08-17 IA-0 定格，本次只更新指纹不改参数。冻结门 R8 每次运行实时重算比对
 allowed_tools: []                             # 占位保守值：不声明任何工具。B:179 只写「不允许任一侧使用未声明的搜索或知识库」（且 B.2.2 自述适用于正式 A/B），B 未规定诊断案例 allowed_tools 必须为空数组 →（三案例同问）OQ-INT-D01-04
 approved_by: "Founder（Faye）"  # IA-0 重签（M0 收口修复批次 P0-6；首签 19:08:38 已撤回留档台账与 IA-0 签字包）
-approved_at: "2026-08-18T16:04:02+08:00"  # Founder 签字（内容真实性三层边界块 C 批次，R1-R7 落地后升版内容；PR #13，Founder「确认签字」2026-08-18；被签内容=本文件去签字三字段后的登记指纹，门 R6 实时核验；上一批 15:19:52 留档台账）
+approved_at: "2026-08-18T17:41:56+08:00"  # Founder 签字（块 E 批次：M1-EP01 收尾——15 快照迁 A.4.3 引用式 + facts 池 + case_version 升格 + snapshot_hash 重算后全量；Founder 本轮批复原文「确认签字」2026-08-18；被签内容=本文件去签字三字段后的登记指纹，门 R6 实时核验；上一批 16:04:02 留档台账与 IA-0 §六）
