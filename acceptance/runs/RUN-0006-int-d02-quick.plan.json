@@ -1,0 +1,333 @@
+{
+  "artifact": {
+    "artifact_id": "IEP-RUN-20260818T104949398608Z",
+    "artifact_type": "IntentExecutionPlan",
+    "version": 1,
+    "schema_version": "v0.1",
+    "brand_id": "fixture-brand-01",
+    "task_id": "TASK-RUN-20260818T104949398608Z",
+    "context_snapshot_ref": {
+      "object_type": "ContextSnapshot",
+      "object_id": "SNAP-INTD02-0001",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    },
+    "source_run_id": "RUN-20260818T104949398608Z",
+    "parent_references": [],
+    "review_status": "PENDING",
+    "created_at": "2026-08-18T10:49:49.398647+00:00",
+    "created_by": "SYSTEM"
+  },
+  "task_type": "VIDEO_CONTENT_CREATION",
+  "platform": "WECHAT_VIDEO",
+  "goal_resolution": "NEEDS_INPUT",
+  "business_goal": null,
+  "goal_candidates": [],
+  "intent_summary": "任务要求为一件处于库存消化期的羊绒大衣制作春节前视频号内容，用户已显式声明商业目标为 INVENTORY_ACTIVATION，且事实池确认该产品处于库存消化期、库存量为800件，目标明确。",
+  "target_audience_refs": [],
+  "required_context": [
+    {
+      "field_path": "selected_product_refs",
+      "purpose": "做哪个商品：至少选定一个且在库",
+      "availability": "AVAILABLE",
+      "impact": "BLOCKING",
+      "resolution_question": null,
+      "related_source_refs": []
+    },
+    {
+      "field_path": "business_goal",
+      "purpose": "为什么做：商业目标六选一已解析；听不出来必须问，不许猜",
+      "availability": "AVAILABLE",
+      "impact": "BLOCKING",
+      "resolution_question": null,
+      "related_source_refs": []
+    },
+    {
+      "field_path": "brand_id",
+      "purpose": "哪个品牌：品牌身份明确（防串牌）",
+      "availability": "AVAILABLE",
+      "impact": "BLOCKING",
+      "resolution_question": null,
+      "related_source_refs": []
+    },
+    {
+      "field_path": "platform",
+      "purpose": "发到哪：本期仅视频号；其他平台不得静默适配",
+      "availability": "AVAILABLE",
+      "impact": "BLOCKING",
+      "resolution_question": null,
+      "related_source_refs": []
+    },
+    {
+      "field_path": "product.inventory",
+      "purpose": "库存数量与有效性",
+      "availability": "AVAILABLE",
+      "impact": "BLOCKING",
+      "resolution_question": null,
+      "related_source_refs": [
+        {
+          "source_id": "SRC-INTD02-0001",
+          "brand_id": "fixture-brand-01",
+          "source_type": "BRAND_OPERATOR_INPUT",
+          "locator": "夹具虚构（剧本）",
+          "captured_at": "2026-08-17T00:00:00+08:00",
+          "checksum": null
+        }
+      ]
+    },
+    {
+      "field_path": "task.time_window",
+      "purpose": "时间窗口（多久内消化）",
+      "availability": "AVAILABLE",
+      "impact": "BLOCKING",
+      "resolution_question": null,
+      "related_source_refs": []
+    },
+    {
+      "field_path": "brand.promotion_boundary",
+      "purpose": "品牌促销边界（最低折扣线 / 禁用表达）",
+      "availability": "MISSING",
+      "impact": "BLOCKING",
+      "resolution_question": "促销可以做到什么程度？最低折扣线是多少、哪些说法是禁止的？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "persona",
+      "purpose": "人设事实（缺 → 暂定人设标 ASSUMPTION、降 confidence、不得编造创始人背景）",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "出镜或讲述的人设是谁？（缺了会用暂定人设，且不会编创始人经历）",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "video_account",
+      "purpose": "账号事实（缺 → 账号关系只能暂定，不得编造）",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "发在哪个视频号上？这个号平时讲什么、和顾客什么关系？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "audience",
+      "purpose": "受众调研",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "这条视频主要说给谁听？有没有做过受众了解？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "product.material_proof",
+      "purpose": "材质证明",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "面料成分有没有检测报告或吊牌照片一类的凭证？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "product.lining",
+      "purpose": "次要商品字段（如里料）",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "里料是什么材质？（缺了不影响能不能做，只影响能说多细）",
+      "related_source_refs": []
+    }
+  ],
+  "missing_context": [
+    {
+      "field_path": "brand.promotion_boundary",
+      "purpose": "品牌促销边界（最低折扣线 / 禁用表达）",
+      "availability": "MISSING",
+      "impact": "BLOCKING",
+      "resolution_question": "促销可以做到什么程度？最低折扣线是多少、哪些说法是禁止的？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "persona",
+      "purpose": "人设事实（缺 → 暂定人设标 ASSUMPTION、降 confidence、不得编造创始人背景）",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "出镜或讲述的人设是谁？（缺了会用暂定人设，且不会编创始人经历）",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "video_account",
+      "purpose": "账号事实（缺 → 账号关系只能暂定，不得编造）",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "发在哪个视频号上？这个号平时讲什么、和顾客什么关系？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "audience",
+      "purpose": "受众调研",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "这条视频主要说给谁听？有没有做过受众了解？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "product.material_proof",
+      "purpose": "材质证明",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "面料成分有没有检测报告或吊牌照片一类的凭证？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "product.lining",
+      "purpose": "次要商品字段（如里料）",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "里料是什么材质？（缺了不影响能不能做，只影响能说多细）",
+      "related_source_refs": []
+    }
+  ],
+  "assumptions": [],
+  "confidence": {
+    "level": "LOW",
+    "basis": [
+      "闸留痕：business_goal 来源：--stated-goal CLI 声明（INVENTORY_ACTIVATION）；A.4.1「用户陈述不自动等同于已解析商业目标」落在「仍须过全部确定性闸」上",
+      "闸留痕：系统改判：模型判 RESOLVED，存在阻断缺失 brand.promotion_boundary，改为 NEEDS_INPUT（A.5.2 约束5 / A.4.2）",
+      "闸留痕：模型自报 confidence=HIGH，按缺失规则下调为 LOW（G6 只降不升）",
+      "模型自述：用户显式声明目标为 INVENTORY_ACTIVATION，且事实池中产品生命周期阶段与库存数据一致支持该目标。",
+      "确定性核对：goal_resolution=NEEDS_INPUT，next_action=REQUEST_INPUT",
+      "required_context / missing_context 由 OD-03 冻结清单逐项算出，非模型判断"
+    ],
+    "limiting_factors": [
+      "商业目标尚未解析为六选一，任何结论都建立在未定目标上",
+      "存在缺失上下文项，输出质量受限",
+      "缺失上下文项达到降档阈值",
+      "缺 brand.promotion_boundary（BLOCKING）：促销可以做到什么程度？最低折扣线是多少、哪些说法是禁止的？",
+      "缺 persona（QUALITY_REDUCING）：出镜或讲述的人设是谁？（缺了会用暂定人设，且不会编创始人经历）",
+      "缺 video_account（QUALITY_REDUCING）：发在哪个视频号上？这个号平时讲什么、和顾客什么关系？",
+      "缺 audience（QUALITY_REDUCING）：这条视频主要说给谁听？有没有做过受众了解？",
+      "缺 product.material_proof（QUALITY_REDUCING）：面料成分有没有检测报告或吊牌照片一类的凭证？",
+      "缺 product.lining（QUALITY_REDUCING）：里料是什么材质？（缺了不影响能不能做，只影响能说多细）"
+    ]
+  },
+  "next_action": "REQUEST_INPUT",
+  "trace_bundle": {
+    "trace_bundle_id": "TB-c1ca16e8dc9b",
+    "brand_id": "fixture-brand-01",
+    "entries": [
+      {
+        "trace_id": "FACT:product.lifecycle_stage",
+        "trace_type": "FACT",
+        "statement": "product.lifecycle_stage = 库存消化期（status=CONFIRMED）",
+        "source_refs": [
+          {
+            "source_id": "SRC-INTD02-0001",
+            "brand_id": "fixture-brand-01",
+            "source_type": "BRAND_OPERATOR_INPUT",
+            "locator": "夹具虚构（剧本）",
+            "captured_at": "2026-08-17T00:00:00+08:00",
+            "checksum": null
+          }
+        ],
+        "object_refs": [],
+        "target_paths": [
+          "product.lifecycle_stage"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "FACT:product.inventory",
+        "trace_type": "FACT",
+        "statement": "product.inventory = {\"as_of\": \"2026-08-17T00:00:00+08:00\", \"unit\": \"件\", \"value\": 800}（status=CONFIRMED）",
+        "source_refs": [
+          {
+            "source_id": "SRC-INTD02-0001",
+            "brand_id": "fixture-brand-01",
+            "source_type": "BRAND_OPERATOR_INPUT",
+            "locator": "夹具虚构（剧本）",
+            "captured_at": "2026-08-17T00:00:00+08:00",
+            "checksum": null
+          }
+        ],
+        "object_refs": [],
+        "target_paths": [
+          "product.inventory"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "R-BDD01-001",
+        "trace_type": "RULE",
+        "statement": "禁止低价叫卖表达（forbidden_expression: LOW_PRICE_SELLING）",
+        "source_refs": [],
+        "object_refs": [
+          {
+            "object_type": "RuleRecord",
+            "object_id": "R-BDD01-001",
+            "version": 1,
+            "brand_id": "fixture-brand-01"
+          }
+        ],
+        "target_paths": [
+          "*"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "R-BDD01-002",
+        "trace_type": "RULE",
+        "statement": "促销让利路径违反高端品牌禁令（两候选降级分支冻结规则）",
+        "source_refs": [],
+        "object_refs": [
+          {
+            "object_type": "RuleRecord",
+            "object_id": "R-BDD01-002",
+            "version": 1,
+            "brand_id": "fixture-brand-01"
+          }
+        ],
+        "target_paths": [
+          "strategy"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "R-FB01-001",
+        "trace_type": "RULE",
+        "statement": "禁止在任何输出中使用 fixture-brand-01 的品牌禁用表达；词表唯一真源为 acceptance/detectors/forbidden_lexicon.yaml（含 low_price_selling 与 false_scarcity 两组），本规则正文不复制词条；词表命中即违规，规则内容以该文件当前版本为准。",
+        "source_refs": [],
+        "object_refs": [
+          {
+            "object_type": "RuleRecord",
+            "object_id": "R-FB01-001",
+            "version": 1,
+            "brand_id": "fixture-brand-01"
+          }
+        ],
+        "target_paths": [
+          "*"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "MODEL_JUDGMENT:MJ-1",
+        "trace_type": "MODEL_JUDGMENT",
+        "statement": "该产品处于库存消化期，且有明确库存数量，符合 INVENTORY_ACTIVATION 目标的典型特征。",
+        "source_refs": [],
+        "object_refs": [],
+        "target_paths": [],
+        "supporting_trace_refs": [
+          "FACT:product.lifecycle_stage",
+          "FACT:product.inventory"
+        ],
+        "confidence": null
+      }
+    ],
+    "target_artifact_ref": {
+      "object_type": "IntentExecutionPlan",
+      "object_id": "IEP-RUN-20260818T104949398608Z",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    }
+  }
+}

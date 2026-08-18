@@ -1,0 +1,16 @@
+{
+  "goal_resolution": "RESOLVED",
+  "business_goal": "INVENTORY_ACTIVATION",
+  "goal_candidates": [],
+  "intent_summary": "任务要求为一件处于库存消化期的羊绒大衣制作春节前视频号内容，用户已显式声明商业目标为 INVENTORY_ACTIVATION，且事实池确认该产品处于库存消化期、库存量为800件，目标明确。",
+  "clarification_question": null,
+  "referenced_fact_ids": ["FACT:product.lifecycle_stage", "FACT:product.inventory"],
+  "model_judgments": [
+    {
+      "text": "该产品处于库存消化期，且有明确库存数量，符合 INVENTORY_ACTIVATION 目标的典型特征。",
+      "referenced_fact_ids": ["FACT:product.lifecycle_stage", "FACT:product.inventory"]
+    }
+  ],
+  "confidence_level": "HIGH",
+  "confidence_reason": "用户显式声明目标为 INVENTORY_ACTIVATION，且事实池中产品生命周期阶段与库存数据一致支持该目标。"
+}
