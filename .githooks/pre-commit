@@ -7,4 +7,31 @@ if [ "$k" = "1" ] && [ "$e" = "1" ]; then
   echo "REJECT [C.2 隔离门] 同一 commit 同时改考生区(kernel/)与考卷/考试条件区(acceptance/|contracts/)——请拆分为两次提交。"
   exit 1
 fi
+
+# C.6.1 尝试账本门（M1-EP02 接入，触发节点=kernel 首个模块落地，台账挂起行）
+# 口径：C:174「改 kernel/ 里的 prompt/编排，必须**先**在 acceptance/attempts/ 登记一条」+
+#       C:184「kernel/ 有改动而账本无新条目 → 拒绝提交」。
+# 为什么按**提交时序**判、不看暂存区：账本在 acceptance/ 树下，与 kernel 同 commit 会被上面的
+# C.2 门拦死——两条纪律唯一自洽解 = 账本条目先单独提交、kernel 改动随后提交。因此本门判的是
+# 「最近一次新增 ATT 条目的提交，必须晚于最近一次动 kernel/ 的提交」（用祖先关系判先后，
+# 不用时间戳——脚本化连提可落在同一秒，时间戳会误判）。
+# 边界：仓库尚无任何 ATT 条目 → 只要本次动 kernel/ 就拒绝（bootstrap 也得先登记，条目里如实写
+# target_failing_run: null + bootstrap 理由，不硬编失败 run）。本地钩子可被 --no-verify 绕过，
+# 服务端强制力仍只有 CI（与 C.2 同一残余面，ci.yml 头注已如实披露）。
+if [ "$k" = "1" ]; then
+  # 用 git log 而非 rev-list：rev-list 不接受 --diff-filter（实测报 usage 错、被吞成空串，
+  # 导致「查不到任何 ATT 条目」的假阴性——本缺陷由钩子上线前的三向实测抓获，勿回退写法）
+  last_att=$(git log --diff-filter=A --format=%H -1 HEAD -- acceptance/attempts/ 2>/dev/null)
+  last_kernel=$(git log --format=%H -1 HEAD -- kernel/ 2>/dev/null)
+  if [ -z "$last_att" ]; then
+    echo "REJECT [C.6.1 尝试账本] kernel/ 有改动，但 acceptance/attempts/ 从未登记过任何条目——先单独提交一条 ATT-XXXX.yaml（没有失败 run 就不许改 prompt；模块初建写 bootstrap 条目）。"
+    exit 1
+  fi
+  if [ -n "$last_kernel" ]; then
+    if [ "$last_att" = "$last_kernel" ] || ! git merge-base --is-ancestor "$last_kernel" "$last_att" 2>/dev/null; then
+      echo "REJECT [C.6.1 尝试账本] kernel/ 有改动，但最近一次 ATT 条目登记（$last_att）不晚于最近一次 kernel 提交（$last_kernel）——本轮改动尚未登记假设与目标失败 run，请先单独提交新 ATT 条目。"
+      exit 1
+    fi
+  fi
+fi
 exit 0
