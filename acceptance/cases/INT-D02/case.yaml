@@ -3,11 +3,11 @@
 #   （B:316-330 把快速与增强写成同一案例的两族允许答案，故两侧跑同一张考卷、同一批断言）。
 # 夹具口径提醒：本案例的商业目标由 fixtures/task_input.json 的 stated_business_goal 承载
 #   （Founder 2026-08-17 IA-0 裁决 OQ-BUILD-02，不改 B:312 考题句）。
-# ⚠ 上述 IA-0 注释预期「快速侧缺失仅剩 QUALITY_REDUCING」与 OD-03 §二冲突（促销边界=INVENTORY_ACTIVATION
-#   阻断项，而本案快照按考点设计不带品牌信息）→ 当前快速侧按 OD-03 原文推导必进 NEEDS_INPUT，属正确行为
-#   （B:320「非阻断信息缺失时允许继续」是条件句；B:337 禁止「快速模式绕过阻断项」）。冲突已登记裁决台账
-#   「待 Founder 裁决」表（M1-EP02 · SPEC-DEV-02，三选一，Gate IA-1 前）；本文件 must_hold 不含该预期，
-#   若运行侧仍报 BLOCKING 缺失且 CONTINUE，A2 当场判红（B:337），不会被 A3 掩盖。
+# 已裁决（Founder 2026-08-17，SPEC-DEV-02 选 (c)）：快速侧本该 NEEDS_INPUT「先问用户」——本案快照按考点
+#   设计不带品牌信息，而 OD-03 §二把促销边界列为 INVENTORY_ACTIVATION 阻断项（B:320「非阻断信息缺失时允许
+#   继续」是条件句；B:337 禁止「快速模式绕过阻断项」）。task_input.json 初版注释的「缺失仅剩 QUALITY_REDUCING」
+#   预期系过时表述，已随裁决更正。本文件 must_hold 不含该过时预期；若运行侧报 BLOCKING 缺失且 CONTINUE，
+#   A2 当场判红（B:337），不会被 A3 掩盖。「QUICK 带假设继续」考点由 INT-D03 input-a 承载。
 case_id: INT-D02
 contract_ref: B.4.1/INT-D02
 case_version: v0.1

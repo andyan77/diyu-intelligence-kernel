@@ -1,4 +1,4 @@
 {
-  "_fixture_note": "INT-D02 双模式运行共用的任务输入补充：Founder 2026-08-17 IA-0 裁决（OQ-BUILD-02）——商业目标经 A.4.1 stated_business_goal 字段承载（不改 B 考题句），使快速侧缺失项仅剩 QUALITY_REDUCING 类（人设/品牌信息），双模式考点得以成立。",
+  "_fixture_note": "INT-D02 双模式运行共用的任务输入补充：Founder 2026-08-17 IA-0 裁决（OQ-BUILD-02）——商业目标经 A.4.1 stated_business_goal 字段承载（不改 B 考题句）。快速侧预期已按 Founder 2026-08-17 SPEC-DEV-02 裁决 (c) 更正：本案快照按考点设计不带品牌信息，而 OD-03 §二把品牌促销边界列为 INVENTORY_ACTIVATION 阻断项，故快速侧正确行为=NEEDS_INPUT 先问用户（B:337 禁止快速模式绕过阻断项）；「QUICK 跨过 QUALITY_REDUCING 缺失带假设继续」考点由 INT-D03 input-a 承载。本注释初版所写「缺失仅剩 QUALITY_REDUCING 类」为过时预期，经裁决撤回。",
   "stated_business_goal": "INVENTORY_ACTIVATION"
 }
