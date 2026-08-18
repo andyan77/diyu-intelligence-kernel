@@ -1,0 +1,6 @@
+# 尝试账本条目（C.6 格式；一条一文件）
+attempt_id: ATT-0002
+hypothesis: "块 E ②③：初建 kernel/facts 纵切（store 存取 / resolve 解引用兼容视图 / predicates P1-P3 共用 + 运行时 R1-R5）并把 kernel/intent/preprocess.load_snapshot 从「旧内联形状容错」改为「A.4.3 引用式 + R1-R5 先行 fail-closed」——非 prompt 调优，为关闭复审 E-05/E-06/E-07/E-08（两套形状假闭环 / Facts 交付物缺席 / 运行时语义无错放行 / 谓词非可调用模块）"
+target_failing_run: "复审实测缺陷面（乙P0-05：72/72 绿但正式案例 0/15 合法；甲P1-4/乙P1-01：错误 snapshot_hash/悬空引用/未批准 BrandMemory/明文凭证/同 ID 同版本覆盖均可无错放行）——非单一 RUN-ID：缺陷面是「无运行时校验」本身，复现命令=对迁移前快照跑 kernel.facts.predicates.run_all_runtime（当时模块不存在）；prompt 与编排判据零改动，C:174 的调优约束不适用"
+regression_after: "kernel/intent/test_intent_offline.py 47/47 GREEN + tools/check_m0.py 六步全绿（29 变异）+ tools/migrate_snapshots.py verify 991/991（本提交后同批考卷侧提交携带）"
+delta: {fixed: ["E-05", "E-06", "E-07", "E-08"], broken: [], net: 4}
