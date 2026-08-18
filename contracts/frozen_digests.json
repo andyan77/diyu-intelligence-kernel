@@ -192,9 +192,9 @@
       ]
     },
     "contracts/interaction/generation_parameters.json": {
-      "declared_version": "v1.0",
+      "declared_version": "v1.1",
       "version_from": "json_field:_version",
-      "sha256": "sha256:24e4882d235e6b7313c1902becfdf749d570b4331dadff9b10032e9af6018f3b",
+      "sha256": "sha256:61f709e0876d7b91c2bfdd371d9e0ed43f96235d458daff5f73e70698fb4e4cd",
       "version_history": [
         {
           "declared_version": "v1.0",
@@ -210,6 +210,13 @@
           "note": "2026-08-18 P0-6 重签生效化显式重登记：唯一改动=控制块状态/批准行由 CONTENT-FROZEN 占位转 EFFECTIVE（Founder 重签 2026-08-18T02:39:10+08:00），合同正文零变动；旧 digest 与旧链见本文件 git 历史。依据：门 R10 设计注释「链把顺手弄绿抬成显式重写冻结历史」——本次即该设计预留的显式路径，随签字提交一体落盘【块 A A-2.a 标记补登：本条为签字态翻转（正文零变动，仅控制块签字/状态行占位转 EFFECTIVE，签字提交 6525ca0），按登记册例外条款以 supersession_kind 显式标记】",
           "chain": "sha256:a357284b03f7737ce8000f70ea0471aabe5a6d4dcac2c258a3c02f47304ab37b",
           "supersession_kind": "signature_state_flip"
+        },
+        {
+          "declared_version": "v1.1",
+          "sha256": "sha256:61f709e0876d7b91c2bfdd371d9e0ed43f96235d458daff5f73e70698fb4e4cd",
+          "recorded_at": "2026-08-18",
+          "note": "主模型级联落地（Founder 派发块，依据块 0 裁决 OD-02 v1.1）：model_name/model_version 替换为 qwen3-max-2026-01-23，_version 升 v1.1，其余参数一字未动。正常升版路径：版本升级 + 追加历史，非签字态翻转",
+          "chain": "sha256:484e29568b12bd45d41683fca5b8602a3198008ff0f7ea517e1e1eb7386d6a3e"
         }
       ]
     }
@@ -230,84 +237,84 @@
   },
   "case_manifests": {
     "acceptance/cases/BD-D01/manifest.yaml": {
-      "content_sha256": "sha256:754fa7c8ad6eb842983c43c9622b37b43465b4213a8005bde50f101d7d4309e6",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:5b77d1054ad83ed532d3edf06c4bb86178d850be67f840dcf7d5b8b2b42c321d",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/BD-D02/manifest.yaml": {
-      "content_sha256": "sha256:ad410cc3430f3fd1404bca1c2eb8b43fb236d065a90fb7fafac5fa49d9cc42eb",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:b5589ec8f50dfddc068d40bccba319241f449d5f3951f843d97ec3fe96699c49",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/BD-D03/manifest.yaml": {
-      "content_sha256": "sha256:8a5e271cc872dcbb9dd7b29e1f9fe6ef0f7f98183277dde2f8fd8972c5b63f27",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:65ddc3316aad7f314906bfb3988c0ed65e311b14f651aa71a7bdac5b649bfc57",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/CR-D01/manifest.persona-buyer.yaml": {
-      "content_sha256": "sha256:e23fa7a74da39e1c4ec8f8190df5629a4bd6cf6d5306c790f1122de9c0450c0a",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:aff84d35786a7d056beb7d794ffb32a9254dbfb40bf53cea550551ea850d374f",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/CR-D01/manifest.persona-owner.yaml": {
-      "content_sha256": "sha256:1f1b9a7458d739302ea5507f031a69daf4c6e90d3c003b1eb3dae03b00ea29b9",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:01e86f3560f28d7a20983c7bf9371656b43917d80541b188977d7630030a4589",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/CR-D02/manifest.yaml": {
-      "content_sha256": "sha256:af0c831a2f6c88537bdfffdbafeb62dd6a710110cfdb3eb4cc66773245fc2572",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:e068a9b3c9360ac4c162188584ca4a74a8b06df5d1a3fb3bfd0f8f81a3c14194",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/CR-D03/manifest.yaml": {
-      "content_sha256": "sha256:984ac1fac75fc02c122f8fbf5210e05f676c552b9c7718cbc43e84c66c39f7e3",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:a96905763c3ad937a6d86e8583ae1ec815938c67face38976e332afa95fa52d4",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/CR-D04/manifest.input-a.yaml": {
-      "content_sha256": "sha256:889d3296acafc375ebb046458707c34cc8862c2e0aba9718240a0a3a6a853942",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:cb217028ad36feaba9fd62df51485f86ce7e1123d7de78f5a3a3d6317886eede",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/CR-D04/manifest.input-b.yaml": {
-      "content_sha256": "sha256:3303294a6edece618384381831a81cdfccb9bc323e3a6b91bbb00484c2df10e4",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:42293248daf6144b22292e01ea7f83366bc10409e22b1539adf8d7df32b80f79",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/CR-D04/manifest.input-c.yaml": {
-      "content_sha256": "sha256:390b4c3d743cb2ce36c1f1d737a5d683c8935b5abd8f5dc8aa3c4370d5a04faf",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:4ac9043e6756f0236e751ffec7a4746bd13b5574e3f4161ca6284932e0c5616d",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/E2E-01/manifest.yaml": {
-      "content_sha256": "sha256:7f3144a2414f2295b17b42f040dbcb6f2cb33ce61d54712e22dfec6798cc467e",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:b5a0582b2d02f02609a50763a83c36a5c06c6e9a8430febe4187c0c807ab6bef",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/E2E-02/manifest.yaml": {
-      "content_sha256": "sha256:dff80814b50cfe80ad71a58beb930984a790b019a381169b73f58aed8754b1ff",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:bb51fc8b0a80e96a30ef77db6a72631fbaa8df65959c172822d47bfe36cfcfe7",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/E2E-03/manifest.yaml": {
-      "content_sha256": "sha256:6d838829886406d2b7614c3ee61924500dcce26d94f27b09d42793bac853e25f",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:226f073463cac409bfaaac06ebce84e7ffe3ade6db984eb8e643efb1c2eca80f",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/INT-D01/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:d8b2dc823883736ce142528c4b90efae15f14d41ee34d54a18295af8fe2ea713",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:e43c733bd62ac561e0a15b514ce1bb77a3d17e4b0a010a10b76a2a0740dfb6cf",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/INT-D01/manifest.quick.yaml": {
-      "content_sha256": "sha256:e0bd2717ad81e6e3ab93057f24020d249a77b5e259ab51c779bd70006bdfb405",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:a222f38786678c06d9c7a76e82bf38a1ea28c09b195f905b20f35c36fe7b2c1d",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/INT-D02/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:b9219e8b0c45d4da29cb8f60faddc51f364f0de1308b731022be25d9cf382cab",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:2d198323259212f5e7c3040907df9fdf9193eba4c4275895d48c81d0f8cf9ba9",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/INT-D02/manifest.quick.yaml": {
-      "content_sha256": "sha256:261399c073ce107defa89b0a9f5c985d4e23ac54e22a5366112d9f917c524ce2",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:74c1b4a484754739f62de3cfb35d115fb49d4f2a46d7d31733241ac5d8113a61",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/INT-D03/manifest.input-a.yaml": {
-      "content_sha256": "sha256:ed1cd7ca3bca88e1252126f9f6cbe180b2f874ae6b836150b4eef5b8c713d595",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:7291e3eb033fc11f035ca0842996fa1a461accb222602fcade1354aaf85606f6",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/INT-D03/manifest.input-b.yaml": {
-      "content_sha256": "sha256:c17a7f6b4bc8f92ab7d72d32c1d930ad1e0d1616cb92e9bfc7ee8e748ee8eded",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:8f86ddcca25fafddcfebb5ea1260e8eef4753a0602313b0747283be63370553f",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     },
     "acceptance/cases/SYS-D01/manifest.yaml": {
-      "content_sha256": "sha256:53e11740bf690f6e9f6a7702db14dac8d9d7d5c2c2d527004781fd074f9cd010",
-      "note": "块 A A-2.c 内容绑定：去签字三字段后的规范化内容指纹；签字提交只允许改签字字段，改任何考试条件须升 case_version 走重签"
+      "content_sha256": "sha256:3a221d261bed170780ab744dc42fb05de094e34a4c6ce3c35d40e76a1979d289",
+      "note": "块 A 内容绑定；2026-08-18 主模型级联升版重算（model 两字段 + case_version 变更，B.2.1 升版程序）"
     }
   }
 }

@@ -380,7 +380,7 @@ def m14_placeholder_in_generation_parameters(tree):
     R8 命中即证明 R2 没被独立测到。块 A 给 R8 增加了模型身份三字段全等校验，本变异（真源 TBD、
     Manifest 留旧值）**本身就是模型身份漂移**，R8 身份条命中是设计内正确拦截、与指纹无关；
     「R2 独立命中」仍由期望集合断言保障（R2 不在命中集即 FAIL），故 forbidden 收窄为 R10。"""
-    replace_once(tree, GEN_PARAMS, '"model_name": "qwen-max-0107",', '"model_name": "TBD",')
+    replace_once(tree, GEN_PARAMS, '"model_name": "qwen3-max-2026-01-23",', '"model_name": "TBD",')
     new_hash = GATE.canonical_snapshot_hash(os.path.join(tree, GEN_PARAMS))
     old_hash = None
     mfs = sorted(glob.glob(os.path.join(tree, "acceptance/cases/*/manifest*.yaml")))
@@ -488,10 +488,10 @@ def m24_contract_version_pointer_drift(tree):
 
 
 def m25_model_identity_drift(tree):
-    """M25 把 E2E-01 Manifest 的 model_name 改成与参数真源不同的值（qwen-max-0107→qwen-max-9999）。
+    """M25 把 E2E-01 Manifest 的 model_name 改成与参数真源不同的值（qwen3-max-2026-01-23→qwen-max-9999，2026-08-18 级联后锚点同步）。
     期望：R8 红。外部审查（M0 审查二 P0-02）指控：model 三字段「没有与参数真源
     generation_parameters.json 逐字段交叉核验」，改模型身份门不察——本条证明全等校验已落地。"""
-    sub_once(tree, E2E01_MF, r'^model_name: "qwen-max-0107"', 'model_name: "qwen-max-9999"')
+    sub_once(tree, E2E01_MF, r'^model_name: "qwen3-max-2026-01-23"', 'model_name: "qwen-max-9999"')
 
 
 def m26_same_version_double_digest_without_flip_mark(tree):
