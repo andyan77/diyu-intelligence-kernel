@@ -1,0 +1,13 @@
+{
+  "_migrated_from_snapshot": {
+    "INT-D03": {
+      "business_goal": {
+        "value": null,
+        "status": "MISSING",
+        "source": "刻意不入快照（夹具设计）",
+        "note": "B.4.1/INT-D03「输入」原文「除商业目标外，两组使用相同事实快照。」——目标是本案例的唯一变量，由两份 Manifest 的 task_statement 承载；快照内不得出现任何一侧的目标值或目标原句"
+      }
+    }
+  },
+  "_migration_note": "块 E ① 迁移（Founder 2026-08-18 批准）：A.4.3 十四字段不含以下键，按「business_goal 去 task 层」先例逐字迁入本文件；_migrated_from_snapshot 为原节点逐字留存"
+}

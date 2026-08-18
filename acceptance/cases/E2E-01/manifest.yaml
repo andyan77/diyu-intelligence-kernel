@@ -30,12 +30,12 @@
 #   实测本案例 fixtures/context_snapshot.json 的 facts 已含 persona_facts / video_account_facts 两键（runtime_verified）。
 
 case_id: E2E-01
-case_version: "v0.4"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
+case_version: "v0.5"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
 prd_version: "v0.2"                           # 版本基线见 M0-EP01_文档版本一致性声明.md 一、现行版本基线
 data_contract_version: "v0.3"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
 acceptance_contract_version: "v0.5"           # 同上（附录 B v0.4：M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID，Founder 2026-08-17 批准）
 context_snapshot_id: "SNAP-E2E01-0001"        # 起草时为规划名、快照尚未构建；E2E-02 复用同一 ID（B:749）；2026-08-17 现状：快照已落盘 acceptance/cases/E2E-01/fixtures/context_snapshot.json
-snapshot_hash: "sha256:80c8f71a04575e53c27d8066ceedd8f67233f7fa7883499bc6641371801b30c9"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+snapshot_hash: "sha256:ae54bf8889156452cdcf0645d75fb63edd1e35090ed143edc7ac8573066e5e12"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "高端品牌羊绒大衣库存 800 件，请在限定周期内通过视频号内容促进销售，不得低价叫卖。"  # Founder 2026-08-17 批准定稿（台账）
 execution_mode: QUICK  # Founder 2026-08-17 预裁决（台账；原则「考追问行为才开增强模式」）
 hard_rule_refs:                            # B:730 有禁令文字；起草时 contracts/rules/ 无落盘规则对象，2026-08-17 已落盘 R-FB01-001 / R-BDD01-001 / R-BDD01-002 三条 RuleRecord 并按下方依据回填（OQ-E2E-01-03 已关闭）

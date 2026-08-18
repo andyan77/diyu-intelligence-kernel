@@ -1,0 +1,116 @@
+{
+  "fact_set_id": "FS-AUD-E2E03-A02",
+  "fact_type": "AUDIENCE_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.4-v2",
+  "updated_at": "2026-08-18T16:30:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "audience_id": "A02",
+  "label": {
+    "status": "CONFIRMED",
+    "value": "克制表达者",
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包3 A02【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "age_range": {
+    "status": "CONFIRMED",
+    "value": {
+      "min": 26,
+      "max": 32,
+      "unit": "岁"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包3 A02【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "occupation_or_lifestyle": {
+    "status": "CONFIRMED",
+    "value": [
+      "新消费、电商、设计、内容、互联网运营或自由职业；工作环境着装弹性大，会拍短视频和日常照片，但不希望整个人像在追逐流行；愿意用一件颜色或结构鲜明的单品改变基础衣橱"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包3 A02【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "pain_points": {
+    "status": "CONFIRMED",
+    "value": [
+      "衣柜以黑、白、灰、牛仔为主，想加入荧光色或印花，却担心只能拍一次照片、无法进入日常",
+      "对“显瘦模板”疲劳，更关心比例、动作和实际搭配，但多数内容只给静态正面图",
+      "买过多件社交平台热门款，三个月后发现面料、做工或搭配空间撑不起使用频率",
+      "预算不是最低价导向，但反感品牌用模糊词替代款号、成分与尺码依据",
+      "想表达个性，又不希望在办公室、见客户或家庭场景里显得用力过猛"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0002",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包3 A02 真实痛点【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "purchase_reasons": {
+    "status": "CONFIRMED",
+    "value": [
+      "品牌把反常识单品放进真实上班、通勤和周末场景验证",
+      "买手能给出“这一件负责表达，其余单品负责安定”的具体搭配方法",
+      "商品有明确色彩、结构和材质信息，方便判断能否接入已有衣橱",
+      "内容允许试穿失败、价格冲突和资料缺失被公开标记，而不是强行圆满",
+      "一件鲜明单品至少能形成三套不同强度的穿法"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0003",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包3 A02 购买理由【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "objections": {
+    "status": "CONFIRMED",
+    "value": [
+      "荧光色、腰果花等强视觉元素会不会很快厌倦",
+      "修身针织或高腰裤在活动、进食和久坐时是否仍然舒服",
+      "视频中的颜色和面料是否因光线、滤镜而偏离实物"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-E2E03-0004",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包3 A02 常见顾虑【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  }
+}

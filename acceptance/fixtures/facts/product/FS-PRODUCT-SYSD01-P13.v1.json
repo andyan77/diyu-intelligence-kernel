@@ -1,0 +1,169 @@
+{
+  "fact_set_id": "FS-PRODUCT-SYSD01-P13",
+  "fact_type": "PRODUCT_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.2-v2",
+  "updated_at": "2026-08-18T16:30:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "product_id": "P13",
+  "name": {
+    "status": "CONFIRMED",
+    "value": "10%羊绒风衣式大衣",
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0028",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 P13 商品名【虚构-剧本】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "category": {
+    "status": "CONFIRMED",
+    "value": "10羊绒版",
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0029",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0684（原文照抄，未规范化）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "price": {
+    "status": "CONFIRMED",
+    "value": {
+      "amount": 3980,
+      "currency": "CNY",
+      "as_of": "2026-08-17T00:00:00+08:00"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0030",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0684；价格事实有效日统一记为 2026-08-17【虚构-剧本】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "material": {
+    "status": "CONFIRMED",
+    "value": [
+      "黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）",
+      "米色面料:90.3%绵羊毛 9.7%山羊绒（连接线除外）",
+      "晓雾灰面料:90.8%绵羊毛 9.2%山羊绒（连接线除外）",
+      "云烟灰面料:90.1%绵羊毛 9.9%山羊绒（连接线除外）"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0031",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0684（四色成分原文全录，一字不改）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "style_attributes": {
+    "status": "CONFIRMED",
+    "value": [
+      "大翻领、廓形肩线、H型风衣式；袖口可调节袖袢；宽边长腰带"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0032",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0674、IMG_0677、IMG_0680",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "selling_points": {
+    "status": "CONFIRMED",
+    "value": [
+      "同页展示敞开穿与收腰穿两种方式；提供黑色、米色、晓雾灰、云烟灰四种面料成分"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0033",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0677、IMG_0684",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "size_range": {
+    "status": "CONFIRMED",
+    "value": [
+      "150/76A/XS",
+      "155/80A/S",
+      "160/84A/M",
+      "165/88A/L",
+      "170/92A/XL"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0034",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0684（号型原文照抄）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "lifecycle_stage": {
+    "status": "CONFIRMED",
+    "value": "库存消化期",
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0035",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 P13【虚构-剧本】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "inventory": {
+    "status": "CONFIRMED",
+    "value": {
+      "value": 800,
+      "unit": "件",
+      "as_of": "2026-08-17T00:00:00+08:00"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0036",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 P13【虚构-剧本】；与 B.5.1/E2E-01 冻结的库存数一致（随 SNAP-E2E01-0001 同源复用带入）",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "image_refs": [
+    {
+      "source_id": "SRC-SYSD01-IMGTXT",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "IMG_0672、IMG_0675—IMG_0682、IMG_0683、IMG_0684；共享图同时关联 P12",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    }
+  ]
+}

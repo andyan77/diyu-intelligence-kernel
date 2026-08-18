@@ -1,0 +1,12 @@
+{
+  "_migrated_from_snapshot": {
+    "E2E-03": {
+      "business_goal": {
+        "value": "PRODUCT_LAUNCH",
+        "source": "Founder 2026-08-17 IA-0 裁决：正常在售新品→新品推广（OQ-BUILD-08）"
+      }
+    }
+  },
+  "stated_business_goal": "PRODUCT_LAUNCH",
+  "_migration_note": "块 E ① 迁移（Founder 2026-08-18 批准）：A.4.3 十四字段不含以下键，按「business_goal 去 task 层」先例逐字迁入本文件；_migrated_from_snapshot 为原节点逐字留存"
+}

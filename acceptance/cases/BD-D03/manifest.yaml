@@ -5,7 +5,7 @@
 case_id: BD-D03
 
 # 与同批 BD 案例一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不写进版本号。
-case_version: "v0.3"
+case_version: "v0.4"
 
 # 以下三行版本取自 M0-EP01_文档版本一致性声明.md「一、现行版本基线」：主 PRD v0.1 / 附录 A v0.2 / 附录 B v0.4
 #（起草时基线为 A v0.1 / B v0.3；2026-08-17 A 补 emotion 字段升 v0.2、B 补登 EVAL_BLINDING_PROCEDURE_INVALID 升 v0.4，三行字段值已同批对齐）
@@ -16,7 +16,7 @@ acceptance_contract_version: "v0.5"
 # 起草时 BD-D03 尚无 fixtures/ 夹具；2026-08-17 现状：快照已落盘 acceptance/cases/BD-D03/fixtures/context_snapshot.json，snapshot_hash 已回填
 # B:481 只说明「提供品牌定位、受众、场景和商业目标」，四项的具体取值 B 未给 → 已由 Founder 于 2026-08-17 建快照时冻结（OQ-BD-D03-02 ✅预裁决 08-17）。
 context_snapshot_id: "SNAP-BDD03-0001"
-snapshot_hash: "sha256:9aa1366dfc8c642641c41bb3c210b743f119c610ddf7a2537c600f79f0a45a8f"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+snapshot_hash: "sha256:4a63afa71dae88f4a7ae9a27d8ba1c9c3ecb8b1dfd0d74dcf7060b29f82ea8a3"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # 照抄 B.4.2/BD-D03「输入」小节（B:479 标题）原句 B:481，一字不改
 task_statement: "商品为荧光绿色裤装，并提供品牌定位、受众、场景和商业目标。"

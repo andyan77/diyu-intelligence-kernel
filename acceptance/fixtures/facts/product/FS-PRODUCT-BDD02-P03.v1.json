@@ -1,0 +1,172 @@
+{
+  "fact_set_id": "FS-PRODUCT-BDD02-P03",
+  "fact_type": "PRODUCT_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.2-v2",
+  "updated_at": "2026-08-18T16:30:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "product_id": "P03",
+  "name": {
+    "status": "CONFIRMED",
+    "value": "亮丝麻针织马甲",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "夹具虚构-剧本",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "category": {
+    "status": "CONFIRMED",
+    "value": "针织马甲",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0007",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0569",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "sku": {
+    "status": "CONFIRMED",
+    "value": "1H7934051Q",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0007",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0569",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "price": {
+    "status": "CONFIRMED",
+    "value": {
+      "amount": 598,
+      "currency": "CNY",
+      "as_of": "2026-08-17T00:00:00+08:00"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0007",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0569",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "material": {
+    "status": "CONFIRMED",
+    "value": [
+      "53.9%莱赛尔 19.7%聚酯纤维 10.1%醋纤 8.9%亚麻 4.9%锦纶 2.5%聚酯薄膜纤维（装饰及罗纹除外）"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0007",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0569",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "style_attributes": {
+    "status": "CONFIRMED",
+    "value": [
+      "V领",
+      "无袖",
+      "前开扣",
+      "短款针织马甲"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0008",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0580 / 截图 IMG_0596",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "selling_points": {
+    "status": "CONFIRMED",
+    "value": [
+      "单品图确认 V 领、无袖、前开扣；可与同页西装和西装裤组合"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0008",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0580 / 截图 IMG_0596",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "size_range": {
+    "status": "CONFIRMED",
+    "value": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0007",
+        "brand_id": "fixture-brand-01",
+        "source_type": "IMAGE_INPUT",
+        "locator": "截图 IMG_0569",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "lifecycle_stage": {
+    "status": "CONFIRMED",
+    "value": "当季在售",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "夹具虚构-剧本",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "inventory": {
+    "status": "CONFIRMED",
+    "value": {
+      "value": 94,
+      "unit": "件",
+      "as_of": "2026-08-17T00:00:00+08:00"
+    },
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD02-0001",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "夹具虚构-剧本",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  }
+}

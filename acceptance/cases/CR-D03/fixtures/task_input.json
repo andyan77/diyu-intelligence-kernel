@@ -1,0 +1,22 @@
+{
+  "_migrated_from_snapshot": {
+    "CR-D03": {
+      "business_goal": {
+        "value": "INVENTORY_ACTIVATION",
+        "source": "Founder 2026-08-17 IA-0 裁决（OQ-BUILD-04）"
+      },
+      "decision_selection": {
+        "value": "复用 CR-D02 冻结选择：C1（ART-BDD01-OUT-GOOD 候选一）",
+        "source": "执行侧构造（同链一致：CR-D02 冻结选择）",
+        "inference_status": "inferred"
+      },
+      "persona_selection": {
+        "value": "R01 沈岚",
+        "source": "执行侧构造（数据包·包5 主出镜人=沈岚）",
+        "inference_status": "inferred"
+      }
+    }
+  },
+  "stated_business_goal": "INVENTORY_ACTIVATION",
+  "_migration_note": "块 E ① 迁移（Founder 2026-08-18 批准）：A.4.3 十四字段不含以下键，按「business_goal 去 task 层」先例逐字迁入本文件；_migrated_from_snapshot 为原节点逐字留存"
+}

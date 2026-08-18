@@ -122,7 +122,10 @@ check("⑥-0 JSON数值型 inventory=1200→FAIL", ng({"inventory": 1200}, SNAP)
 
 # ============================ ⑥ BD-D01 三夹具回归 ============================
 BD = os.path.join(ROOT, "acceptance/cases/BD-D01/fixtures")
-bd_snap = json.load(open(os.path.join(BD, "context_snapshot.json"), encoding="utf-8"))
+# 块 E ②：快照已是引用式，⑥ 走与 run_case.py 同一解引用入口（两套判据=假绿温床）
+sys.path.insert(0, ROOT)
+from kernel.facts import materialize_legacy_view as _mlv
+bd_snap = _mlv(json.load(open(os.path.join(BD, "context_snapshot.json"), encoding="utf-8")))
 bd_args = {"snapshot_fields": ["inventory", "price"]}   # 与 acceptance/cases/BD-D01/case.yaml A5 一致
 for fixture, want, contains in (
     ("output_good.json", "OK", None),

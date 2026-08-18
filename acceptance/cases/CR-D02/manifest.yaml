@@ -8,7 +8,7 @@
 
 case_id: CR-D02
 # 与 acceptance/cases/BD-D01/case.yaml 的 v0.1 对齐；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
-case_version: "v0.3"
+case_version: "v0.4"
 
 prd_version: "v0.2"
 data_contract_version: "v0.3"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
@@ -17,7 +17,7 @@ acceptance_contract_version: "v0.5"
 # 起草时为规划名、快照尚未构建；2026-08-17 现状：快照已落盘 acceptance/cases/CR-D02/fixtures/context_snapshot.json，snapshot_hash 已回填
 # hash 已于 2026-08-17 按快照实算回填（OQ-CR-D01-06 ✅预裁决 08-17，四份 CR Manifest 同一处）
 context_snapshot_id: "SNAP-CRD02-0001"
-snapshot_hash: "sha256:ee767f1ea55cf64a32a696248f8cc297f068f26ab912a6bb112e5382b2073f24"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
+snapshot_hash: "sha256:d4ab924a9516639763ae58c2aab9a7a024d050ecea4cfa82c41dbb764488408d"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 
 # B:553 那句是运行前置动作（冻结一份 Business Decision），不是下发给被测 Creative 模块的任务指令；
 # B.4.3/CR-D02 未给模块任务原文 → 起草时不填看似合理的假值、置 PENDING；现值由 Founder 2026-08-17 批准定稿（OQ-CR-D02-02）

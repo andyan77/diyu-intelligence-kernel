@@ -1,0 +1,108 @@
+{
+  "fact_set_id": "FS-PERSONA-SYSD01-R02",
+  "fact_type": "PERSONA_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.5-v3",
+  "updated_at": "2026-08-18T16:30:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "persona_id": "R02",
+  "identity": {
+    "status": "CONFIRMED",
+    "value": "衡叙集虚构年轻买手，28 岁；负责新款试穿、颜色与比例实验、年轻客群反馈和一衣多搭验证",
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0022",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R02【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "voice_traits": {
+    "status": "CONFIRMED",
+    "value": [
+      "节奏比主理人快，先给镜前结论，再用三个动作或三套搭配验证；常以“我原本也觉得不日常”“换掉哪一件就成立”开场，举例来自地铁、共享办公、周五聚会和出差行李"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0023",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R02 说话风格【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "beliefs": {
+    "status": "CONFIRMED",
+    "value": [
+      "“鲜明不等于难穿，关键是整套里只能有一个人负责说话。”",
+      "“试穿不是证明它好，而是找到它在哪个条件下不成立。”",
+      "“趋势可以借，衣橱不能每季重来。”"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0024",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R02 公开表达过的信念【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "audience_relationship": {
+    "status": "CONFIRMED",
+    "value": "像替观众先试错的同龄同事；会展示犹豫、失败搭配和调整过程，以现场比较建立信任，不把自己放在审美裁判位置",
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0025",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R02 与粉丝关系【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "forbidden_styles": {
+    "status": "CONFIRMED",
+    "value": [
+      "“你不懂时尚”",
+      "“普通人驾驭不了”",
+      "“必须拥有”",
+      "“纯欲”",
+      "“辣妹必备”"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0026",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R02 绝不使用的表达【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "speaker_constraints": {
+    "status": "CONFIRMED",
+    "value": [
+      "试穿必须保留自然走动、坐下、抬手和侧面镜头；不得只拍正面定格；颜色判断不得使用重滤镜；不替主理人宣布价格政策或库存处置"
+    ],
+    "source_refs": [
+      {
+        "source_id": "SRC-SYSD01-0027",
+        "brand_id": "fixture-brand-01",
+        "source_type": "BRAND_OPERATOR_INPUT",
+        "locator": "数据包 包4 R02 出镜限制【模拟】",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  }
+}

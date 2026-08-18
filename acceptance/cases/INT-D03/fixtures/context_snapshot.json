@@ -1,86 +1,138 @@
 {
   "snapshot_id": "SNAP-INTD03-0001",
+  "task_id": "TASK-INTD03-0001",
   "brand_id": "fixture-brand-01",
-  "_fixture_note": {
-    "案例真源": "B.4.1/INT-D03｜同一商品的目标迁移（B_三个核心模块智能验收合同.md「B.4.1 Intent Intelligence」→「INT-D03｜同一商品的目标迁移」整节）——只引用，不复述判分口径",
-    "素材真源": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §3 包2 P13「10%羊绒风衣式大衣」条商品事实 + §2 包1品牌事实；逐字段来源见各字段 source",
-    "考点（只述初始条件，不写答案）": "本快照只负责造出 B.4.1/INT-D03「输入」原文「除商业目标外，两组使用相同事实快照。」这一初始条件：input-a 与 input-b 两次运行读同一份快照（同一 snapshot_id、同一 snapshot_hash），商品事实与品牌事实完全一致，唯一变量是商业目标。允许答案族与禁止结果在 B.4.1/INT-D03「允许答案族」与「禁止结果」两节，本文件不复述、不预写。",
-    "商业目标不入快照（本案例的关键设计）": "business_goal 刻意不在本快照内，改由两份 Manifest 的 task_statement 各自承载（acceptance/cases/INT-D03/manifest.input-a.yaml / manifest.input-b.yaml）。为避免污染，本文件不引用任何一侧的目标原句——若把两句都写进共用快照，两次运行都会同时看见两个目标，B.4.1/INT-D03「输入」原文「除商业目标外，两组使用相同事实快照。」的「唯一变量」设计即失效，并可能触发 B.4.1/INT-D03「禁止结果」的「库存激活目标残留在品牌建设任务中」。",
-    "故意缺失清单（显式 MISSING，禁补）": [
-      "business_goal——刻意不入快照（B.4.1/INT-D03「输入」原文），由 Manifest 的 task_statement 承载；快照内不得出现任何一侧的目标值或目标原句",
-      "persona（人设事实）——B.4.1/INT-D03 整节未要求；数据包 §5 包4 存在但本快照未带入，如实登记为缺失",
-      "video_account（视频号账号事实）——B.4.1/INT-D03 整节未要求；数据包 §6 包5 存在但本快照未带入，如实登记为缺失",
-      "audience（受众事实）——B.4.1/INT-D03 整节未要求；数据包 §4 包3 存在但本快照未带入，如实登记为缺失（包1 的「目标客户一句话」按 A.3.1 属 BrandFacts.target_customer_summary，不等于 AudienceFacts）",
-      "product.lining（里料）——素材侧故意缺失：数据包 P13 原文「缺失【截图 IMG_0684】」，禁补"
-    ],
-    "照抄纪律": "成分/价格/款号/尺码一字不改（价格另存 raw_text 保留截图原文「3980元」）；product 块与 INT-D01 / INT-D02 三份快照逐字一致；品牌事实逐条照抄数据包 §2 包1，各条来源标注均为【模拟】；数组化仅用于数据包本身即分项列举的字段（面料成分、尺码范围、价值主张、禁用表达清单、商业硬约束）。真实品牌名不得出现——「衡叙集」为数据包自带的虚构品牌名；brand_id 固定 fixture-brand-01。",
-    "待确认（PENDING，冻结前须裁决，不得默认已通过）": [
-      "hard_rules 为空 vs 品牌禁语规则对象：包1 的「禁用表达清单」与「商业硬约束」已作为品牌事实字段（对应 A.3.1 forbidden_expressions / commercial_constraints）在场，但未登记为 hard_rules 条目。理由：B.4.1/INT-D03 全段无「冻结事实」块、未列规则对象。现状更新（本轮核对）：Founder 2026-08-17 预裁决③ 的 R-FB01-001 已落盘 contracts/rules/R-FB01-001.yaml（version 1、status ACTIVE，同目录另有 R-BDD01-001/002），原「contracts/rules/ 为空目录、该对象尚未落盘」的陈述已失效；但给共用快照补挂规则会改变两侧运行看到的内容（属改考卷），故本次仍不补挂，两份 Manifest 的 hard_rule_refs 保持 [] → 是否回填此处与 Manifest 由 IA-0 裁决（对应 OQ-INT-D01-03 / OQ-INT-D02-02）。",
-      "包1 禁用表达清单（10 词）与 acceptance/detectors/forbidden_lexicon.yaml（low_price_selling 9 词 + false_scarcity 4 词）不是同一份：词表多出「跳楼价」「亏本价」及 false_scarcity 四词，缺少包1 的「绝绝子」「显贵」「高级感」。预裁决③ 定「词表以 detectors 为唯一运营真源」，本快照按素材真源照抄包1、未改词表（detectors/ 属硬禁止改动）→ 两者口径差异须在冻结前确认。",
-      "product.inventory=800 件 与 product.lifecycle_stage=库存消化期：数据包 P13 自带商品字段（均标【虚构-剧本】）。本案例 B.4.1/INT-D03「允许答案族」要求「商品和品牌事实保持不变」，故两侧共用同一份含库存的商品事实是符合案例设计的；但三份 INT 快照 product 块须逐字一致 → 若 INT-D01 处裁定剔除，此处须同步评估对 B.4.1/INT-D03「允许答案族」「商品和品牌事实保持不变」的影响。",
-      "snapshot_hash 不在本文件内自证：由快照构建工具计算后回填两份 Manifest；B.4.1/INT-D03「输入」原文「除商业目标外，两组使用相同事实快照。」要求 A/B 两份填入逐字相同的 hash。任何一次快照正文改动都使既有回填值过期，必须同批重算。",
-      "_fixture_note 属夹具元数据、不属事实层；整份 JSON 是否原样下发给被测模块，B/A 均未规定 → 冻结前须确认剥离口径。"
-    ]
+  "version": 1,
+  "created_at": "2026-08-18T16:30:00+08:00",
+  "brand_facts_ref": {
+    "object_type": "BrandFacts",
+    "object_id": "FS-BRAND-INTD03-0001",
+    "version": 1,
+    "brand_id": "fixture-brand-01"
   },
-  "facts": {
-    "product": {
-      "product_id": "P13",
-      "name": {"value": "10%羊绒风衣式大衣", "source": "夹具虚构（剧本）"},
-      "category": {"value": "10羊绒版", "source": "截图 IMG_0684"},
-      "sku": {"value": "1G9971081", "source": "截图 IMG_0684"},
-      "price": {"value": 3980, "currency": "CNY", "raw_text": "3980元", "as_of": "2026-08-17", "source": "截图 IMG_0684"},
-      "material": {
-        "value": [
-          "黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）",
-          "米色面料:90.3%绵羊毛 9.7%山羊绒（连接线除外）",
-          "晓雾灰面料:90.8%绵羊毛 9.2%山羊绒（连接线除外）",
-          "云烟灰面料:90.1%绵羊毛 9.9%山羊绒（连接线除外）"
-        ],
-        "source": "截图 IMG_0684"
-      },
-      "lining": {"value": null, "status": "MISSING", "source": "截图 IMG_0684", "note": "数据包 P13 原文「里料｜缺失【截图 IMG_0684】」——截图未出现或被遮挡，属素材侧故意缺失，禁补"},
-      "style_attributes": {"value": "大翻领、廓形肩线、H型风衣式；袖口可调节袖袢；宽边长腰带", "source": "截图 IMG_0674、截图 IMG_0677、截图 IMG_0680"},
-      "selling_points": {"value": "同页展示敞开穿与收腰穿两种方式；提供黑色、米色、晓雾灰、云烟灰四种面料成分", "source": "截图 IMG_0677、截图 IMG_0684"},
-      "size_range": {"value": ["150/76A/XS", "155/80A/S", "160/84A/M", "165/88A/L", "170/92A/XL"], "source": "截图 IMG_0684"},
-      "lifecycle_stage": {"value": "库存消化期", "source": "夹具虚构（剧本）"},
-      "inventory": {"value": 800, "unit": "件", "source": "夹具虚构（剧本）"},
-      "image_refs": {"value": "IMG_0672、IMG_0675—IMG_0682、IMG_0683、IMG_0684；共享图同时关联 P12", "source": "截图 IMG_0672、截图 IMG_0684"}
-    },
-    "brand": {
+  "product_facts_refs": [
+    {
+      "object_type": "ProductFacts",
+      "object_id": "FS-PRODUCT-INTD03-P13",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    }
+  ],
+  "audience_facts_refs": [],
+  "persona_facts_refs": [],
+  "video_account_facts_ref": null,
+  "active_rule_refs": [],
+  "approved_brand_memory_refs": [],
+  "input_source_refs": [
+    {
+      "source_id": "SRC-INTD03-0001",
       "brand_id": "fixture-brand-01",
-      "brand_name": {"value": "衡叙集（虚构）", "source": "模拟"},
-      "positioning": {"value": "服务 30—45 岁、需要在工作与日常之间切换的城市女性；中高端日常女装，主做有结构但不过度强势的外套、裤装、针织与半裙", "source": "模拟"},
-      "values": {
-        "value": [
-          "先讲商品解决什么、牺牲什么，再谈是否值得买",
-          "一件衣服应能进入真实生活，并在不同场景中被反复使用",
-          "尊重具体身形、通勤方式、照料责任与预算，不把消费者简化成年龄标签",
-          "内容以事实、判断和可验证细节建立信任，不靠密集促销维持关系",
-          "保留个人表达，但不过度追逐短期流行"
-        ],
-        "source": "模拟"
-      },
-      "tone": {"value": "稳、具体、有判断、留余地；像一位长期做商品和门店的人对熟客解释选择，不喊口号，不催促成交", "source": "模拟"},
-      "target_customer_summary": {"value": "她愿意为版型、面料与长期使用付合理溢价，但要求品牌把依据和不适合之处说清楚", "source": "模拟"},
-      "forbidden_expressions": {
-        "value": ["清仓", "甩卖", "白菜价", "闭眼入", "全网最低", "不买就亏", "秒杀", "绝绝子", "显贵", "高级感"],
-        "source": "模拟",
-        "note": "照抄数据包 §2 包1「禁用表达清单」10 词；与 acceptance/detectors/forbidden_lexicon.yaml 的差异见 _fixture_note 待确认项，本次未改动词表"
-      },
-      "commercial_constraints": {
-        "value": [
-          "公开成交价原则上不得低于吊牌价 8 折；例外必须有书面授权、起止时间和适用库存",
-          "同一款出现两个价格且无法解释时，内容不得发布，必须保留冲突并进入人工裁决",
-          "面料、款号、尺码和价格没有截图或业务真源时，不得补写",
-          "促销内容连续发布不得超过 2 条，第三条必须回到商品解释、穿衣问题或真实门店观察"
-        ],
-        "source": "模拟"
-      }
+      "source_type": "BRAND_OPERATOR_INPUT",
+      "locator": "模拟",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
     },
-    "business_goal": {"value": null, "status": "MISSING", "source": "刻意不入快照（夹具设计）", "note": "B.4.1/INT-D03「输入」原文「除商业目标外，两组使用相同事实快照。」——目标是本案例的唯一变量，由两份 Manifest 的 task_statement 承载；快照内不得出现任何一侧的目标值或目标原句"},
-    "persona": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "B.4.1/INT-D03 未要求人设事实；数据包 §5 包4 存在但本快照未带入，如实登记为缺失，禁补"},
-    "video_account": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "B.4.1/INT-D03 未要求账号事实；数据包 §6 包5 存在但本快照未带入，如实登记为缺失，禁补"},
-    "audience": {"value": null, "status": "MISSING", "source": "故意缺失（夹具设计）", "note": "B.4.1/INT-D03 未要求受众事实；数据包 §4 包3（A01/A02）存在但本快照未带入。品牌事实内的 target_customer_summary 按 A.3.1 属品牌侧概述，不等于 AudienceFacts，不得当受众事实使用"}
-  },
-  "hard_rules": []
+    {
+      "source_id": "SRC-INTD03-0002",
+      "brand_id": "fixture-brand-01",
+      "source_type": "BRAND_OPERATOR_INPUT",
+      "locator": "夹具虚构（剧本）",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-INTD03-0003",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0684",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-INTD03-0004",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0674、截图 IMG_0677、截图 IMG_0680",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    },
+    {
+      "source_id": "SRC-INTD03-0005",
+      "brand_id": "fixture-brand-01",
+      "source_type": "IMAGE_INPUT",
+      "locator": "截图 IMG_0677、截图 IMG_0684",
+      "captured_at": "2026-08-17T00:00:00+08:00",
+      "checksum": null
+    }
+  ],
+  "snapshot_hash": "sha256:33d2f2cb3698ce9ca66e44317c9eff67738e737b53d5fead2ca15591fd0b1002",
+  "_fixture_note": {
+    "original_fixture_note": {
+      "案例真源": "B.4.1/INT-D03｜同一商品的目标迁移（B_三个核心模块智能验收合同.md「B.4.1 Intent Intelligence」→「INT-D03｜同一商品的目标迁移」整节）——只引用，不复述判分口径",
+      "素材真源": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §3 包2 P13「10%羊绒风衣式大衣」条商品事实 + §2 包1品牌事实；逐字段来源见各字段 source",
+      "考点（只述初始条件，不写答案）": "本快照只负责造出 B.4.1/INT-D03「输入」原文「除商业目标外，两组使用相同事实快照。」这一初始条件：input-a 与 input-b 两次运行读同一份快照（同一 snapshot_id、同一 snapshot_hash），商品事实与品牌事实完全一致，唯一变量是商业目标。允许答案族与禁止结果在 B.4.1/INT-D03「允许答案族」与「禁止结果」两节，本文件不复述、不预写。",
+      "商业目标不入快照（本案例的关键设计）": "business_goal 刻意不在本快照内，改由两份 Manifest 的 task_statement 各自承载（acceptance/cases/INT-D03/manifest.input-a.yaml / manifest.input-b.yaml）。为避免污染，本文件不引用任何一侧的目标原句——若把两句都写进共用快照，两次运行都会同时看见两个目标，B.4.1/INT-D03「输入」原文「除商业目标外，两组使用相同事实快照。」的「唯一变量」设计即失效，并可能触发 B.4.1/INT-D03「禁止结果」的「库存激活目标残留在品牌建设任务中」。",
+      "故意缺失清单（显式 MISSING，禁补）": [
+        "business_goal——刻意不入快照（B.4.1/INT-D03「输入」原文），由 Manifest 的 task_statement 承载；快照内不得出现任何一侧的目标值或目标原句",
+        "persona（人设事实）——B.4.1/INT-D03 整节未要求；数据包 §5 包4 存在但本快照未带入，如实登记为缺失",
+        "video_account（视频号账号事实）——B.4.1/INT-D03 整节未要求；数据包 §6 包5 存在但本快照未带入，如实登记为缺失",
+        "audience（受众事实）——B.4.1/INT-D03 整节未要求；数据包 §4 包3 存在但本快照未带入，如实登记为缺失（包1 的「目标客户一句话」按 A.3.1 属 BrandFacts.target_customer_summary，不等于 AudienceFacts）",
+        "product.lining（里料）——素材侧故意缺失：数据包 P13 原文「缺失【截图 IMG_0684】」，禁补"
+      ],
+      "照抄纪律": "成分/价格/款号/尺码一字不改（价格另存 raw_text 保留截图原文「3980元」）；product 块与 INT-D01 / INT-D02 三份快照逐字一致；品牌事实逐条照抄数据包 §2 包1，各条来源标注均为【模拟】；数组化仅用于数据包本身即分项列举的字段（面料成分、尺码范围、价值主张、禁用表达清单、商业硬约束）。真实品牌名不得出现——「衡叙集」为数据包自带的虚构品牌名；brand_id 固定 fixture-brand-01。",
+      "待确认（PENDING，冻结前须裁决，不得默认已通过）": [
+        "hard_rules 为空 vs 品牌禁语规则对象：包1 的「禁用表达清单」与「商业硬约束」已作为品牌事实字段（对应 A.3.1 forbidden_expressions / commercial_constraints）在场，但未登记为 hard_rules 条目。理由：B.4.1/INT-D03 全段无「冻结事实」块、未列规则对象。现状更新（本轮核对）：Founder 2026-08-17 预裁决③ 的 R-FB01-001 已落盘 contracts/rules/R-FB01-001.yaml（version 1、status ACTIVE，同目录另有 R-BDD01-001/002），原「contracts/rules/ 为空目录、该对象尚未落盘」的陈述已失效；但给共用快照补挂规则会改变两侧运行看到的内容（属改考卷），故本次仍不补挂，两份 Manifest 的 hard_rule_refs 保持 [] → 是否回填此处与 Manifest 由 IA-0 裁决（对应 OQ-INT-D01-03 / OQ-INT-D02-02）。",
+        "包1 禁用表达清单（10 词）与 acceptance/detectors/forbidden_lexicon.yaml（low_price_selling 9 词 + false_scarcity 4 词）不是同一份：词表多出「跳楼价」「亏本价」及 false_scarcity 四词，缺少包1 的「绝绝子」「显贵」「高级感」。预裁决③ 定「词表以 detectors 为唯一运营真源」，本快照按素材真源照抄包1、未改词表（detectors/ 属硬禁止改动）→ 两者口径差异须在冻结前确认。",
+        "product.inventory=800 件 与 product.lifecycle_stage=库存消化期：数据包 P13 自带商品字段（均标【虚构-剧本】）。本案例 B.4.1/INT-D03「允许答案族」要求「商品和品牌事实保持不变」，故两侧共用同一份含库存的商品事实是符合案例设计的；但三份 INT 快照 product 块须逐字一致 → 若 INT-D01 处裁定剔除，此处须同步评估对 B.4.1/INT-D03「允许答案族」「商品和品牌事实保持不变」的影响。",
+        "snapshot_hash 不在本文件内自证：由快照构建工具计算后回填两份 Manifest；B.4.1/INT-D03「输入」原文「除商业目标外，两组使用相同事实快照。」要求 A/B 两份填入逐字相同的 hash。任何一次快照正文改动都使既有回填值过期，必须同批重算。",
+        "_fixture_note 属夹具元数据、不属事实层；整份 JSON 是否原样下发给被测模块，B/A 均未规定 → 冻结前须确认剥离口径。"
+      ]
+    },
+    "migration": {
+      "batch": "块E-①（Founder 2026-08-18 批准，逐字迁移零丢失）",
+      "constants": {
+        "created_at": "2026-08-18T16:30:00+08:00",
+        "captured_at_fill": "2026-08-17T00:00:00+08:00",
+        "task_id_convention": "TASK-<case>-0001（夹具约定，无上游 Task 对象）"
+      },
+      "field_annotations": {
+        "facts.audience": {
+          "value": null,
+          "status": "MISSING",
+          "source": "故意缺失（夹具设计）",
+          "note": "B.4.1/INT-D03 未要求受众事实；数据包 §4 包3（A01/A02）存在但本快照未带入。品牌事实内的 target_customer_summary 按 A.3.1 属品牌侧概述，不等于 AudienceFacts，不得当受众事实使用"
+        },
+        "facts.brand.forbidden_expressions": {
+          "note": "照抄数据包 §2 包1「禁用表达清单」10 词；与 acceptance/detectors/forbidden_lexicon.yaml 的差异见 _fixture_note 待确认项，本次未改动词表"
+        },
+        "facts.persona": {
+          "value": null,
+          "status": "MISSING",
+          "source": "故意缺失（夹具设计）",
+          "note": "B.4.1/INT-D03 未要求人设事实；数据包 §5 包4 存在但本快照未带入，如实登记为缺失，禁补"
+        },
+        "facts.product.price": {
+          "raw_text": "3980元",
+          "original_as_of": "2026-08-17"
+        },
+        "facts.product.lining": {
+          ".": {
+            "value": null,
+            "status": "MISSING",
+            "source": "截图 IMG_0684",
+            "note": "数据包 P13 原文「里料｜缺失【截图 IMG_0684】」——截图未出现或被遮挡，属素材侧故意缺失，禁补"
+          }
+        },
+        "facts.product.image_refs": {
+          "source": "截图 IMG_0672、截图 IMG_0684"
+        },
+        "facts.video_account": {
+          "value": null,
+          "status": "MISSING",
+          "source": "故意缺失（夹具设计）",
+          "note": "B.4.1/INT-D03 未要求账号事实；数据包 §6 包5 存在但本快照未带入，如实登记为缺失，禁补"
+        }
+      }
+    }
+  }
 }

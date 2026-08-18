@@ -196,6 +196,7 @@ def sub_once(tree, relpath, pattern, repl):
 
 E2E01_MF = "acceptance/cases/E2E-01/manifest.yaml"
 E2E01_SNAP = "acceptance/cases/E2E-01/fixtures/context_snapshot.json"
+E2E01_POOL_P13 = "acceptance/fixtures/facts/product/FS-PRODUCT-E2E01-P13.v1.json"
 GEN_PARAMS = "contracts/interaction/generation_parameters.json"
 ANON_DOC = "contracts/interaction/anonymity_procedure.md"
 INTERACTION_README = "contracts/interaction/README.md"
@@ -283,26 +284,43 @@ def m7_delete_one_manifest(tree):
 
 
 def m8_tamper_snapshot(tree):
-    """M8 改快照内容（企业事实 facts.inventory.value 库存 800 → 801）。期望：R4（snapshot_hash 与实算不符）。
+    """M8 改考卷事实值（E2E-01 P13 库存 800 → 801）。期望：R4。
 
-    走**结构路径**改而不是文本串替换：`"value": 800` 在本快照里出现两次（顶层 facts.inventory 与
-    facts.product.inventory），文本锚点不唯一，改错一处会让「门为什么红」变得不可归因。
-    改完当场用出厂门自己的 canonical_snapshot_hash 断言哈希确实变了——门算的是**规范化** JSON sha256
-    （键排序 + 紧凑分隔符），纯格式改动本就不该变哈希（设计如此，不是漏判），
-    这一句断言保证本条测的是真的内容篡改，而不是一次格式级 no-op 骗出来的红。"""
-    p = os.path.join(tree, E2E01_SNAP)
-    before = GATE.canonical_snapshot_hash(p)
+    锚点同步（块 E ① 迁移，2026-08-18）：快照迁为 A.4.3 引用式后，事实值的实体载体从快照文件
+    搬进 facts 池（acceptance/fixtures/facts/**）——本条原来改 `facts.inventory.value`，现改
+    池对象 FS-PRODUCT-E2E01-P13 的 `inventory.value.value`。守护语义不变：**改考卷事实值门必须红**；
+    执行面从「R4 快照 hash 不符」变为「R4 fact_fixtures 正文 digest 不符」（check_fact_fixture_freeze），
+    不锚池 = 迁移后改库存/价格门照绿（本条重锚前实测即如此）。快照文件自身的改动面由 M27 另测。"""
+    p = os.path.join(tree, E2E01_POOL_P13)
     with io.open(p, encoding="utf-8") as f:
         obj = json.load(f)
-    node = obj["facts"]["inventory"]
+    node = obj["inventory"]["value"]
     if node.get("value") != 800:
-        raise AssertionError("M8 前置不成立：facts.inventory.value=%r（应为 800）" % node.get("value"))
+        raise AssertionError("M8 前置不成立：inventory.value.value=%r（应为 800）" % node.get("value"))
     node["value"] = 801
     with io.open(p, "w", encoding="utf-8") as f:
         json.dump(obj, f, ensure_ascii=False, indent=2)
         f.write("\n")
+
+
+def m27_tamper_snapshot_ref(tree):
+    """M27（块 E 新增）：改快照文件本身——把一条 product_facts_refs 的 version 1→2（指向不存在的
+    未来版本）。期望：R4（Manifest snapshot_hash 与实算不符——快照正文任何改动即过期）。
+    与 M8 合起来覆盖迁移后的两个改考卷面：池值面（M8）与快照引用面（本条）。"""
+    p = os.path.join(tree, E2E01_SNAP)
+    before = GATE.canonical_snapshot_hash(p)
+    with io.open(p, encoding="utf-8") as f:
+        obj = json.load(f)
+    refs = obj["product_facts_refs"]
+    if not refs or refs[0].get("version") != 1:
+        raise AssertionError("M27 前置不成立：product_facts_refs[0].version=%r（应为 1）"
+                             % (refs and refs[0].get("version")))
+    refs[0]["version"] = 2
+    with io.open(p, "w", encoding="utf-8") as f:
+        json.dump(obj, f, ensure_ascii=False, indent=2)
+        f.write("\n")
     if GATE.canonical_snapshot_hash(p) == before:
-        raise AssertionError("M8 改后规范化 hash 未变，变异没生效（成了格式级 no-op）")
+        raise AssertionError("M27 改后规范化 hash 未变，变异没生效")
 
 
 def m9_blank_required_field(tree):
@@ -540,8 +558,10 @@ CHECKS = [
      m6_duplicate_case_id, "sign", "RED", ("R12",), (), None),
     ("M7", "删除一份 Manifest（齐套被破坏）",
      m7_delete_one_manifest, "sign", "RED", ("R1",), (), None),
-    ("M8", "快照内容改一处取值（库存 800→801）",
+    ("M8", "考卷事实值改一处取值（facts 池 库存 800→801，块 E 重锚）",
      m8_tamper_snapshot, "sign", "RED", ("R4",), (), None),
+    ("M27", "快照引用面改动（product ref version 1→2，快照正文过期）",
+     m27_tamper_snapshot_ref, "sign", "RED", ("R4",), (), None),
     ("M9", "Manifest 必填字段 task_statement 置空串",
      m9_blank_required_field, "sign", "RED", ("R2",), (), None),
     ("M10", "删 B.7 一行需求映射并同步 digest（逼 R13 独立命中）",

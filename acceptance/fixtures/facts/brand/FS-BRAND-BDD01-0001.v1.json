@@ -1,0 +1,47 @@
+{
+  "fact_set_id": "FS-BRAND-BDD01-0001",
+  "fact_type": "BRAND_FACTS",
+  "brand_id": "fixture-brand-01",
+  "version": 1,
+  "schema_version": "A-3.1-v2",
+  "updated_at": "2026-08-18T16:30:00+08:00",
+  "updated_by_role": "BRAND_OPERATOR",
+  "positioning": {
+    "status": "CONFIRMED",
+    "value": "HIGH_END",
+    "source_refs": [
+      {
+        "source_id": "SRC-BDD01-0003",
+        "brand_id": "fixture-brand-01",
+        "source_type": "FOUNDER_CONFIRMATION",
+        "locator": "BD-D01 冻结事实",
+        "captured_at": "2026-08-17T00:00:00+08:00",
+        "checksum": null
+      }
+    ]
+  },
+  "brand_name": {
+    "status": "MISSING",
+    "value": null
+  },
+  "values": {
+    "status": "MISSING",
+    "value": null
+  },
+  "tone": {
+    "status": "MISSING",
+    "value": null
+  },
+  "target_customer_summary": {
+    "status": "MISSING",
+    "value": null
+  },
+  "forbidden_expressions": {
+    "status": "MISSING",
+    "value": null
+  },
+  "commercial_constraints": {
+    "status": "MISSING",
+    "value": null
+  }
+}

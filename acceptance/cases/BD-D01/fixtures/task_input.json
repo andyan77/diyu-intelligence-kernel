@@ -1,0 +1,12 @@
+{
+  "_migrated_from_snapshot": {
+    "BD-D01": {
+      "business_goal": {
+        "value": "INVENTORY_ACTIVATION",
+        "source": "BD-D01 冻结事实"
+      }
+    }
+  },
+  "stated_business_goal": "INVENTORY_ACTIVATION",
+  "_migration_note": "块 E ① 迁移（Founder 2026-08-18 批准）：A.4.3 十四字段不含以下键，按「business_goal 去 task 层」先例逐字迁入本文件；_migrated_from_snapshot 为原节点逐字留存"
+}

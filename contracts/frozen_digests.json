@@ -273,84 +273,234 @@
   },
   "case_manifests": {
     "acceptance/cases/BD-D01/manifest.yaml": {
-      "content_sha256": "sha256:25893948133c86ebb65c9767cd1de6ade9339e72918cc17ace3436ffb45cace3",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:9349784a68300e88be6ece8fd45d52c5bc165d686a5a7045775071bc0cf4e69f",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/BD-D02/manifest.yaml": {
-      "content_sha256": "sha256:70f5b9e3e9285776bc6913ec334c2437ac178d71db7307ea23f591dc7009aeea",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:7a42b403e9841206e6f73659fcd33deecbf02a50dcea4b169bed3f03cb0ec079",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/BD-D03/manifest.yaml": {
-      "content_sha256": "sha256:caed1d416c3ddad35fd6ca64255b9626f4e7711c164fcd467454c8049d17ec3a",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:cbe802facc505a0a8217025cc525ce311583ac94210ff7d37151d5ffc28ad3ca",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D01/manifest.persona-buyer.yaml": {
-      "content_sha256": "sha256:dc77b6a09a4ccf1967acc9ed1c7df31f9395ffce876fa6cbadbed8c6f2daac14",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:48874a3f476f31ae83fb10facf689247f60aa1ccdc62c425c5d8c180af0bed75",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D01/manifest.persona-owner.yaml": {
-      "content_sha256": "sha256:32a36091cd779d74d2aab5036ccc5ae57d58f0127d0668025798c2e4f986fa1f",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:37faf040349ebef306c12f5e9b067b7154447fc7d280200f46c93ce7299254df",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D02/manifest.yaml": {
-      "content_sha256": "sha256:d7625e06f8c46c0027bcf6584fae88d7ea0196a1438ff199275650e742f05398",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:2637ba6a73f2dc3281827ff07e271b4fd2cb2d5a3a2f76ab1000ba7b600aab8f",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D03/manifest.yaml": {
-      "content_sha256": "sha256:5e32b26fa1a92cd5c8446c27e2248d624cb4136e995b5ef71b8a1c2e301eff10",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:f08987a8867a26034dc0845160907ba53ccb3d37570e6ee16d29a7a944441eda",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D04/manifest.input-a.yaml": {
-      "content_sha256": "sha256:1d5c2c3125c42f45143ddf7d50f699bf14d2f6abcce5382558a43d8c73938012",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:1130e6ff45b09c8e180b8ea0f56a53836241d24e53997a14d8671ace2b5aa605",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D04/manifest.input-b.yaml": {
-      "content_sha256": "sha256:96a7ec80ffcad9c6f0a3173952ce55c6f3b6a626b0a08decdc1d5499fe14fb50",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:1bffcfcabc74c2ba0492f8f136aa1c012b84f9ae1889c367351322a4b88972e7",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D04/manifest.input-c.yaml": {
-      "content_sha256": "sha256:8b82ce3f695d4636417102a3b6a9a13260e7d8097f11106e67dd0faeb65d7b3d",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:91af2c72a854e9846cc2304bb4d59592e75bad59f8327fc98871dfd99b759369",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/E2E-01/manifest.yaml": {
-      "content_sha256": "sha256:5d3b56a349b00dd7fbec18bbbfd65723e76433b6c54ef3a0c7e3afc87860e747",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:e6f2ce99612c7357fd3062ad5eaafb740592719ee5398d88bc92f8cc8d27a12c",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/E2E-02/manifest.yaml": {
-      "content_sha256": "sha256:9e69f5e7e003d0897c66bb610f827c8e45cbcb1658406fca2677d0d26a63e216",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:8664f77fed7d4d7de81c08b4b4c31c5f526d385d745c634ed6f8e290abe84fc0",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/E2E-03/manifest.yaml": {
-      "content_sha256": "sha256:d4676cf83f6c0f986be80730372f0d981c09b3397b3c616cf9f82719811c7538",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:eba305ec0ccfa6e402759d6c634a57938c652abf31c6220f40cef7d6b90b4feb",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D01/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:3c0f57f986418dce3ecbdc197e706792e0107cd87ee4c9af33d76bf6326e26e3",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:d521c9943183b206d2d6afc52b95cdf750118efed5701bc575152fd0ff08b4ef",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D01/manifest.quick.yaml": {
-      "content_sha256": "sha256:6c47a0f18f106a02b2e2e4abb6a3207ac876813548a0924ffeb892441b89e877",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:0e926e8f0006a37fb3763b1f824935be025c8b6a323e3c0da3685e7b1e73d873",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D02/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:bba51db152696dab8d5fd9bf4cd6bdd2bcf562549fc067723faebafbcf7105da",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:13f952519f2e1bc098d46beac0777ae4f854dc3d6b8bf0859070c7cd481d5068",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D02/manifest.quick.yaml": {
-      "content_sha256": "sha256:dbbc9c29f0bcfc3ef86e7a4c43e2525d23a5ff95a4072a7e63649bbdc5d28c7d",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:765f79b88fc41b5ad069dd6d74edfaf19797ea6deb47bca2ee53eaba17a0b906",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D03/manifest.input-a.yaml": {
-      "content_sha256": "sha256:e4b9b454bb27632720521d6c3ac7878044a8870873117257149bfccdd558d5c5",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:1ff0a17e28683200635d598e86a131451edb790f444ffb758be96f4f336de61c",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D03/manifest.input-b.yaml": {
-      "content_sha256": "sha256:6236fa6e28a655dcf8ccb22fbb152b1b779ab3a68bb0a8235139fa969792985f",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:fc4ab3c067c430411a916fbc3c46bd02ef82feede5fa941e8abbfdebfc4bdb8f",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/SYS-D01/manifest.yaml": {
-      "content_sha256": "sha256:002ccc4ad340cc07f641892ab966edd39b9e198ebd9b82e9d77e94c08f8617b4",
-      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:184d77cd7fb97ee2bb5408d3f80120ca3df83de5c1f94d5279abcaa9c453524f",
+      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+    }
+  },
+  "fact_fixtures": {
+    "_note": "facts 池正文冻结节（块 E ① 迁移配套，Founder 2026-08-18 批准迁移方案）：快照迁为 A.4.3 引用式后，考卷事实值的实体载体是本池；freeze_gate.check_fact_fixture_freeze 按字节 digest 双向核验（与 rules 节同款），改池值的合法路径 = 升对象 version + 同步登记。",
+    "acceptance/fixtures/facts/audience/FS-AUD-BDD03-A02.v1.json": {
+      "sha256": "sha256:b6ae96beb33b14d843f32345eaed63afc5928089054c70023b3adeea056334ac"
+    },
+    "acceptance/fixtures/facts/audience/FS-AUD-E2E01-A01.v1.json": {
+      "sha256": "sha256:ed968d8c3f98023d85175b888fc81be463167a0b7a4fc203a5f080e10e0e90ae"
+    },
+    "acceptance/fixtures/facts/audience/FS-AUD-E2E01-A02.v1.json": {
+      "sha256": "sha256:818d4d167e362d033bee66e18e035843e2b42f8ab8b6049a3d94f92cf7bcbff1"
+    },
+    "acceptance/fixtures/facts/audience/FS-AUD-E2E03-A02.v1.json": {
+      "sha256": "sha256:f7936a16eeaa0ccb7e28b4048606e4e6519f52b2345f89ac3dce3328119b561a"
+    },
+    "acceptance/fixtures/facts/audience/FS-AUD-SYSD01-A01.v1.json": {
+      "sha256": "sha256:59785956d28df2b2984f64c81f4e5766d55241b8e5ef20c54a6337e608a5af20"
+    },
+    "acceptance/fixtures/facts/audience/FS-AUD-SYSD01-A02.v1.json": {
+      "sha256": "sha256:814bdbe2209e09e1c6b762090c37de2870fcb56b7c9da4c015aa3a455596e346"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-BDD01-0001.v1.json": {
+      "sha256": "sha256:30885bf7ae71f87dcd5d87341cde3a29a1e82c784467ddfc1ec9c7bd519ae41f"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-BDD02-MISSING.v1.json": {
+      "sha256": "sha256:bb49232233329aa18cf6fb88342065d4dd75a17130cf47fd74e1ae12db476dfd"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-BDD03-0001.v1.json": {
+      "sha256": "sha256:0eedabf529ba75a7cbbd9aa7a85e401000dbaad9cb2dd7aa4b928f9b24a0555a"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-CRD01-MISSING.v1.json": {
+      "sha256": "sha256:e1c4261d101646f1fd6c26dc172731272ffec352b41009fb4968b52f094738ca"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-CRD02-0001.v1.json": {
+      "sha256": "sha256:08bcf35c2d5866958b99e4d55bca73aec21fe7fb65edee457dca707156958d17"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-CRD03-0001.v1.json": {
+      "sha256": "sha256:f64e92036c81048282e8500a3664646bb9be2a54d8cce81d8bd705e343ddb6ef"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-CRD04a-MISSING.v1.json": {
+      "sha256": "sha256:e3db47404aa357f7477526157675e6f6c91fb3c25397e66c068b08a907d28acc"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-CRD04b-MISSING.v1.json": {
+      "sha256": "sha256:b45aa12032659e7ec362766d938ea153cbd080c0b41ebb35319ae769484b9799"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-CRD04c-MISSING.v1.json": {
+      "sha256": "sha256:f169e91e91dfb90d372fe6556483f63e4596a84635daf7e0f3b824bc714e6c52"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-E2E01-0001.v1.json": {
+      "sha256": "sha256:456a020aaac53d84835ae437558d6ab402d6ebec18ccb5799dbce65ec26f7416"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-E2E03-0001.v1.json": {
+      "sha256": "sha256:40cf1fc5b3389bacdc30ca356c0cad378fbc87cc718f32d2cfd41d7967496203"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-INTD01-MISSING.v1.json": {
+      "sha256": "sha256:088d15857b4da388de289e570bc5d51558be7efd52f3d9812346039e26343e71"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-INTD02-MISSING.v1.json": {
+      "sha256": "sha256:443f40ca933978124aa73960f40cdf1b2845a7bbb9a4172930f1c5bf4cd695aa"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-INTD03-0001.v1.json": {
+      "sha256": "sha256:7d5bd3f9e2b941bf3d0e96ef39934940fd467dfdbce3efdc21f857316ee50627"
+    },
+    "acceptance/fixtures/facts/brand/FS-BRAND-SYSD01-0001.v1.json": {
+      "sha256": "sha256:857e91a8043310e422cf84e9279e126fe51b6ea8ecd20660d6acb3ade6b9c8b8"
+    },
+    "acceptance/fixtures/facts/persona/FS-PERSONA-E2E01-R01.v1.json": {
+      "sha256": "sha256:885593b57dd999da70db5ce8803eb50723738f3a9b64c42a279881a90a3ea464"
+    },
+    "acceptance/fixtures/facts/persona/FS-PERSONA-E2E01-R02.v1.json": {
+      "sha256": "sha256:fb64915997de2f16b939ba41da50c205eb3640956f41b9d337ffa95672be7a96"
+    },
+    "acceptance/fixtures/facts/persona/FS-PERSONA-E2E03-R01.v1.json": {
+      "sha256": "sha256:09356facfb211a5ae1267f944465d136afd46208af35820d5f00ba3b41a035a1"
+    },
+    "acceptance/fixtures/facts/persona/FS-PERSONA-E2E03-R02.v1.json": {
+      "sha256": "sha256:a62143d921273b4745bd6aa56eb4b082f5be005315316537c412bb64940ea66d"
+    },
+    "acceptance/fixtures/facts/persona/FS-PERSONA-SYSD01-R01.v1.json": {
+      "sha256": "sha256:8d70bf8635eb5cbcf73ebfa514c2b03fd61c45951f26472505509b2cb08599f0"
+    },
+    "acceptance/fixtures/facts/persona/FS-PERSONA-SYSD01-R02.v1.json": {
+      "sha256": "sha256:5077bc354aa1de161962294ed47b5480e18927102e284eff574ab3e70682e1b5"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-BDD01-P13.v1.json": {
+      "sha256": "sha256:9dda40f4b7ad8628f25559e488fe28a4f6aaead2b1bbc16fecab0f338a0244e2"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-BDD02-P01.v1.json": {
+      "sha256": "sha256:f609ab1afc1d54d8426231231b8e0559bb07a259e25a43eea1126cafab5d7963"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-BDD02-P02.v1.json": {
+      "sha256": "sha256:21e29612be37e2cb52c73da6e67a24ca6194100c9793b74e71ba57fb8802f7de"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-BDD02-P03.v1.json": {
+      "sha256": "sha256:d6f1bfa68099f7a7936d7f38b46fa31f0b569267967ee2b6db504fc12805e96e"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-BDD03-P11.v1.json": {
+      "sha256": "sha256:b53a6f95aa667752ab21ffbd4a871f913e36cb1cfa30f12bb507c394fe25277c"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-CRD01-P13.v1.json": {
+      "sha256": "sha256:f4897bf8167f7f084c06062d785b999001b89935371b0837211814732681c100"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-CRD02-P13.v1.json": {
+      "sha256": "sha256:25ca42ade923a7221bbc3d9d18255b6286cf5459c2dd81b3f1f2ad7ec6e8f90d"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-CRD03-P13.v1.json": {
+      "sha256": "sha256:86c8203294c1552a05b4fc95268dd319df9292bc5edb4e1472f36cb49755125e"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-CRD04a-P13.v1.json": {
+      "sha256": "sha256:755902818e87d348fb99647cd5cfbe5c20140d8c9bd518a01325603540b88b12"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-CRD04b-P08.v1.json": {
+      "sha256": "sha256:29c241b618214c7ab55d394a52261e9c49a09a9a3ea8de180ef113a5e0203154"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-CRD04c-P13.v1.json": {
+      "sha256": "sha256:7dc5de284fd799b48f47bde4e8ac9fa257a61c4e95908bc946cf06d1b302ec04"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-E2E01-P13.v1.json": {
+      "sha256": "sha256:693b35c191a96fe96fc5aac2cbe9ef87521ea79f1a81cb5c05967faea3128c02"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-E2E03-P11.v1.json": {
+      "sha256": "sha256:e14db56d2d36d50910eb0b1307f3d925cdad0c7ff6c3e69c26052c5c22f2060a"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-INTD01-P13.v1.json": {
+      "sha256": "sha256:1242594354ca547488274b51cac95fc3c838db94b8d650b6787291a4489345b4"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-INTD02-P13.v1.json": {
+      "sha256": "sha256:154679dd07640218361d0c500b1b9d01d26fa61019a8b3c5c03cbb66e15f8ee4"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-INTD03-P13.v1.json": {
+      "sha256": "sha256:02e9ac30758b0e85335a9b2266bf273d3df07434b2e8dfdf900be1f42713621d"
+    },
+    "acceptance/fixtures/facts/product/FS-PRODUCT-SYSD01-P13.v1.json": {
+      "sha256": "sha256:f6c38bb66d24c9d21563c407a1cd9ace1ff9734c4ab322ff77878a37e0ed7dea"
+    },
+    "acceptance/fixtures/facts/video_account/FS-VIDEOACCOUNT-CRD01-0001.v1.json": {
+      "sha256": "sha256:771a2d578fed113b7f166b13c6b94adcaeb3a9d9652126e174920bb011b4cbb9"
+    },
+    "acceptance/fixtures/facts/video_account/FS-VIDEOACCOUNT-CRD03-0001.v1.json": {
+      "sha256": "sha256:e29094504ee4798bbd34076351862313f590a094209447d658a36e01752df252"
+    },
+    "acceptance/fixtures/facts/video_account/FS-VIDEOACCOUNT-E2E01-0001.v1.json": {
+      "sha256": "sha256:6d3c06ddf00bcea2571ce0347bc6ec92488ff5835c1757f4cf2fea819279a4c9"
+    },
+    "acceptance/fixtures/facts/video_account/FS-VIDEOACCOUNT-E2E03-0001.v1.json": {
+      "sha256": "sha256:5f178262fb58dfebf06532a220f3d4b56924dc6cbe64e559b769e9ab8725f98a"
+    },
+    "acceptance/fixtures/facts/video_account/FS-VIDEOACCOUNT-SYSD01-0001.v1.json": {
+      "sha256": "sha256:c574d15149715590dcb37d1d1ef40e53a5a324a4f74b43f2e274fcf3333ca68f"
     }
   }
 }

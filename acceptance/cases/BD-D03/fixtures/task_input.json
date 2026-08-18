@@ -1,0 +1,19 @@
+{
+  "_migrated_from_snapshot": {
+    "BD-D03": {
+      "business_goal": {
+        "value": "PRODUCT_LAUNCH",
+        "source": "执行侧推断（依据数据包·包2 P11 生命周期阶段『正常在售新品』【夹具虚构-剧本】→ 新品推广），inferred，待 IA-0 确认",
+        "inference_status": "inferred",
+        "note": "非 Founder 裁决值：acceptance/cases/OPEN_QUESTIONS.md 文首「素材映射表」明注『映射表不含各案例商业目标取值』，B.4.2/BD-D03「输入」也只说输入含商业目标、未给取值。枚举取值域见 A.2.6 BusinessGoal；挂 OQ-BD-D03-02，IA-0 确认前不得当作已冻结值使用"
+      },
+      "scene": {
+        "value": "真实上班、通勤和周末场景",
+        "source": "模拟",
+        "note": "【模拟】字段：数据包无独立『场景』字段，本值为夹具虚构-剧本设定，场景词照抄数据包·包3 A02 购买理由 1；A02 痛点 5 补充的边界为『不希望在办公室、见客户或家庭场景里显得用力过猛』"
+      }
+    }
+  },
+  "stated_business_goal": "PRODUCT_LAUNCH",
+  "_migration_note": "块 E ① 迁移（Founder 2026-08-18 批准）：A.4.3 十四字段不含以下键，按「business_goal 去 task 层」先例逐字迁入本文件；_migrated_from_snapshot 为原节点逐字留存"
+}

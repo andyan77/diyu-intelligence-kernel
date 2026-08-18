@@ -18,6 +18,8 @@
      并同步 20 份 Manifest，旧实现照样判绿并宣称「零占位残留」，OD-02 模型定格就此被架空
   R3 Schema 不过（contracts/schemas/case_manifest.schema.json）
   R4 snapshot_hash 与按本文件算法实算的值不符 / 快照找不到 / 快照 ID 撞车 / 快照与 Manifest 不同案例目录
+     / facts 池对象（acceptance/fixtures/facts/**，块 E ① 迁移后快照事实值的实体载体）正文 digest
+     与 frozen_digests `fact_fixtures` 节不符或未登记——快照只剩引用，不冻池 = 考卷事实可无痕改值
   R5 hard_rule_refs 解析不到 contracts/rules/ 的 RuleRecord 对象（含 version / brand_id / 非 ACTIVE），
      或 RuleRecord 字段集与 A.9.1 十项不全等
   R6 签字三件套失真：approved_at 不可解析为 ISO8601、approved_by 或 generation_parameters_hash 空白/占位
@@ -731,6 +733,46 @@ def check_rule_freeze(errors):
                           "\n      登记 %s\n      实算 %s" % (relpath, declared, actual))
 
 
+FACT_FIXTURES_GLOB = os.path.join(ROOT, "acceptance/fixtures/facts/*/*.json")
+
+
+def check_fact_fixture_freeze(errors):
+    """R4（块 E ① 迁移配套）：facts 池正文冻结——acceptance/fixtures/facts/** 逐份与
+    frozen_digests.json `fact_fixtures` 节比对（字节 digest，双向覆盖，与 R5 rules 节同款）。
+
+    为什么归 R4：迁移后快照文件只携带引用，考卷事实**值**全部住进 facts 池；R4 的使命是
+    「快照正文任何改动即过期」，池就是快照事实的正文延伸——只锚快照不锚池，改池里的库存/价格
+    门照绿（变异 M8 重锚点实测）。改池的合法路径 = 升对象 version（A.1.5 不可覆盖）+ 同步登记。
+    """
+    reg = None
+    if os.path.exists(FROZEN_DIGESTS_PATH):
+        try:
+            with io.open(FROZEN_DIGESTS_PATH, encoding="utf-8") as f:
+                reg = json.load(f).get("fact_fixtures")
+        except ValueError:
+            return  # 登记册本身坏掉由 R10 记红
+    live = {rel(p): p for p in sorted(glob.glob(FACT_FIXTURES_GLOB))}
+    if not isinstance(reg, dict):
+        if live:
+            errors.append("R4 %s 缺 `fact_fixtures` 节——facts 池正文不受任何 digest 保护，"
+                          "考卷事实值可无痕漂移" % rel(FROZEN_DIGESTS_PATH))
+        return
+    for relpath in sorted(set(live) | set(k for k in reg if not k.startswith("_"))):
+        if relpath not in reg:
+            errors.append("R4 facts 池文件未登记进 %s 的 fact_fixtures 节: %s"
+                          % (rel(FROZEN_DIGESTS_PATH), relpath))
+            continue
+        if relpath not in live:
+            errors.append("R4 fact_fixtures 节登记指向不存在的文件: %s" % relpath)
+            continue
+        entry = reg[relpath]
+        declared = entry.get("sha256") if isinstance(entry, dict) else None
+        actual = sha256_file_bytes(live[relpath])
+        if declared != actual:
+            errors.append("R4 %s 正文 digest 与登记不符（改池值未升 version 同步登记 = 考卷事实漂移）"
+                          "\n      登记 %s\n      实算 %s" % (relpath, declared, actual))
+
+
 def load_manifest_content_registry(errors):
     """R6 内容绑定登记表：frozen_digests.json `case_manifests` 节 {Manifest 相对路径: {content_sha256}}。
 
@@ -1226,6 +1268,7 @@ def main():
                       % rel(GENERATION_PARAMS_PATH))
     check_generation_params_placeholders(errors)
     check_rule_freeze(errors)
+    check_fact_fixture_freeze(errors)
     manifest_content_reg = load_manifest_content_registry(errors)
     manifest_names_seen = set()
 
