@@ -1,6 +1,6 @@
 # 尝试账本条目（C.6 格式；一条一文件）
 attempt_id: ATT-0008
-hypothesis: "M2-EP01 设计对齐小修（Founder 2026-08-18 四点批复①放行）：step2 prompt 补五条统一产品标准②明文纪律——「不得引入用户未提出的促销／清库存／折扣路径」（prompt_version v0.1→v0.2，文件同步更名），并配 prompt 资产护栏（纪律行被删/被改必报警，verify-OK-before-break 对照）。范围如实：本条只把标准②焊进 prompt 判据面 + 护住该文本资产；行为级拦截护栏既有（BD-D01 blocked_candidate 变体，经快照钉定 R-BDD01-002 生效，scope=TASK）；通用键控兜底检查 = Founder 裁决②「双层把关」方向已登记、实现留下一批用真实上游输出定"
-target_failing_run: "改 prompt 引用的失败 run（北极星 4）：acceptance/runs/L3-判分记录-INT-20260818.md 案例二（D02）——Founder 评分逐字「系统主动脑补促销意图，并用用户未提出的促销条件阻止执行」，业务判定不通过；叠加本车道设计对齐自查发现（runtime_verified 2026-08-18）：R-BDD01-002 scope=TASK 注册表自述只服务 BD-D01 降级分支、非品牌常设禁令，且 step2 prompt 八条判定纪律无②号明文——换一个未钉定该规则的案例，促销/清仓候选可合法生成且无人拦"
-regression_after: "预期：kernel/decision/test_decision_offline.py 全绿（82 + 新增护栏/对照项；BD-D01 回放行为面零变化——纪律是约束面收紧，replay 夹具不受影响）；manifest --check 一致；check_m0 六步绿"
-delta: {fixed: ["GAP-STD2-PROMPT-FACE"], broken: [], net: 1}
+hypothesis: "校准修订批③ kernel 对齐（Founder 2026-08-18 判分批五条统一产品标准 + 四点批复，全部经①草案批准）：① 七枚举 DAILY_CONTENT_OPERATION 进 config/runner/decision.config/schema/prompt；② prompt v0.2→v0.3（目标识别分两层 / 不脑补经营意图 / AMBIGUOUS 候选三要素方案骨架）；③ G4 增强模式撤『有缺失就先问』保守侧（B v0.6 判死该行为），非阻断缺失不作执行前障碍；④ G5 假设生成扩至增强模式（跨过缺失即留假设，两模式同一诚实口径）；⑤ normalize_candidates 透传三要素、缺失不代补（交给 Schema/闸判红）；⑥ 五份 replay 夹具改写到新预期族 + 离线套件预期整改（AMBIGUOUS 载体从 D01 切至 D03-b）。红线不动实证：raw 落盘 / 零重试 / G6 只降不升 / P6 幻觉引用 / P9 独立数字串 / 品牌过滤 / A6 真阳性——相关护栏与负向用例全数保留并绿"
+target_failing_run: "L3 判分（Founder 2026-08-18，acceptance/runs/L3-判分记录-INT-20260818.md）：RUN-0004~0009 三案例业务判定不通过——D01/D02 旧考题口径与新产品标准冲突（修订后重跑）、D03-B L3 语义不通过（把选择题退给用户）；本批次即其修复面。构造复现：旧增强模式对 D01 判 REQUEST_INPUT（离线套件改版前实测红）"
+regression_after: "kernel/intent/test_intent_offline.py 48/48 GREEN（含 AMBIGUOUS 载体切换后的对照①与护栏③）+ kernel/decision/test_decision_offline.py 85/85 GREEN + module_manifest 双模块 IN_SYNC + tools/check_m0.py 六步全绿（送签态 GATE_GREEN、变异 58、检测器 153、fact 210）+ run_case 端到端回放抽验（新 A7 终态闸，PENDING_HUMAN 零红）"
+delta: {fixed: ["D01/D02/D03-B 预期族与 kernel 行为按五条标准对齐", "增强模式可选缺失拦停（INT_TASK_ESCALATED 机器形态）", "候选光秃标签无机器判"], broken: [], net: 3}
