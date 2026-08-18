@@ -44,6 +44,11 @@
 #   传递依赖（attrs / pyrsistent / six 等）由 pip 按 jsonschema 的元数据解析，本文件不代为钉死——
 #   钉死未经实测的传递依赖等于凭空宣称已验证。
 
+# 【CI 封闭锁指针（IA-1 送签前置收尾块，2026-08-18）】CI 实际安装走 requirements-lock.txt
+#   （直接+传递依赖全量钉版+sha256 哈希，--require-hashes）。本文件仍是直接依赖的人读真源；
+#   改本文件的任何 pin 必须同批重生成锁文件（方法见 requirements-lock.txt 头注），不得只改一边。
+#   原「传递依赖不代为钉死」口径就此演进：锁文件里的传递依赖 pin 均经干净 venv 实测（非凭空宣称）。
+
 jsonschema==3.2.0
 PyYAML==6.0.2
 # 块 B（M1-EP01 语义补强，2026-08-18）新增：datetime 字段 format=date-time 的 FormatChecker 后端。

@@ -1,0 +1,37 @@
+# 笛语智能核 · CI 封闭化依赖锁（requirements-lock.txt；IA-1 送签前置收尾块，2026-08-18）
+#
+# 与 requirements.txt 的分工：
+#   requirements.txt  = 人读人改的**直接依赖**清单（三个真实 import 的包 + 取证条件说明，仍是版本语义真源）；
+#   本文件            = CI 安装用的**全量封闭锁**（直接 + 传递依赖，逐包钉版 + sha256 哈希），
+#                       由 requirements.txt 在干净 venv 实测解析生成，**不得手编版本或哈希**。
+# 再生成方法（改 requirements.txt 后必须同批重生成）：
+#   python3 -m venv v && ./v/bin/pip install pip==25.2 && ./v/bin/pip install -r requirements.txt
+#   && ./v/bin/pip freeze → 逐包 pip download → sha256sum 回填本文件 → 干净 venv
+#   `pip install --require-hashes -r requirements-lock.txt` 实测 exit 0 + tools/check_m0.py 六步全绿。
+#
+# 生成环境（2026-08-18 实测）：Python 3.10.12（cp310，linux x86_64 glibc）+ pip 25.2；
+#   哈希对应 PyPI 该版本的 py3 通用 wheel 或 cp310 manylinux wheel——与 CI（ubuntu-latest +
+#   setup-python 3.10.12）同标签。--require-hashes 语义：任何包版本或字节与本清单不符即安装失败，
+#   传递依赖悄然升级（如 attrs 发新版）不再能改变门禁运行条件。
+#
+# 诚实边界：本锁封闭的是 **pip 安装面**；ubuntu-latest 运行器镜像自身（OS 包、预装工具链）仍随
+#   GitHub 滚动——那一层的钉死要自托管 runner 或容器镜像 digest 锁定，超出「测试依赖」范围，
+#   未做就是未做（触发点：若未来证据要求 OS 级复现，另立一件事走裁决）。
+#
+# 直接依赖（requirements.txt 同源）：
+jsonschema==3.2.0 \
+    --hash=sha256:4e5b3cf8216f577bee9ce139cbe72eca3ea4f292ec60928ff24758ce626cd163
+PyYAML==6.0.2 \
+    --hash=sha256:ec031d5d2feb36d1d1a24380e4db6d43695f3748343d99434e6f5f9156aaa2ed
+rfc3339-validator==0.1.4 \
+    --hash=sha256:24f6ec1eda14ef823da9e36ec7113124b39c04d50a4d3d3a3c2859577e7791fa
+# 传递依赖（jsonschema 3.2.0 → attrs / pyrsistent / six / setuptools(pkg_resources)；
+# rfc3339-validator → six。干净 venv pip freeze 实测值，非「最新版」也非「兼容下界」）：
+attrs==26.1.0 \
+    --hash=sha256:c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309
+pyrsistent==0.20.0 \
+    --hash=sha256:21cc459636983764e692b9eba7144cdd54fdec23ccdb1e8ba392a63666c60c34
+six==1.17.0 \
+    --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274
+setuptools==59.6.0 \
+    --hash=sha256:4ce92f1e1f8f01233ee9952c04f6b81d1e02939d6e1b488428154974a4d0783e
