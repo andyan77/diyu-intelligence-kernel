@@ -1,0 +1,103 @@
+{
+ "snapshot_id": "SNAP-HXJ-0001",
+ "task_id": "TASK-HXJ-0001",
+ "brand_id": "fixture-brand-01",
+ "version": 1,
+ "created_at": "2026-08-32T10:00:00+08:00",
+ "brand_facts_ref": {
+  "object_type": "BrandFacts",
+  "object_id": "FS-BRAND-HENGXUJI-0001",
+  "version": 1,
+  "brand_id": "fixture-brand-01"
+ },
+ "product_facts_refs": [
+  {
+   "object_type": "ProductFacts",
+   "object_id": "FS-PRODUCT-P01-0001",
+   "version": 1,
+   "brand_id": "fixture-brand-01"
+  },
+  {
+   "object_type": "ProductFacts",
+   "object_id": "FS-PRODUCT-P13-0001",
+   "version": 1,
+   "brand_id": "fixture-brand-01"
+  }
+ ],
+ "audience_facts_refs": [
+  {
+   "object_type": "AudienceFacts",
+   "object_id": "FS-AUD-A01-0001",
+   "version": 1,
+   "brand_id": "fixture-brand-01"
+  }
+ ],
+ "persona_facts_refs": [
+  {
+   "object_type": "PersonaFacts",
+   "object_id": "FS-PERSONA-R01-0001",
+   "version": 1,
+   "brand_id": "fixture-brand-01"
+  }
+ ],
+ "video_account_facts_ref": {
+  "object_type": "VideoAccountFacts",
+  "object_id": "FS-VIDEOACCOUNT-HXJ-0001",
+  "version": 3,
+  "brand_id": "fixture-brand-01"
+ },
+ "active_rule_refs": [
+  {
+   "object_type": "RuleRecord",
+   "object_id": "R-BDD01-001",
+   "version": 1,
+   "brand_id": "fixture-brand-01"
+  },
+  {
+   "object_type": "RuleRecord",
+   "object_id": "R-BDD01-002",
+   "version": 1,
+   "brand_id": "fixture-brand-01"
+  },
+  {
+   "object_type": "RuleRecord",
+   "object_id": "R-FB01-001",
+   "version": 1,
+   "brand_id": "fixture-brand-01"
+  }
+ ],
+ "approved_brand_memory_refs": [],
+ "input_source_refs": [
+  {
+   "source_id": "SRC-BRANDPACK-0001",
+   "brand_id": "fixture-brand-01",
+   "source_type": "BRAND_OPERATOR_INPUT",
+   "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §2 包1｜品牌事实",
+   "captured_at": "2026-08-17T09:00:00+08:00",
+   "checksum": null
+  },
+  {
+   "source_id": "SRC-PRODUCT-P13-0001",
+   "brand_id": "fixture-brand-01",
+   "source_type": "PRODUCT_DATA_FILE",
+   "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md P13 10%羊绒风衣式大衣 商品事实表",
+   "captured_at": "2026-08-17T09:10:00+08:00",
+   "checksum": null
+  },
+  {
+   "source_id": "SRC-IMG-0684",
+   "brand_id": "fixture-brand-01",
+   "source_type": "IMAGE_INPUT",
+   "locator": "截图 IMG_0684",
+   "captured_at": "2026-08-17T09:12:00+08:00",
+   "checksum": null
+  }
+ ],
+ "snapshot_hash": "sha256:32f82f578fe3417bdd66ed814f9a0db04e12ac9446f4ba4abe88cafe418cc474",
+ "_fixture_note": {
+  "why": "块 E ④b（E-04）负测：created_at=2026-08-32（32 日不存在）——format: date-time 由 FormatChecker 强制，没装 rfc3339-validator 时静默放行即假绿（fail-closed 自检拦）",
+  "expected_error_substr": "'2026-08-32T10:00:00+08:00' is not a 'date-time'",
+  "expected_validator": "format",
+  "expected_path": "$.created_at"
+ }
+}

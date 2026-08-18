@@ -15,7 +15,7 @@
   （OQ-INT-D01-06「SCHEMA_OK ≠ 可冻结」；对 PENDING_* 占位本脚本完全无感，占位由 freeze_gate 拦）。
 """
 import json, sys, os
-from jsonschema import Draft7Validator, RefResolver
+from jsonschema import Draft7Validator, FormatChecker, RefResolver
 
 # USAGE **不得包含任何结论标记串**（SCHEMA_OK / SCHEMA_INVALID / SCHEMA_UNVERIFIABLE）。
 # 理由（本批次实测缺陷）：--help 与 exit 2 两条路径都会把 USAGE 打出去，而 unverifiable() 的
@@ -38,11 +38,23 @@ def load(p):
     with open(p, encoding="utf-8") as f:
         return json.load(f)
 
+def make_format_checker():
+    """FormatChecker fail-closed 自检（块 E ④a，同 tools/test_fact_schemas.py v2 口径）：
+    jsonschema 的 format 校验没装 rfc3339-validator 时会**静默放行** date-time——两套判据
+    （第六步拦、本通用校验器放）正是复审乙 P0-03 实测的假绿面。查不动 date-time 就 exit 2，
+    「无法核验 ≠ 通过」。"""
+    fc = FormatChecker()
+    if "date-time" not in fc.checkers:
+        unverifiable("FormatChecker 无 date-time 校验器（缺 rfc3339-validator 依赖）——"
+                     "format 将被静默放行，拒绝在此状态下出结论；pip install rfc3339-validator")
+    return fc
+
 def validate(instance_path, schema_path):
     schema = load(schema_path)
     base = "file://" + os.path.abspath(os.path.dirname(schema_path)) + "/"
     resolver = RefResolver(base_uri=base, referrer=schema)
-    errors = sorted(Draft7Validator(schema, resolver=resolver).iter_errors(load(instance_path)), key=lambda e: list(e.absolute_path))
+    errors = sorted(Draft7Validator(schema, resolver=resolver, format_checker=make_format_checker())
+                    .iter_errors(load(instance_path)), key=lambda e: list(e.absolute_path))
     for e in errors:
         print(f"VIOLATION at /{'/'.join(map(str, e.absolute_path))}: {e.message}")
     return len(errors)

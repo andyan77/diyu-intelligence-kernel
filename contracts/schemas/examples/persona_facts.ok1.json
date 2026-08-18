@@ -1,132 +1,132 @@
 {
-  "_note": "合法实例：A.3.5 PersonaFacts 全字段（7 个自有字段 + FactSetEnvelope 7 个信封字段）。取材＝衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §5 包4「R01｜品牌主理人：沈岚」，品牌名「衡叙集」为数据包自带虚构名，brand_id 固定 fixture-brand-01，不得出现真实品牌。文本按数据包原文照抄，仅去掉行尾【模拟】标记并按原文分号切分为数组项（与 acceptance/cases/CR-D01/fixtures/persona_buyer.json 同口径）；beliefs 为引语，保留原引号与句末句号；forbidden_styles 按词表口径去掉外层引号、词句一字未改。",
-  "fact_set_id": "FS-PERSONA-R01-0001",
-  "fact_type": "PersonaFacts",
-  "brand_id": "fixture-brand-01",
-  "version": 1,
-  "schema_version": "A-3.5-v3",
-  "updated_at": "2026-08-17T10:00:00+08:00",
-  "updated_by_role": "BRAND_OPERATOR",
-  "persona_id": "R01",
-  "identity": {
-    "value": "衡叙集虚构品牌主理人，44 岁；负责商品取舍、定价边界和门店反馈复盘",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-IDENTITY",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01｜品牌主理人：沈岚 · 表行「身份」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "voice_traits": {
-    "value": [
-      "句子不快，先把问题和条件说清，再给判断",
-      "常用门店试穿、退换原因、面料取舍和一件衣服穿了多久来举例",
-      "很少直接下购买指令"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-VOICE",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「说话风格」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "beliefs": {
-    "value": [
-      "“衣服先要进入生活，才有资格谈风格。”",
-      "“不适合你的商品，说清楚比卖出去更重要。”",
-      "“价格要能回到面料、结构、工时和使用次数，而不是回到一串形容词。”"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-BELIEFS",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「公开表达过的信念」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "audience_relationship": {
-    "value": "把观众视为长期熟客和共同判断者；允许观众带着不同体型、预算和生活阶段反驳她，不用“教育消费者”的姿态压过真实反馈",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-RELATION",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「与粉丝关系」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "forbidden_styles": {
-    "value": [
-      "姐妹们冲",
-      "闭眼买",
-      "谁穿谁好看",
-      "全网最低",
-      "错过后悔"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-FORBIDDEN",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「绝不使用的表达」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  },
-  "speaker_constraints": {
-    "value": [
-      "不做高频叫卖直播",
-      "不在无法核对款号、价格、成分时讲商品结论",
-      "每条视频最多讲一个核心判断",
-      "避免过度磨皮和改变服装真实色彩的滤镜"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-FIXTURE-P4-R01-SPEAKER",
-        "brand_id": "fixture-brand-01",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「出镜限制」",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": null,
-    "uncertainty_reason": null
-  }
+ "_note": "合法实例：A.3.5 PersonaFacts 全字段（7 个自有字段 + FactSetEnvelope 7 个信封字段）。取材＝衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md §5 包4「R01｜品牌主理人：沈岚」，品牌名「衡叙集」为数据包自带虚构名，brand_id 固定 fixture-brand-01，不得出现真实品牌。文本按数据包原文照抄，仅去掉行尾【模拟】标记并按原文分号切分为数组项（与 acceptance/cases/CR-D01/fixtures/persona_buyer.json 同口径）；beliefs 为引语，保留原引号与句末句号；forbidden_styles 按词表口径去掉外层引号、词句一字未改。",
+ "fact_set_id": "FS-PERSONA-R01-0001",
+ "fact_type": "PERSONA_FACTS",
+ "brand_id": "fixture-brand-01",
+ "version": 1,
+ "schema_version": "A-3.5-v3",
+ "updated_at": "2026-08-17T10:00:00+08:00",
+ "updated_by_role": "BRAND_OPERATOR",
+ "persona_id": "R01",
+ "identity": {
+  "value": "衡叙集虚构品牌主理人，44 岁；负责商品取舍、定价边界和门店反馈复盘",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-IDENTITY",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01｜品牌主理人：沈岚 · 表行「身份」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "voice_traits": {
+  "value": [
+   "句子不快，先把问题和条件说清，再给判断",
+   "常用门店试穿、退换原因、面料取舍和一件衣服穿了多久来举例",
+   "很少直接下购买指令"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-VOICE",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「说话风格」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "beliefs": {
+  "value": [
+   "“衣服先要进入生活，才有资格谈风格。”",
+   "“不适合你的商品，说清楚比卖出去更重要。”",
+   "“价格要能回到面料、结构、工时和使用次数，而不是回到一串形容词。”"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-BELIEFS",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「公开表达过的信念」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "audience_relationship": {
+  "value": "把观众视为长期熟客和共同判断者；允许观众带着不同体型、预算和生活阶段反驳她，不用“教育消费者”的姿态压过真实反馈",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-RELATION",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「与粉丝关系」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "forbidden_styles": {
+  "value": [
+   "姐妹们冲",
+   "闭眼买",
+   "谁穿谁好看",
+   "全网最低",
+   "错过后悔"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-FORBIDDEN",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「绝不使用的表达」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ },
+ "speaker_constraints": {
+  "value": [
+   "不做高频叫卖直播",
+   "不在无法核对款号、价格、成分时讲商品结论",
+   "每条视频最多讲一个核心判断",
+   "避免过度磨皮和改变服装真实色彩的滤镜"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-FIXTURE-P4-R01-SPEAKER",
+    "brand_id": "fixture-brand-01",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md · §5 包4 · R01 · 表行「出镜限制」",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": null,
+  "uncertainty_reason": null
+ }
 }

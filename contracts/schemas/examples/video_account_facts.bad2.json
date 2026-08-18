@@ -1,145 +1,145 @@
 {
-  "fact_set_id": "fs_video_account_hengxuji_bad2",
-  "fact_type": "VideoAccountFacts",
-  "brand_id": "brand_hengxuji",
-  "version": 3,
-  "schema_version": "A-3.6-v2",
-  "updated_at": "2026-08-17T10:20:00+08:00",
-  "updated_by_role": "BRAND_OPERATOR",
-  "account_id": "acct_hengxuji_wechat_video_001",
-  "platform": "DOUYIN",
-  "account_name": {
-    "value": "衡叙集·穿衣判断（虚构）",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "src_fixture_pack_v1_sec6",
-        "brand_id": "brand_hengxuji",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/账号名",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T09:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "positioning": {
-    "value": "面向城市女性的服装选择与真实穿着决策账号：以商品事实、场景试穿和明确取舍，回答“为什么选、怎么穿、何时不选”",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "src_fixture_pack_v1_sec6",
-        "brand_id": "brand_hengxuji",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/定位",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T09:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "content_style": {
-    "value": [
-      "稳口吻、熟关系、低剪辑刺激",
-      "以一件商品或一个穿衣问题为单集单位",
-      "画面保留面料近景、正侧背面、动作和必要的事实卡",
-      "促销只作为业务事实，不作为内容主线"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "src_fixture_pack_v1_sec6",
-        "brand_id": "brand_hengxuji",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/内容风格",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T09:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "audience_relationship": {
-    "value": null,
-    "status": "CONFLICTING",
-    "source_refs": [
-      {
-        "source_id": "src_fixture_pack_v1_sec6",
-        "brand_id": "brand_hengxuji",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/与观众关系",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T09:00:00+08:00",
-    "confidence": null,
-    "uncertainty_reason": "账号事实与 PersonaFacts(persona_shenlan_R01).audience_relationship 口径不一致，按 A 行 340 标记 CONFLICTING，不静默选值",
-    "alternatives": [
-      {
-        "value": "不是销售话术广播站，而是长期衣橱判断伙伴；欢迎观众提交通勤、久坐、身形变化、颜色尝试和门店试穿问题，并允许后续视频修正上一集判断",
-        "source_ref": {
-          "source_id": "src_fixture_pack_v1_sec6",
-          "brand_id": "brand_hengxuji",
-          "source_type": "UPLOADED_DOCUMENT",
-          "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/与观众关系",
-          "captured_at": "2026-08-17T09:00:00+08:00",
-          "checksum": null
-        }
-      },
-      {
-        "value": "像替观众先试错的同龄同事，以现场比较建立信任",
-        "source_ref": {
-          "source_id": "src_fixture_pack_v1_sec5_r02",
-          "brand_id": "brand_hengxuji",
-          "source_type": "UPLOADED_DOCUMENT",
-          "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#5-包4人设事实/R02/与粉丝关系",
-          "captured_at": "2026-08-17T09:00:00+08:00",
-          "checksum": null
-        }
-      }
-    ]
-  },
-  "primary_persona_ref": {
-    "object_type": "PersonaFacts",
-    "object_id": "persona_shenlan_R01",
-    "version": 2,
-    "brand_id": "brand_hengxuji"
-  },
-  "expression_boundaries": {
-    "value": [
-      "未核对款号、成分、尺码、价格和库存时不得下商品结论",
-      "价格冲突必须同时展示并标记“待裁决”，不得选择性隐藏",
-      "不把模特效果等同于所有人效果",
-      "不使用焦虑、羞耻、年龄贬低或身材贬低推动成交",
-      "不把私域关系简化为连续促销"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "src_fixture_pack_v1_sec6",
-        "brand_id": "brand_hengxuji",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/表达边界",
-        "captured_at": "2026-08-17T09:00:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T09:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "_fixture_note": {
-    "violation": "违约点（由实跑报错记录）：'WECHAT_VIDEO' was expected",
-    "expected_error_substr": "'WECHAT_VIDEO' was expected",
-    "delta_keys_vs_ok1": [
-      "~fact_set_id",
-      "~platform"
-    ]
-  }
+ "fact_set_id": "fs_video_account_hengxuji_bad2",
+ "fact_type": "VIDEO_ACCOUNT_FACTS",
+ "brand_id": "brand_hengxuji",
+ "version": 3,
+ "schema_version": "A-3.6-v2",
+ "updated_at": "2026-08-17T10:20:00+08:00",
+ "updated_by_role": "BRAND_OPERATOR",
+ "account_id": "acct_hengxuji_wechat_video_001",
+ "platform": "DOUYIN",
+ "account_name": {
+  "value": "衡叙集·穿衣判断（虚构）",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "src_fixture_pack_v1_sec6",
+    "brand_id": "brand_hengxuji",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/账号名",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T09:00:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "positioning": {
+  "value": "面向城市女性的服装选择与真实穿着决策账号：以商品事实、场景试穿和明确取舍，回答“为什么选、怎么穿、何时不选”",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "src_fixture_pack_v1_sec6",
+    "brand_id": "brand_hengxuji",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/定位",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T09:00:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "content_style": {
+  "value": [
+   "稳口吻、熟关系、低剪辑刺激",
+   "以一件商品或一个穿衣问题为单集单位",
+   "画面保留面料近景、正侧背面、动作和必要的事实卡",
+   "促销只作为业务事实，不作为内容主线"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "src_fixture_pack_v1_sec6",
+    "brand_id": "brand_hengxuji",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/内容风格",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T09:00:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "audience_relationship": {
+  "value": null,
+  "status": "CONFLICTING",
+  "source_refs": [
+   {
+    "source_id": "src_fixture_pack_v1_sec6",
+    "brand_id": "brand_hengxuji",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/与观众关系",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T09:00:00+08:00",
+  "confidence": null,
+  "uncertainty_reason": "账号事实与 PersonaFacts(persona_shenlan_R01).audience_relationship 口径不一致，按 A 行 340 标记 CONFLICTING，不静默选值",
+  "alternatives": [
+   {
+    "value": "不是销售话术广播站，而是长期衣橱判断伙伴；欢迎观众提交通勤、久坐、身形变化、颜色尝试和门店试穿问题，并允许后续视频修正上一集判断",
+    "source_ref": {
+     "source_id": "src_fixture_pack_v1_sec6",
+     "brand_id": "brand_hengxuji",
+     "source_type": "UPLOADED_DOCUMENT",
+     "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/与观众关系",
+     "captured_at": "2026-08-17T09:00:00+08:00",
+     "checksum": null
+    }
+   },
+   {
+    "value": "像替观众先试错的同龄同事，以现场比较建立信任",
+    "source_ref": {
+     "source_id": "src_fixture_pack_v1_sec5_r02",
+     "brand_id": "brand_hengxuji",
+     "source_type": "UPLOADED_DOCUMENT",
+     "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#5-包4人设事实/R02/与粉丝关系",
+     "captured_at": "2026-08-17T09:00:00+08:00",
+     "checksum": null
+    }
+   }
+  ]
+ },
+ "primary_persona_ref": {
+  "object_type": "PersonaFacts",
+  "object_id": "persona_shenlan_R01",
+  "version": 2,
+  "brand_id": "brand_hengxuji"
+ },
+ "expression_boundaries": {
+  "value": [
+   "未核对款号、成分、尺码、价格和库存时不得下商品结论",
+   "价格冲突必须同时展示并标记“待裁决”，不得选择性隐藏",
+   "不把模特效果等同于所有人效果",
+   "不使用焦虑、羞耻、年龄贬低或身材贬低推动成交",
+   "不把私域关系简化为连续促销"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "src_fixture_pack_v1_sec6",
+    "brand_id": "brand_hengxuji",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#6-包5视频号账号事实/表达边界",
+    "captured_at": "2026-08-17T09:00:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T09:00:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "_fixture_note": {
+  "violation": "违约点（由实跑报错记录）：'WECHAT_VIDEO' was expected",
+  "expected_error_substr": "'WECHAT_VIDEO' was expected",
+  "delta_keys_vs_ok1": [
+   "~fact_set_id",
+   "~platform"
+  ]
+ }
 }

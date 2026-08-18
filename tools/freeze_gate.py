@@ -240,6 +240,9 @@ PENDING_RESIGN_SCAN_EXTRA_FILES = ("IA-0_冻结签字包.md", "M0-EP01_文档版
 # 旧指针（OPEN_QUESTIONS 的行号指针、Manifest 头注释的"草案性载体"句都属此类）。两模式同红，防复发。
 DRAFT_POINTER_MARK = ".draft.yaml"
 CASES_SCAN_ROOT = os.path.join(ROOT, "acceptance/cases")
+# 块 E ⑤：facts 池（acceptance/fixtures/**）随迁移成为考卷事实值的实体载体，纳入 R11 同一扫描边界——
+# 池文件带占位/待决标记 = 考卷带占位，与 cases 区同罪同判。
+FIXTURES_SCAN_ROOT = os.path.join(ROOT, "acceptance/fixtures")
 # 扫描时跳过的二进制/派生后缀（本仓答卷区目前只有文本，此表是防御性的）
 SCAN_SKIP_SUFFIXES = (".png", ".jpg", ".jpeg", ".gif", ".pdf", ".zip", ".pyc")
 
@@ -843,6 +846,8 @@ def check_pending_marks(errors, notes, mode, manifests):
     skipped = []
     contracts_files = collect_scan_files(os.path.join(ROOT, "contracts"), skipped)
     cases_files = collect_scan_files(CASES_SCAN_ROOT, skipped)
+    if os.path.isdir(FIXTURES_SCAN_ROOT):
+        cases_files += collect_scan_files(FIXTURES_SCAN_ROOT, skipped)
     root_files = [os.path.join(ROOT, fn) for fn in PENDING_RESIGN_SCAN_EXTRA_FILES
                   if os.path.exists(os.path.join(ROOT, fn))]
     scan_targets = sorted(set(contracts_files + cases_files + [os.path.abspath(m) for m in manifests]
@@ -980,6 +985,35 @@ def check_generation_params_placeholders(errors):
             continue
         errors.append("R2 %s: 字段 %s %s（生成参数真源带着占位 = OD-02 模型与参数定格被架空，"
                       "指纹再一致也只是把占位的哈希对齐了）" % (name, fpath, reason))
+
+
+OD02_PATH = os.path.join(ROOT, "contracts/OD-02_模型与参数定格记录.md")
+OD02_MODEL_ROW_RE = re.compile(r"^\|\s*\*\*A/B 主模型\*\*[^|]*\|\s*\*\*([^*]+)\*\*", re.M)
+
+
+def check_od02_model_identity(errors):
+    """R8（块 E ④g / E-01 防复发）：OD-02 §一「A/B 主模型」行 ↔ generation_parameters.json
+    model_name 全等。主模型真源分裂（OD-02 已裁 qwen3-max、参数文件/Manifest 仍旧值）曾真实存在
+    四个提交窗口（复审甲P0-1/乙P0-01），当时门只验「参数文件 ↔ Manifest」两者互洽、不看 OD-02，
+    分裂无检测器。本检查补上第三角：三处任何一处漂移即红，换模型必须三处同批走 OD-02 升版。"""
+    if not (os.path.exists(OD02_PATH) and os.path.exists(GENERATION_PARAMS_PATH)):
+        return  # 文件缺失各自已有红线承载
+    with io.open(OD02_PATH, encoding="utf-8") as f:
+        m = OD02_MODEL_ROW_RE.search(f.read())
+    if not m:
+        errors.append("R8 %s: 解析不到「A/B 主模型」行——OD-02 与参数真源的全等检查失去锚点"
+                      "（改表述须同批改本解析）" % rel(OD02_PATH))
+        return
+    od02_model = m.group(1).strip()
+    try:
+        with io.open(GENERATION_PARAMS_PATH, encoding="utf-8") as f:
+            live = json.load(f).get("model_name")
+    except ValueError:
+        return  # JSON 坏掉已由 R8 记红
+    if od02_model != live:
+        errors.append("R8 OD-02「A/B 主模型」=%r ≠ %s model_name=%r（主模型真源分裂——"
+                      "E-01 同款缺陷，换模型必须 OD-02 升版 + 参数文件 + 20 Manifest 三处同批）"
+                      % (od02_model, rel(GENERATION_PARAMS_PATH), live))
 
 
 # ---- R1：齐套份数的机器断言（不只比脚本常量）----
@@ -1269,6 +1303,7 @@ def main():
     check_generation_params_placeholders(errors)
     check_rule_freeze(errors)
     check_fact_fixture_freeze(errors)
+    check_od02_model_identity(errors)
     manifest_content_reg = load_manifest_content_registry(errors)
     manifest_names_seen = set()
 

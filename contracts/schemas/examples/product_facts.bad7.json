@@ -1,6 +1,7 @@
 {
+ "fact_set_id": "FS-PRODUCT-P01-0001",
  "fact_type": "PRODUCT_FACTS",
- "brand_id": "BRAND_HENGXUJI",
+ "brand_id": "fixture-brand-01",
  "version": 1,
  "schema_version": "A-3.2-v2",
  "updated_at": "2026-08-17T10:00:00+08:00",
@@ -12,7 +13,7 @@
   "source_refs": [
    {
     "source_id": "SRC-IMG-0567",
-    "brand_id": "BRAND_HENGXUJI",
+    "brand_id": "fixture-brand-01",
     "source_type": "IMAGE_INPUT",
     "locator": "IMG_0567 商品信息页 款号行",
     "captured_at": "2026-08-17T09:12:00+08:00",
@@ -29,7 +30,7 @@
   "source_refs": [
    {
     "source_id": "SRC-OP-P01-NAME",
-    "brand_id": "BRAND_HENGXUJI",
+    "brand_id": "fixture-brand-01",
     "source_type": "BRAND_OPERATOR_INPUT",
     "locator": "夹具数据包 v1.0 包2 P01 商品名字段",
     "captured_at": "2026-08-17T09:30:00+08:00",
@@ -46,7 +47,7 @@
   "source_refs": [
    {
     "source_id": "SRC-IMG-0567",
-    "brand_id": "BRAND_HENGXUJI",
+    "brand_id": "fixture-brand-01",
     "source_type": "IMAGE_INPUT",
     "locator": "IMG_0567 商品信息页 品类行",
     "captured_at": "2026-08-17T09:12:00+08:00",
@@ -67,11 +68,10 @@
   "source_refs": [
    {
     "source_id": "SRC-IMG-0567",
-    "brand_id": "BRAND_HENGXUJI",
+    "brand_id": "fixture-brand-01",
     "source_type": "IMAGE_INPUT",
     "locator": "IMG_0567 商品信息页 吊牌价「980元」",
-    "captured_at": "2026-08-17T09:12:00+08:00",
-    "checksum": null
+    "captured_at": "2026-08-17T09:12:00+08:00"
    }
   ],
   "as_of": "2026-08-17T00:00:00+08:00",
@@ -87,10 +87,10 @@
   "status": "CONFIRMED",
   "source_refs": [
    {
-    "source_id": "SRC-SYS-INV-20260817",
-    "brand_id": "BRAND_HENGXUJI",
-    "source_type": "SYSTEM_RECORD",
-    "locator": "库存快照 2026-08-17 08:00 行 P01",
+    "source_id": "SRC-FIXTURE-INV-20260817",
+    "brand_id": "fixture-brand-01",
+    "source_type": "BRAND_OPERATOR_INPUT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-商品事实 P01（库存数为夹具虚构-剧本字段，按数据合成三分法标注，台账 08-16「数据合成三分法」行；原 SYSTEM_RECORD/库存快照 系仓库不存在的系统记录，块 B 按审查 X-04a 修正）",
     "captured_at": "2026-08-17T08:00:00+08:00",
     "checksum": null
    }
@@ -110,7 +110,7 @@
   "source_refs": [
    {
     "source_id": "SRC-IMG-0567",
-    "brand_id": "BRAND_HENGXUJI",
+    "brand_id": "fixture-brand-01",
     "source_type": "IMAGE_INPUT",
     "locator": "IMG_0567 商品信息页 面料成分行",
     "captured_at": "2026-08-17T09:12:00+08:00",
@@ -132,7 +132,7 @@
   "source_refs": [
    {
     "source_id": "SRC-EXTRACT-P01-STYLE",
-    "brand_id": "BRAND_HENGXUJI",
+    "brand_id": "fixture-brand-01",
     "source_type": "MODEL_EXTRACTION",
     "locator": "IMG_0573、IMG_0575 详情页文案抽取",
     "captured_at": "2026-08-17T09:40:00+08:00",
@@ -152,7 +152,7 @@
   "source_refs": [
    {
     "source_id": "SRC-IMG-0573",
-    "brand_id": "BRAND_HENGXUJI",
+    "brand_id": "fixture-brand-01",
     "source_type": "IMAGE_INPUT",
     "locator": "IMG_0573 详情页 卖点文案",
     "captured_at": "2026-08-17T09:14:00+08:00",
@@ -160,7 +160,7 @@
    },
    {
     "source_id": "SRC-IMG-0575",
-    "brand_id": "BRAND_HENGXUJI",
+    "brand_id": "fixture-brand-01",
     "source_type": "IMAGE_INPUT",
     "locator": "IMG_0575 详情页 卖点文案",
     "captured_at": "2026-08-17T09:15:00+08:00",
@@ -174,7 +174,7 @@
  "image_refs": [
   {
    "source_id": "SRC-IMG-0565",
-   "brand_id": "BRAND_HENGXUJI",
+   "brand_id": "fixture-brand-01",
    "source_type": "IMAGE_INPUT",
    "locator": "IMG_0565 商品图",
    "captured_at": "2026-08-17T09:10:00+08:00",
@@ -182,7 +182,7 @@
   },
   {
    "source_id": "SRC-IMG-0570",
-   "brand_id": "BRAND_HENGXUJI",
+   "brand_id": "fixture-brand-01",
    "source_type": "IMAGE_INPUT",
    "locator": "IMG_0570 面料说明图",
    "captured_at": "2026-08-17T09:11:00+08:00",
@@ -190,7 +190,7 @@
   },
   {
    "source_id": "SRC-IMG-0573",
-   "brand_id": "BRAND_HENGXUJI",
+   "brand_id": "fixture-brand-01",
    "source_type": "IMAGE_INPUT",
    "locator": "IMG_0573 详情页图",
    "captured_at": "2026-08-17T09:14:00+08:00",
@@ -208,7 +208,7 @@
   "source_refs": [
    {
     "source_id": "SRC-IMG-0567",
-    "brand_id": "BRAND_HENGXUJI",
+    "brand_id": "fixture-brand-01",
     "source_type": "IMAGE_INPUT",
     "locator": "IMG_0567 商品信息页 尺码范围行",
     "captured_at": "2026-08-17T09:12:00+08:00",
@@ -225,7 +225,7 @@
   "source_refs": [
    {
     "source_id": "SRC-OP-P01-LIFECYCLE",
-    "brand_id": "BRAND_HENGXUJI",
+    "brand_id": "fixture-brand-01",
     "source_type": "BRAND_OPERATOR_INPUT",
     "locator": "夹具数据包 v1.0 包2 P01 生命周期阶段字段",
     "captured_at": "2026-08-17T09:30:00+08:00",
@@ -240,10 +240,12 @@
   "object_type": "VisualProfile",
   "object_id": "VP-P01-0001",
   "version": 1,
-  "brand_id": "BRAND_HENGXUJI"
+  "brand_id": "fixture-brand-01"
  },
  "_fixture_note": {
-  "violation": "信封穿透回归：抽掉 FactSetEnvelope 必填 fact_set_id（A 行 221-228），验证 allOf 平铺后信封 required 真穿透",
-  "expected_error_substr": "'fact_set_id' is a required property"
+  "why": "块 E ④e（E-12）负测：SourceRef 缺 checksum 键——nullable 统一口径「键必须存在、值可为 null」（A.2.3 可空≠可缺席）",
+  "expected_error_substr": "'checksum' is a required property",
+  "expected_validator": "required",
+  "expected_path": "$.price.source_refs[0]"
  }
 }

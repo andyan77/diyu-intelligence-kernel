@@ -1,78 +1,78 @@
 {
-  "fact_set_id": "FS-AUD-HXJ-A01-v1",
-  "fact_type": "AudienceFacts",
-  "brand_id": "BRD_HENGXUJI",
-  "version": 1,
-  "schema_version": "A-3.4-v2",
-  "updated_at": "2026-08-17T10:00:00+08:00",
-  "updated_by_role": "BRAND_OPERATOR",
-  "audience_id": "AUD_A01",
-  "label": {
-    "value": "稳态通勤者",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC_FIXTURE_AUD_A01",
-        "brand_id": "BRD_HENGXUJI",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#称呼",
-        "captured_at": "2026-08-17T09:30:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T09:30:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
+ "fact_set_id": "FS-AUD-HXJ-A01-v1",
+ "fact_type": "AUDIENCE_FACTS",
+ "brand_id": "BRD_HENGXUJI",
+ "version": 1,
+ "schema_version": "A-3.4-v2",
+ "updated_at": "2026-08-17T10:00:00+08:00",
+ "updated_by_role": "BRAND_OPERATOR",
+ "audience_id": "AUD_A01",
+ "label": {
+  "value": "稳态通勤者",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC_FIXTURE_AUD_A01",
+    "brand_id": "BRD_HENGXUJI",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#称呼",
+    "captured_at": "2026-08-17T09:30:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T09:30:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "age_range": {
+  "value": {
+   "min": 33,
+   "max": 42,
+   "unit": 25
   },
-  "age_range": {
-    "value": {
-      "min": 33,
-      "max": 42,
-      "unit": 25
-    },
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC_FIXTURE_AUD_A01",
-        "brand_id": "BRD_HENGXUJI",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#年龄段",
-        "captured_at": "2026-08-17T09:30:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T09:30:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "occupation_or_lifestyle": {
-    "value": [
-      "品牌、咨询、教育、行政管理或专业服务岗位"
-    ],
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC_FIXTURE_AUD_A01",
-        "brand_id": "BRD_HENGXUJI",
-        "source_type": "UPLOADED_DOCUMENT",
-        "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#职业与生活方式",
-        "captured_at": "2026-08-17T09:30:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T09:30:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "_fixture_note": {
-    "violation": "本违约需穿透 FactValueRange → Range 两层 allOf/anyOf 才能拦下",
-    "expected_error_substr": "{'min': 33, 'max': 42, 'unit': 25} is not valid under any of the given schemas",
-    "delta_keys_vs_ok1": [
-      "~age_range",
-      "-objections",
-      "~occupation_or_lifestyle",
-      "-pain_points",
-      "-purchase_reasons"
-    ]
-  }
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC_FIXTURE_AUD_A01",
+    "brand_id": "BRD_HENGXUJI",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#年龄段",
+    "captured_at": "2026-08-17T09:30:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T09:30:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "occupation_or_lifestyle": {
+  "value": [
+   "品牌、咨询、教育、行政管理或专业服务岗位"
+  ],
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC_FIXTURE_AUD_A01",
+    "brand_id": "BRD_HENGXUJI",
+    "source_type": "UPLOADED_DOCUMENT",
+    "locator": "衡叙集_服装品牌视频号MVP夹具数据包_v1.0.md#4-包3受众事实#A01-稳态通勤者#职业与生活方式",
+    "captured_at": "2026-08-17T09:30:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T09:30:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "_fixture_note": {
+  "violation": "本违约需穿透 FactValueRange → Range 两层 allOf/anyOf 才能拦下",
+  "expected_error_substr": "{'min': 33, 'max': 42, 'unit': 25} is not valid under any of the given schemas",
+  "delta_keys_vs_ok1": [
+   "~age_range",
+   "-objections",
+   "~occupation_or_lifestyle",
+   "-pain_points",
+   "-purchase_reasons"
+  ]
+ }
 }

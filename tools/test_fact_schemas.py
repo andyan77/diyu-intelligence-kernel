@@ -24,13 +24,15 @@ v1→v2（块 B 语义补强，2026-08-18；外部审查 M1-EP01 两票判「需
   4. bad 例必须违约且命中声明子串（有三元组则加验 validator+path）；5. predbad 例 Schema 层合法
      但必须恰命中声明谓词；6. FormatChecker 自检通过。
 
-诚实边界（FACT_SCHEMAS_GREEN 不代表什么）：
-  · 结构过 + 三谓词过 ≠ 内容正确 ≠ 事实为真；
-  · 未覆盖语义（外包清单更新版）：空串 ID 可过（required 拦不住 ""，A 未规定 minLength 不自行加严）；
-    Range min>max 不拦；fact_type 无归属检查（A 无枚举不自造）；snapshot_hash 值核验 / 规则状态 /
-    记忆状态 / Fact 更新触发新 Snapshot——运行时对象落地时随谓词批次补；
-  · acceptance/cases/*/fixtures/ 的既有考卷夹具**不是**本 Schema 形状——对齐属改考卷，
-    已登记台账挂起表（触发点 = 下次动 acceptance/ 考卷时），本回归不测它们、也不宣称已对齐。
+诚实边界（FACT_SCHEMAS_GREEN 不代表什么；块 E ④⑤ 后口径）：
+  · 结构过 + 谓词过 ≠ 内容正确 ≠ 事实为真；
+  · 块 E ④⑤ 已关闭的旧边界（留痕，勿再引用旧口径）：空串关键 ID（minLength，E-13）、Range min>max
+    （P4 谓词，E-13）、fact_type/schema_version 错族错版（const，E-10）、PROVISIONAL 空值（E-11）、
+    created_at 无 format（E-04）、snapshot_hash 值核验 / 引用可解析且 ACTIVE / BrandMemory 首轮必空 /
+    locator 明文凭证 / 同 ID 同版本禁覆盖（kernel/facts R1-R5，E-07）、正式快照与池不在测试面（E-05）；
+  · 仍未覆盖：Fact 更新触发新 Snapshot（须运行时写路径落地）；非关键字段的取值合理性；
+    RuleRecord 语义正确性（R5 冻结面只锚字节）；
+  · 正式快照已迁 A.4.3 引用式并纳入本回归（⑤ 正式面扩测段），「夹具不是本 Schema 形状」旧边界作废。
 
 用法: python3 tools/test_fact_schemas.py     （不接受参数；改口径=改本文件与 EXPECTED，不设放宽开关）
 退出码: 0=全过 1=有失败 2=用法错误
@@ -54,16 +56,17 @@ FAMILIES = (
 
 # ---- 三级计数第 2 级：每族 (ok, bad, predbad) 份数（块 B 施工后的样例集；改动 = 改覆盖面，须留痕）----
 EXPECTED_COUNTS = {
-    "brand_facts":         (2, 11, 1),
-    "product_facts":       (2, 5, 0),
+    "brand_facts":         (2, 14, 1),   # 块 E ④：+bad12 错族 fact_type / +bad13 错版 schema_version / +bad14 version=0
+    "product_facts":       (2, 8, 0),    # 块 E ④：+bad6 PROVISIONAL 空值 / +bad7 缺 checksum 键 / +bad8 空串 fact_set_id
     "visual_profile":      (1, 4, 0),
-    "audience_facts":      (1, 4, 0),
+    "audience_facts":      (1, 5, 1),    # 块 E ④：+bad5 Range 缺 max 键 / +predbad1 min>max（P4）
     "persona_facts":       (1, 4, 0),
     "video_account_facts": (1, 4, 0),
-    "context_snapshot":    (1, 2, 2),
+    "context_snapshot":    (1, 3, 2),    # 块 E ④：+bad3 created_at 非法日期（format）
 }
 # ---- 三级计数第 3 级：断言总数（实测钉死；任何样例/断言增删必须同步本值并留痕）----
-EXPECTED_TOTAL_ITEMS = 72
+EXPECTED_TOTAL_ITEMS = 210  # 块 E：④ 语义补漏 +9（72→81）+ ⑤ 正式面扩测 +129（正式面计数 1 + 池 49×2 + 快照 15×2 = 129，81→210）
+EXPECTED_FORMAL = (15, 49)   # 块 E ⑤：正式快照文件数 / facts 池对象数——改考卷面必须同步本值
 
 try:
     from jsonschema import Draft7Validator, RefResolver, FormatChecker
@@ -77,86 +80,24 @@ def load(path):
         return json.load(f)
 
 
-# ---------------------------------------------------------------- 确定性谓词（C.3 资产④ 首批三条）
-
-def iter_fact_values(node, path="$"):
-    """遍历实例中所有形如 FactValue 的节点（带 status 键的 dict）。"""
-    if isinstance(node, dict):
-        if isinstance(node.get("status"), str):
-            yield path, node
-        for k, v in node.items():
-            if k.startswith("_"):
-                continue
-            for r in iter_fact_values(v, path + "." + k):
-                yield r
-    elif isinstance(node, list):
-        for i, v in enumerate(node):
-            for r in iter_fact_values(v, "%s[%d]" % (path, i)):
-                yield r
-
-
-def predicate_model_extraction(inst):
-    """P1：任一 source_ref.source_type=MODEL_EXTRACTION 的 FactValue，status 不得为 CONFIRMED（A.2.3）。"""
-    out = []
-    for path, fv in iter_fact_values(inst):
-        refs = fv.get("source_refs") or []
-        if fv.get("status") == "CONFIRMED" and any(
-                isinstance(r, dict) and r.get("source_type") == "MODEL_EXTRACTION" for r in refs):
-            out.append("P1 %s: MODEL_EXTRACTION 来源被标 CONFIRMED——模型抽取只能产生 PROVISIONAL（A.2.3）" % path)
-    return out
-
-
-def collect_brand_ids(node, path="$"):
-    if isinstance(node, dict):
-        for k, v in node.items():
-            if k.startswith("_"):
-                continue
-            if k == "brand_id" and isinstance(v, str):
-                yield path + ".brand_id", v
-            else:
-                for r in collect_brand_ids(v, path + "." + k):
-                    yield r
-    elif isinstance(node, list):
-        for i, v in enumerate(node):
-            for r in collect_brand_ids(v, "%s[%d]" % (path, i)):
-                yield r
-
-
-def predicate_single_brand(inst):
-    """P2：ContextSnapshot 顶层 brand_id 与全部嵌套 brand_id 全等（A.1.3 单品牌隔离，不一致必须阻断）。"""
-    top = inst.get("brand_id")
-    if not isinstance(top, str):
-        return ["P2 $.brand_id: 顶层 brand_id 缺失或非字符串，单品牌隔离无从核验"]
-    return ["P2 %s: brand_id=%r ≠ 顶层 %r（跨品牌引用，A.1.3 阻断）" % (p, v, top)
-            for p, v in collect_brand_ids(inst) if p != "$.brand_id" and v != top]
-
-
-# ContextSnapshot 引用字段 → 期望 object_type（A.4.3 字段语义逐字对应）
-SNAPSHOT_REF_TYPES = {
-    "brand_facts_ref": "BrandFacts",
-    "product_facts_refs": "ProductFacts",
-    "audience_facts_refs": "AudienceFacts",
-    "persona_facts_refs": "PersonaFacts",
-    "video_account_facts_ref": "VideoAccountFacts",
-    "active_rule_refs": "RuleRecord",
-    "approved_brand_memory_refs": "BrandMemory",
-}
-
-
-def predicate_ref_object_type(inst):
-    """P3：VersionedRef.object_type 与其所在引用字段的目标族一致（A.4.3）。只对 ContextSnapshot 生效。"""
-    out = []
-    for field, want in SNAPSHOT_REF_TYPES.items():
-        v = inst.get(field)
-        refs = v if isinstance(v, list) else ([v] if isinstance(v, dict) else [])
-        for i, r in enumerate(refs):
-            if isinstance(r, dict) and r.get("object_type") != want:
-                out.append("P3 $.%s[%d].object_type=%r ≠ %r（引用错族）" % (field, i, r.get("object_type"), want))
-    return out
+# ---------------------------------------------------------------- 确定性谓词
+# 块 E ②（E-08 关闭面）：P1-P3 自本文件抽出为 kernel/facts/predicates.py 可调用模块，
+# 测试与运行时（tools/run_case.py / kernel/intent/preprocess.py）共用同一入口——此前它们是
+# 测试内部代码，运行时用不上=「谓词只在考试里活着」。本文件不再持有第二份实现。
+sys.path.insert(0, ROOT)
+from kernel.facts.predicates import (   # noqa: E402
+    iter_fact_values,                   # 供负例构造与外部复用（保留导出名）
+    predicate_model_extraction,
+    predicate_single_brand,
+    predicate_ref_object_type,
+    predicate_range_sane,
+    SNAPSHOT_REF_TYPES,
+)
 
 
 def run_predicates(fam, inst):
     out = predicate_model_extraction(inst)
+    out += predicate_range_sane(inst)       # P4（块 E ④f）：Range min≤max，全族适用
     if fam == "context_snapshot":
         out += predicate_single_brand(inst)
         out += predicate_ref_object_type(inst)
@@ -171,6 +112,7 @@ def main(argv):
         return 2
     total = passed = 0
     fails = []
+    validators = {}
 
     def item(label, ok, why=""):
         nonlocal total, passed
@@ -205,6 +147,7 @@ def main(argv):
             continue
         resolver = RefResolver(base_uri="file://" + SDIR + "/", referrer=schema)
         validator = Draft7Validator(schema, resolver=resolver, format_checker=fmt)
+        validators[fam] = validator      # 供 ⑤ 正式面扩测段复用（同一校验器，不建第二套判据）
 
         try:
             names = sorted(f for f in os.listdir(EDIR)
@@ -302,6 +245,36 @@ def main(argv):
                  "期望谓词 %r 未命中（实得 %d 条：%s）" % (want_pred_tag, len(pv), "; ".join(pv[:2]) or "无"))
 
     # ---- 三级计数第 3 级：断言总数 ----
+    # ---- 正式面扩测（块 E ⑤ / E-05 关闭面）：15 份正式快照 + facts 池全量 ----
+    # 「72/72 绿但正式案例 0/15 合法」的假闭环到此关闭：本步对 acceptance/cases 正式快照与
+    # acceptance/fixtures/facts 池逐份验 Schema + 谓词；快照另跑 kernel/facts 运行时谓词
+    # （snapshot_hash 实算 / 引用可解析且 ACTIVE / BrandMemory 首轮必空 / locator 无凭证 / 同 ID 同版本禁覆盖）。
+    import glob as _glob
+    from kernel.facts import FactStore, predicates as _kp
+    _snap_files = sorted(_glob.glob(os.path.join(ROOT, "acceptance/cases/*/fixtures/context_snapshot*.json")))
+    _pool_files = sorted(_glob.glob(os.path.join(ROOT, "acceptance/fixtures/facts/*/*.json")))
+    item("正式面计数钉死", (len(_snap_files), len(_pool_files)) == EXPECTED_FORMAL,
+         "实际 快照/池 = %d/%d ≠ 钉死 %d/%d——正式考卷面被增删而计数未同步"
+         % (len(_snap_files), len(_pool_files), EXPECTED_FORMAL[0], EXPECTED_FORMAL[1]))
+    _store = FactStore()
+    _pool_fam = {"brand": "brand_facts", "product": "product_facts", "audience": "audience_facts",
+                 "persona": "persona_facts", "video_account": "video_account_facts"}
+    for fn in _pool_files:
+        rel_fn = os.path.relpath(fn, ROOT)
+        fam = _pool_fam[os.path.basename(os.path.dirname(fn))]
+        inst = load(fn)
+        msgs = [e.message for e in validators[fam].iter_errors(inst)]
+        item(rel_fn, not msgs, "池对象违约 %d 条，首条：%s" % (len(msgs), msgs[0] if msgs else ""))
+        pv = run_predicates(fam, inst)
+        item(rel_fn + " 谓词", not pv, "池对象谓词违规：%s" % (pv[0] if pv else ""))
+    for fn in _snap_files:
+        rel_fn = os.path.relpath(fn, ROOT)
+        inst = load(fn)
+        msgs = [e.message for e in validators["context_snapshot"].iter_errors(inst)]
+        item(rel_fn, not msgs, "正式快照违约 %d 条，首条：%s" % (len(msgs), msgs[0] if msgs else ""))
+        rv = _kp.run_all_runtime(inst, _store)
+        item(rel_fn + " 运行时谓词", not rv, "R1-R5/P2/P3/P4 违规：%s" % (rv[0] if rv else ""))
+
     item("断言总数钉死", total + 1 == EXPECTED_TOTAL_ITEMS,
          "实际 %d ≠ 钉死 %d——覆盖面变了而总数未同步留痕" % (total + 1, EXPECTED_TOTAL_ITEMS))
 
@@ -311,8 +284,8 @@ def main(argv):
     failed = total - passed
     print("合计 %d 项：通过 %d，失败 %d" % (total, passed, failed))
     if failed == 0 and total > 0:
-        print("FACT_SCHEMAS_GREEN | 未覆盖语义见文件头诚实边界（空串 ID / Range min>max / "
-              "snapshot_hash 值核验等运行时谓词批次）")
+        print("FACT_SCHEMAS_GREEN | 覆盖面=examples 81 + 正式快照 15×2 + facts 池 49×2 + 正式面计数；"
+              "结构过+谓词过 ≠ 内容正确，剩余边界见文件头")
         return 0
     print("FACT_SCHEMAS_RED | %d 项未过" % failed)
     return 1

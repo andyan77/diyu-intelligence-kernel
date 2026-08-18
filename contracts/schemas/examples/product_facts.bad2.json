@@ -1,82 +1,82 @@
 {
-  "fact_set_id": "FS-PRODUCT-P01-BAD2",
-  "fact_type": "ProductFacts",
-  "brand_id": "BRAND_HENGXUJI",
-  "version": 1,
-  "schema_version": "A-3.2-v2",
-  "updated_at": "2026-08-17T10:00:00+08:00",
-  "updated_by_role": "BRAND_OPERATOR",
-  "product_id": "P01",
-  "name": {
-    "value": "人字纹亮丝麻西装",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-OP-P01-NAME",
-        "brand_id": "BRAND_HENGXUJI",
-        "source_type": "BRAND_OPERATOR_INPUT",
-        "locator": "夹具数据包 v1.0 包2 P01 商品名字段",
-        "captured_at": "2026-08-17T09:30:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": "HIGH",
-    "uncertainty_reason": null
+ "fact_set_id": "FS-PRODUCT-P01-BAD2",
+ "fact_type": "PRODUCT_FACTS",
+ "brand_id": "BRAND_HENGXUJI",
+ "version": 1,
+ "schema_version": "A-3.2-v2",
+ "updated_at": "2026-08-17T10:00:00+08:00",
+ "updated_by_role": "BRAND_OPERATOR",
+ "product_id": "P01",
+ "name": {
+  "value": "人字纹亮丝麻西装",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-OP-P01-NAME",
+    "brand_id": "BRAND_HENGXUJI",
+    "source_type": "BRAND_OPERATOR_INPUT",
+    "locator": "夹具数据包 v1.0 包2 P01 商品名字段",
+    "captured_at": "2026-08-17T09:30:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "category": {
+  "value": "西装",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-IMG-0567",
+    "brand_id": "BRAND_HENGXUJI",
+    "source_type": "IMAGE_INPUT",
+    "locator": "IMG_0567 商品信息页 品类行",
+    "captured_at": "2026-08-17T09:12:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": null,
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "price": {
+  "value": {
+   "amount": "980元",
+   "currency": "CNY",
+   "as_of": "2026-08-17T00:00:00+08:00"
   },
-  "category": {
-    "value": "西装",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-IMG-0567",
-        "brand_id": "BRAND_HENGXUJI",
-        "source_type": "IMAGE_INPUT",
-        "locator": "IMG_0567 商品信息页 品类行",
-        "captured_at": "2026-08-17T09:12:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "price": {
-    "value": {
-      "amount": "980元",
-      "currency": "CNY",
-      "as_of": "2026-08-17T00:00:00+08:00"
-    },
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-IMG-0567",
-        "brand_id": "BRAND_HENGXUJI",
-        "source_type": "IMAGE_INPUT",
-        "locator": "IMG_0567 商品信息页 吊牌价「980元」",
-        "captured_at": "2026-08-17T09:12:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T00:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "_fixture_note": {
-    "violation": "违约点：price.value.amount 写成字符串 \"980元\"（把截图原文连单位一起塞进数值位），违反 A 行 265 Money.amount: number —— common.defs.json#/definitions/Money 的 amount 为 type:number，本 Schema 真能拦住。R 必填字段齐全，其余字段合法。",
-    "expected_error_substr": "{'amount': '980元', 'currency': 'CNY', 'as_of': '2026-08-17T00:00:00+08:00'} is not valid under any of the given schemas",
-    "delta_keys_vs_ok1": [
-      "~fact_set_id",
-      "-image_refs",
-      "-inventory",
-      "-lifecycle_stage",
-      "-material",
-      "~price",
-      "-selling_points",
-      "-size_range",
-      "-sku",
-      "-style_attributes",
-      "-visual_profile_ref"
-    ]
-  }
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-IMG-0567",
+    "brand_id": "BRAND_HENGXUJI",
+    "source_type": "IMAGE_INPUT",
+    "locator": "IMG_0567 商品信息页 吊牌价「980元」",
+    "captured_at": "2026-08-17T09:12:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T00:00:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "_fixture_note": {
+  "violation": "违约点：price.value.amount 写成字符串 \"980元\"（把截图原文连单位一起塞进数值位），违反 A 行 265 Money.amount: number —— common.defs.json#/definitions/Money 的 amount 为 type:number，本 Schema 真能拦住。R 必填字段齐全，其余字段合法。",
+  "expected_error_substr": "{'amount': '980元', 'currency': 'CNY', 'as_of': '2026-08-17T00:00:00+08:00'} is not valid under any of the given schemas",
+  "delta_keys_vs_ok1": [
+   "~fact_set_id",
+   "-image_refs",
+   "-inventory",
+   "-lifecycle_stage",
+   "-material",
+   "~price",
+   "-selling_points",
+   "-size_range",
+   "-sku",
+   "-style_attributes",
+   "-visual_profile_ref"
+  ]
+ }
 }

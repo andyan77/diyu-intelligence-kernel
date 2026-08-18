@@ -323,6 +323,21 @@ def m27_tamper_snapshot_ref(tree):
         raise AssertionError("M27 改后规范化 hash 未变，变异没生效")
 
 
+def m28_od02_model_split(tree):
+    """M28（块 E ④g / E-01 防复发活体证据）：把 OD-02「A/B 主模型」行的模型串改回 qwen-max-0107，
+    参数文件与 Manifest 不动——复刻主模型真源分裂（复审甲P0-1/乙P0-01 实测存在过四个提交窗口的状态）。
+    期望：R8（check_od02_model_identity 三角全等）。重锚前实测：门只验参数文件↔Manifest 互洽，分裂无检测器。"""
+    p = os.path.join(tree, "contracts/OD-02_模型与参数定格记录.md")
+    with io.open(p, encoding="utf-8") as f:
+        text = f.read()
+    anchor = "| **A/B 主模型**（笛语侧与基线侧同用） | **qwen3-max-2026-01-23**"
+    if anchor not in text:
+        raise AssertionError("M28 前置不成立：OD-02 主模型行锚点未命中")
+    text = text.replace(anchor, "| **A/B 主模型**（笛语侧与基线侧同用） | **qwen-max-0107**", 1)
+    with io.open(p, "w", encoding="utf-8") as f:
+        f.write(text)
+
+
 def m9_blank_required_field(tree):
     """M9 把一个必填字段置成空串。期望：R2（空白值不算已填）。"""
     sub_once(tree, "acceptance/cases/BD-D03/manifest.yaml",
@@ -562,6 +577,8 @@ CHECKS = [
      m8_tamper_snapshot, "sign", "RED", ("R4",), (), None),
     ("M27", "快照引用面改动（product ref version 1→2，快照正文过期）",
      m27_tamper_snapshot_ref, "sign", "RED", ("R4",), (), None),
+    ("M28", "OD-02 主模型行与参数真源分裂（E-01 同款，三角全等防复发）",
+     m28_od02_model_split, "sign", "RED", ("R8",), (), None),
     ("M9", "Manifest 必填字段 task_statement 置空串",
      m9_blank_required_field, "sign", "RED", ("R2",), (), None),
     ("M10", "删 B.7 一行需求映射并同步 digest（逼 R13 独立命中）",
@@ -658,6 +675,27 @@ def main():
                   % (expect,
                      ("（含 %s）" % "/".join(want_rules)) if want_rules else "",
                      detail))
+        # ---- Z-12（块 E 并入）：运行态逐条横扫——每个送签态 RED 变异在**同一副本树**上再以
+        # 运行态跑一遍，断言被测红线在运行态同样命中（运行态基线本就有 R2×40，故只断言
+        # want ⊆ fired，不断言集合全等；「运行态表现按同一实现推断」的披露②到此改为实测）。
+        sweep_total = sweep_pass = 0
+        for cid, desc, mutate, mode, expect, want_rules, forbid_rules, exact_rules in CHECKS:
+            if mode != "sign" or expect != "RED" or not want_rules:
+                continue
+            tree = os.path.join(work, cid)
+            if not os.path.isdir(tree):
+                continue
+            sweep_total += 1
+            rc, out, rules = run_gate(tree, mode="run")
+            fired = "、".join(sorted(rules, key=lambda r: int(r[1:]))) or "无"
+            ok = is_red(rc, out) and bool(set(want_rules) & rules)
+            sweep_pass += ok
+            if not ok:
+                failures.append(("Z12·%s" % cid,
+                                 "运行态未复现被测红线：期望含 %s，实得 {%s}" % ("/".join(want_rules), fired), out))
+            print("[Z12·%-3s] %-4s 运行态复测 | 期望含 %s | 实得 {%s}"
+                  % (cid, "PASS" if ok else "FAIL", "/".join(want_rules), fired))
+        print("[Z12] 运行态横扫 %d/%d 全部命中被测红线" % (sweep_pass, sweep_total))
     finally:
         if os.environ.get("KEEP_MUTATION_TREES") == "1":
             print("\n副本树保留于 %s（KEEP_MUTATION_TREES=1）" % work)
@@ -688,11 +726,13 @@ def main():
         return 1
     injected = [c for c in CHECKS if c[4] == "RED"]
     print("PASS —— %d 项全过：门在 %d 个缺陷面上逐一转红，且未变异副本在送签态判绿、"
-          "运行态只红设计内类别（重签后仅 R2）。" % (len(CHECKS), len(injected)))
+          "运行态只红设计内类别（重签后仅 R2）；Z-12 运行态横扫 %d 条 RED 变异逐条复测命中。"
+          % (len(CHECKS) + sweep_total, len(injected), sweep_total))
     print("本结论只覆盖上列注入点，**不等于**门无漏判。如实披露三点：")
-    print("  ① 未被变异覆盖的红线（R5 / R6 / R7）本次仍无活体证据，不得据此宣称『十三条红线全部已验证』；")
-    print("  ② 双模式已取证的只有 M0-run 这一条运行态基线 + M19/M20 两条豁免边界；"
-          "其余变异只在送签态取证，运行态表现按同一实现推断、未逐条实测；")
+    print("  ① R5/R6/R7 的活体证据已由 M21-M24 补齐（块 A，2026-08-18）——原「仍无活体证据」披露过期作废；"
+          "R13 由 M10 承载；现十三条红线均有至少一条变异活体证据；")
+    print("  ② 运行态取证（块 E Z-12，2026-08-18 起）：全部送签态 RED 变异在运行态逐条复测命中被测红线"
+          "（Z12 横扫段）——原「运行态表现按同一实现推断、未逐条实测」披露过期作废；")
     print("  ③ M10/M14/M16 用 sync_digest_registry **显式重写了冻结历史**来隔离被测红线——"
           "这条路径本身是 frozen_digests.json `_chain_algorithm` 里如实交代的残余面："
           "链把「顺手弄绿」抬成「显式重写历史」，不等于正文不可篡改。")

@@ -1,75 +1,75 @@
 {
-  "fact_set_id": "FS-PRODUCT-P01-BAD1",
-  "fact_type": "ProductFacts",
-  "brand_id": "BRAND_HENGXUJI",
-  "version": 1,
-  "schema_version": "A-3.2-v2",
-  "updated_at": "2026-08-17T10:00:00+08:00",
-  "updated_by_role": "BRAND_OPERATOR",
-  "product_id": "P01",
-  "name": {
-    "value": "人字纹亮丝麻西装",
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-OP-P01-NAME",
-        "brand_id": "BRAND_HENGXUJI",
-        "source_type": "BRAND_OPERATOR_INPUT",
-        "locator": "夹具数据包 v1.0 包2 P01 商品名字段",
-        "captured_at": "2026-08-17T09:30:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": null,
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "price": {
-    "value": {
-      "amount": 980,
-      "currency": "CNY",
-      "as_of": "2026-08-17T00:00:00+08:00"
-    },
-    "status": "CONFIRMED",
-    "source_refs": [
-      {
-        "source_id": "SRC-IMG-0567",
-        "brand_id": "BRAND_HENGXUJI",
-        "source_type": "IMAGE_INPUT",
-        "locator": "IMG_0567 商品信息页 吊牌价「980元」",
-        "captured_at": "2026-08-17T09:12:00+08:00",
-        "checksum": null
-      }
-    ],
-    "as_of": "2026-08-17T00:00:00+08:00",
-    "confidence": "HIGH",
-    "uncertainty_reason": null
-  },
-  "image_refs": [
-    {
-      "source_id": "SRC-IMG-0565",
-      "brand_id": "BRAND_HENGXUJI",
-      "source_type": "IMAGE_INPUT",
-      "locator": "IMG_0565 商品图",
-      "captured_at": "2026-08-17T09:10:00+08:00",
-      "checksum": null
-    }
+ "fact_set_id": "FS-PRODUCT-P01-BAD1",
+ "fact_type": "PRODUCT_FACTS",
+ "brand_id": "BRAND_HENGXUJI",
+ "version": 1,
+ "schema_version": "A-3.2-v2",
+ "updated_at": "2026-08-17T10:00:00+08:00",
+ "updated_by_role": "BRAND_OPERATOR",
+ "product_id": "P01",
+ "name": {
+  "value": "人字纹亮丝麻西装",
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-OP-P01-NAME",
+    "brand_id": "BRAND_HENGXUJI",
+    "source_type": "BRAND_OPERATOR_INPUT",
+    "locator": "夹具数据包 v1.0 包2 P01 商品名字段",
+    "captured_at": "2026-08-17T09:30:00+08:00",
+    "checksum": null
+   }
   ],
-  "_fixture_note": {
-    "violation": "违约点：缺失 R 结构必填字段 category（A 行 252 category | FactValue<string> | R）。其余字段均合法，用于证明 required 生效而非其他原因触发失败。",
-    "expected_error_substr": "'category' is a required property",
-    "delta_keys_vs_ok1": [
-      "-category",
-      "~fact_set_id",
-      "~image_refs",
-      "-inventory",
-      "-lifecycle_stage",
-      "-material",
-      "-selling_points",
-      "-size_range",
-      "-sku",
-      "-style_attributes",
-      "-visual_profile_ref"
-    ]
+  "as_of": null,
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "price": {
+  "value": {
+   "amount": 980,
+   "currency": "CNY",
+   "as_of": "2026-08-17T00:00:00+08:00"
+  },
+  "status": "CONFIRMED",
+  "source_refs": [
+   {
+    "source_id": "SRC-IMG-0567",
+    "brand_id": "BRAND_HENGXUJI",
+    "source_type": "IMAGE_INPUT",
+    "locator": "IMG_0567 商品信息页 吊牌价「980元」",
+    "captured_at": "2026-08-17T09:12:00+08:00",
+    "checksum": null
+   }
+  ],
+  "as_of": "2026-08-17T00:00:00+08:00",
+  "confidence": "HIGH",
+  "uncertainty_reason": null
+ },
+ "image_refs": [
+  {
+   "source_id": "SRC-IMG-0565",
+   "brand_id": "BRAND_HENGXUJI",
+   "source_type": "IMAGE_INPUT",
+   "locator": "IMG_0565 商品图",
+   "captured_at": "2026-08-17T09:10:00+08:00",
+   "checksum": null
   }
+ ],
+ "_fixture_note": {
+  "violation": "违约点：缺失 R 结构必填字段 category（A 行 252 category | FactValue<string> | R）。其余字段均合法，用于证明 required 生效而非其他原因触发失败。",
+  "expected_error_substr": "'category' is a required property",
+  "delta_keys_vs_ok1": [
+   "-category",
+   "~fact_set_id",
+   "~image_refs",
+   "-inventory",
+   "-lifecycle_stage",
+   "-material",
+   "-selling_points",
+   "-size_range",
+   "-sku",
+   "-style_attributes",
+   "-visual_profile_ref"
+  ]
+ }
 }

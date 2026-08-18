@@ -88,6 +88,17 @@
           "description": "A.3.1 C｜默认来源=系统引用｜缺失处理=目标受众任务需要。条件必填：<当前任务涉及目标受众时必填>——判定依赖任务上下文（不在本对象内），JSON Schema 条件式无法表达，外包确定性谓词（C.3 资产④）。按 A 行 126，模块之间不允许只传递可变对象 ID，故元素一律用 VersionedRef。"
         }
       }
+    },
+    {
+      "$comment": "块 E ④c（E-10）：fact_type/schema_version 绑本族常量——复审实测错族对象可过对应 Schema（信封只判 string）。常量值=examples ok 例现行值；族 Schema 升版时同批改此处",
+      "properties": {
+        "fact_type": {
+          "const": "BRAND_FACTS"
+        },
+        "schema_version": {
+          "const": "A-3.1-v2"
+        }
+      }
     }
   ],
   "properties": {
