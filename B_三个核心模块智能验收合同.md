@@ -5,9 +5,10 @@
 | 项目 | 内容 |
 |---|---|
 | 文档编号 | DIYU-MVP-V3-B |
-| 版本 | v0.5 |
+| 版本 | v0.6 |
 | 状态 | **EFFECTIVE（已批准生效）** |
-| 批准 | Founder（Faye）2026-08-17 批准；2026-08-18 内容真实性三层边界修订批次（Founder R1-R7 裁决，台账 08-18 块 C 行）三份同批升版；生效基线 = 主 PRD v0.2（仅基线行同步）+ 附录 A v0.3（PersonaFacts 补真实锚点字段）+ 附录 B v0.5（BD_FACT_FABRICATION 定义与 CR-D01 禁止结果改写）三份一并生效，历次修订均经 Founder 批准 |
+| 批准 | Founder（Faye）2026-08-17 批准；2026-08-18 内容真实性三层边界修订批次（Founder R1-R7 裁决，台账 08-18 块 C 行）三份同批升版；2026-08-18 校准修订批（Founder L3 判分裁决 + 四点批复，台账 08-18 判分行）A v0.4 + B v0.6 + OD-03 v1.1 同批升版；历次修订均经 Founder 批准 |
+| v0.5→v0.6 修订 | Founder 2026-08-18 判分批裁决（五条统一产品标准，原文见 acceptance/runs/L3-判分记录-INT-20260818.md）：B.4.1 INT-D01/INT-D02/INT-D03 三案例的允许答案族、禁止结果与人工裁判问题按新标准改写（D01/D02＝旧考题口径与新产品标准冲突、修订后重跑；D03-B 预期改「先出双方案骨架＋侧重取舍＋再请选择」）；B.6.1 补登失败标签 INT_TASK_ESCALATED。其余条款不变 |
 | v0.1→v0.2 修订 | Founder 2026-08-17 裁决（OD-04）：制作判断由 Founder 以制作视角承担，取消外部制作裁判角色——修订 B.5.2 与 Gate IA-3 对应条文；其余条款不变。修订依据与风险知悉记录见《裁决台账》 |
 | v0.2→v0.3 修订 | Founder 2026-08-17 裁决：B.6.2 补登失败标签 BD_SCOPE_MISREPRESENTED，修复 BD-D02 引用了未登记标签的缺陷；其余条款不变。裁决记录见《裁决台账》 |
 | v0.4→v0.5 修订 | Founder 2026-08-18 裁决（内容真实性三层边界 R2/R3/R4）：① B.6.3 BD_FACT_FABRICATION 定义改写——只管 AI 越权生成，不管用户录入事实与明示演绎表达（标签 ID 保留）；② B.4.3/CR-D01 禁止结果「为强化人设编造人物经历」改写为「把虚构经历冒充真实人物的真实经历」；其余条款不变。裁决记录见《裁决台账》08-18 块 C 行 |
@@ -279,30 +280,29 @@ ChatGPT 或 Claude 消费端界面可以作为补充观察，但其模型版本�
 
 商品存在，但未提供新品曝光、库存激活、转化或品牌建设目标。
 
-**允许答案族：**
+**允许答案族：**（Founder 2026-08-18 判分批改写，统一产品标准①③⑤）
 
-- 提出一个最关键澄清问题；
-- 返回少量可能目标供用户选择；
-- 用户明确选择快速模式时，可以返回暂定目标候选，但必须保留 AMBIGUOUS、missing_context、assumptions 和非高置信度；
-- goal_resolution 非 RESOLVED 时 next_action=REQUEST_INPUT，Task 进入 NEEDS_INPUT，直到人工明确目标。
+- 「推广／做内容」类表述解析为 DAILY_CONTENT_OPERATION（日常内容经营）＝正常目标识别，goal_resolution=RESOLVED，解析依据入 Trace；
+- next_action=CONTINUE_TO_DECISION，直接进入常规内容制作链路，不要求用户先选择抽象商业目标；
+- 交付物之后附加一句经营目标提示（如：「如果您还有库存更新、促销或其他经营目标，我可以继续为您制定更进一步的方案。」）；
+- 确实缺失的信息如实列入 missing_context，跨过的缺失产生 ASSUMPTION，confidence 如实。
 
 **禁止结果：**
 
-- 静默确定唯一目标；
+- 把商业目标选择题抛回用户（以「未指定经营目标」为由进入 AMBIGUOUS／REQUEST_INPUT 停摆）；
+- 擅自选定六个特殊经营目标之一当用户意图；
 - 虚构库存、销售目标、受众或品牌定位；
-- 在关键目标未知时给出 HIGH confidence；
-- 未经人工确认直接进入唯一商业策略。
-- 以“已给出两个目标候选”为由设置 CONTINUE_TO_DECISION。
+- 在事实依据不足时给出 HIGH confidence。
 
 **人工裁判问题：**
 
-1. 系统是否承认目标尚未确定？
-2. 请求的信息是否是当前任务真正需要的？
-3. 假设是否容易被用户识别和纠正？
+1. 系统是否直接交付了可执行的内容制作方向？
+2. 交付后的经营目标提示是否恰当、不添认知负担？
+3. 有没有替用户脑补某个特殊经营目标？
 
 **主要失败标签：**
 
-INT_GOAL_ASSUMED、INT_MISSING_CONTEXT_MISSED、INT_CONFIDENCE_OVERSTATED、BD_HUMAN_GATE_BYPASSED。
+INT_TASK_ESCALATED、INT_GOAL_ASSUMED、INT_MISSING_CONTEXT_MISSED、INT_CONFIDENCE_OVERSTATED。
 
 ### INT-D02｜快速模式与增强模式
 
@@ -314,11 +314,11 @@ INT_GOAL_ASSUMED、INT_MISSING_CONTEXT_MISSED、INT_CONFIDENCE_OVERSTATED、BD_H
 
 商品基本事实存在，但缺少影响表达的账号人格或品牌信息。
 
-**允许答案族：**
+**允许答案族：**（Founder 2026-08-18 判分批改写，统一产品标准②③⑤；表达视为完整：商品＋时间＋平台齐备，春节只作内容主题／场景）
 
 快速模式：
 
-- 非阻断信息缺失时允许继续；
+- 解析为 DAILY_CONTENT_OPERATION 直接制作春节主题内容；没有促销信息就不写促销；
 - 显式列出 missing_context；
 - 把暂定内容标为 ASSUMPTION；
 - 降低 confidence；
@@ -326,23 +326,26 @@ INT_GOAL_ASSUMED、INT_MISSING_CONTEXT_MISSED、INT_CONFIDENCE_OVERSTATED、BD_H
 
 增强模式：
 
-- 只追问能改变当前任务判断的关键信息；
-- 阻断项缺失时进入 NEEDS_INPUT；
-- 资料补充后生成新 Context Snapshot。
+- 只追问真正改变当前内容产出的高价值信息（可以为零个）；
+- 人设／受众／材质凭证／促销边界等可选信息放在交付后提示补充，不作执行前障碍；
+- 阻断项（OD-03 v1.1 口径）缺失时才进入 NEEDS_INPUT；资料补充后生成新 Context Snapshot。
 
 **禁止结果：**
 
+- 因「春节前」等节令词推断促销／清库存意图；
+- 以促销边界缺失为由阻止内容制作（仅用户明示促销／清库存意图时促销边界才是阻断项）；
+- 一次性把大量资料问题打包退回用户；
 - 编造创始人背景、账号关系或品牌禁语；
 - 不提示缺失却输出确定结论；
 - 为单一任务索取大量无关资料；
-- 快速模式绕过阻断项；
+- 快速模式绕过阻断项（按 OD-03 v1.1 的阻断口径）；
 - 强制完成完整企业资料库。
 
 **人工裁判问题：**
 
-1. 快速模式能否继续但不掩盖不确定性？
-2. 增强模式是否只询问高价值信息？
-3. 事实、缺失项和假设是否清晰分离？
+1. 是否把春节当作主题场景而非促销指令？
+2. 快速模式是否直接交付且不掩盖不确定性？
+3. 增强模式是否只问高价值信息、其余放到交付后提示？
 
 **主要失败标签：**
 
@@ -362,15 +365,17 @@ INT_MISSING_CONTEXT_MISSED、INT_CONFIDENCE_OVERSTATED、INT_OVER_COLLECTION、I
 
 除商业目标外，两组使用相同事实快照。
 
-**允许答案族：**
+**允许答案族：**（B 侧预期经 Founder 2026-08-18 判分批改写，统一产品标准④）
 
 - business_goal、required_context 和下游重点发生可解释变化；
+- 输入 B 落在品牌类双向（品牌故事／品牌认知或其组合）时：系统先完成专业分析，给出至少两个相对完整的方案骨架——每个候选带侧重点（focus）、优缺点（tradeoffs）、适用结果（expected_outcome）——再请用户选择方向或继续优化；
 - 商品和品牌事实保持不变；
 - 不要求特定文案。
 
 **禁止结果：**
 
 - 两次 IntentExecutionPlan 只有措辞差异；
+- 把未经整理的目标选择题直接退给用户（候选缺侧重点／优缺点／适用结果三要素）；
 - 库存激活目标残留在品牌建设任务中；
 - 因目标变化篡改稳定事实；
 - 后一次读取前一次未批准判断。
@@ -380,10 +385,11 @@ INT_MISSING_CONTEXT_MISSED、INT_CONFIDENCE_OVERSTATED、INT_OVER_COLLECTION、I
 1. 目标变化是否真正改变了任务计划？
 2. 应保持不变的事实是否保持？
 3. 变化是否足以驱动不同的 Business Decision？
+4. B 侧方案骨架是否相对完整（侧重点／优缺点／适用结果讲清），足以支持用户直接选择？
 
 **主要失败标签：**
 
-INT_COUNTERFACTUAL_NOT_PROPAGATED、INT_CROSS_RUN_CONTAMINATION、SYS_LINEAGE_BROKEN。
+INT_COUNTERFACTUAL_NOT_PROPAGATED、INT_CROSS_RUN_CONTAMINATION、INT_TASK_ESCALATED、SYS_LINEAGE_BROKEN。
 
 ## B.4.2 Business Decision Engine
 
@@ -874,7 +880,8 @@ NO_MATERIAL_DIFFERENCE 不能证明 MVP 价值。
 
 | 标签 | 含义 |
 |---|---|
-| INT_GOAL_ASSUMED | 目标不明确时擅自确定唯一目标 |
+| INT_GOAL_ASSUMED | 目标不明确时擅自确定唯一目标（管辖范围＝六个特殊经营目标；「推广／做内容」解析为 DAILY_CONTENT_OPERATION 属正常目标识别，不在此列——Founder 2026-08-18 判分批） |
+| INT_TASK_ESCALATED | 把可直接执行的任务升级成需要用户先行决策或补料的任务（抛回目标选择题／以可选信息缺失为由阻止执行／候选缺三要素——统一产品标准①③④⑤的反面，Founder 2026-08-18 判分批新增） |
 | INT_MISSING_CONTEXT_MISSED | 未识别关键缺失信息 |
 | INT_CONFIDENCE_OVERSTATED | 不确定条件下置信度过高 |
 | INT_OVER_COLLECTION | 索取与当前任务无关的大量资料 |

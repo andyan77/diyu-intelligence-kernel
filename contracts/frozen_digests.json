@@ -34,9 +34,9 @@
     },
     "A_模块接口与核心数据字典.md": {
       "manifest_field": "data_contract_version",
-      "declared_version": "v0.3",
+      "declared_version": "v0.4",
       "version_from": "doc_control_block",
-      "sha256": "sha256:934f739f6ee317b1ddcfd8269b39f78fade480adfbacc30b19d258422f73262e",
+      "sha256": "sha256:69f4435ce05bc80483ec96f1cad5ac9ba54e55c8e745e9dc870efd4e7197ff65",
       "version_history": [
         {
           "declared_version": "v0.2",
@@ -51,14 +51,21 @@
           "recorded_at": "2026-08-18",
           "note": "Founder 2026-08-18 内容真实性三层边界裁决（R1-R7，台账 08-18 块 C 行）：A.3.5 PersonaFacts 补 real_anchors 真实锚点字段（完全选填）+ 基线行同步。正常升版路径：版本升级+追加历史",
           "chain": "sha256:b248792285bd03569f4a79f62d613e8b27022a64b8e8b3d69eb446442b9fe439"
+        },
+        {
+          "declared_version": "v0.4",
+          "sha256": "sha256:69f4435ce05bc80483ec96f1cad5ac9ba54e55c8e745e9dc870efd4e7197ff65",
+          "recorded_at": "2026-08-18",
+          "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）",
+          "chain": "sha256:ef8e7f4d68807dedfc2e10ddfcf0b70ec9e48b7622058be4b1f902eb46a340ab"
         }
       ]
     },
     "B_三个核心模块智能验收合同.md": {
       "manifest_field": "acceptance_contract_version",
-      "declared_version": "v0.5",
+      "declared_version": "v0.6",
       "version_from": "doc_control_block",
-      "sha256": "sha256:116b6576bbe13ab9e7383979fb9fd1e6be4320c1199a93406bf1458c5fdbcf92",
+      "sha256": "sha256:73551798202645e43aa24eb624bf443a09b670b0f833e1fe0a681f0767e74b9f",
       "version_history": [
         {
           "declared_version": "v0.4",
@@ -73,6 +80,13 @@
           "recorded_at": "2026-08-18",
           "note": "Founder 2026-08-18 内容真实性三层边界裁决（R1-R7，台账 08-18 块 C 行）：BD_FACT_FABRICATION 定义改写（只管 AI 越权）+ CR-D01 禁止结果改写 + 基线行同步。正常升版路径：版本升级+追加历史",
           "chain": "sha256:051f4410784bca33650d2e02fdc48bd27a2b975df75bae57faa6414e6f585a7c"
+        },
+        {
+          "declared_version": "v0.6",
+          "sha256": "sha256:73551798202645e43aa24eb624bf443a09b670b0f833e1fe0a681f0767e74b9f",
+          "recorded_at": "2026-08-18",
+          "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）",
+          "chain": "sha256:fee5c267abc3d4d03f976cabebee02fcff99d71c9756b95dea9165833da26254"
         }
       ]
     },
@@ -273,84 +287,84 @@
   },
   "case_manifests": {
     "acceptance/cases/BD-D01/manifest.yaml": {
-      "content_sha256": "sha256:9349784a68300e88be6ece8fd45d52c5bc165d686a5a7045775071bc0cf4e69f",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:7572f620b764ac8d0a5c61ac67eabe18843b69528d8fd1d412f56048ef269d09",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/BD-D02/manifest.yaml": {
-      "content_sha256": "sha256:7a42b403e9841206e6f73659fcd33deecbf02a50dcea4b169bed3f03cb0ec079",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:2750d679593cb93755d236dbf9bbcb5f66b0580d724cc66fb115c7df89ce9eef",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/BD-D03/manifest.yaml": {
-      "content_sha256": "sha256:cbe802facc505a0a8217025cc525ce311583ac94210ff7d37151d5ffc28ad3ca",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:4430a72a6969fca5a523db3743fafaf9a8e4b147a5ed0ecd8d5ef8f3e9740707",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/CR-D01/manifest.persona-buyer.yaml": {
-      "content_sha256": "sha256:48874a3f476f31ae83fb10facf689247f60aa1ccdc62c425c5d8c180af0bed75",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:b99ff8ce55da7214d8b378b4d45571c6d93cc6dc986a87b6593982aa3d924f25",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/CR-D01/manifest.persona-owner.yaml": {
-      "content_sha256": "sha256:37faf040349ebef306c12f5e9b067b7154447fc7d280200f46c93ce7299254df",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:28df3c700a9696371aa36189d9d526ccd85567236f4a8ff0bcf0183a9d7259c8",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/CR-D02/manifest.yaml": {
-      "content_sha256": "sha256:2637ba6a73f2dc3281827ff07e271b4fd2cb2d5a3a2f76ab1000ba7b600aab8f",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:9ba15ff1df7406012976f511d58c599f8e8831d8614aa8c176508a0d256e5cfa",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/CR-D03/manifest.yaml": {
-      "content_sha256": "sha256:f08987a8867a26034dc0845160907ba53ccb3d37570e6ee16d29a7a944441eda",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:5ef6c93d4f526399a4dc7ff0786efde67e16fa4a1d9e0e5588dbafd01d86ebba",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/CR-D04/manifest.input-a.yaml": {
-      "content_sha256": "sha256:1130e6ff45b09c8e180b8ea0f56a53836241d24e53997a14d8671ace2b5aa605",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:c15a0341eb01fbb3fb6ae7ddb9f199a305669bfc30b6555097ede3b01703cf7a",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/CR-D04/manifest.input-b.yaml": {
-      "content_sha256": "sha256:1bffcfcabc74c2ba0492f8f136aa1c012b84f9ae1889c367351322a4b88972e7",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:7f4962d6462e28ff751b113255af8817b8c076a8d09dcf138241218d39123a89",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/CR-D04/manifest.input-c.yaml": {
-      "content_sha256": "sha256:91af2c72a854e9846cc2304bb4d59592e75bad59f8327fc98871dfd99b759369",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:1a706dcb2b0ebe983d80dadb8691bd7c993d1f54fbada922277e40d4eb93663d",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/E2E-01/manifest.yaml": {
-      "content_sha256": "sha256:e6f2ce99612c7357fd3062ad5eaafb740592719ee5398d88bc92f8cc8d27a12c",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:f69dba4b26f25419c3f7f06768e8cc6a6b1504899f782cbb9fe43d909b05d158",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/E2E-02/manifest.yaml": {
-      "content_sha256": "sha256:8664f77fed7d4d7de81c08b4b4c31c5f526d385d745c634ed6f8e290abe84fc0",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:8af0f18c8e7751c5f85d84329245290fc268649cdc237063a28a6eef0cccf10d",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/E2E-03/manifest.yaml": {
-      "content_sha256": "sha256:eba305ec0ccfa6e402759d6c634a57938c652abf31c6220f40cef7d6b90b4feb",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:63e76227967a7344a89bad0c53140c605a21971831d5d72d6d3934c80ae7ab0c",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/INT-D01/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:d521c9943183b206d2d6afc52b95cdf750118efed5701bc575152fd0ff08b4ef",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:5fcfe0ec4f97dbe5bb0396cbf752dc631f2e7713a059c27aa8953b167f9c77fe",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/INT-D01/manifest.quick.yaml": {
-      "content_sha256": "sha256:0e926e8f0006a37fb3763b1f824935be025c8b6a323e3c0da3685e7b1e73d873",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:471faea4cc98b99649b437426c8b9bf6a4ba94863c839c399578c783682aa12a",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/INT-D02/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:13f952519f2e1bc098d46beac0777ae4f854dc3d6b8bf0859070c7cd481d5068",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:c51bc9ec4fcdec51999851a9d8354bf6298554af320788cb057f8efd9c71202d",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/INT-D02/manifest.quick.yaml": {
-      "content_sha256": "sha256:765f79b88fc41b5ad069dd6d74edfaf19797ea6deb47bca2ee53eaba17a0b906",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:3f717003ef7ac8476c7185c4ec0c19ee0be517340504fd84add98d182c22a3aa",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/INT-D03/manifest.input-a.yaml": {
-      "content_sha256": "sha256:1ff0a17e28683200635d598e86a131451edb790f444ffb758be96f4f336de61c",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:0098bd735d9965613659ffc9322415fb052992ba35e4ef0063027054cfb82d2d",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/INT-D03/manifest.input-b.yaml": {
-      "content_sha256": "sha256:fc4ab3c067c430411a916fbc3c46bd02ef82feede5fa941e8abbfdebfc4bdb8f",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:afddc8fb0fe5a6cd4a4086d15f008a00c9ca92c35f69c99f1e7a2a6f0e603b3c",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     },
     "acceptance/cases/SYS-D01/manifest.yaml": {
-      "content_sha256": "sha256:184d77cd7fb97ee2bb5408d3f80120ca3df83de5c1f94d5279abcaa9c453524f",
-      "note": "块 A 内容绑定；2026-08-18 块 E ① 快照迁移级联重算（snapshot_hash + case_version，Founder 批准迁移方案，B.2.1/B.8.1 程序）"
+      "content_sha256": "sha256:3563e8544837239e7d184e2d01dbf46f6af1f232d4fa8820cf55195d1d734d02",
+      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
     }
   },
   "fact_fixtures": {

@@ -27,10 +27,10 @@
 #   实测本案例 fixtures/context_snapshot.json 的 facts 已含 persona_facts / video_account_facts 两键（runtime_verified）。
 
 case_id: E2E-03
-case_version: "v0.5"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
+case_version: "v0.6"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version 口径一致；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
 prd_version: "v0.2"                           # 版本基线见 M0-EP01_文档版本一致性声明.md 一、现行版本基线
-data_contract_version: "v0.3"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
-acceptance_contract_version: "v0.5"           # 同上（附录 B v0.4：M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID，Founder 2026-08-17 批准）
+data_contract_version: "v0.4"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
+acceptance_contract_version: "v0.6"           # 同上（附录 B v0.4：M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID，Founder 2026-08-17 批准）
 context_snapshot_id: "SNAP-E2E03-0001"        # 起草时为规划名、快照尚未构建（OQ-E2E-03-06 ✅预裁决 08-17）；2026-08-17 现状：快照已落盘 acceptance/cases/E2E-03/fixtures/context_snapshot.json
 snapshot_hash: "sha256:78ac519b36461d5a786888af58e914d6b3fcd42e0bf5c8aa3fba7988db0884bd"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "这条荧光绿裤装是正常在售新品，请为它制作可用的视频号内容。"  # Founder 2026-08-17 IA-0 裁决定稿（SYS-D01 取 B 三例之首）

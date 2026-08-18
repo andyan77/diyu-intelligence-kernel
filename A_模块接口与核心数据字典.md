@@ -5,9 +5,10 @@
 | 项目 | 内容 |
 |---|---|
 | 文档编号 | DIYU-MVP-V3-A |
-| 版本 | v0.3 |
+| 版本 | v0.4 |
 | 状态 | **EFFECTIVE（已批准生效）** |
-| 批准 | Founder（Faye）2026-08-17 批准；2026-08-18 内容真实性三层边界修订批次（Founder R1-R7 裁决，台账 08-18 块 C 行）三份同批升版；生效基线 = 主 PRD v0.2（仅基线行同步）+ 附录 A v0.3（PersonaFacts 补真实锚点字段）+ 附录 B v0.5（BD_FACT_FABRICATION 定义与 CR-D01 禁止结果改写）三份一并生效，历次修订均经 Founder 批准 |
+| 批准 | Founder（Faye）2026-08-17 批准；2026-08-18 内容真实性三层边界修订批次（Founder R1-R7 裁决，台账 08-18 块 C 行）三份同批升版；2026-08-18 校准修订批（Founder L3 判分裁决 + 四点批复，台账 08-18 判分行）A v0.4 + B v0.6 + OD-03 v1.1 同批升版；历次修订均经 Founder 批准 |
+| v0.3→v0.4 修订 | Founder 2026-08-18 判分批裁决（五条统一产品标准 + 四点批复 1/3）：① A.2.6 BusinessGoal 新增第七枚举 DAILY_CONTENT_OPERATION（日常内容经营，正面定义见枚举表后注）；② A.5.2 goal_candidates 新增三个机器可判字段 focus / tradeoffs / expected_outcome（候选必须是方案骨架）；③ 约束1 同步（AMBIGUOUS 时候选三要素非空）。裁决记录见《裁决台账》08-18 判分行 + acceptance/runs/L3-判分记录-INT-20260818.md |
 | v0.1→v0.2 修订 | Founder 2026-08-17 裁决：VoicePackage 补「emotion（情绪）」字段，对齐主 PRD 7.2 Voice Package 最小内容（完整口播、停顿、强调、语速和情绪）；其余条款不变。裁决记录见《裁决台账》 |
 | v0.2→v0.3 修订 | Founder 2026-08-18 裁决（内容真实性三层边界 R3）：A.3.5 PersonaFacts 新增 real_anchors「真实锚点清单」字段（完全选填）——人设＝真人成份与角色演绎的混合体，不设真人/虚构二分字段；锚点列出该人设必须如实的身份要素，锚点之外默认演绎自由；其余条款不变。裁决记录见《裁决台账》08-18 块 C 行 |
 | 文档属性 | 主 PRD 的规范性接口与数据附录 |
@@ -202,7 +203,7 @@ ConfidenceStatement:
 | Platform | WECHAT_VIDEO |
 | TaskType | VIDEO_CONTENT_CREATION |
 | ExecutionMode | QUICK, ENHANCED |
-| BusinessGoal | BRAND_AWARENESS, PRODUCT_LAUNCH, CONVERSION, INVENTORY_ACTIVATION, BRAND_STORY, CUSTOMER_EDUCATION |
+| BusinessGoal | DAILY_CONTENT_OPERATION, BRAND_AWARENESS, PRODUCT_LAUNCH, CONVERSION, INVENTORY_ACTIVATION, BRAND_STORY, CUSTOMER_EDUCATION |
 | ProductRole | HERO, SUPPORTING, TRAFFIC, PROFIT, CLEARANCE |
 | TraceType | FACT, RULE, ASSUMPTION, MODEL_JUDGMENT |
 | AlignmentAssessment | ALIGNED, TENSION, UNKNOWN |
@@ -211,6 +212,8 @@ ConfidenceStatement:
 | ReworkScope | LOCAL, STRATEGY |
 
 节日、季节、活动和时间窗口属于任务上下文，不新增为 BusinessGoal。
+
+DAILY_CONTENT_OPERATION（日常内容经营）定义（Founder 2026-08-18 判分批裁决，正面定义）：让商品被看见、被理解——日常经营本身就是目标，不是「未指定目标」。「推广／做内容」类表述解析到它属正常目标识别，不算脑补；脑补禁令的管辖范围＝其余六个特殊经营目标不得擅自选定（与 S01 知识卡 ELI-0101 口径同步）。
 
 ---
 
@@ -549,6 +552,9 @@ IntentExecutionPlan:
   goal_candidates:
     - goal: BusinessGoal
       rationale: string
+      focus: string                  # 侧重点（Founder 2026-08-18 判分批：候选必须是方案骨架，不是光秃标签）
+      tradeoffs: string              # 优缺点/取舍
+      expected_outcome: string       # 适用结果
       supporting_trace_refs: string[]
   intent_summary: string
   target_audience_refs: VersionedRef[]
@@ -562,7 +568,7 @@ IntentExecutionPlan:
 
 约束：
 
-1. goal_resolution 为 AMBIGUOUS 时，business_goal 必须为空、goal_candidates 至少两个、next_action 必须为 REQUEST_INPUT，Task 必须进入 NEEDS_INPUT；候选只供人工明确目标，不能代替人工门继续 Decision。
+1. goal_resolution 为 AMBIGUOUS 时，business_goal 必须为空、goal_candidates 至少两个且每个候选的 focus / tradeoffs / expected_outcome 非空（先形成方案骨架、讲清侧重与取舍，再请用户选择——不得把未经整理的选择题退给用户）、next_action 必须为 REQUEST_INPUT，Task 必须进入 NEEDS_INPUT；候选只供人工明确目标，不能代替人工门继续 Decision。
 2. goal_resolution 为 NEEDS_INPUT 时，business_goal 必须为空、next_action 必须为 REQUEST_INPUT，Task 必须进入 NEEDS_INPUT。
 3. 只有 goal_resolution 为 RESOLVED、business_goal 非空且无 BLOCKING 缺失时，next_action 才能为 CONTINUE_TO_DECISION。
 4. QUICK 继续时，跨过的缺失项必须为 QUALITY_REDUCING，并产生对应 ASSUMPTION。

@@ -3,11 +3,12 @@
 #   （B:316-330 把快速与增强写成同一案例的两族允许答案，故两侧跑同一张考卷、同一批断言）。
 # 夹具口径提醒：本案例的商业目标由 fixtures/task_input.json 的 stated_business_goal 承载
 #   （Founder 2026-08-17 IA-0 裁决 OQ-BUILD-02，不改 B:312 考题句）。
-# 已裁决（Founder 2026-08-17，SPEC-DEV-02 选 (c)）：快速侧本该 NEEDS_INPUT「先问用户」——本案快照按考点
-#   设计不带品牌信息，而 OD-03 §二把促销边界列为 INVENTORY_ACTIVATION 阻断项（B:320「非阻断信息缺失时允许
-#   继续」是条件句；B:337 禁止「快速模式绕过阻断项」）。task_input.json 初版注释的「缺失仅剩 QUALITY_REDUCING」
-#   预期系过时表述，已随裁决更正。本文件 must_hold 不含该过时预期；若运行侧报 BLOCKING 缺失且 CONTINUE，
-#   A2 当场判红（B:337），不会被 A3 掩盖。「QUICK 带假设继续」考点由 INT-D03 input-a 承载。
+# 【SPEC-DEV-02 已撤代（Founder 2026-08-18 判分批，统一产品标准②③）】原裁决 (c)「快速侧 NEEDS_INPUT
+#   先问用户」被新标准取代：stated_business_goal 注入已从 task_input.json 撤除（四点批复2），OD-03 v1.1
+#   把促销边界改为条件阻断（仅用户明示促销/清库存/折扣意图时 BLOCKING）。新预期族（B v0.6）＝解析
+#   DAILY_CONTENT_OPERATION 直接制作春节主题内容（春节只作主题/场景），可选信息交付后提示；因节令词
+#   推断促销、以促销边界缺失拦停、打包退回资料问题——均红（A8 终态闸 / INT_TASK_ESCALATED）。
+#   「QUICK 带假设继续」考点仍由 INT-D03 input-a 承载。原口径原文见 git 历史与 L3-判分记录-INT-20260818.md。
 case_id: INT-D02
 contract_ref: B.4.1/INT-D02
 case_version: v0.1
@@ -51,6 +52,9 @@ must_hold:                       # 第一带：确定性断言（零模型调用
   #        保持 human_required（见注册表），A6 绿不等于「没有编造」。
   - {id: A6, check: numeric_grounding,          args: {snapshot_fields: [inventory, price]}, tag: BD_FACT_FABRICATION}
   - {id: A7, check: forbidden_expression,       args: {lexicon: acceptance/detectors/forbidden_lexicon.yaml}, tag: SYS_RULE_VIOLATION}   # B:918（B.6.4 在册）
+  # A8（判分批新增，B v0.6 允许答案族的机器可判面）：预期终态 = RESOLVED + DAILY_CONTENT_OPERATION
+  #     + CONTINUE_TO_DECISION（春节主题正常制作，促销边界不阻断）。tag = INT_TASK_ESCALATED。
+  - {id: A8, check: intent_terminal_state,      args: {expect_goal_resolution: RESOLVED, expect_business_goal: DAILY_CONTENT_OPERATION, expect_next_action: CONTINUE_TO_DECISION}, tag: INT_TASK_ESCALATED}
 
 # 本案例**未覆盖**且刻意不挂检测器的禁止结果（如实登记，不假装覆盖）：
 #   · B:336「为单一任务索取大量无关资料」/ B:338「强制完成完整企业资料库」——"无关""大量"是语义判断，

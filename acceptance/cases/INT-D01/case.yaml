@@ -1,4 +1,8 @@
 # 三带式行为契约（格式真源 C.4；案例真源 B.4.1/INT-D01——本文件只引用，不复述 B 原文）
+# 【判分批改写（Founder 2026-08-18 五条统一产品标准，B v0.6）】本案例预期族已改：「推广」＝正常
+#   解析 DAILY_CONTENT_OPERATION（日常内容经营）直接制作 + 交付后经营目标提示；把目标选择题抛回
+#   用户即红（A7 终态闸 / INT_TASK_ESCALATED）。旧预期（必须保留 AMBIGUOUS）随 B v0.5 退役；
+#   下方注释里的 B:行号引用以 B v0.6 文本为准核对，历史行号按当时版本理解。
 # 运行 Manifest：manifest.enhanced.yaml（主跑）+ manifest.quick.yaml（B:284 快速模式分支变体），
 #   两份共用本 case.yaml 与同一份 fixtures/context_snapshot.json（Founder 2026-08-17 预裁决①，台账）。
 # 夹具口径提醒：本案例快照按 OQ-BUILD-01 裁决**剔除了** P13 自带的 inventory / lifecycle_stage
@@ -35,6 +39,10 @@ must_hold:                       # 第一带：确定性断言（零模型调用
   # A6：硬规则表达面。tag 取 B.6.4 在册的 SYS_RULE_VIOLATION（B:918）；词表真源 forbidden_lexicon.yaml
   #     （Founder 2026-08-17 IA-0 裁决 OQ-BUILD-03 已补齐品牌调性三词）。
   - {id: A6, check: forbidden_expression,   args: {lexicon: acceptance/detectors/forbidden_lexicon.yaml}, tag: SYS_RULE_VIOLATION}
+  # A7（判分批新增，B v0.6 允许答案族的机器可判面）：预期终态 = RESOLVED + DAILY_CONTENT_OPERATION
+  #     + CONTINUE_TO_DECISION。把可直接执行的内容制作任务升级成目标选择题（AMBIGUOUS/REQUEST_INPUT
+  #     停摆）即红。tag 取 B.6.2 判分批新增的 INT_TASK_ESCALATED。
+  - {id: A7, check: intent_terminal_state,  args: {expect_goal_resolution: RESOLVED, expect_business_goal: DAILY_CONTENT_OPERATION, expect_next_action: CONTINUE_TO_DECISION}, tag: INT_TASK_ESCALATED}
 
 # 本案例**刻意不挂**的检测器与理由（C.4 铁律1「无检测器 → PENDING_HUMAN，绝不自动 PASS」的反面：
 # 挂一条在本案例恒为"不适用"的断言 = 装饰品，会让覆盖率视图虚高）：
