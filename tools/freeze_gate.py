@@ -122,6 +122,20 @@ RULE_RECORD_FIELDS_A91 = frozenset([
     "target_path", "statement", "source_ref", "status", "effective_at",
 ])
 
+# R5 值域（A.9.1 yaml 块逐字）：scope: BRAND | PRODUCT | PLATFORM | TASK；effect: REQUIRE | PROHIBIT；
+# status: ACTIVE | INACTIVE。块 A 加固：字段值对照枚举逐项校验（此前只看键不看值，外部审查实测假绿）。
+RULE_SCOPE_ENUM_A91 = frozenset(["BRAND", "PRODUCT", "PLATFORM", "TASK"])
+RULE_EFFECT_ENUM_A91 = frozenset(["REQUIRE", "PROHIBIT"])
+RULE_STATUS_ENUM_A91 = frozenset(["ACTIVE", "INACTIVE"])
+
+# R5 规则冻结（块 A 加固）：contracts/rules/*.yaml 纳入 frozen_digests.json 的 `rules` 节。
+# 外部审查实测：规则正文此前不在任何 digest 冻结面内，「考试硬规则可以不升版漂移」。
+# 改任何规则 = 升该规则 version + 同步登记（登记册进 git，diff 可见）；digest 不符即红。
+MANIFEST_CONTENT_EXCLUDED_FIELDS = SIGNATURE_FIELDS
+# R6 内容绑定（块 A 加固）：每份 Manifest 去除签字三字段后的规范化内容 sha256 登记进
+# frozen_digests.json 的 `case_manifests` 节。签字与资产内容自此绑定：改考题保签字 → 实算 ≠ 登记 → 红；
+# 签字提交只改签字字段 → 实算不变 → 绿。这就是「先出回执、后签字；签字提交只允许改签字字段」的机器化。
+
 # R4：跨案例共用快照的**唯一**合法例外。口径同 EXPECTED_MANIFESTS——改这里 = 改考卷。
 # 依据：B.5.1/E2E-02「与 E2E-01 使用相同企业事实」+ B.2.2「同条件」定义之「相同 Context Snapshot」，
 # 故 E2E-02 的 Manifest 指向 E2E-01/fixtures/ 下的 SNAP-E2E01-0001 属设计要求，不是错挂。
@@ -294,6 +308,12 @@ def canonical_snapshot_hash(path):
     """快照 JSON 的规范化 sha256。规范化 = UTF-8 + 键排序 + 紧凑分隔符（无多余空白）。"""
     with io.open(path, encoding="utf-8") as f:
         obj = json.load(f)
+    return canonical_obj_hash(obj)
+
+
+def canonical_obj_hash(obj):
+    """已解析对象的规范化 sha256（与 canonical_snapshot_hash 同算法，供 R6 内容绑定对
+    「Manifest 去签字字段后的内容」这类内存对象求指纹——YAML 与 JSON 解析产物走同一规范化）。"""
     blob = json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return "sha256:" + hashlib.sha256(blob).hexdigest()
 
@@ -349,13 +369,36 @@ def index_rules(errors):
         if os.path.basename(p) != rid + ".yaml":
             errors.append("R5 规则文件名与 rule_id 不一致: %s 内是 %s" % (rel(p), rid))
 
-        # 字段集必须与 A.9.1 十项全等（机械校验，不看值只看键）
+        # 字段集必须与 A.9.1 十项全等
         keys = set(obj.keys())
         missing = sorted(RULE_RECORD_FIELDS_A91 - keys)
         extra = sorted(keys - RULE_RECORD_FIELDS_A91)
         if missing or extra:
             errors.append("R5 %s 的字段集与 A.9.1 RuleRecord 十项不全等: 缺 %s / 多 %s"
                           % (rel(p), missing or "无", extra or "无"))
+
+        # ---- 字段值对照 A.9.1 逐项校验（块 A 加固：外部审查实测「不看值只看键」的假绿路径——
+        #      PROHIBIT 改成任何值、scope 改成非法范围、statement 被改写，旧实现全都不察）----
+        for field, allowed in (("scope", RULE_SCOPE_ENUM_A91), ("effect", RULE_EFFECT_ENUM_A91),
+                               ("status", RULE_STATUS_ENUM_A91)):
+            v = obj.get(field)
+            if field in keys and v not in allowed:
+                errors.append("R5 %s: %s=%r 不在 A.9.1 枚举 %s 内（值漂移 = 硬规则语义被改而门不察）"
+                              % (rel(p), field, v, "|".join(sorted(allowed))))
+        for field in ("rule_id", "brand_id", "target_path", "statement"):
+            v = obj.get(field)
+            if field in keys and (not isinstance(v, str) or not v.strip()):
+                errors.append("R5 %s: %s 必须是非空字符串（A.9.1 类型 string），实为 %r" % (rel(p), field, v))
+        if "version" in keys and (not isinstance(obj.get("version"), int)
+                                  or isinstance(obj.get("version"), bool) or obj["version"] < 1):
+            errors.append("R5 %s: version=%r 必须是 ≥1 的整数（A.9.1 类型 integer）" % (rel(p), obj.get("version")))
+        if "effective_at" in keys and (not isinstance(obj.get("effective_at"), str)
+                                       or parse_iso8601(obj["effective_at"]) is None):
+            errors.append("R5 %s: effective_at=%r 不能解析为 ISO8601 datetime（A.9.1 类型 datetime）"
+                          % (rel(p), obj.get("effective_at")))
+        if "source_ref" in keys and not isinstance(obj.get("source_ref"), dict):
+            errors.append("R5 %s: source_ref 必须是 SourceRef 对象（A.9.1），实为 %s"
+                          % (rel(p), type(obj.get("source_ref")).__name__))
 
         if rid in idx:
             errors.append("R5 rule_id 重复登记: %s" % rid)
@@ -625,9 +668,16 @@ def check_frozen_digests(errors, doc_versions):
                 errors.append("R10 %s version_history[%d] 缺 declared_version / sha256"
                               % (docname, i)); broken = True; break
             if hv in seen_by_version and seen_by_version[hv] != hd:
-                errors.append("R10 %s version_history 里 declared_version=%s 二次登记出不同 digest"
-                              "（%s ≠ %s）——同一版本号对应两份正文 = 不升版偷改正文"
-                              % (docname, hv, seen_by_version[hv], hd)); broken = True; break
+                # 唯一豁免通道（块 A A-2.a，台账 08-18 留痕）：签字态翻转——正文零变动、仅控制块
+                # 签字/状态行由占位转 EFFECTIVE 的重登记，须显式标记 + 非空说明。诚实边界：门在
+                # digest 层无法区分「只改了签字行」与「改了别处」，标记的真实性靠该条 note 指认的
+                # 签字提交 diff 供人审复核；无标记的同版本双 digest 一律按重写冻结历史拦下。
+                if not (h.get("supersession_kind") == "signature_state_flip"
+                        and isinstance(h.get("note"), str) and h["note"].strip()):
+                    errors.append("R10 %s version_history 里 declared_version=%s 二次登记出不同 digest"
+                                  "（%s ≠ %s）——同一版本号对应两份正文 = 不升版偷改正文"
+                                  "（唯一例外 = supersession_kind: signature_state_flip 显式标记 + 非空 note，"
+                                  "本条目两者不齐）" % (docname, hv, seen_by_version[hv], hd)); broken = True; break
             seen_by_version[hv] = hd
             want_chain = version_chain_link(chain, hv, hd)
             if hc != want_chain:
@@ -643,6 +693,64 @@ def check_frozen_digests(errors, doc_versions):
                           "改了正文并同步了 sha256，却没有作为新版本追加进历史（不升版偷改正文的指纹）"
                           % (docname, declared_version, declared_digest,
                              last.get("declared_version"), last.get("sha256")))
+
+
+def check_rule_freeze(errors):
+    """R5 规则冻结（块 A 加固）：contracts/rules/*.yaml 逐份与 frozen_digests.json `rules` 节比对。
+
+    外部审查（M0 审查二 P0-03）实测：规则正文此前不在任何 digest 冻结面，「考试硬规则可以
+    不升版漂移」。本检查双向覆盖：① 目录下每份规则必须已登记且 digest 相符（改正文未同步登记 → 红）；
+    ② 登记指向的文件必须存在（登记成孤儿 → 红）。改规则的合法路径 = 升该规则 version + 同步登记
+    （登记册在 git 下，diff 把改动摆在评审面前）。
+    """
+    reg_rules = None
+    if os.path.exists(FROZEN_DIGESTS_PATH):
+        try:
+            with io.open(FROZEN_DIGESTS_PATH, encoding="utf-8") as f:
+                reg_rules = json.load(f).get("rules")
+        except ValueError:
+            return  # 登记册本身坏掉由 R10 记红，此处不重复
+    if not isinstance(reg_rules, dict):
+        errors.append("R5 %s 缺 `rules` 节——contracts/rules/ 正文不受任何 digest 保护，"
+                      "硬规则可不升版漂移（外部审查实测假绿路径）" % rel(FROZEN_DIGESTS_PATH))
+        return
+    live = {rel(p): p for p in sorted(glob.glob(RULES_GLOB))}
+    for relpath in sorted(set(live) | set(reg_rules)):
+        if relpath not in reg_rules:
+            errors.append("R5 规则文件未登记进 %s 的 rules 节: %s（正文不受 digest 保护）"
+                          % (rel(FROZEN_DIGESTS_PATH), relpath))
+            continue
+        if relpath not in live:
+            errors.append("R5 rules 节登记指向不存在的文件: %s" % relpath)
+            continue
+        entry = reg_rules[relpath]
+        declared = entry.get("sha256") if isinstance(entry, dict) else None
+        actual = sha256_file_bytes(live[relpath])
+        if declared != actual:
+            errors.append("R5 %s 正文 digest 与登记不符（改规则未升 version 同步登记 = 硬规则漂移）"
+                          "\n      登记 %s\n      实算 %s" % (relpath, declared, actual))
+
+
+def load_manifest_content_registry(errors):
+    """R6 内容绑定登记表：frozen_digests.json `case_manifests` 节 {Manifest 相对路径: {content_sha256}}。
+
+    content_sha256 = Manifest 解析后**去除签字三字段**（SIGNATURE_FIELDS）的规范化内容指纹。
+    外部审查（M0 审查三 P1-1）实测：改已签资产内容而门仍 GREEN——签字与内容零绑定，
+    「改考题保签字」畅通。绑定后：签字提交只允许改签字字段（内容指纹不变），改任何考试条件
+    必须走升版重签（B.2.1），否则实算 ≠ 登记当场红。
+    """
+    if not os.path.exists(FROZEN_DIGESTS_PATH):
+        return {}
+    try:
+        with io.open(FROZEN_DIGESTS_PATH, encoding="utf-8") as f:
+            reg = json.load(f).get("case_manifests")
+    except ValueError:
+        return {}
+    if not isinstance(reg, dict):
+        errors.append("R6 %s 缺 `case_manifests` 节——签字与 Manifest 内容零绑定，"
+                      "「改考题保签字」无人拦（外部审查实测假绿路径）" % rel(FROZEN_DIGESTS_PATH))
+        return {}
+    return reg
 
 
 def collect_scan_files(root_dir, skipped=None):
@@ -1103,9 +1211,12 @@ def main():
     interaction_versions = resolve_interaction_versions(errors, version_linenos)
 
     # ---- R8 生成参数指纹：按真源文件当前内容实时重算（不留基线常量）----
+    live_params_obj = None
     if os.path.exists(GENERATION_PARAMS_PATH):
         try:
-            live_params_hash = canonical_snapshot_hash(GENERATION_PARAMS_PATH)
+            with io.open(GENERATION_PARAMS_PATH, encoding="utf-8") as f:
+                live_params_obj = json.load(f)
+            live_params_hash = canonical_obj_hash(live_params_obj)
         except ValueError as e:
             live_params_hash = None
             errors.append("R8 生成参数真源 JSON 解析失败: %s（%s）" % (rel(GENERATION_PARAMS_PATH), e))
@@ -1114,6 +1225,9 @@ def main():
         errors.append("R8 生成参数真源缺失: %s（generation_parameters_hash 无从核验）"
                       % rel(GENERATION_PARAMS_PATH))
     check_generation_params_placeholders(errors)
+    check_rule_freeze(errors)
+    manifest_content_reg = load_manifest_content_registry(errors)
+    manifest_names_seen = set()
 
     schema = json.load(io.open(SCHEMA_PATH, encoding="utf-8"))
     required_fields = set(schema.get("required") or [])
@@ -1224,6 +1338,23 @@ def main():
                 errors.append("R6 %s: approved_at=%r 不能解析为 ISO8601 datetime（B.2.1 该字段类型 datetime）"
                               % (name, val))
 
+        # ---- R6 内容绑定（块 A 加固：签字 ↔ 资产内容）----
+        # 外部审查实测「改考题保签字」假绿：改 task_statement / execution_mode / allowed_tools 等
+        # 任何考试条件而签字字段原样保留，旧门全绿。绑定后：去签字三字段的内容指纹须与登记全等。
+        manifest_names_seen.add(name)
+        if manifest_content_reg:
+            reg_entry = manifest_content_reg.get(name)
+            if not isinstance(reg_entry, dict) or not isinstance(reg_entry.get("content_sha256"), str):
+                errors.append("R6 %s: 未在 %s 的 case_manifests 节登记内容指纹——该份 Manifest 的"
+                              "签字与内容零绑定" % (name, rel(FROZEN_DIGESTS_PATH)))
+            else:
+                content = {k: v for k, v in doc.items() if k not in SIGNATURE_FIELDS}
+                actual_cs = canonical_obj_hash(content)
+                if reg_entry["content_sha256"] != actual_cs:
+                    errors.append("R6 %s: 去签字字段后的内容指纹与登记不符——「改考题保签字」"
+                                  "（改任何考试条件必须按 B.2.1 升 case_version 走重签，签字提交只允许改签字字段）"
+                                  "\n      登记 %s\n      实算 %s" % (name, reg_entry["content_sha256"], actual_cs))
+
         # ---- R7 版本指针 ↔ 真源文档控制块 ----
         for field, docname in VERSION_SOURCES:
             if field not in doc_versions:
@@ -1240,6 +1371,16 @@ def main():
                 errors.append("R8 %s: generation_parameters_hash 与真源实算不符（参数文件改了、指纹没跟着改，"
                               "= 案例声明的模型条件与实际条件已脱钩）\n      声明 %s\n      实算 %s（源 %s）"
                               % (name, declared_hash, live_params_hash, rel(GENERATION_PARAMS_PATH)))
+
+        # ---- R8 模型身份三字段 ↔ 参数真源逐字段全等（块 A 加固 A-2.d）----
+        # 外部审查实测：三字段此前只受 R2 非空/非占位约束，改成任何非空值门都不察——
+        # 「模型供应商/型号/版本可以漂移而门不一定转红」。真源 = generation_parameters.json（OD-02 §二）。
+        if isinstance(live_params_obj, dict):
+            for mfield in ("model_provider", "model_name", "model_version"):
+                mv, sv = doc.get(mfield), live_params_obj.get(mfield)
+                if mfield in doc and mv != sv:
+                    errors.append("R8 %s: %s=%r ≠ 参数真源 %s 的 %r（模型身份漂移；换模型必须走 OD-02 升版 + "
+                                  "B.8.1 级联，不得单改一侧）" % (name, mfield, mv, rel(GENERATION_PARAMS_PATH), sv))
 
         # ---- R9 两阶段共同合同 / 基线 Prompt 版本 ↔ contracts/interaction/ 实时解析 ----
         is_e2e = (case_dir_of(mf) or "").startswith(E2E_CASE_PREFIX)
@@ -1279,6 +1420,10 @@ def main():
                            case_dir_of(mf), doc.get("approved_at")))
 
     # ---- R10 / R11 / R12 / R13：仓库级红线（不逐 Manifest 判）----
+    # R6 内容绑定的反向覆盖：登记表里指向不存在 Manifest 的孤儿条目（删考卷保登记 = 齐套口径失真）
+    for regname in sorted(set(manifest_content_reg) - manifest_names_seen):
+        errors.append("R6 case_manifests 节登记指向不存在的 Manifest: %s（登记与实际考卷面脱钩）" % regname)
+
     check_frozen_digests(errors, doc_versions)
     check_pending_marks(errors, notes, mode, manifests)
     check_identity(errors, notes, mode, identities)
