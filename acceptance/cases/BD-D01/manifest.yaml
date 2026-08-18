@@ -72,4 +72,4 @@ generation_parameters_hash: "sha256:440cefd72ac9827def71162ae5eecb333c718ac8b050
 allowed_tools: []
 
 approved_by: "Founder（Faye）"  # IA-0 重签（M0 收口修复批次 P0-6；首签 19:08:38 已撤回留档台账与 IA-0 签字包）
-approved_at: "2026-08-18T06:41:01+08:00"  # Founder 签字（校准修订批：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期族改写 / OD-03 v1.1 条件阻断 / 20 Manifest 级联升版后全量；Founder 本轮批复原文「确认签字，生效」2026-08-18；被签内容=本文件去签字三字段后的登记指纹，门 R6 实时核验；上一批 17:41:56 留档台账与 IA-0 §六）
+approved_at: "2026-08-19T00:20:22+08:00"  # Founder 签字（校准批二：第⑥条产品标准并呈落地——A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD / OD-03 v1.2 §五 情境登记与出镜人受众移出清单 / 20 Manifest 级联升版后全量；Founder 本轮批复原文「确认签字，生效」2026-08-18；被签内容=本文件去签字三字段后的登记指纹，门 R6 实时核验；本批时间戳为 UTC+8 真值换算，上一批 06:41:01 系本机时钟直读、已在台账披露）
