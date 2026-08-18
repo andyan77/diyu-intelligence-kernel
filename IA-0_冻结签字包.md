@@ -82,3 +82,4 @@
 |---|---|---|---|---|
 | IA-0 首签 | Founder（Faye） | 2026-08-17T19:08:38+08:00 | 20 份 Manifest 的 `approved_by` / `approved_at` | 该次收口宣告已于同日撤回（外部审查 BLOCK，台账 08-17）；签字记录保留为历史事实，不再作为 M0 收口依据 |
 | IA-0 重签 | Founder（Faye） | 2026-08-18T02:39:10+08:00 | 修复批次六项 BLOCK 全关闭后的最终资产（受审树 24e24a3，回执《M0收口回执.md》） | ✅ 生效；20 份 Manifest approved_at 同批回填 |
+| 主模型级联补签 | Founder（Faye） | 2026-08-18T15:19:52+08:00 | 20 份 Manifest（model 两字段/case_version/构建版本字段升版后全量）+ generation_parameters.json v1.1 + 本签字包刷新行 | 现行有效（与 P0-6 重签共同构成在案签字链） |

@@ -194,7 +194,7 @@
     "contracts/interaction/generation_parameters.json": {
       "declared_version": "v1.1",
       "version_from": "json_field:_version",
-      "sha256": "sha256:61f709e0876d7b91c2bfdd371d9e0ed43f96235d458daff5f73e70698fb4e4cd",
+      "sha256": "sha256:f899a425c0b638889f729e159f4999e717a16d7bf4631fa6774aa002c51ef1c3",
       "version_history": [
         {
           "declared_version": "v1.0",
@@ -217,6 +217,14 @@
           "recorded_at": "2026-08-18",
           "note": "主模型级联落地（Founder 派发块，依据块 0 裁决 OD-02 v1.1）：model_name/model_version 替换为 qwen3-max-2026-01-23，_version 升 v1.1，其余参数一字未动。正常升版路径：版本升级 + 追加历史，非签字态翻转",
           "chain": "sha256:484e29568b12bd45d41683fca5b8602a3198008ff0f7ea517e1e1eb7386d6a3e"
+        },
+        {
+          "declared_version": "v1.1",
+          "sha256": "sha256:f899a425c0b638889f729e159f4999e717a16d7bf4631fa6774aa002c51ef1c3",
+          "recorded_at": "2026-08-18",
+          "supersession_kind": "signature_state_flip",
+          "note": "签字态翻转（Founder 补签 2026-08-18T15:19:52+08:00）：唯一改动=_status 行由旧回执口径转本次补签口径，参数与模型字段零变动；per 登记册例外条款显式标记，签字提交只改签字面（执行规格 §四）；旧条目保留，链延续",
+          "chain": "sha256:dca24ff33f275e607fc19705cb0b937736b35876e7fd60e92975516a5eb1cee1"
         }
       ]
     }
