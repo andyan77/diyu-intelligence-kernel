@@ -1,25 +1,25 @@
 {
   "module": "intent",
   "module_version": "v0.1.0",
-  "prompt_version": "v0.2",
-  "output_schema": "intent_execution_plan.schema.json@UNVERSIONED(sha256:2639845f12a3)",
+  "prompt_version": "v0.3",
+  "output_schema": "intent_execution_plan.schema.json@UNVERSIONED(sha256:d388208727e4)",
   "input_schema": "context_snapshot.schema.json",
   "step_structure": [
     "deterministic_preprocess",
     "llm_single_step",
     "deterministic_postcheck_preflight"
   ],
-  "generated_at": "2026-08-18T10:40:08Z",
+  "generated_at": "2026-08-18T13:09:24Z",
   "source_sha256": {
     "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "config.py": "47919bd419bfcac667e12d1086d0d455fdebcd16cd8bff8ac5ba150d41361cb6",
+    "config.py": "243f112ffde41dfd03146a0f59b24b0fd3c7df23be3bf645c6c894121bfbad87",
     "llm.py": "854bda47d93451eae7c60c1e60171b5ac31f4ac56e49acaed49fbcc98c5ed2fa",
     "module_manifest.py": "653dac874691b5dc2a7542f384e724fdb67515a24c99a752e04dce6efc5f6369",
     "postcheck.py": "aa22b4b0f25228df92b8a4c946c7d83d1d63638cceb1cf12534bf2fd72e69426",
-    "preprocess.py": "c6587e41d49ddbc76067eda5e8963c8a5af3d402a1c5dd1f1fb6931acd4aaa82",
-    "prompts/intent_v0.2.md": "352d3fabf8b70662880609973f5d84d127c8115877bf5161e9ddf48714944002",
-    "runner.py": "b841d80cb7efc791ace22a32bdf407128e914ab842b8305e8fbfa717883eeee8",
-    "test_intent_offline.py": "49bf6b161a3ed24a8822a14d10c099ebc6ff106adbd38c279e3a390b2c46d12c",
+    "preprocess.py": "d2750e64132c971bbdc22f8d3664b3eb5ac55f4b1f1a15824584e6ace707dcbe",
+    "prompts/intent_v0.3.md": "880956f29088e26f00c03dc7937c866380fcf6aaf624208f4c495868689652f3",
+    "runner.py": "a57cd789531a9ddfd45d65b012926c60ecc7c19a1eb3f0238025656fc6ccd591",
+    "test_intent_offline.py": "3044f04692a8c74df71b6ee7ed657a1c826b290bd9b144dd143a5fe409caf350",
     "trace.py": "fddb9e68ee510beb4ae04b1ef2845d5c2bbb837ccf6c0424ef9299464d1b3b09"
   }
 }

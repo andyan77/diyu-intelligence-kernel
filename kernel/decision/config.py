@@ -73,6 +73,7 @@ MODULE_VERSION = "v0.1.0"
 # --- 枚举：一律照抄 A「## A.2.6 核心枚举」，顺序也照抄，不重排 ---------------------------
 
 BUSINESS_GOALS = (
+    "DAILY_CONTENT_OPERATION",   # A.2.6 v0.4（Founder 2026-08-18 判分批）：日常内容经营
     "BRAND_AWARENESS",
     "PRODUCT_LAUNCH",
     "CONVERSION",

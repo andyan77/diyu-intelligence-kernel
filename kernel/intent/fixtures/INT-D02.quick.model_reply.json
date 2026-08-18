@@ -1,8 +1,8 @@
 {
   "goal_resolution": "RESOLVED",
-  "business_goal": "INVENTORY_ACTIVATION",
+  "business_goal": "DAILY_CONTENT_OPERATION",
   "goal_candidates": [],
-  "intent_summary": "这次任务是为一件羊绒风衣式大衣做春节前的视频号内容，商业目标由用户显式声明为库存激活。人设、账号与品牌信息在快照中均标为缺失，因此涉及主理人经历、账号关系与品牌禁语的说法本次一律没有补写。",
+  "intent_summary": "这次任务是为一件羊绒风衣式大衣制作春节前的视频号内容：商品、时间和平台都已明确。「春节前」在这里是内容主题与时间场景；任务原话没有提促销、清库存或折扣，本次不引入任何促销意图。人设、账号与品牌信息在快照中均标为缺失，因此涉及主理人经历、账号关系与品牌禁语的说法本次一律没有补写。",
   "clarification_question": null,
   "referenced_fact_ids": [
     "FACT:product.name",
@@ -11,10 +11,10 @@
   ],
   "model_judgments": [
     {
-      "text": "任务原话里的「春节前」是时间窗口，属任务上下文，不改变用户已声明的商业目标。",
+      "text": "任务原话里的「春节前」是时间窗口，属任务上下文，不构成促销意图，也不改变日常内容经营的目标归属。",
       "referenced_fact_ids": ["FACT:product.lifecycle_stage"]
     }
   ],
   "confidence_level": "HIGH",
-  "confidence_reason": "目标已由用户显式声明，商品侧事实齐备。"
+  "confidence_reason": "商品侧事实齐备，任务要素完整。"
 }

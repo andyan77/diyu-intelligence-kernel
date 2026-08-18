@@ -18,10 +18,10 @@
     "deterministic_assembly",
     "deterministic_postcheck_preflight"
   ],
-  "generated_at": "2026-08-18T12:00:00+00:00",
+  "generated_at": "2026-08-18T12:37:09.510213+00:00",
   "source_sha256": {
     "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "config.py": "8ed091760176ca5f01e2b377c6061eb5210003721b875c733b5744bc23e65685",
+    "config.py": "ad91cf4b406c9cdeab253473c6172b16f28bd4c0767e2ea53e700ec9816f6777",
     "llm.py": "93b6155c87ef99c8f67ddbb8ad1a034160277bddff0b078a78b13181cae1e520",
     "module_manifest.py": "c1ec8fd5e3781e1f5463de094c61c74642904d208122b2a4461d29de8c90e65d",
     "postcheck.py": "0ee921fa0ecac0661c9c1977d5c83fcb00bebbfd7869ae4a4fcfa3e110757828",

@@ -63,7 +63,7 @@ FORBIDDEN_LEXICON_PATH = os.path.join(REPO_ROOT, "acceptance", "detectors", "for
 
 KERNEL_INTENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROMPTS_DIR = os.path.join(KERNEL_INTENT_DIR, "prompts")
-PROMPT_INTENT_PATH = os.path.join(PROMPTS_DIR, "intent_v0.2.md")
+PROMPT_INTENT_PATH = os.path.join(PROMPTS_DIR, "intent_v0.3.md")
 FIXTURES_DIR = os.path.join(KERNEL_INTENT_DIR, "fixtures")
 MODULE_MANIFEST_PATH = os.path.join(KERNEL_INTENT_DIR, "module_manifest.json")
 
@@ -72,9 +72,12 @@ MODULE_VERSION = "v0.1.0"
 
 # --- 枚举：一律照抄 A「## A.2.6 核心枚举」，顺序也照抄，不重排 ---------------------------
 
-# 六个商业目标。顺序 = A.2.6 表内原顺序；prompt 渲染与 postcheck 都按本元组，
+# 七个商业目标。顺序 = A.2.6 v0.4 表内原顺序；prompt 渲染与 postcheck 都按本元组，
 # 顺序稳定才保证同一快照两次运行的 prompt 逐字节相同（B.2.2「同条件」的隐形前提）。
+# DAILY_CONTENT_OPERATION（日常内容经营，Founder 2026-08-18 判分批正面定义）：让商品被看见、
+# 被理解——日常经营本身就是目标；「推广／做内容」类表述解析到它属正常目标识别，不算脑补。
 BUSINESS_GOALS = (
+    "DAILY_CONTENT_OPERATION",
     "BRAND_AWARENESS",
     "PRODUCT_LAUNCH",
     "CONVERSION",

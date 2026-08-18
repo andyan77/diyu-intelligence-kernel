@@ -1,21 +1,37 @@
 {
-  "goal_resolution": "RESOLVED",
-  "business_goal": "BRAND_STORY",
-  "goal_candidates": [],
-  "intent_summary": "任务原话要用同一件羊绒风衣式大衣建立品牌的长期价值，并明说不以本期销量为主要目标，商业目标是品牌故事。品牌定位与价值主张在场；主理人人设事实不在场，本次没有补写任何创始人经历或个人故事。",
-  "clarification_question": null,
+  "goal_resolution": "AMBIGUOUS",
+  "business_goal": null,
+  "goal_candidates": [
+    {
+      "goal": "BRAND_STORY",
+      "rationale": "任务原话「建立品牌长期价值，不以本期销量为主要目标」明示了品牌类意图；讲清品牌为什么存在、坚持什么，是「长期价值」的一种常见落点，但原话没说要讲故事还是打认知。",
+      "focus": "以品牌故事与价值观为核心：讲清这个品牌为什么存在、坚持什么，让这件大衣成为品牌理念的载体。",
+      "tradeoffs": "优点是记忆点深、能与用户建立情感连接；代价是需要主理人人设等真实素材支撑（当前人设事实缺失），且见效比认知类内容慢。",
+      "expected_outcome": "适合想让已关注的用户更认同品牌、逐步沉淀品牌资产的情形。",
+      "referenced_fact_ids": ["FACT:brand.positioning", "FACT:brand.values"]
+    },
+    {
+      "goal": "BRAND_AWARENESS",
+      "rationale": "「长期价值」的另一种常见读法是让更广人群先知道这个品牌：以在场的品牌定位与调性触达新人群。",
+      "focus": "以品牌认知为核心：让更广人群知道这个品牌是谁、做什么品类、什么档次。",
+      "tradeoffs": "优点是覆盖面广、起步素材门槛低（定位与调性事实在场即可）；代价是单条内容的记忆深度与情感连接弱于品牌故事。",
+      "expected_outcome": "适合品牌尚需被更多新人群认识、先求「知道」再求「认同」的情形。",
+      "referenced_fact_ids": ["FACT:brand.positioning", "FACT:brand.tone"]
+    }
+  ],
+  "intent_summary": "任务要用同一件羊绒风衣式大衣建立品牌长期价值，并明说不以本期销量为主要目标：品牌类意图已明示，但落点可以是品牌故事、品牌认知或两者组合，需要用户确认方向。商品与品牌事实保持原样，未提供的内容没有补写。",
+  "clarification_question": "这次建立品牌长期价值，更想让人记住品牌的什么：品牌的故事和价值观，还是先让更广的人群知道这个品牌是谁？",
   "referenced_fact_ids": [
     "FACT:brand.positioning",
     "FACT:brand.values",
-    "FACT:brand.tone",
-    "FACT:persona"
+    "FACT:brand.tone"
   ],
   "model_judgments": [
     {
-      "text": "任务原话「不以本期销量为主要目标」把库存与成交类目标排除掉了，剩下的落点是讲品牌本身。",
+      "text": "任务原话「不以本期销量为主要目标」把库存与成交类目标排除掉了，剩下的落点在品牌类两个方向。",
       "referenced_fact_ids": ["FACT:brand.positioning"]
     }
   ],
   "confidence_level": "MEDIUM",
-  "confidence_reason": "目标由任务原话直接给出，但讲品牌故事所需的人设事实标为缺失。"
+  "confidence_reason": "品牌类意图明确，但故事与认知两个方向未定，给中档。"
 }
