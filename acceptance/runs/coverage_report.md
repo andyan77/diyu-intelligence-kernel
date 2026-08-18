@@ -8,15 +8,15 @@
 
 ```json
 {
-  "commit_sha": "37b2d55f3a20c64fe888a74bf8ec5ea1f4847f0b",
+  "commit_sha": "c3513c9a38795033fa3583f9f9ed694fc6cf916f",
   "generator": {
     "path": "tools/coverage.py",
     "version": "v0.1",
     "sha256": "984d4b629eaef59fbb2c61e3f5adb05d85034377a5895288adde3b9a2390f570"
   },
   "commit_sha_source": ".git/HEAD + refs/packed-refs（读文件，未执行 git 命令）",
-  "repo_root": "/tmp/claude-1000/-home-faye------/e029e7e8-93e8-43c1-bd03-b35e5cb53033/scratchpad/wt-blockA",
-  "generated_at": "2026-08-17T22:10:36-07:00",
+  "repo_root": "/home/faye/笛语智能核",
+  "generated_at": "2026-08-17T22:10:14-07:00",
   "python_version": "3.10.12",
   "deps": {
     "jsonschema": "3.2.0",
@@ -32,11 +32,11 @@
     },
     "prohibited_registry": {
       "path": "acceptance/detectors/prohibited_registry.yaml",
-      "sha256": "6576878344225f60995cf1a7f1fd5fc703ae102810df82b5c082ca2d55f586d0"
+      "sha256": "b98095c1874b7c39241e087dbbb3207f950ebe5de6a4ae90a0476a1402088ffc"
     }
   },
-  "detectors_version": "v0.1",
-  "detectors_sha256": "4a4ee730a2fc501cf58857431ec387fde66551339dbe1ba8d136f7658668f30b",
+  "detectors_version": "v0.2",
+  "detectors_sha256": "27077f020274327afbcd47c9d3026a3003907d5a4f65104a884affe03bb2457c",
   "detectors_path": "acceptance/detectors/checks.py",
   "note": "证据绑定生成时刻的工作区内容；与 HEAD 的一致性由干净 clone 回执核验"
 }
@@ -46,9 +46,9 @@
 
 | 案例 | 执行文件 | 断言 | 探针 | 人工问题引用 |
 |---|---|---|---|---|
-| INT-D01｜模糊目标不得擅自确定 | 未落地 | — | — | — |
-| INT-D02｜快速模式与增强模式 | 未落地 | — | — | — |
-| INT-D03｜同一商品的目标迁移 | 未落地 | — | — | — |
+| INT-D01｜模糊目标不得擅自确定 | ✅ | 6 | 1 | 1 |
+| INT-D02｜快速模式与增强模式 | ✅ | 7 | 1 | 1 |
+| INT-D03｜同一商品的目标迁移 | ✅ | 6 | 1 | 1 |
 | BD-D01｜高端品牌的库存与价值冲突 | ✅ | 7 | 1 | 1 |
 | BD-D02｜有限商品池不得补写 | 未落地 | — | — | — |
 | BD-D03｜反常识商品的情境判断 | 未落地 | — | — | — |
@@ -61,18 +61,18 @@
 | E2E-02｜同事实下的品牌资产目标 | 未落地 | — | — | — |
 | E2E-03｜反常识商品的可用创意 | 未落地 | — | — | — |
 
-执行文件落地：1/14
+执行文件落地：4/14
 
 ## 视图2｜禁止结果视角（检测器四态）
 
 | 状态 | 条数 | 占比 |
 |---|---|---|
-| deterministic | 3 | 5% |
+| deterministic | 6 | 10% |
 | llm_assisted | 0 | 0% |
-| human_required | 55 | 94% |
+| human_required | 52 | 89% |
 | not_detectable_declared | 0 | 0% |
 
-确定性/探针覆盖合计：3/58（其余全部 PENDING_HUMAN，绝不自动 PASS）
+确定性/探针覆盖合计：6/58（其余全部 PENDING_HUMAN，绝不自动 PASS）
 
 ## 视图3｜维度视角（案例声明制，脚本不推导）
 
