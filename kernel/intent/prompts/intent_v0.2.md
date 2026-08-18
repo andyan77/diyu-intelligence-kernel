@@ -1,5 +1,9 @@
 ---
-prompt_version: "v0.1"
+prompt_version: "v0.2"
+# v0.2（2026-08-18，ATT-0004 刀②）：纪律9 改写为「判断必须有据」——v0.1 的「推断一律放进
+# model_judgments」与 A.1.2「无支撑判断不得入 TraceBundle」冲突：只依据任务原话的推断
+# （如「目标未明」）在事实池里无 ID 可引，模型守纪律留空引用即被组装层击毙。
+# 失败 run：2026-08-18 live 冒烟 INT-D01 quick，DashScope id=chatcmpl-b53ec86f-d7c1-94f4-b96c-1bf6b33ab78c。
 module: "intent"
 step: "llm_single_step"
 output_language: "zh-CN"
@@ -73,7 +77,7 @@ not_asked_of_model:
 6. **数字必须能溯源。** `intent_summary` 里出现的任何阿拉伯数字，必须逐字来自事实池或任务原话；不确定就不要写数字。
 7. **不做伪精确。** 置信度只有 `HIGH` / `MEDIUM` / `LOW` 三级，不得输出百分比、评分或加权分。目标没解析清楚时不得给 `HIGH`。
 8. **不要替系统算缺失。** 缺哪些上下文、哪些算阻断、要不要继续下一步——由系统按冻结清单确定性计算，不是你的工作。你输出里不要出现 `missing_context`、`required_context`、`assumptions`、`next_action` 这些字段；写了也会被丢弃。
-9. **事实、判断分离。** 你自己的推断一律放进 `model_judgments`，不得混进 `intent_summary` 当成既定事实陈述。
+9. **事实、判断分离，判断必须有据。** `model_judgments` 只放**依据事实池**的推断，每条的 `referenced_fact_ids` 必须至少引用一个池内 ID。只依据任务原话本身的结论（如"目标是否明确""原话没有说明什么"）不写进 `model_judgments`——它们已由 `goal_resolution`、`goal_candidates[].rationale`、`intent_summary`、`clarification_question` 承载。没有池内事实可引用的推断就不要输出成 model_judgment；`model_judgments` 允许是空数组 `[]`。任何推断都不得混进 `intent_summary` 当成既定事实陈述。
 
 ## 三、输出格式
 
@@ -99,8 +103,8 @@ not_asked_of_model:
   "referenced_fact_ids": ["FACT:<字段路径>"],
   "model_judgments": [
     {
-      "text": "你的一条推断",
-      "referenced_fact_ids": ["FACT:<字段路径>"]
+      "text": "你的一条推断（只放依据事实池的推断；没有池内事实可引用的推断不要写进来）",
+      "referenced_fact_ids": ["FACT:<字段路径>（至少一个池内 ID，不得为空）"]
     }
   ],
   "confidence_level": "HIGH | MEDIUM | LOW",

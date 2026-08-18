@@ -602,6 +602,31 @@ def main(argv):
          "夹具问句=%r，产物问句=%r" % (_d01_fixture_q,
                                        _bg_items[0].get("resolution_question") if _bg_items else None))
 
+    _d01_raw = os.path.join(work_dir, "INT-D01.quick.plan.json.raw.txt")
+    _d01_fixture_path = os.path.join(FIXTURES_DIR, "INT-D01.quick.model_reply.json")
+    item("护栏④ 原始回复落盘：<out>.raw.txt 写出且与模型回复逐字一致（ATT-0004 刀①成功路径）",
+         os.path.exists(_d01_raw)
+         and open(_d01_raw, encoding="utf-8").read().strip()
+             == open(_d01_fixture_path, encoding="utf-8").read().strip(),
+         "raw 文件存在=%s" % os.path.exists(_d01_raw))
+
+    # 失败路径才是 ATT-0004 观测缺口的真回归：解析炸掉时 plan 不得写、raw 必须已写
+    _bad_fixture = os.path.join(work_dir, "bad_reply.txt")
+    with open(_bad_fixture, "w", encoding="utf-8") as fh:
+        fh.write("这不是 JSON{{{")
+    _bad_out = os.path.join(work_dir, "bad.plan.json")
+    _buf_o, _buf_e = io.StringIO(), io.StringIO()
+    with contextlib.redirect_stdout(_buf_o), contextlib.redirect_stderr(_buf_e):
+        _bad_code = runner.main([
+            "--snapshot", os.path.join(CASES_DIR, "INT-D01", "fixtures", "context_snapshot.json"),
+            "--task", "帮我推广羊绒大衣。", "--mode", "QUICK",
+            "--replay", _bad_fixture,
+            "--out", _bad_out, "--report", os.path.join(work_dir, "bad.preflight.json"),
+        ])
+    item("护栏⑤ 失败路径 raw 仍落盘：坏 JSON 回放 exit 2、plan 未写、<out>.raw.txt 已写（ATT-0004 观测缺口回归）",
+         _bad_code == 2 and not os.path.exists(_bad_out) and os.path.exists(_bad_out + ".raw.txt"),
+         "code=%s plan存在=%s raw存在=%s" % (_bad_code, os.path.exists(_bad_out), os.path.exists(_bad_out + ".raw.txt")))
+
     # ---- 收尾：只读取证 + 零网络 ---------------------------------------------------
     changed = [p for p, h in before.items() if sha256_of(p) != h]
     item("G2 考卷区文件字节未变（三份 INT 快照 + 禁用词表）", not changed, "被改动：%s" % changed)
