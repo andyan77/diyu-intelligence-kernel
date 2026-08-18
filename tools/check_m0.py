@@ -165,7 +165,7 @@ SCHEMA_SMOKE = (
 #   "运行态哪天多出一类新红线，看的人当场能发现"这条设计意图就落空了。
 # 数值是**说明性基线**，不参与判绿：对不上只加 ⚠ 提示，不改绿/红（判绿由六步定义，见文件头）。
 RUNMODE_BASELINE = {
-    "R2": (80, "PENDING_BUILD：20 份 Manifest × 4 个构建版本字段，M0 设计内（执行规格 §〇）；R11/R12 已随 P0-6 重签清零（2026-08-17）"),
+    "R2": (40, "PENDING_BUILD：20 份 Manifest × 2 个未建模块字段（module_contract_versions.business_decision / .creative），M0 设计内（执行规格 §〇）；diyu_build_version 与 .intent 已随 2026-08-18 级联补充令回填真值；R11/R12 已随 P0-6 重签清零（2026-08-17）"),
 }
 
 
