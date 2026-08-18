@@ -1,0 +1,7 @@
+# 尝试账本条目（C.6 格式；一条一文件）
+# 编号更正：施工时编 ATT-0005，与 Intent 取证车道同期条目撞号；按 append-only 纪律现号 ATT-0007，内容不变。
+attempt_id: ATT-0007
+hypothesis: "M2-EP01 合流适配：块 E（PR #15）把 15 份快照迁为 A.4.3 引用式后，kernel/decision 前处理切换到 kernel/facts 官方通道（load_snapshot = R1-R5/P2/P3 运行时谓词 fail-closed + materialize_legacy_view 内联兼容视图，与 kernel/intent 同款接线）+ 规则池改为快照 active_rule_refs 钉定集 + 夹具 FACT 路径迁视图坐标系——非 prompt 判据调优（三份 prompt 文本零改动），关闭本模块 UPSTREAM_GAPS 第 2 条（快照双形状）"
+target_failing_run: "真实失败现场（非单一 RUN-ID——提前段离线自测，无正式 RUN 回执）：含 PR #15 的合流树上 kernel/decision/test_decision_offline.py 判红（33/44 通过、11 失败，其余断言因产物缺失未展开）——旧内联消费面对引用式快照事实池物化为空、FACT 引用悬空、规则池口径 3≠2；复现命令 = 在该树上跑本套件（runtime_verified 2026-08-18）"
+regression_after: "适配后 test_decision_offline.py 82/82 GREEN；kernel/intent、kernel/facts 离线套件与 tools/check_m0.py 六步在合流树同批实测全绿（条数以 PR #18 验证节为准）"
+delta: {fixed: ["GAP-SNAPSHOT-SHAPE"], broken: [], net: 1}
