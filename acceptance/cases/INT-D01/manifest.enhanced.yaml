@@ -7,10 +7,10 @@
 #   B:284 另给出「用户明确选择快速模式时，可以返回暂定目标候选…」这一条件分支，B 未声明本案例是否需要快速模式侧的第二次运行 → OQ-INT-D01-02。
 # execution_mode 说明：B.4.1/INT-D01 未声明 execution_mode；起草时本值为占位（无 B 依据），现值由 Founder 2026-08-17 预裁决定值（OPEN_QUESTIONS OQ-INT-D01-01）。
 case_id: INT-D01
-case_version: "v0.5"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
+case_version: "v0.6"                          # 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；冻结态由正式资产名（无 .draft）+ approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不进版本号
 prd_version: "v0.2"                           # M0-EP01 文档版本一致性声明：主 PRD v0.1 EFFECTIVE
-data_contract_version: "v0.4"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
-acceptance_contract_version: "v0.6"           # M0-EP01：附录 B 三个核心模块智能验收合同 v0.4 EFFECTIVE（M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID）
+data_contract_version: "v0.5"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
+acceptance_contract_version: "v0.7"           # M0-EP01：附录 B 三个核心模块智能验收合同 v0.4 EFFECTIVE（M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID）
 context_snapshot_id: "SNAP-INTD01-0001"       # 起草时为规划名、快照尚未构建；2026-08-17 现状：快照已落盘 acceptance/cases/INT-D01/fixtures/context_snapshot.json
 snapshot_hash: "sha256:0fbeb6f2264e8db2d7403dbfe37ade722d83708e6e49a4f16e18bd7d8cf2c870"  # 由 tools/freeze_gate.py 唯一算法实算回填（快照正文任何改动即过期，须同批重算）
 task_statement: "帮我推广羊绒大衣。"          # 照抄 B:277「输入」引文，一字不改

@@ -9,6 +9,12 @@
 #   DAILY_CONTENT_OPERATION 直接制作春节主题内容（春节只作主题/场景），可选信息交付后提示；因节令词
 #   推断促销、以促销边界缺失拦停、打包退回资料问题——均红（A8 终态闸 / INT_TASK_ESCALATED）。
 #   「QUICK 带假设继续」考点仍由 INT-D03 input-a 承载。原口径原文见 git 历史与 L3-判分记录-INT-20260818.md。
+# 【复判批第⑥条改口径（Founder 2026-08-18 复判：D02 不通过）】判分批那版预期（解析 DAILY 后直接
+#   继续制作）**又被第⑥条取代**：本案例商品事实含 product.lifecycle_stage=库存消化期（CONFIRMED），
+#   用户原话未提及——系统据企业事实已知重大经营情境时，不得擅自转向、也不得装作不知道，须并呈
+#   两套方案（春节主题常规方向 + 库存消化备选方向，各带三要素）由用户选（A.5.2 约束8 / OD-03 §五 /
+#   B v0.7）。失败现场 = RUN-0013/0014：模型看见了情境、只在 model_judgments 内部写了一句，
+#   用户侧零呈现。机器面 = A8 终态改判 + A9 新闸；两种模式同一并呈义务（快速≠可以替用户定方向）。
 case_id: INT-D02
 contract_ref: B.4.1/INT-D02
 case_version: v0.1
@@ -52,9 +58,18 @@ must_hold:                       # 第一带：确定性断言（零模型调用
   #        保持 human_required（见注册表），A6 绿不等于「没有编造」。
   - {id: A6, check: numeric_grounding,          args: {snapshot_fields: [inventory, price]}, tag: BD_FACT_FABRICATION}
   - {id: A7, check: forbidden_expression,       args: {lexicon: acceptance/detectors/forbidden_lexicon.yaml}, tag: SYS_RULE_VIOLATION}   # B:918（B.6.4 在册）
-  # A8（判分批新增，B v0.6 允许答案族的机器可判面）：预期终态 = RESOLVED + DAILY_CONTENT_OPERATION
-  #     + CONTINUE_TO_DECISION（春节主题正常制作，促销边界不阻断）。tag = INT_TASK_ESCALATED。
-  - {id: A8, check: intent_terminal_state,      args: {expect_goal_resolution: RESOLVED, expect_business_goal: DAILY_CONTENT_OPERATION, expect_next_action: CONTINUE_TO_DECISION}, tag: INT_TASK_ESCALATED}
+  # A8（判分批新增；**复判批按第⑥条改口径**，B v0.7 允许答案族的机器可判面）：
+  #     旧预期 RESOLVED + DAILY + CONTINUE_TO_DECISION 已被第⑥条取代——本案例商品事实含
+  #     lifecycle_stage=库存消化期而用户原话未提及，合格形态是**并呈双方案停在用户选择点**：
+  #     RESOLVED_WITH_ALTERNATIVE + business_goal 仍为 DAILY_CONTENT_OPERATION（听懂了就是听懂了）
+  #     + REQUEST_INPUT（A.5.2 约束8）。tag 仍取 INT_TASK_ESCALATED：终态跑偏的两个方向——
+  #     退回光秃选择题、或把可执行任务升级成补料任务——都归它；「情境被吞/擅自转向」归 A9。
+  - {id: A8, check: intent_terminal_state,      args: {expect_goal_resolution: RESOLVED_WITH_ALTERNATIVE, expect_business_goal: DAILY_CONTENT_OPERATION, expect_next_action: REQUEST_INPUT}, tag: INT_TASK_ESCALATED}
+  # A9（复判批新增）：统一产品标准⑥的机器可判面（A.5.2 约束8 / OD-03 §五 登记表）。
+  #     情境四元组由考卷显式声明，检测器不硬编案例；失败现场 = RUN-0013/0014（模型内部写下
+  #     「该产品处于库存消化期…因此不能据此推断目标为 INVENTORY_ACTIVATION」后用户侧零呈现）。
+  #     ⚠ 射程：只判「该并呈有没有并呈」，判不了两套方案写得好不好——后者归第三带 B.4.1/INT-D02 第 4 问。
+  - {id: A9, check: intent_situational_alternative, args: {situation_field: product.lifecycle_stage, situation_value: 库存消化期, alternative_goal: INVENTORY_ACTIVATION, primary_goal: DAILY_CONTENT_OPERATION}, tag: INT_SITUATION_WITHHELD}
 
 # 本案例**未覆盖**且刻意不挂检测器的禁止结果（如实登记，不假装覆盖）：
 #   · B:336「为单一任务索取大量无关资料」/ B:338「强制完成完整企业资料库」——"无关""大量"是语义判断，

@@ -34,9 +34,9 @@
     },
     "A_模块接口与核心数据字典.md": {
       "manifest_field": "data_contract_version",
-      "declared_version": "v0.4",
+      "declared_version": "v0.5",
       "version_from": "doc_control_block",
-      "sha256": "sha256:69f4435ce05bc80483ec96f1cad5ac9ba54e55c8e745e9dc870efd4e7197ff65",
+      "sha256": "sha256:fefb9f1e13c3dd630c8a978044567581c88137a9e1aca7ce83018d3a404ef350",
       "version_history": [
         {
           "declared_version": "v0.2",
@@ -58,14 +58,21 @@
           "recorded_at": "2026-08-18",
           "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）",
           "chain": "sha256:ef8e7f4d68807dedfc2e10ddfcf0b70ec9e48b7622058be4b1f902eb46a340ab"
+        },
+        {
+          "declared_version": "v0.5",
+          "sha256": "sha256:fefb9f1e13c3dd630c8a978044567581c88137a9e1aca7ce83018d3a404ef350",
+          "recorded_at": "2026-08-18",
+          "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）",
+          "chain": "sha256:08bd299fd2191d49e0940adea2a628ebb36d971f1235ee4dbfab91e2cac03bb6"
         }
       ]
     },
     "B_三个核心模块智能验收合同.md": {
       "manifest_field": "acceptance_contract_version",
-      "declared_version": "v0.6",
+      "declared_version": "v0.7",
       "version_from": "doc_control_block",
-      "sha256": "sha256:73551798202645e43aa24eb624bf443a09b670b0f833e1fe0a681f0767e74b9f",
+      "sha256": "sha256:72cf9466f3b7308977f4c4135622771a92a2e9b2570333f5b06ca3c526ca2b4a",
       "version_history": [
         {
           "declared_version": "v0.4",
@@ -87,6 +94,13 @@
           "recorded_at": "2026-08-18",
           "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）",
           "chain": "sha256:fee5c267abc3d4d03f976cabebee02fcff99d71c9756b95dea9165833da26254"
+        },
+        {
+          "declared_version": "v0.7",
+          "sha256": "sha256:72cf9466f3b7308977f4c4135622771a92a2e9b2570333f5b06ca3c526ca2b4a",
+          "recorded_at": "2026-08-18",
+          "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）",
+          "chain": "sha256:4383b7a17ace4c2dd57d98a1a14f959231bd3d3dae15abc28bad55e2dd3d5230"
         }
       ]
     },
@@ -287,84 +301,84 @@
   },
   "case_manifests": {
     "acceptance/cases/BD-D01/manifest.yaml": {
-      "content_sha256": "sha256:7572f620b764ac8d0a5c61ac67eabe18843b69528d8fd1d412f56048ef269d09",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:17b3c5afa63931846402681352a6f30742a2ef00d50c424876431c0170c2a8f4",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/BD-D02/manifest.yaml": {
-      "content_sha256": "sha256:2750d679593cb93755d236dbf9bbcb5f66b0580d724cc66fb115c7df89ce9eef",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:650d5cda1ca94bf59eb9c458f49a5065de78e299a67b804e86cd9c4f09f6852b",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/BD-D03/manifest.yaml": {
-      "content_sha256": "sha256:4430a72a6969fca5a523db3743fafaf9a8e4b147a5ed0ecd8d5ef8f3e9740707",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:13e8b3847d409df974fe2063e191b1a270447060646189752ab9e4b73ea00e60",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/CR-D01/manifest.persona-buyer.yaml": {
-      "content_sha256": "sha256:b99ff8ce55da7214d8b378b4d45571c6d93cc6dc986a87b6593982aa3d924f25",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:7515b2655a3cf0c5f3d0bd47e0fa46d5e1512bd573e8e99b8a07c4e01be5fc90",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/CR-D01/manifest.persona-owner.yaml": {
-      "content_sha256": "sha256:28df3c700a9696371aa36189d9d526ccd85567236f4a8ff0bcf0183a9d7259c8",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:8627c7352487f5dd8f8c45f39e462f70291f1687e9a4a2bb0d1c487996c709c6",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/CR-D02/manifest.yaml": {
-      "content_sha256": "sha256:9ba15ff1df7406012976f511d58c599f8e8831d8614aa8c176508a0d256e5cfa",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:42c72e40974b26a5cd3ef85669d84398102b54cd4cb30f4392eaf2ffde7a2ef9",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/CR-D03/manifest.yaml": {
-      "content_sha256": "sha256:5ef6c93d4f526399a4dc7ff0786efde67e16fa4a1d9e0e5588dbafd01d86ebba",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:185d41a35f9e18b7f57494f1f23530bff63a89af9ed118c74b67f9c29ff48cd2",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/CR-D04/manifest.input-a.yaml": {
-      "content_sha256": "sha256:c15a0341eb01fbb3fb6ae7ddb9f199a305669bfc30b6555097ede3b01703cf7a",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:8d2493d2b6fc56ae6724f2136886464ae39b1f2566b4e90eb38043699836d5c4",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/CR-D04/manifest.input-b.yaml": {
-      "content_sha256": "sha256:7f4962d6462e28ff751b113255af8817b8c076a8d09dcf138241218d39123a89",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:817c2e495898b10167fc68ab90c8d28cf7544b4c520af042086f2507d83f235a",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/CR-D04/manifest.input-c.yaml": {
-      "content_sha256": "sha256:1a706dcb2b0ebe983d80dadb8691bd7c993d1f54fbada922277e40d4eb93663d",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:579a41f99297e157eb0da5464527c0222e78038f57c653ec2864ba3fd933226f",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/E2E-01/manifest.yaml": {
-      "content_sha256": "sha256:f69dba4b26f25419c3f7f06768e8cc6a6b1504899f782cbb9fe43d909b05d158",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:0da757e13193f85a6098482eac7e3aa171df0e610f6308982855f004915c92c4",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/E2E-02/manifest.yaml": {
-      "content_sha256": "sha256:8af0f18c8e7751c5f85d84329245290fc268649cdc237063a28a6eef0cccf10d",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:52e3899fe80040d17612239ccc2e4193482d93f4a45f46db2c556afef7462897",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/E2E-03/manifest.yaml": {
-      "content_sha256": "sha256:63e76227967a7344a89bad0c53140c605a21971831d5d72d6d3934c80ae7ab0c",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:f6ff5f1c9493d65d954c70abcea2cfcf63c1b0a03a2cbe2d2c793f25ad579225",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/INT-D01/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:5fcfe0ec4f97dbe5bb0396cbf752dc631f2e7713a059c27aa8953b167f9c77fe",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:989d7dc34e28dc473b2dab6fbd198dd30b97f3ff0560f6bdf2daaa602b3d4f25",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/INT-D01/manifest.quick.yaml": {
-      "content_sha256": "sha256:471faea4cc98b99649b437426c8b9bf6a4ba94863c839c399578c783682aa12a",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:9f67e0bf0e4a5f3d02e0bae0a9b205bb45b7be9484419497323a436bfc087406",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/INT-D02/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:c51bc9ec4fcdec51999851a9d8354bf6298554af320788cb057f8efd9c71202d",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:577473c99063b2f25c8e66f2dd029aa69e0fe43c87d4b581f22f86f58b4c4f96",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/INT-D02/manifest.quick.yaml": {
-      "content_sha256": "sha256:3f717003ef7ac8476c7185c4ec0c19ee0be517340504fd84add98d182c22a3aa",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:bb89d2a96bd6708e9b3839b17050918f52e33697805eafdceb5301e95e2d4acc",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/INT-D03/manifest.input-a.yaml": {
-      "content_sha256": "sha256:0098bd735d9965613659ffc9322415fb052992ba35e4ef0063027054cfb82d2d",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:e00e5f8c1b21de5c73aa1b65ec1973ed07240eb3a953db077e2bbfaa59d52083",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/INT-D03/manifest.input-b.yaml": {
-      "content_sha256": "sha256:afddc8fb0fe5a6cd4a4086d15f008a00c9ca92c35f69c99f1e7a2a6f0e603b3c",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:075755e950f7696c494ed135e601464bb85bc4f33aea348e108211db090d0eea",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     },
     "acceptance/cases/SYS-D01/manifest.yaml": {
-      "content_sha256": "sha256:3563e8544837239e7d184e2d01dbf46f6af1f232d4fa8820cf55195d1d734d02",
-      "note": "校准修订批级联（Founder 2026-08-18 判分批裁决：A v0.4 七枚举+候选三要素 / B v0.6 三案例预期改写；L3-判分记录-INT-20260818.md）"
+      "content_sha256": "sha256:bf07cca8e71f841ec37cc4a7c8382adc131382715118a48ea58d138df73a88d6",
+      "note": "校准批二级联（Founder 2026-08-18 复判批第⑥条产品标准：A v0.5 新增 RESOLVED_WITH_ALTERNATIVE + 约束8 / B v0.7 INT-D02 并呈双方案 + INT_SITUATION_WITHHELD；L3-判分记录-INT-20260818.md 复判节）"
     }
   },
   "fact_fixtures": {

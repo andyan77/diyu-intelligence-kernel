@@ -316,7 +316,8 @@ check("⑰-g next_action 缺失→UNKNOWN",
 # 只要模型把枚举写歪一个字母就能带着唯一目标继续下游。
 check("⑰-h 枚举外取值仍按非 RESOLVED 判→FAIL",
       checks.intent_goal_gate(_plan(goal_resolution="RESOLVED_ISH", next_action="REQUEST_INPUT"), CTX),
-      "FAIL", ("business_goal", "三枚举"))
+      # 「四枚举」：A v0.5 起 goal_resolution 有四个取值（校准批二新增 RESOLVED_WITH_ALTERNATIVE）
+      "FAIL", ("business_goal", "四枚举"))
 check("⑰-i 空白串目标视为空→OK",
       checks.intent_goal_gate(_plan(goal_resolution="NEEDS_INPUT", business_goal="   ",
                                     next_action="REQUEST_INPUT"), CTX), "OK")
@@ -584,6 +585,66 @@ check("㉓-g 候选不足两个→FAIL",
 check("㉓-h 非 AMBIGUOUS 不适用→OK 且注明",
       checks.intent_candidate_completeness({"goal_resolution": "RESOLVED", "goal_candidates": []}, _CTX23),
       "OK", "不适用")
+
+# ---- ㉔ 复判批新增：intent_situational_alternative（统一产品标准⑥ / A.5.2 约束8 / OD-03 §五）----
+# **测试先行**：本块先于检测器实现写下并实跑（首跑 AttributeError＝检测器不存在，红证在批次回执里），
+# 实现后转全绿。用例现场取自 RUN-0013/0014——模型内部写下「该产品处于库存消化期…因此不能据此推断
+# 目标为 INVENTORY_ACTIVATION」后用户侧零呈现，即第⑥条所指「装作不知道」。
+_SNAP24 = {"facts": {"product": {"lifecycle_stage": {"status": "CONFIRMED", "value": "库存消化期"},
+                                 "name": {"status": "CONFIRMED", "value": "羊绒风衣式大衣"}}}}
+_CTX24 = {"repo_root": ROOT, "snapshot": _SNAP24}
+_CTX24_NOSIT = {"repo_root": ROOT, "snapshot": {"facts": {"product": {"lifecycle_stage": {"value": "在售新品"}}}}}
+_ARGS24 = dict(situation_field="product.lifecycle_stage", situation_value="库存消化期",
+               alternative_goal="INVENTORY_ACTIVATION", primary_goal="DAILY_CONTENT_OPERATION")
+_C_PRIMARY = {"goal": "DAILY_CONTENT_OPERATION", "rationale": "按用户原话", "focus": "春节主题种草",
+              "tradeoffs": "稳但不冲量", "expected_outcome": "商品被看见被理解"}
+_C_ALT = {"goal": "INVENTORY_ACTIVATION", "rationale": "FACT:product.lifecycle_stage", "focus": "节前动销",
+          "tradeoffs": "见效快但偏促销口吻", "expected_outcome": "库存消化"}
+_PAIR = {"goal_resolution": "RESOLVED_WITH_ALTERNATIVE", "business_goal": "DAILY_CONTENT_OPERATION",
+         "next_action": "REQUEST_INPUT", "goal_candidates": [_C_PRIMARY, _C_ALT]}
+check("㉔-a 情境在场却径直按常规继续→FAIL（装作不知道；RUN-0013/0014 现场）",
+      checks.intent_situational_alternative({"goal_resolution": "RESOLVED", "business_goal": "DAILY_CONTENT_OPERATION",
+                                             "next_action": "CONTINUE_TO_DECISION", "goal_candidates": []},
+                                            _CTX24, **_ARGS24), "FAIL", "库存消化期")
+check("㉔-b 擅自把目标转向情境目标→FAIL",
+      checks.intent_situational_alternative({"goal_resolution": "RESOLVED", "business_goal": "INVENTORY_ACTIVATION",
+                                             "next_action": "CONTINUE_TO_DECISION", "goal_candidates": []},
+                                            _CTX24, **_ARGS24), "FAIL", "擅自转向")
+check("㉔-c 并呈双方案三要素齐＋停在选择点→OK",
+      checks.intent_situational_alternative(dict(_PAIR), _CTX24, **_ARGS24), "OK")
+check("㉔-d 并呈但只有主方案一个候选→FAIL",
+      checks.intent_situational_alternative(dict(_PAIR, goal_candidates=[_C_PRIMARY]), _CTX24, **_ARGS24),
+      "FAIL", "INVENTORY_ACTIVATION")
+check("㉔-e 并呈但备选缺三要素（光秃标签）→FAIL",
+      checks.intent_situational_alternative(
+          dict(_PAIR, goal_candidates=[_C_PRIMARY, {"goal": "INVENTORY_ACTIVATION", "rationale": "r"}]),
+          _CTX24, **_ARGS24), "FAIL", "三要素")
+check("㉔-f 主备颠倒（business_goal 写成情境目标）→FAIL",
+      checks.intent_situational_alternative(dict(_PAIR, business_goal="INVENTORY_ACTIVATION"), _CTX24, **_ARGS24),
+      "FAIL", "主目标")
+check("㉔-g 并呈却仍 CONTINUE（备选代替了人工选择）→FAIL",
+      checks.intent_situational_alternative(dict(_PAIR, next_action="CONTINUE_TO_DECISION"), _CTX24, **_ARGS24),
+      "FAIL", "REQUEST_INPUT")
+check("㉔-h 快照里根本没有该情境→UNKNOWN（考卷与夹具漂移，禁默认放行）",
+      checks.intent_situational_alternative({"goal_resolution": "RESOLVED", "business_goal": "DAILY_CONTENT_OPERATION",
+                                             "next_action": "CONTINUE_TO_DECISION"}, _CTX24_NOSIT, **_ARGS24),
+      "UNKNOWN")
+check("㉔-i 考卷未声明情境（args 全空）→UNKNOWN",
+      checks.intent_situational_alternative({"goal_resolution": "RESOLVED"}, _CTX24), "UNKNOWN")
+check("㉔-j 目标尚未解析（AMBIGUOUS）→UNKNOWN（窄口径：非「闷头开做」场合，不判绿也不判红）",
+      checks.intent_situational_alternative({"goal_resolution": "AMBIGUOUS", "business_goal": None,
+                                             "next_action": "REQUEST_INPUT"}, _CTX24, **_ARGS24), "UNKNOWN")
+# ㉔-k/l：intent_goal_gate 对新枚举值的口径（A v0.5 约束8）。新状态**按定义**带非空主目标，
+# 故约束1/2 的「非 RESOLVED 必须清空 business_goal」对它不适用；但「必须停在 REQUEST_INPUT」照判。
+# 没有这两条，A5 闸会把合法的并呈形态误判成 INT_GOAL_ASSUMED（实测：D02 试跑首次即如此）。
+_PLAN_ALT = {"goal_resolution": "RESOLVED_WITH_ALTERNATIVE", "business_goal": "DAILY_CONTENT_OPERATION",
+             "next_action": "REQUEST_INPUT", "required_context": [], "missing_context": [],
+             "assumptions": [], "confidence": {"level": "LOW"}}
+check("㉔-k 并呈状态带非空主目标不再误判 INT_GOAL_ASSUMED→OK",
+      checks.intent_goal_gate(dict(_PLAN_ALT), _CTX23), "OK", "约束8")
+check("㉔-l 并呈状态却 CONTINUE（备选代替人工选择）→FAIL",
+      checks.intent_goal_gate(dict(_PLAN_ALT, next_action="CONTINUE_TO_DECISION"), _CTX23),
+      "FAIL", "交回人工")
 
 for line in PASSED:
     print(line)

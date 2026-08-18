@@ -11,13 +11,13 @@ case_id: BD-D01
 
 # 与 acceptance/cases/BD-D01/case.yaml 的 case_version: v0.1 对齐；冻结态由正式资产名（无 .draft）+
 # approved_by/approved_at 字段值 + 冻结门 GATE_GREEN 回执表达，不写进版本号。
-case_version: "v0.5"
+case_version: "v0.6"
 
 # 以下三行版本取自 M0-EP01_文档版本一致性声明.md「一、现行版本基线」：主 PRD v0.1 / 附录 A v0.2 / 附录 B v0.4
 #（起草时基线为 A v0.1 / B v0.3；2026-08-17 A 补 emotion 字段升 v0.2、B 补登 EVAL_BLINDING_PROCEDURE_INVALID 升 v0.4，三行字段值已同批对齐）
 prd_version: "v0.2"
-data_contract_version: "v0.4"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
-acceptance_contract_version: "v0.6"
+data_contract_version: "v0.5"                 # A v0.2（Founder 08-17 预裁决⑦补情绪字段）；由 v0.1 机械同步，非新裁决
+acceptance_contract_version: "v0.7"
 
 # 规划名，与已有夹具 acceptance/cases/BD-D01/fixtures/context_snapshot.json 的 snapshot_id 一致（未改动该夹具）
 context_snapshot_id: "SNAP-BDD01-0001"
