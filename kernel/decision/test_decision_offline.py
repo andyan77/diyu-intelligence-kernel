@@ -409,6 +409,27 @@ try:
 except trace.TraceAssemblyError:
     item("护栏⑨ MODEL_JUDGMENT 无支撑在 trace 层报错（A.9.2）", True)
 
+# 护栏⑭⑮＋对照⑯：产品标准② prompt 判据面（Founder 2026-08-18 四点批复①放行；ATT-0008；
+# 失败引用 = acceptance/runs/L3-判分记录-INT-20260818.md 案例二 D02「主动脑补促销意图」）。
+# 护住的是 prompt 文本资产本身；行为级通用键控兜底 = 批复②「双层把关」方向，实现留下一批。
+_STD2_KEY_PHRASE = "不得引入用户未提出的促销／清库存／折扣路径"
+
+
+def _std2_discipline_present(body_text):
+    """标准②纪律必须在发给模型的正文面（PROMPT_BEGIN/END 之内）逐字存在。"""
+    return _STD2_KEY_PHRASE in body_text
+
+
+_step2_body, _step2_ver = runner.load_prompt(config.PROMPT_STEP2_PATH)
+item("护栏⑭ step2 prompt 正文含标准②明文纪律（判据面逐字，非仅文件头登记）",
+     _std2_discipline_present(_step2_body))
+item("护栏⑮ step2 prompt_version 随纪律新增升 v0.2（版本与内容一致，防旧版本号假陈述）",
+     _step2_ver == "v0.2", f"实际 {_step2_ver!r}")
+_step2_body_mutilated = "\n".join(
+    line for line in _step2_body.splitlines() if _STD2_KEY_PHRASE not in line)
+item("对照⑯ 故意删除标准②纪律行必须报警（verify-OK-before-break：完整正文先 OK，删行后必红）",
+     _std2_discipline_present(_step2_body) and not _std2_discipline_present(_step2_body_mutilated))
+
 # ============================ 收尾守卫 ============================
 
 item("G1 产物目录不在仓库内", not os.path.abspath(WORKDIR).startswith(os.path.abspath(REPO_ROOT)))
