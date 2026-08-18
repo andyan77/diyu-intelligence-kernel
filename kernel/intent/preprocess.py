@@ -56,26 +56,32 @@ from kernel.intent.config import (
 
 
 def load_snapshot(path):
-    """读一份 Context Snapshot JSON，返回原始 dict（不做任何改写）。
+    """读一份 Context Snapshot JSON → R1-R5 运行时谓词 → 解引用，返回内联兼容视图 dict。
 
-    为什么这里**不**做 JSON Schema 校验（诚实边界，不是偷懒）：
-    contracts/schemas/context_snapshot.schema.json 逐字照抄 A.4.3，十四个必填字段全是"引用式"
-    （brand_facts_ref / product_facts_refs / … / snapshot_hash）；而 M0 已冻结落盘的案例夹具是
-    "事实内联"的扁平形状（实测 acceptance/cases/INT-D0{1,2,3}/fixtures/context_snapshot.json
-    顶层只有 snapshot_id / brand_id / _fixture_note / facts / hard_rules）。
-    拿 A.4.3 Schema 去卡这些夹具会 100% 判红，而这个红既不代表夹具错、也不代表 Schema 错——
-    它是"冻结合同与冻结考卷之间的形状差"，属 OD 级裁决：改夹具 = 改考卷，改 Schema = 改冻结合同，
-    两条都不许执行侧自决。故本函数只做最小结构断言，把差异原样留给上层与人工，不制造假红也不制造假绿。
+    历史注（原「诚实边界」已随块 E ① 关闭）：M0 冻结夹具曾是"事实内联"扁平形状，与
+    contracts/schemas/context_snapshot.schema.json（A.4.3 引用式）存在形状差，本函数当时
+    只做最小结构断言、不卡 Schema。该形状差经 Founder 2026-08-18 批准迁移方案后已消除——
+    15 份正式快照全部迁为 A.4.3 十四字段引用式（tools/migrate_snapshots.py，值级对账
+    acceptance/runs/migration_reconciliation.md）。据此本函数改为（块 E ②，删旧容错）：
+      1. kernel/facts.predicates.run_all_runtime：snapshot_hash 实算 / 引用可解析且 ACTIVE /
+         BrandMemory 首轮必空 / locator 无明文凭证 / 同 ID 同版本禁覆盖 / P2 / P3，任何红即抛错；
+      2. kernel/facts.resolve.materialize_legacy_view：解引用产出与旧内联同构的视图，
+         下游 materialize_fact_pool / resolve_requirements 的消费面不变；
+      3. 旧内联形状**直接拒绝**（fail-closed）——两套形状并行 = E-05 假闭环温床。
 
-    另：夹具里的 `_fixture_note` 含案例编号与考点描述，原样喂给模型即泄题。本文件的处理是
-    materialize_fact_pool 只读 `facts` 子树、且跳过下划线开头的键——但**整份 JSON 会不会被 runner
-    塞进 prompt** 不归本文件管，runner 侧必须只注入 fact 池行，不得注入原始快照全文。
+    `_fixture_note` 泄题纪律不变：视图不含任何 `_` 前缀键（解引用层已剔除，含迁移注解），
+    runner 侧仍只许注入 fact 池行，不得注入原始快照全文。
     """
     with open(path, "r", encoding="utf-8") as fh:
         snapshot = json.load(fh)
     if not isinstance(snapshot, dict):
         raise ValueError("快照根节点必须是 JSON 对象，实际是 %s：%s" % (type(snapshot).__name__, path))
-    return snapshot
+    from kernel.facts import FactStore, materialize_legacy_view, predicates as _fact_predicates
+    store = FactStore()
+    red = _fact_predicates.run_all_runtime(snapshot, store)
+    if red:
+        raise ValueError("快照未过 kernel/facts 运行时谓词（R1-R5/P2/P3），拒绝装载：\n  " + "\n  ".join(red))
+    return materialize_legacy_view(snapshot, store)
 
 
 # ======================================================================================
