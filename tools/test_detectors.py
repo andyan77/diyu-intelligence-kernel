@@ -528,6 +528,27 @@ for _cid in ("INT-D01", "INT-D02", "INT-D03"):
           ("OK" if (_items and not _bad and not _notag) else "FAIL",
            f"条数={len(_items)} 未绑定={_bad} 缺tag={_notag}"), "OK")
 
+# ---- ㉒ 判分批修复（Founder 2026-08-18 批准「中文量词与成语里的『一』不作数字提取、系统留痕
+# 中的条款号豁免」，负向测试先行）：用例字符串逐字取自 RUN-0006/0007/0008 真实误报现场
+# （L3-判分记录-INT-20260818.md + 台账已批准行）。㉒-f/g/h 是真阳性护栏：修复不得放走真编造。 ----
+_SNAP22 = {"product": {"inventory": {"value": 800, "unit": "件"}, "price": {"value": 3980, "currency": "CNY"}}}
+check("㉒-a 成语「一致」的一不作数量（RUN-0006 basis 原文，左窗口有库存线索也不判）",
+      ng({"intent_summary": "用户显式声明目标，且事实池中产品生命周期阶段与库存数据一致支持该目标。"}, _SNAP22), "OK")
+check("㉒-b 「一类」的一不作数量（RUN-0008 limiting_factors 原文）",
+      ng({"confidence": {"limiting_factors": ["缺 product.material_proof（QUALITY_REDUCING）：面料成分有没有检测报告或吊牌照片一类的凭证？"]}}, _SNAP22), "OK")
+check("㉒-c 量词「（为）一件」的一不作数量（RUN-0006 summary 句式；800 件本身必须可溯源）",
+      ng({"intent_summary": "任务要求为一件处于库存消化期的羊绒大衣制作内容，库存量为800件。"}, _SNAP22), "OK")
+check("㉒-d 系统留痕条款号豁免：confidence.basis 里的「约束5 / A.5.2 / A.4.2」（RUN-0006 basis 原文）",
+      ng({"confidence": {"basis": ["闸留痕：系统改判：模型判 RESOLVED，存在阻断缺失 brand.promotion_boundary，改为 NEEDS_INPUT（A.5.2 约束5 / A.4.2）"]}}, _SNAP22), "OK")
+check("㉒-e 系统留痕条款号豁免：resolution_question 模板句里的 B 行号引用",
+      ng({"missing_context": [{"field_path": "task_input.business_goal", "resolution_question": "这条视频想达成什么？（B:285-286 只问一个最关键问题）"}]}, _SNAP22), "OK")
+check("㉒-f 真阳性不松：多字中文数量「三千件」无源仍 FAIL",
+      ng({"intent_summary": "库存三千件亟待消化。"}, _SNAP22), "FAIL", "3000")
+check("㉒-g 豁免只限条款号：系统留痕里冒出的无源价格仍 FAIL",
+      ng({"confidence": {"basis": ["按售价2999元估算折扣空间"]}}, _SNAP22), "FAIL", "2999")
+check("㉒-h 真阳性不松：正文无源阿拉伯数字仍 FAIL",
+      ng({"intent_summary": "预计触达5000人。"}, _SNAP22), "FAIL", "5000")
+
 for line in PASSED:
     print(line)
 for line in FAILURES:

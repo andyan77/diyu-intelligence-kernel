@@ -1,4 +1,4 @@
-"""确定性断言库 v0.2（考卷区——改检测器=改考卷，需审批 C.6.3）。
+"""确定性断言库 v0.3（考卷区——改检测器=改考卷，需审批 C.6.3）。
 契约（C.4 铁律1）：每个 check 返回 (verdict, detail)，verdict ∈ {"OK","FAIL","UNKNOWN"}；
 证据不足一律 UNKNOWN 向上冒泡（禁止 default:false / 假绿）。L1 只判 FAIL，不产生 PASS。
 
@@ -10,6 +10,11 @@ detectors_version / tools/coverage.py detectors_version，两处都读本 docstr
        堵「把阻断项只写进 required_context、missing_context 留空」的绕闸通道；
     ② intent_assumption_coverage 的 statement 子串**兜底命中降为 UNKNOWN**
        （只有 target_paths 精确含 field_path 才算已对应）。
+  v0.2 → v0.3（校准修订批②，Founder 2026-08-18 判分批批准，负向测试先行 tools/test_detectors.py ㉒）：
+    只动 numeric_grounding（自身语义版 v0.3→v0.4），两处收敛误报、真阳性零放松：
+    ① 量词与成语里的单字「一」不作数字提取（一致/一类/一件——RUN-0006/0007/0008 三红实证）；
+    ② 系统留痕字段（confidence.basis / confidence.limiting_factors / *.resolution_question）内的
+       合同条款号（约束5 / A.5.2 / B:285-286 / §四）豁免；同字段其他数字照查（㉒-g 护栏）。
 """
 import json, os, re, subprocess, sys
 
@@ -312,6 +317,12 @@ def _text_numbers_out(text):
                 continue
             if cls is None and len(raw) == 1:
                 continue
+            # v0.4（Founder 判分批裁决）：量词/成语里的单字「一」即使被窗口线索词或单位归了类
+            # 也不作数量——「库存数据一致」「照片一类」「为一件大衣」全是构词不是数量主张。
+            # 诚实边界：「库存只有一件」的真实数量主张因此同样免检（裁决接受的盲区）；
+            # 阿拉伯数字与多字中文数量（三千件）仍全程在射程（㉒-f/h 护栏钉死）。
+            if raw == "一":
+                continue
         else:
             v = _signed_value(text, s, raw)
         v *= scale
@@ -391,6 +402,16 @@ def _collect_snapshot(node, segs, acc, keys, paths, hint=None):
         pcls = _path_class(segs)
         for v, ucls in _text_numbers_snap(node): acc.append((v, ucls or pcls or hint))
 
+# v0.4（Founder 判分批裁决）：系统留痕字段的值由确定性系统代码生成（闸留痕/限制因子/追问模板句），
+# 里面的合同条款号（约束5 / A.5.2 / B:285-286 / §四）是引用不是经营数字。豁免**只**发生在这些
+# 路径上、**只**剥条款号模式；同字段里冒出的其他数字（如无源价格）照查（㉒-g 护栏钉死）。
+_SYS_TRACE_HEADS = (("confidence", "basis"), ("confidence", "limiting_factors"))
+_CLAUSE_REF_RE = re.compile(r"(约束\s*\d+|§\s*[一二三四五六七八九十\d]+|[A-Za-z]+\.\d+(?:\.\d+)*|[A-Za-z]+:\d+(?:-\d+)?)")
+
+def _is_sys_trace_path(segs):
+    if segs and str(segs[-1]) == "resolution_question": return True
+    return any(len(segs) >= len(h) and tuple(str(s) for s in segs[:len(h)]) == h for h in _SYS_TRACE_HEADS)
+
 def _collect_output(node, segs, acc, unresolved):
     if isinstance(node, dict):
         for k, v in node.items():
@@ -404,7 +425,7 @@ def _collect_output(node, segs, acc, unresolved):
         acc.append((float(node), _path_class(segs), ".".join(str(s) for s in segs)))
     elif isinstance(node, str):
         p = ".".join(str(s) for s in segs); pcls = _path_class(segs)
-        nums, unres = _text_numbers_out(node)
+        nums, unres = _text_numbers_out(_CLAUSE_REF_RE.sub(" ", node) if _is_sys_trace_path(segs) else node)
         for v, ucls in nums: acc.append((v, ucls or pcls, p))
         for raw in unres: unresolved.append((raw, p))
 
