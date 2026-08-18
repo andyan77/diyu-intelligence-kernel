@@ -1,0 +1,33 @@
+{
+  "goal_resolution": "RESOLVED_WITH_ALTERNATIVE",
+  "business_goal": "DAILY_CONTENT_OPERATION",
+  "goal_candidates": [
+    {
+      "goal": "DAILY_CONTENT_OPERATION",
+      "rationale": "任务原话为‘为这件羊绒大衣制作春节前视频号内容’，属于典型的日常内容经营表述，未明示任何特殊经营意图，仅要求围绕商品做视频内容。",
+      "focus": "突出产品设计、材质与穿着方式，让商品在春节前被目标用户看见和理解。",
+      "tradeoffs": "优点是内容灵活、符合常规节奏；代价是可能错失利用库存消化期推动销售的机会。",
+      "expected_outcome": "适用于维持品牌日常曝光、强化产品认知，不以短期销量或库存动作为核心目标。",
+      "referenced_fact_ids": ["FACT:product.name", "FACT:product.style_attributes", "FACT:product.selling_points"]
+    },
+    {
+      "goal": "INVENTORY_ACTIVATION",
+      "rationale": "系统已知该产品处于‘库存消化期’（FACT:product.lifecycle_stage），且登记在册的对应备选目标为 INVENTORY_ACTIVATION，虽用户未明示，但构成合理备选方向。",
+      "focus": "强调产品稀缺性、经典款价值与节前穿搭实用性，引导尽快决策购买以加速库存周转。",
+      "tradeoffs": "优点是可提升转化效率、缓解库存压力；代价是需谨慎避免促销感，以免违反高端品牌表达禁令（如 R-BDD01-001）。",
+      "expected_outcome": "适用于希望在春节消费窗口期内有效减少库存积压，同时保持品牌调性不变形。",
+      "referenced_fact_ids": ["FACT:product.lifecycle_stage"]
+    }
+  ],
+  "intent_summary": "任务要求为一件含9%以上山羊绒的风衣式大衣制作春节前视频号内容。原话未明示特殊经营意图，按常规应归为日常内容经营（DAILY_CONTENT_OPERATION）。但系统已知该产品处于库存消化期，存在INVENTORY_ACTIVATION的备选路径。",
+  "clarification_question": "这次春节前视频内容，是以日常展示产品为主，还是希望借节前窗口加速消化这款大衣的库存？",
+  "referenced_fact_ids": ["FACT:product.name", "FACT:product.material", "FACT:product.style_attributes", "FACT:product.selling_points", "FACT:product.lifecycle_stage"],
+  "model_judgments": [
+    {
+      "text": "该产品山羊绒含量在9.2%–9.9%之间，符合高端基础款定位。",
+      "referenced_fact_ids": ["FACT:product.material"]
+    }
+  ],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "用户原话明确指向日常内容制作，但系统提供的库存消化期情境构成有效备选，需用户确认是否采纳该经营视角。"
+}

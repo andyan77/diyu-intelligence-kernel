@@ -1,0 +1,386 @@
+{
+  "artifact": {
+    "artifact_id": "IEP-RUN-20260818T175843860136Z",
+    "artifact_type": "IntentExecutionPlan",
+    "version": 1,
+    "schema_version": "v0.1",
+    "brand_id": "fixture-brand-01",
+    "task_id": "TASK-RUN-20260818T175843860136Z",
+    "context_snapshot_ref": {
+      "object_type": "ContextSnapshot",
+      "object_id": "SNAP-INTD02-0001",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    },
+    "source_run_id": "RUN-20260818T175843860136Z",
+    "parent_references": [],
+    "review_status": "PENDING",
+    "created_at": "2026-08-18T17:58:43.860157+00:00",
+    "created_by": "SYSTEM"
+  },
+  "task_type": "VIDEO_CONTENT_CREATION",
+  "platform": "WECHAT_VIDEO",
+  "goal_resolution": "RESOLVED_WITH_ALTERNATIVE",
+  "business_goal": "DAILY_CONTENT_OPERATION",
+  "goal_candidates": [
+    {
+      "goal": "DAILY_CONTENT_OPERATION",
+      "rationale": "任务原话为‘为这件羊绒大衣制作春节前视频号内容’，属于典型的日常内容经营表述，未明示任何特殊经营意图，仅要求围绕商品做视频内容。",
+      "focus": "突出产品设计、材质与穿着方式，让商品在春节前被目标用户看见和理解。",
+      "tradeoffs": "优点是内容灵活、符合常规节奏；代价是可能错失利用库存消化期推动销售的机会。",
+      "expected_outcome": "适用于维持品牌日常曝光、强化产品认知，不以短期销量或库存动作为核心目标。",
+      "supporting_trace_refs": [
+        "FACT:product.name",
+        "FACT:product.style_attributes",
+        "FACT:product.selling_points"
+      ]
+    },
+    {
+      "goal": "INVENTORY_ACTIVATION",
+      "rationale": "系统已知该产品处于‘库存消化期’（FACT:product.lifecycle_stage），且登记在册的对应备选目标为 INVENTORY_ACTIVATION，虽用户未明示，但构成合理备选方向。",
+      "focus": "强调产品稀缺性、经典款价值与节前穿搭实用性，引导尽快决策购买以加速库存周转。",
+      "tradeoffs": "优点是可提升转化效率、缓解库存压力；代价是需谨慎避免促销感，以免违反高端品牌表达禁令（如 R-BDD01-001）。",
+      "expected_outcome": "适用于希望在春节消费窗口期内有效减少库存积压，同时保持品牌调性不变形。",
+      "supporting_trace_refs": [
+        "FACT:product.lifecycle_stage"
+      ]
+    }
+  ],
+  "intent_summary": "任务要求为一件含9%以上山羊绒的风衣式大衣制作春节前视频号内容。原话未明示特殊经营意图，按常规应归为日常内容经营（DAILY_CONTENT_OPERATION）。但系统已知该产品处于库存消化期，存在INVENTORY_ACTIVATION的备选路径。",
+  "target_audience_refs": [],
+  "required_context": [
+    {
+      "field_path": "selected_product_refs",
+      "purpose": "做哪个商品：至少选定一个且在库",
+      "availability": "AVAILABLE",
+      "impact": "BLOCKING",
+      "resolution_question": null,
+      "related_source_refs": []
+    },
+    {
+      "field_path": "business_goal",
+      "purpose": "为什么做：商业目标六选一已解析；听不出来必须问，不许猜",
+      "availability": "AVAILABLE",
+      "impact": "BLOCKING",
+      "resolution_question": "这次春节前视频内容，是以日常展示产品为主，还是希望借节前窗口加速消化这款大衣的库存？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "brand_id",
+      "purpose": "哪个品牌：品牌身份明确（防串牌）",
+      "availability": "AVAILABLE",
+      "impact": "BLOCKING",
+      "resolution_question": null,
+      "related_source_refs": []
+    },
+    {
+      "field_path": "platform",
+      "purpose": "发到哪：本期仅视频号；其他平台不得静默适配",
+      "availability": "AVAILABLE",
+      "impact": "BLOCKING",
+      "resolution_question": null,
+      "related_source_refs": []
+    },
+    {
+      "field_path": "video_account",
+      "purpose": "账号事实（缺 → 账号关系只能暂定，不得编造）",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "发在哪个视频号上？这个号平时讲什么、和顾客什么关系？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "product.material_proof",
+      "purpose": "材质证明",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "面料成分有没有检测报告或吊牌照片一类的凭证？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "product.lining",
+      "purpose": "次要商品字段（如里料）",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "里料是什么材质？（缺了不影响能不能做，只影响能说多细）",
+      "related_source_refs": []
+    }
+  ],
+  "missing_context": [
+    {
+      "field_path": "video_account",
+      "purpose": "账号事实（缺 → 账号关系只能暂定，不得编造）",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "发在哪个视频号上？这个号平时讲什么、和顾客什么关系？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "product.material_proof",
+      "purpose": "材质证明",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "面料成分有没有检测报告或吊牌照片一类的凭证？",
+      "related_source_refs": []
+    },
+    {
+      "field_path": "product.lining",
+      "purpose": "次要商品字段（如里料）",
+      "availability": "MISSING",
+      "impact": "QUALITY_REDUCING",
+      "resolution_question": "里料是什么材质？（缺了不影响能不能做，只影响能说多细）",
+      "related_source_refs": []
+    }
+  ],
+  "assumptions": [
+    {
+      "trace_id": "ASSUMPTION:persona.on_camera_form",
+      "trace_type": "ASSUMPTION",
+      "statement": "出镜形式属创作侧自决项（OD-03 v1.2 §三）：本次不就出镜人向用户追问，由创作侧按账号人设与内容需求决定；本步不预设任何具体人物或其经历，也不得据此写出确定表述。用户明示禁真人出镜时该自决受限。",
+      "target_paths": [
+        "persona"
+      ],
+      "confidence": null
+    },
+    {
+      "trace_id": "ASSUMPTION:audience.derived",
+      "trace_type": "ASSUMPTION",
+      "statement": "受众属派生项（OD-03 v1.2 §三）：本次不就受众向用户追问，应从品牌资料的调性人群读取；品牌资料缺席时按创作侧自决处理，本步不预设任何受众画像。",
+      "target_paths": [
+        "audience"
+      ],
+      "confidence": null
+    }
+  ],
+  "confidence": {
+    "level": "LOW",
+    "basis": [
+      "闸留痕：business_goal 来源：模型解析结果（DAILY_CONTENT_OPERATION，按用户原话的主目标），并自报另有情境备选方向——是否成立由 G7 按 OD-03 §五 登记表核验",
+      "闸留痕：G7 情境并呈成立：企业事实 product.lifecycle_stage=库存消化期 在场且用户原话未提及（模型判定），已并呈主方案 DAILY_CONTENT_OPERATION 与情境备选 INVENTORY_ACTIVATION，三要素齐全，停在用户选择点（第⑥条 / A.5.2 约束8）",
+      "闸留痕：clarification_question 落点：RESOLVED_WITH_ALTERNATIVE，已用模型给出的问题替换 business_goal 项的模板问句（B:285-286「提出一个最关键澄清问题」/ A.5.2 约束8「请用户在两个方向之间择一」；被替换的模板句：None）",
+      "闸留痕：模型自报 confidence=MEDIUM，按缺失规则下调为 LOW（G6 只降不升）",
+      "模型自述：用户原话明确指向日常内容制作，但系统提供的库存消化期情境构成有效备选，需用户确认是否采纳该经营视角。",
+      "确定性核对：goal_resolution=RESOLVED_WITH_ALTERNATIVE，next_action=REQUEST_INPUT",
+      "required_context / missing_context 由 OD-03 冻结清单逐项算出，非模型判断"
+    ],
+    "limiting_factors": [
+      "商业目标尚未解析为六选一，任何结论都建立在未定目标上",
+      "存在缺失上下文项，输出质量受限",
+      "缺失上下文项达到降档阈值",
+      "缺 video_account（QUALITY_REDUCING）：发在哪个视频号上？这个号平时讲什么、和顾客什么关系？",
+      "缺 product.material_proof（QUALITY_REDUCING）：面料成分有没有检测报告或吊牌照片一类的凭证？",
+      "缺 product.lining（QUALITY_REDUCING）：里料是什么材质？（缺了不影响能不能做，只影响能说多细）"
+    ]
+  },
+  "next_action": "REQUEST_INPUT",
+  "trace_bundle": {
+    "trace_bundle_id": "TB-ea70f39e4123",
+    "brand_id": "fixture-brand-01",
+    "entries": [
+      {
+        "trace_id": "FACT:product.name",
+        "trace_type": "FACT",
+        "statement": "product.name = 10%羊绒风衣式大衣（status=CONFIRMED）",
+        "source_refs": [
+          {
+            "source_id": "SRC-INTD02-0001",
+            "brand_id": "fixture-brand-01",
+            "source_type": "BRAND_OPERATOR_INPUT",
+            "locator": "夹具虚构（剧本）",
+            "captured_at": "2026-08-17T00:00:00+08:00",
+            "checksum": null
+          }
+        ],
+        "object_refs": [],
+        "target_paths": [
+          "product.name"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "FACT:product.material",
+        "trace_type": "FACT",
+        "statement": "product.material = [\"黑色面料:90.2%绵羊毛 9.8%山羊绒（含微量其他纤维）（连接线除外）\", \"米色面料:90.3%绵羊毛 9.7%山羊绒（连接线除外）\", \"晓雾灰面料:90.8%绵羊毛 9.2%山羊绒（连接线除外）\", \"云烟灰面料:90.1%绵羊毛 9.9%山羊绒（连接线除外）\"]（status=CONFIRMED）",
+        "source_refs": [
+          {
+            "source_id": "SRC-INTD02-0002",
+            "brand_id": "fixture-brand-01",
+            "source_type": "IMAGE_INPUT",
+            "locator": "截图 IMG_0684",
+            "captured_at": "2026-08-17T00:00:00+08:00",
+            "checksum": null
+          }
+        ],
+        "object_refs": [],
+        "target_paths": [
+          "product.material"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "FACT:product.style_attributes",
+        "trace_type": "FACT",
+        "statement": "product.style_attributes = [\"大翻领、廓形肩线、H型风衣式；袖口可调节袖袢；宽边长腰带\"]（status=CONFIRMED）",
+        "source_refs": [
+          {
+            "source_id": "SRC-INTD02-0003",
+            "brand_id": "fixture-brand-01",
+            "source_type": "IMAGE_INPUT",
+            "locator": "截图 IMG_0674、截图 IMG_0677、截图 IMG_0680",
+            "captured_at": "2026-08-17T00:00:00+08:00",
+            "checksum": null
+          }
+        ],
+        "object_refs": [],
+        "target_paths": [
+          "product.style_attributes"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "FACT:product.selling_points",
+        "trace_type": "FACT",
+        "statement": "product.selling_points = [\"同页展示敞开穿与收腰穿两种方式；提供黑色、米色、晓雾灰、云烟灰四种面料成分\"]（status=CONFIRMED）",
+        "source_refs": [
+          {
+            "source_id": "SRC-INTD02-0004",
+            "brand_id": "fixture-brand-01",
+            "source_type": "IMAGE_INPUT",
+            "locator": "截图 IMG_0677、截图 IMG_0684",
+            "captured_at": "2026-08-17T00:00:00+08:00",
+            "checksum": null
+          }
+        ],
+        "object_refs": [],
+        "target_paths": [
+          "product.selling_points"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "FACT:product.lifecycle_stage",
+        "trace_type": "FACT",
+        "statement": "product.lifecycle_stage = 库存消化期（status=CONFIRMED）",
+        "source_refs": [
+          {
+            "source_id": "SRC-INTD02-0001",
+            "brand_id": "fixture-brand-01",
+            "source_type": "BRAND_OPERATOR_INPUT",
+            "locator": "夹具虚构（剧本）",
+            "captured_at": "2026-08-17T00:00:00+08:00",
+            "checksum": null
+          }
+        ],
+        "object_refs": [],
+        "target_paths": [
+          "product.lifecycle_stage"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "R-BDD01-001",
+        "trace_type": "RULE",
+        "statement": "禁止低价叫卖表达（forbidden_expression: LOW_PRICE_SELLING）",
+        "source_refs": [],
+        "object_refs": [
+          {
+            "object_type": "RuleRecord",
+            "object_id": "R-BDD01-001",
+            "version": 1,
+            "brand_id": "fixture-brand-01"
+          }
+        ],
+        "target_paths": [
+          "*"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "R-BDD01-002",
+        "trace_type": "RULE",
+        "statement": "促销让利路径违反高端品牌禁令（两候选降级分支冻结规则）",
+        "source_refs": [],
+        "object_refs": [
+          {
+            "object_type": "RuleRecord",
+            "object_id": "R-BDD01-002",
+            "version": 1,
+            "brand_id": "fixture-brand-01"
+          }
+        ],
+        "target_paths": [
+          "strategy"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "R-FB01-001",
+        "trace_type": "RULE",
+        "statement": "禁止在任何输出中使用 fixture-brand-01 的品牌禁用表达；词表唯一真源为 acceptance/detectors/forbidden_lexicon.yaml（含 low_price_selling 与 false_scarcity 两组），本规则正文不复制词条；词表命中即违规，规则内容以该文件当前版本为准。",
+        "source_refs": [],
+        "object_refs": [
+          {
+            "object_type": "RuleRecord",
+            "object_id": "R-FB01-001",
+            "version": 1,
+            "brand_id": "fixture-brand-01"
+          }
+        ],
+        "target_paths": [
+          "*"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "ASSUMPTION:persona.on_camera_form",
+        "trace_type": "ASSUMPTION",
+        "statement": "出镜形式属创作侧自决项（OD-03 v1.2 §三）：本次不就出镜人向用户追问，由创作侧按账号人设与内容需求决定；本步不预设任何具体人物或其经历，也不得据此写出确定表述。用户明示禁真人出镜时该自决受限。",
+        "source_refs": [],
+        "object_refs": [],
+        "target_paths": [
+          "persona"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "ASSUMPTION:audience.derived",
+        "trace_type": "ASSUMPTION",
+        "statement": "受众属派生项（OD-03 v1.2 §三）：本次不就受众向用户追问，应从品牌资料的调性人群读取；品牌资料缺席时按创作侧自决处理，本步不预设任何受众画像。",
+        "source_refs": [],
+        "object_refs": [],
+        "target_paths": [
+          "audience"
+        ],
+        "supporting_trace_refs": [],
+        "confidence": null
+      },
+      {
+        "trace_id": "MODEL_JUDGMENT:MJ-1",
+        "trace_type": "MODEL_JUDGMENT",
+        "statement": "该产品山羊绒含量在9.2%–9.9%之间，符合高端基础款定位。",
+        "source_refs": [],
+        "object_refs": [],
+        "target_paths": [],
+        "supporting_trace_refs": [
+          "FACT:product.material"
+        ],
+        "confidence": null
+      }
+    ],
+    "target_artifact_ref": {
+      "object_type": "IntentExecutionPlan",
+      "object_id": "IEP-RUN-20260818T175843860136Z",
+      "version": 1,
+      "brand_id": "fixture-brand-01"
+    }
+  }
+}
