@@ -5,11 +5,12 @@
 | 项目 | 内容 |
 |---|---|
 | 文档编号 | DIYU-MVP-V3-B |
-| 版本 | v0.4 |
+| 版本 | v0.5 |
 | 状态 | **EFFECTIVE（已批准生效）** |
-| 批准 | Founder（Faye）2026-08-17 批准；生效基线 = 主 PRD v0.1 + 附录 A v0.2（当日补情绪字段修订）+ 附录 B v0.4（当日两次标签补登修订，末次为 M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID）三份一并生效，历次当日修订均经 Founder 批准 |
+| 批准 | Founder（Faye）2026-08-17 批准；2026-08-18 内容真实性三层边界修订批次（Founder R1-R7 裁决，台账 08-18 块 C 行）三份同批升版；生效基线 = 主 PRD v0.2（仅基线行同步）+ 附录 A v0.3（PersonaFacts 补真实锚点字段）+ 附录 B v0.5（BD_FACT_FABRICATION 定义与 CR-D01 禁止结果改写）三份一并生效，历次修订均经 Founder 批准 |
 | v0.1→v0.2 修订 | Founder 2026-08-17 裁决（OD-04）：制作判断由 Founder 以制作视角承担，取消外部制作裁判角色——修订 B.5.2 与 Gate IA-3 对应条文；其余条款不变。修订依据与风险知悉记录见《裁决台账》 |
 | v0.2→v0.3 修订 | Founder 2026-08-17 裁决：B.6.2 补登失败标签 BD_SCOPE_MISREPRESENTED，修复 BD-D02 引用了未登记标签的缺陷；其余条款不变。裁决记录见《裁决台账》 |
+| v0.4→v0.5 修订 | Founder 2026-08-18 裁决（内容真实性三层边界 R2/R3/R4）：① B.6.3 BD_FACT_FABRICATION 定义改写——只管 AI 越权生成，不管用户录入事实与明示演绎表达（标签 ID 保留）；② B.4.3/CR-D01 禁止结果「为强化人设编造人物经历」改写为「把虚构经历冒充真实人物的真实经历」；其余条款不变。裁决记录见《裁决台账》08-18 块 C 行 |
 | v0.3→v0.4 修订 | Founder 2026-08-17 裁决（M0 收口修复批次）：B.6.4 补登失败标签 EVAL_BLINDING_PROCEDURE_INVALID 并列入自动阻断清单，一枚关闭匿名流程 P-05（双窗口间隔/独立作答违规）、P-08（B.2.5 匿名处理违规）、P-11 残余（赋值记录齐全但真实性不可证）三处标签缺口；其余条款不变。裁决记录见《裁决台账》 |
 | 适用产品 | 笛语智能核 MVP V3.0 |
 | 关联主文档 | PRD_笛语智能核_MVP_V3.0_v0.1.md |
@@ -531,7 +532,7 @@ BD_CONTEXTUAL_REASONING_MISSING、BD_UNGROUNDED_REJECTION、BD_UNGROUNDED_RECOMM
 
 - 只替换称谓或少量形容词；
 - 人设变化导致商业方向漂移；
-- 为强化人设编造人物经历；
+- 把虚构经历冒充真实人物的真实经历（真实锚点之外的角色演绎不在此列；Founder 2026-08-18 R3 裁决改写）；
 - Script、PersonaCard、Storyboard 和评论回复使用不同人设。
 
 **人工裁判问题：**
@@ -888,7 +889,7 @@ NO_MATERIAL_DIFFERENCE 不能证明 MVP 价值。
 | BD_CONFLICT_MISSED | 未识别核心商业冲突 |
 | BD_CANDIDATE_COLLAPSE | 多个候选实质相同 |
 | BD_TRADEOFF_MISSING | 未说明选择与放弃原因 |
-| BD_FACT_FABRICATION | 虚构企业、商品、受众或经营事实 |
+| BD_FACT_FABRICATION | AI 输出引用了用户事实库中不存在的经营数字/事实（越权生成）→ 打回重生成。只管 AI 越权：用户录入的事实与明示演绎表达不在此列；他人观点如实转述并标明观点可用；「顾客效果实证」当真事讲必须真有其事，明示演绎剧情中的角色台词不受此限（Founder 2026-08-18 R2/R4 裁决改写；原定义「虚构企业、商品、受众或经营事实」见 git 历史） |
 | BD_SCOPE_MISREPRESENTED | 把无法满足的任务范围宣称为已满足或可满足（如重复组合冒充足量方案、隐瞒范围缺口） |
 | BD_TRACE_MIXED | 事实、规则、假设和判断混写 |
 | BD_CONTEXTUAL_REASONING_MISSING | 只套用通用偏好 |

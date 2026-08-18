@@ -12,9 +12,9 @@
   "documents": {
     "PRD_笛语智能核_MVP_V3.0_v0.1.md": {
       "manifest_field": "prd_version",
-      "declared_version": "v0.1",
+      "declared_version": "v0.2",
       "version_from": "doc_control_block",
-      "sha256": "sha256:e1cdc2dc3f140724e921cb43ce1094d81d80edbdaab64807044c849e50620452",
+      "sha256": "sha256:47e47b068ac51d8056a3ef1f7f1a19ce908cfef1a86e68cda6843ce230c35250",
       "version_history": [
         {
           "declared_version": "v0.1",
@@ -22,14 +22,21 @@
           "recorded_at": "2026-08-17",
           "note": "登记基线：M0 收口修复批次 P0-2 落盘时刻工作区内容。本条之前的历史版本 digest 未曾登记过，故链从此条起算——不伪造更早条目。",
           "chain": "sha256:9e7a790b898ee6de552208cc48e70d09cd92c8462fe0c40832fe2ad2ff0c501d"
+        },
+        {
+          "declared_version": "v0.2",
+          "sha256": "sha256:47e47b068ac51d8056a3ef1f7f1a19ce908cfef1a86e68cda6843ce230c35250",
+          "recorded_at": "2026-08-18",
+          "note": "Founder 2026-08-18 内容真实性三层边界裁决（R1-R7，台账 08-18 块 C 行）：仅基线行同步升版（正文其余零变更）。正常升版路径：版本升级+追加历史",
+          "chain": "sha256:4663569376af9a48ce49dc781cdf0303c1216d9f7e387f216b8b3af729614f14"
         }
       ]
     },
     "A_模块接口与核心数据字典.md": {
       "manifest_field": "data_contract_version",
-      "declared_version": "v0.2",
+      "declared_version": "v0.3",
       "version_from": "doc_control_block",
-      "sha256": "sha256:18c7042f40d45348306884268c3f66fe6ce0b968e1a5ad7d4c272b6aa6846eae",
+      "sha256": "sha256:934f739f6ee317b1ddcfd8269b39f78fade480adfbacc30b19d258422f73262e",
       "version_history": [
         {
           "declared_version": "v0.2",
@@ -37,14 +44,21 @@
           "recorded_at": "2026-08-17",
           "note": "登记基线：M0 收口修复批次 P0-2 落盘时刻工作区内容。本条之前的历史版本 digest 未曾登记过，故链从此条起算——不伪造更早条目。",
           "chain": "sha256:7b907b32cf9fe61c79a5ceae00f1ac2cfa760a64e082b7b5cd6f56c486c33f47"
+        },
+        {
+          "declared_version": "v0.3",
+          "sha256": "sha256:934f739f6ee317b1ddcfd8269b39f78fade480adfbacc30b19d258422f73262e",
+          "recorded_at": "2026-08-18",
+          "note": "Founder 2026-08-18 内容真实性三层边界裁决（R1-R7，台账 08-18 块 C 行）：A.3.5 PersonaFacts 补 real_anchors 真实锚点字段（完全选填）+ 基线行同步。正常升版路径：版本升级+追加历史",
+          "chain": "sha256:b248792285bd03569f4a79f62d613e8b27022a64b8e8b3d69eb446442b9fe439"
         }
       ]
     },
     "B_三个核心模块智能验收合同.md": {
       "manifest_field": "acceptance_contract_version",
-      "declared_version": "v0.4",
+      "declared_version": "v0.5",
       "version_from": "doc_control_block",
-      "sha256": "sha256:79dc80057552b166583b49d2afc640f8b0ad132fb43fdc1e8e5b4113c2d63c87",
+      "sha256": "sha256:116b6576bbe13ab9e7383979fb9fd1e6be4320c1199a93406bf1458c5fdbcf92",
       "version_history": [
         {
           "declared_version": "v0.4",
@@ -52,6 +66,13 @@
           "recorded_at": "2026-08-17",
           "note": "登记基线：M0 收口修复批次 P0-2 落盘时刻工作区内容。本条之前的历史版本 digest 未曾登记过，故链从此条起算——不伪造更早条目。",
           "chain": "sha256:6b617d06ed1da906bb2cb1d5f229ec75b2b9bf0f63a6ef4e2d547c8ce72d0f7a"
+        },
+        {
+          "declared_version": "v0.5",
+          "sha256": "sha256:116b6576bbe13ab9e7383979fb9fd1e6be4320c1199a93406bf1458c5fdbcf92",
+          "recorded_at": "2026-08-18",
+          "note": "Founder 2026-08-18 内容真实性三层边界裁决（R1-R7，台账 08-18 块 C 行）：BD_FACT_FABRICATION 定义改写（只管 AI 越权）+ CR-D01 禁止结果改写 + 基线行同步。正常升版路径：版本升级+追加历史",
+          "chain": "sha256:051f4410784bca33650d2e02fdc48bd27a2b975df75bae57faa6414e6f585a7c"
         }
       ]
     },
@@ -126,9 +147,9 @@
     },
     "contracts/interaction/baseline_prompt_stage_C.md": {
       "manifest_field": "baseline_prompt_versions.creative_stage",
-      "declared_version": "v1.0",
+      "declared_version": "v1.1",
       "version_from": "doc_control_block",
-      "sha256": "sha256:d2b54e97da20ef40835a056444b03b5f04ea893aeb18b506f5174cec64a65e09",
+      "sha256": "sha256:bb3bc618472e21b31600c1b466668e317e21dd6776cbc9388ce193b1b9d83613",
       "version_history": [
         {
           "declared_version": "v1.0",
@@ -144,6 +165,13 @@
           "note": "2026-08-18 P0-6 重签生效化显式重登记：唯一改动=控制块状态/批准行由 CONTENT-FROZEN 占位转 EFFECTIVE（Founder 重签 2026-08-18T02:39:10+08:00），合同正文零变动；旧 digest 与旧链见本文件 git 历史。依据：门 R10 设计注释「链把顺手弄绿抬成显式重写冻结历史」——本次即该设计预留的显式路径，随签字提交一体落盘【块 A A-2.a 标记补登：本条为签字态翻转（正文零变动，仅控制块签字/状态行占位转 EFFECTIVE，签字提交 6525ca0），按登记册例外条款以 supersession_kind 显式标记】",
           "chain": "sha256:aaaef611b6d5bbff65c2911b5d95e777627e466350db2944f2b503d80a31f7af",
           "supersession_kind": "signature_state_flip"
+        },
+        {
+          "declared_version": "v1.1",
+          "sha256": "sha256:bb3bc618472e21b31600c1b466668e317e21dd6776cbc9388ce193b1b9d83613",
+          "recorded_at": "2026-08-18",
+          "note": "Founder 2026-08-18 内容真实性三层边界裁决（R1-R7，台账 08-18 块 C 行）：§三第 2 条拆分——硬事实禁编保留（R1），顾客评价/真实人物改写并豁免明示演绎与第三人称观点。正常升版路径：版本升级+追加历史",
+          "chain": "sha256:35fdcbc332864129f0375d9a62b8a26f468724f049bf9dfa4190fc94938c6060"
         }
       ]
     },
@@ -245,84 +273,84 @@
   },
   "case_manifests": {
     "acceptance/cases/BD-D01/manifest.yaml": {
-      "content_sha256": "sha256:435d1e3e2ee045f0ec52312c425dc073b1dd6b3dbedc5b29bb1089495e7ace3a",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:25893948133c86ebb65c9767cd1de6ade9339e72918cc17ace3436ffb45cace3",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/BD-D02/manifest.yaml": {
-      "content_sha256": "sha256:d0b9e904ba09e1a6025dbced00ee4916e5d1c3bfd23a1eaa6cfeb6a539d8a554",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:70f5b9e3e9285776bc6913ec334c2437ac178d71db7307ea23f591dc7009aeea",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/BD-D03/manifest.yaml": {
-      "content_sha256": "sha256:3a062a0d01f24580b90dccae3aa0d560afd9354652fcb2ef976d84268b2e0927",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:caed1d416c3ddad35fd6ca64255b9626f4e7711c164fcd467454c8049d17ec3a",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D01/manifest.persona-buyer.yaml": {
-      "content_sha256": "sha256:069da7d2b43a556644b76055d0184dbb39408f02cdc6b6a86b6edf8b42a1fedd",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:dc77b6a09a4ccf1967acc9ed1c7df31f9395ffce876fa6cbadbed8c6f2daac14",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D01/manifest.persona-owner.yaml": {
-      "content_sha256": "sha256:fa9002a2603757d7fdb1b26de8ed57d6a72c5fad48f58facc747efb9b920c367",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:32a36091cd779d74d2aab5036ccc5ae57d58f0127d0668025798c2e4f986fa1f",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D02/manifest.yaml": {
-      "content_sha256": "sha256:5f262ffc50e8bbf56e5d975264da1dd95b58ab988d86d8010f61d1f6603a0769",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:d7625e06f8c46c0027bcf6584fae88d7ea0196a1438ff199275650e742f05398",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D03/manifest.yaml": {
-      "content_sha256": "sha256:de2ce33d17bf80dff6a9557375235b44292804533bb5a8ebeb0380a2e0c6d578",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:5e32b26fa1a92cd5c8446c27e2248d624cb4136e995b5ef71b8a1c2e301eff10",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D04/manifest.input-a.yaml": {
-      "content_sha256": "sha256:3a00ff174476af8655cabda61861312901c8fff18ec465549f7d401655e12e1a",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:1d5c2c3125c42f45143ddf7d50f699bf14d2f6abcce5382558a43d8c73938012",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D04/manifest.input-b.yaml": {
-      "content_sha256": "sha256:67502313b9b21b5aa4a7c844e0616e14c675dcd57ff7363767b14f514d2bb617",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:96a7ec80ffcad9c6f0a3173952ce55c6f3b6a626b0a08decdc1d5499fe14fb50",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/CR-D04/manifest.input-c.yaml": {
-      "content_sha256": "sha256:067eef330bddb922727f13c45543f0326d8b380e7337c807f3440b4a5811bc39",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:8b82ce3f695d4636417102a3b6a9a13260e7d8097f11106e67dd0faeb65d7b3d",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/E2E-01/manifest.yaml": {
-      "content_sha256": "sha256:4025a412bc8d5af9e4be3bd407bca87413c493f9a6abe8bbc5686b13c94f17be",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:5d3b56a349b00dd7fbec18bbbfd65723e76433b6c54ef3a0c7e3afc87860e747",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/E2E-02/manifest.yaml": {
-      "content_sha256": "sha256:081ed9341d8c6d2e06364694f6e42fa91e014307cdf703afaa726314b6b7df55",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:9e69f5e7e003d0897c66bb610f827c8e45cbcb1658406fca2677d0d26a63e216",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/E2E-03/manifest.yaml": {
-      "content_sha256": "sha256:400bc12782132076d134cff2b8282281f72dcc2e103b40039d37738c6592542e",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:d4676cf83f6c0f986be80730372f0d981c09b3397b3c616cf9f82719811c7538",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D01/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:805e0ed3ca8bedc58391d3659807f8b23ac4c8de0a7b517495cf96ec8da4774a",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:3c0f57f986418dce3ecbdc197e706792e0107cd87ee4c9af33d76bf6326e26e3",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D01/manifest.quick.yaml": {
-      "content_sha256": "sha256:acd56e2fc95f5f0f348cad8fd3b96e9b73f34c86074168a4e19219559754f049",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:6c47a0f18f106a02b2e2e4abb6a3207ac876813548a0924ffeb892441b89e877",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D02/manifest.enhanced.yaml": {
-      "content_sha256": "sha256:0d7203394f432a93ce6fc9c39ba811602b29e7558b965a5945c1fb207b42c3f6",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:bba51db152696dab8d5fd9bf4cd6bdd2bcf562549fc067723faebafbcf7105da",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D02/manifest.quick.yaml": {
-      "content_sha256": "sha256:a71e6d36a39fe479eba51690f27a96d49319c5c22f5540d84aa322528376c90d",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:dbbc9c29f0bcfc3ef86e7a4c43e2525d23a5ff95a4072a7e63649bbdc5d28c7d",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D03/manifest.input-a.yaml": {
-      "content_sha256": "sha256:68dc25a157062f6d080a55d1825045e0097ff04f65277a70d8c51450758f6738",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:e4b9b454bb27632720521d6c3ac7878044a8870873117257149bfccdd558d5c5",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/INT-D03/manifest.input-b.yaml": {
-      "content_sha256": "sha256:baa9ea08b9cbacc9797b3ffcd3514d6a13f35f7507acc732c90c2790284aae2d",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:6236fa6e28a655dcf8ccb22fbb152b1b779ab3a68bb0a8235139fa969792985f",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     },
     "acceptance/cases/SYS-D01/manifest.yaml": {
-      "content_sha256": "sha256:10c8ddc763a1739d38d51ff1899640cfb6954d5606e1df4e9976488658439c58",
-      "note": "块 A 内容绑定；2026-08-18 级联补充令重算（intent/diyu_build_version 回填，B.2.1 升版程序同批）"
+      "content_sha256": "sha256:002ccc4ad340cc07f641892ab966edd39b9e198ebd9b82e9d77e94c08f8617b4",
+      "note": "块 A 内容绑定；2026-08-18 块 C 升版重算（版本指针 + case_version，B.2.1/B.8.1 程序）"
     }
   }
 }

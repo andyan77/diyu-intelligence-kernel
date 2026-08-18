@@ -5,10 +5,11 @@
 | 项目 | 内容 |
 |---|---|
 | 文档编号 | DIYU-MVP-V3-A |
-| 版本 | v0.2 |
+| 版本 | v0.3 |
 | 状态 | **EFFECTIVE（已批准生效）** |
-| 批准 | Founder（Faye）2026-08-17 批准；生效基线 = 主 PRD v0.1 + 附录 A v0.2（当日补情绪字段修订）+ 附录 B v0.4（当日两次标签补登修订，末次为 M0 收口修复批次补登 EVAL_BLINDING_PROCEDURE_INVALID）三份一并生效，历次当日修订均经 Founder 批准 |
+| 批准 | Founder（Faye）2026-08-17 批准；2026-08-18 内容真实性三层边界修订批次（Founder R1-R7 裁决，台账 08-18 块 C 行）三份同批升版；生效基线 = 主 PRD v0.2（仅基线行同步）+ 附录 A v0.3（PersonaFacts 补真实锚点字段）+ 附录 B v0.5（BD_FACT_FABRICATION 定义与 CR-D01 禁止结果改写）三份一并生效，历次修订均经 Founder 批准 |
 | v0.1→v0.2 修订 | Founder 2026-08-17 裁决：VoicePackage 补「emotion（情绪）」字段，对齐主 PRD 7.2 Voice Package 最小内容（完整口播、停顿、强调、语速和情绪）；其余条款不变。裁决记录见《裁决台账》 |
+| v0.2→v0.3 修订 | Founder 2026-08-18 裁决（内容真实性三层边界 R3）：A.3.5 PersonaFacts 新增 real_anchors「真实锚点清单」字段（完全选填）——人设＝真人成份与角色演绎的混合体，不设真人/虚构二分字段；锚点列出该人设必须如实的身份要素，锚点之外默认演绎自由；其余条款不变。裁决记录见《裁决台账》08-18 块 C 行 |
 | 文档属性 | 主 PRD 的规范性接口与数据附录 |
 | 上位文档 | PRD_笛语智能核_MVP_V3.0_v0.1.md |
 | 配套验收合同 | B_三个核心模块智能验收合同.md |
@@ -327,6 +328,7 @@ Range:
 | audience_relationship | FactValue<string> | C | 人工、账号资料 | 如朋友型专家 |
 | forbidden_styles | FactValue<string[]> | R | 人工 | 可确认空数组 |
 | speaker_constraints | FactValue<string[]> | O | 人工 | 可缺失 |
+| real_anchors | FactValue<string[]> | O | 人工 | 可缺失（完全选填，Founder 2026-08-18 R3 裁决）；真实锚点清单：列出该人设必须如实的身份要素（如真名/真职业/真店主身份），锚点之外默认演绎自由 |
 
 ## A.3.6 VideoAccountFacts
 

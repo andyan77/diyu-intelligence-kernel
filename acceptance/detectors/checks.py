@@ -452,15 +452,41 @@ def numeric_grounding(output, ctx, snapshot_fields=None, threshold=0, **kw):
 
     out_nums, unresolved = [], []
     _collect_output(output, [], out_nums, unresolved)
-    bad = []
+
+    # ---- 明示夸张标注通道（Founder 2026-08-18 内容真实性三层边界裁决 R2；改检测器=改考卷，本批为裁决授权）----
+    # 只做标注位，零识别智能：检测器不判断「是否真是艺术夸张」，只认输出对象自带的
+    # `_explicit_exaggeration` 数组（元素 = 数值或数字字符串）。被标注的数字免于无源判 FAIL，
+    # 但必须留痕（detail 显式列出豁免了哪些）；未标注的照拦。`_` 前缀键不进 out_nums（见
+    # _is_annotation_key），标注载体自身的数字不会反过来污染判定。
+    exagg_raw = output.get("_explicit_exaggeration") if isinstance(output, dict) else None
+    exagg_keys, exagg_invalid = set(), []
+    if exagg_raw is not None:
+        if not isinstance(exagg_raw, list):
+            return "UNKNOWN", "_explicit_exaggeration 不是数组（标注位格式非法，不得默认放行也不得默认判红）"
+        for item in exagg_raw:
+            if isinstance(item, bool) or not isinstance(item, (int, float, str)):
+                exagg_invalid.append(repr(item)); continue
+            try:
+                exagg_keys.add(_nk(float(str(item).strip())))
+            except ValueError:
+                exagg_invalid.append(repr(item))
+        if exagg_invalid:
+            return "UNKNOWN", f"_explicit_exaggeration 含解析不出数值的标注项: {'; '.join(exagg_invalid[:5])}（标注必须精确到数字，不得整句豁免）"
+
+    bad, annotated = [], []
     for v, cls, path in out_nums:
         if cls in pools:
             if _nk(v) not in pools[cls]:
+                if _nk(v) in exagg_keys:
+                    annotated.append(f"{_fmt(v)} @ {path}"); continue
                 bad.append((v, f"{_fmt(v)}（{cls} 类无同类快照来源 @ {path}）"))
         else:
             if float(v) < float(threshold): continue
             if _nk(v) not in any_pool:
+                if _nk(v) in exagg_keys:
+                    annotated.append(f"{_fmt(v)} @ {path}"); continue
                 bad.append((v, f"{_fmt(v)}（裸数字无快照来源 @ {path}）"))
+    exagg_note = f"；明示夸张标注豁免 {len(annotated)} 处（R2 标注通道，留痕: {'; '.join(annotated[:3])}）" if annotated else ""
     if bad:
         # 硬 FAIL 优先于 UNKNOWN：已确证的无源数字是比「无从核验」更强的证据，不得被冒泡掩盖。
         seen, msgs = set(), []
@@ -478,7 +504,7 @@ def numeric_grounding(output, ctx, snapshot_fields=None, threshold=0, **kw):
     if not out_nums:
         return "OK", (f"输出中未发现任何数字（**非等同于**已溯源：只是没有可查的数字；"
                       f"快照数字 {len(any_pool)} 个）")
-    return "OK", f"输出 {len(out_nums)} 处数字全部可溯源到快照同类字段（快照数字 {len(any_pool)} 个）"
+    return "OK", f"输出 {len(out_nums)} 处数字全部可溯源到快照同类字段或经明示夸张标注豁免（快照数字 {len(any_pool)} 个）{exagg_note}"
 # ===================== numeric_grounding v0.3 结束 =====================
 
 def human_gate_flag(output, ctx, **kw):
