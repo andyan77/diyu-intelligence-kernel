@@ -375,7 +375,11 @@ def m14_placeholder_in_generation_parameters(tree):
 
     修复前实测：`--mode=sign` 判 GATE_GREEN、exit 0，收尾行仍宣称「零占位残留」——R8 只比对哈希
     一致性、从不看取值是不是占位；R2 的扫描面又不含这个文件。OD-02「模型与参数定格」因此可被完全架空。
-    期望：R2 必须红，且 R8 / R10 **不**得抢先命中（否则证明不了 R2 的扫描面真的覆盖到了这个文件）。"""
+    期望：R2 必须红，且 R10 **不**得抢先命中（登记已完整同步，R10 红 = 同步失真）。
+    期望调整留痕（块 A A-2.d）：原 forbidden 含 R8——当时 R8 只有指纹比对一条，指纹已同步、
+    R8 命中即证明 R2 没被独立测到。块 A 给 R8 增加了模型身份三字段全等校验，本变异（真源 TBD、
+    Manifest 留旧值）**本身就是模型身份漂移**，R8 身份条命中是设计内正确拦截、与指纹无关；
+    「R2 独立命中」仍由期望集合断言保障（R2 不在命中集即 FAIL），故 forbidden 收窄为 R10。"""
     replace_once(tree, GEN_PARAMS, '"model_name": "qwen-max-0107",', '"model_name": "TBD",')
     new_hash = GATE.canonical_snapshot_hash(os.path.join(tree, GEN_PARAMS))
     old_hash = None
@@ -451,6 +455,68 @@ def m20_resign_mark_outside_whitelist(tree):
     write(tree, RULE_FILE, read(tree, RULE_FILE) + "\n# 变异：PENDING_RESIGN_P0-6\n")
 
 
+# ---- M21-M26：M0 证据链加固批次（块 A）——外部审查实测复现的假绿路径 + R5/R6/R7 活体证据 ----
+
+def m21_rule_enum_out_of_range(tree):
+    """M21 把 RuleRecord 的 effect 改成 A.9.1 枚举外的值（PROHIBIT→FORBID）。
+    期望：R5 红。外部审查（M0 审查二 P0-03）实测指控：旧 R5「机械校验，不看值只看键」，
+    PROHIBIT 改成任何值门都不察——本条即该假绿路径的活体证据。"""
+    sub_once(tree, RULE_FILE, r"^effect: PROHIBIT$", "effect: FORBID")
+
+
+def m22_rule_body_edit_without_bump(tree):
+    """M22 改 RuleRecord 的 statement 正文一字、不升 version、不同步登记册。
+    期望：R5 红。外部审查指控：contracts/rules/*.yaml 不在 frozen_digests 冻结范围，
+    「考试硬规则可以不升版漂移」——本条证明规则正文已进 digest 冻结面。"""
+    sub_once(tree, RULE_FILE, r"词表命中即违规", "词表命中不算违规")
+
+
+def m23_edit_exam_keep_signature(tree):
+    """M23 改 E2E-01 Manifest 的 task_statement 考题内容（保持非空非占位），签字字段一字不动。
+    期望：R6 红（「改考题保签字」）。外部审查（M0 审查三 P1-1）实测指控：修改已签资产
+    而门仍 GREEN——签字与资产内容之间没有绑定。本条证明 R6 内容绑定已落地。"""
+    sub_once(tree, E2E01_MF,
+             r"高端品牌羊绒大衣库存 800 件，请在限定周期内通过视频号内容促进销售，不得低价叫卖。",
+             "高端品牌羊绒大衣库存 3000 件，请随意促销，可以低价叫卖。")
+
+
+def m24_contract_version_pointer_drift(tree):
+    """M24 把 E2E-01 Manifest 的 acceptance_contract_version 从 v0.4 改成 v0.3（B 真源实为 v0.4）。
+    期望：R7 红。R7（PRD/A/B 版本指针实时核验）此前从未有负向活体证据——
+    IA-0 签字包自认「三把没试过撬的锁」之一，本条补上。"""
+    sub_once(tree, E2E01_MF, r'^acceptance_contract_version: "v0\.4"', 'acceptance_contract_version: "v0.3"')
+
+
+def m25_model_identity_drift(tree):
+    """M25 把 E2E-01 Manifest 的 model_name 改成与参数真源不同的值（qwen-max-0107→qwen-max-9999）。
+    期望：R8 红。外部审查（M0 审查二 P0-02）指控：model 三字段「没有与参数真源
+    generation_parameters.json 逐字段交叉核验」，改模型身份门不察——本条证明全等校验已落地。"""
+    sub_once(tree, E2E01_MF, r'^model_name: "qwen-max-0107"', 'model_name: "qwen-max-9999"')
+
+
+def m26_same_version_double_digest_without_flip_mark(tree):
+    """M26 给 e2e_interaction_contract.md 的 version_history 追加一条**同版本、不同 digest、
+    无 signature_state_flip 标记**的条目（链按算法重算，顶层同步末条）。
+    期望：R10 红。「签字态翻转」例外是唯一豁免通道且必须显式标记——本条测豁免边界：
+    没有标记的同版本双 digest 一律是重写冻结历史，门必须拦。"""
+    reg_path = os.path.join(tree, DIGESTS)
+    with io.open(reg_path, encoding="utf-8") as f:
+        reg = json.load(f)
+    entry = reg["documents"][E2E_CONTRACT]
+    fake_digest = "sha256:" + "0" * 64
+    hist = entry["version_history"]
+    hist.append({"declared_version": entry["declared_version"], "sha256": fake_digest,
+                 "recorded_at": "2026-08-18", "note": "变异：无标记的同版本二次登记"})
+    chain = None
+    for h in hist:
+        chain = GATE.version_chain_link(chain, h["declared_version"], h["sha256"])
+        h["chain"] = chain
+    entry["sha256"] = fake_digest
+    with io.open(reg_path, "w", encoding="utf-8") as f:
+        json.dump(reg, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+
+
 # 每项：(编号, 说明, 变异函数, 模式, 期望结果, 期望命中的红线之一, 禁止命中的红线, 期望的**完整**命中集合|None)
 CHECKS = [
     ("M0", "基线：未变异副本 --mode=sign 必须 GATE_GREEN（防套件自身假红）",
@@ -486,7 +552,7 @@ CHECKS = [
     ("M13", "往 contracts/ 写一份 GBK 编码、含 PENDING_IA0 的不可读文件",
      m13_unreadable_file_with_pending_mark, "sign", "RED", ("R11",), (), None),
     ("M14", "generation_parameters.json 取值改成占位 TBD + 同步指纹与登记册（逼 R2 独立命中）",
-     m14_placeholder_in_generation_parameters, "sign", "RED", ("R2",), ("R8", "R10"), None),
+     m14_placeholder_in_generation_parameters, "sign", "RED", ("R2",), ("R10",), None),
     ("M15", "把 baseline_prompt_stage_D.md 掏空成 8 行壳（冻结件正文被整体改写）",
      m15_hollow_out_frozen_contract, "sign", "RED", ("R10",), (), None),
     ("M16", "重签后注入一处 PENDING_RESIGN（README 0→1）并同步登记册（逼 R11 独立命中，白名单已退役）",
@@ -499,6 +565,18 @@ CHECKS = [
      m19_pending_build_in_wrong_field, "sign", "RED", ("R2",), (), None),
     ("M20", "PENDING_RESIGN_P0-6 写进非白名单文件 contracts/rules/（豁免边界）",
      m20_resign_mark_outside_whitelist, "sign", "RED", ("R11",), (), None),
+    ("M21", "RuleRecord effect 改成 A.9.1 枚举外的值（R5 值校验活体证据）",
+     m21_rule_enum_out_of_range, "sign", "RED", ("R5",), (), None),
+    ("M22", "RuleRecord statement 改一字不升版不同步登记（规则正文冻结活体证据）",
+     m22_rule_body_edit_without_bump, "sign", "RED", ("R5",), (), None),
+    ("M23", "改 Manifest 考题内容、签字字段不动（「改考题保签字」，R6 内容绑定活体证据）",
+     m23_edit_exam_keep_signature, "sign", "RED", ("R6",), (), None),
+    ("M24", "Manifest 的 B 版本指针 v0.4→v0.3（R7 活体证据）",
+     m24_contract_version_pointer_drift, "sign", "RED", ("R7",), (), None),
+    ("M25", "Manifest model_name 与参数真源漂移（R8 模型身份全等活体证据）",
+     m25_model_identity_drift, "sign", "RED", ("R8",), (), None),
+    ("M26", "version_history 同版本二次登记不同 digest 且无 signature_state_flip 标记（翻转豁免边界）",
+     m26_same_version_double_digest_without_flip_mark, "sign", "RED", ("R10",), (), None),
 ]
 
 

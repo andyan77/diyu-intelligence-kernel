@@ -8,19 +8,19 @@
 
 ```json
 {
-  "commit_sha": "a548be5fc72f0ab6e363d82c8f15a81fa2be3c13",
+  "commit_sha": "37b2d55f3a20c64fe888a74bf8ec5ea1f4847f0b",
   "generator": {
     "path": "tools/coverage.py",
     "version": "v0.1",
     "sha256": "984d4b629eaef59fbb2c61e3f5adb05d85034377a5895288adde3b9a2390f570"
   },
   "commit_sha_source": ".git/HEAD + refs/packed-refs（读文件，未执行 git 命令）",
-  "repo_root": "/home/faye/笛语智能核",
-  "generated_at": "2026-08-17T10:44:04-07:00",
+  "repo_root": "/tmp/claude-1000/-home-faye------/e029e7e8-93e8-43c1-bd03-b35e5cb53033/scratchpad/wt-blockA",
+  "generated_at": "2026-08-17T22:10:36-07:00",
   "python_version": "3.10.12",
   "deps": {
     "jsonschema": "3.2.0",
-    "PyYAML": "6.0.2"
+    "PyYAML": "5.4.1"
   },
   "argv": [
     "tools/coverage.py"
@@ -84,4 +84,4 @@ IA-0 ~ IA-4：前置案例清单未声明（gates.yaml 待 IA 准备时落，真
 
 ## 附加指标｜知识卡池长度（E.3）
 
-acceptance/candidates/elicitation/：**0 张**（持续增长不清空 = 第四个经验库早期信号）
+acceptance/candidates/elicitation/：**9 张**（持续增长不清空 = 第四个经验库早期信号）
