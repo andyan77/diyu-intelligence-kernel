@@ -1,9 +1,26 @@
 {
-  "goal_resolution": "RESOLVED",
+  "goal_resolution": "RESOLVED_WITH_ALTERNATIVE",
   "business_goal": "DAILY_CONTENT_OPERATION",
-  "goal_candidates": [],
-  "intent_summary": "这次任务是为一件羊绒风衣式大衣制作春节前的视频号内容：商品、时间和平台都已明确。「春节前」在这里是内容主题与时间场景；任务原话没有提促销、清库存或折扣，本次不引入任何促销意图。人设、账号与品牌信息在快照中均标为缺失，因此涉及主理人经历、账号关系与品牌禁语的说法本次一律没有补写。",
-  "clarification_question": null,
+  "goal_candidates": [
+    {
+      "goal": "DAILY_CONTENT_OPERATION",
+      "rationale": "任务原话「为这件羊绒大衣制作春节前视频号内容」属日常内容经营表述，未提促销、清库存或折扣。",
+      "focus": "按您原话做：把这件羊绒大衣讲清楚——面料成分、版型细节、敞开穿与收腰穿两种方式，春节只作为内容主题与时间场景。",
+      "tradeoffs": "优点是稳、可持续，内容留得住、也不消耗品牌调性；代价是不针对短期动销发力，节前不会明显带动出货速度。",
+      "expected_outcome": "适合想让商品被看见、被理解，把节前流量沉淀成对这件大衣的认知。",
+      "referenced_fact_ids": ["FACT:product.name", "FACT:product.material", "FACT:product.style_attributes"]
+    },
+    {
+      "goal": "INVENTORY_ACTIVATION",
+      "rationale": "系统事实显示该商品处于库存消化期（FACT:product.lifecycle_stage），任务原话未提及这一情境。",
+      "focus": "把节前内容对准动销：突出尺码与颜色的可选面、适穿场景与决策理由，让看的人更快判断要不要现在买。",
+      "tradeoffs": "优点是更贴合当前库存状况、节前见效快；代价是内容会更偏推动购买的口吻，且本次快照没有促销边界信息，不能写任何折扣或活动。",
+      "expected_outcome": "适合希望这一批库存在春节前走得更快、愿意让内容更直接地面向成交。",
+      "referenced_fact_ids": ["FACT:product.lifecycle_stage", "FACT:product.size_range"]
+    }
+  ],
+  "intent_summary": "这次任务是为一件羊绒风衣式大衣制作春节前的视频号内容：商品、时间和平台都已明确。「春节前」在这里是内容主题与时间场景；任务原话没有提促销、清库存或折扣，本次不引入任何促销意图。系统同时看到这件商品处于库存消化期，而您没有提到这件事，因此把常规春节主题方向与库存消化方向一并列出请您选择。人设、账号与品牌信息在快照中均标为缺失，涉及主理人经历、账号关系与品牌禁语的说法本次一律没有补写。",
+  "clarification_question": "这次的春节内容，您是想按原本的思路把这件大衣讲透（把商品讲清楚、让人记住），还是考虑到它正处在库存消化期、把内容更多对准节前动销？",
   "referenced_fact_ids": [
     "FACT:product.name",
     "FACT:product.inventory",

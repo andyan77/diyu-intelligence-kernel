@@ -514,11 +514,11 @@ def m23_edit_exam_keep_signature(tree):
 
 
 def m24_contract_version_pointer_drift(tree):
-    """M24 把 E2E-01 Manifest 的 acceptance_contract_version 从 v0.6 改成 v0.5（B 真源实为 v0.6；
-    锚点随 2026-08-18 校准修订批 B v0.6 升版同步；上一次同步=块 C v0.5）。
+    """M24 把 E2E-01 Manifest 的 acceptance_contract_version 从 v0.7 改成 v0.6（B 真源实为 v0.7；
+    锚点随 2026-08-18 校准批二 B v0.7 升版同步；上一次同步=校准修订批 v0.6）。
     期望：R7 红。R7（PRD/A/B 版本指针实时核验）此前从未有负向活体证据——
     IA-0 签字包自认「三把没试过撬的锁」之一，本条补上。"""
-    sub_once(tree, E2E01_MF, r'^acceptance_contract_version: "v0\.6"', 'acceptance_contract_version: "v0.5"')
+    sub_once(tree, E2E01_MF, r'^acceptance_contract_version: "v0\.7"', 'acceptance_contract_version: "v0.6"')
 
 
 def m25_model_identity_drift(tree):
@@ -609,7 +609,7 @@ CHECKS = [
      m22_rule_body_edit_without_bump, "sign", "RED", ("R5",), (), None),
     ("M23", "改 Manifest 考题内容、签字字段不动（「改考题保签字」，R6 内容绑定活体证据）",
      m23_edit_exam_keep_signature, "sign", "RED", ("R6",), (), None),
-    ("M24", "Manifest 的 B 版本指针 v0.6→v0.5（R7 活体证据）",
+    ("M24", "Manifest 的 B 版本指针 v0.7→v0.6（R7 活体证据）",
      m24_contract_version_pointer_drift, "sign", "RED", ("R7",), (), None),
     ("M25", "Manifest model_name 与参数真源漂移（R8 模型身份全等活体证据）",
      m25_model_identity_drift, "sign", "RED", ("R8",), (), None),

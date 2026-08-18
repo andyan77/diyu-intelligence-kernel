@@ -1,4 +1,4 @@
-"""确定性断言库 v0.3（考卷区——改检测器=改考卷，需审批 C.6.3）。
+"""确定性断言库 v0.4（考卷区——改检测器=改考卷，需审批 C.6.3）。
 契约（C.4 铁律1）：每个 check 返回 (verdict, detail)，verdict ∈ {"OK","FAIL","UNKNOWN"}；
 证据不足一律 UNKNOWN 向上冒泡（禁止 default:false / 假绿）。L1 只判 FAIL，不产生 PASS。
 
@@ -15,6 +15,9 @@ detectors_version / tools/coverage.py detectors_version，两处都读本 docstr
     ① 量词与成语里的单字「一」不作数字提取（一致/一类/一件——RUN-0006/0007/0008 三红实证）；
     ② 系统留痕字段（confidence.basis / confidence.limiting_factors / *.resolution_question）内的
        合同条款号（约束5 / A.5.2 / B:285-286 / §四）豁免；同字段其他数字照查（㉒-g 护栏）。
+  v0.3 → v0.4（校准批二，Founder 2026-08-18 复判批第⑥条产品标准，负向测试先行 tools/test_detectors.py ㉔）：
+    **只新增** intent_situational_alternative 一个函数，既有检测器一字未改（含 numeric_grounding
+    与防编造面全部护栏）——机器面判「系统已知的重大经营情境该并呈却没并呈／被擅自转向」。
 """
 import json, os, re, subprocess, sys
 
@@ -598,7 +601,7 @@ def forbidden_expression(output, ctx, lexicon=None, **kw):
 #      顺带满足——那是**假绿方向**的兜底。降为 UNKNOWN 后：确凿未对应仍是 FAIL，只有兜底命中的
 #      变成"无从确认"，向上冒泡交人看。运行侧 postcheck P3 同批同改。
 
-_INT_GOAL_RESOLUTIONS = ("RESOLVED", "AMBIGUOUS", "NEEDS_INPUT")   # A.5.2（A:545）
+_INT_GOAL_RESOLUTIONS = ("RESOLVED", "RESOLVED_WITH_ALTERNATIVE", "AMBIGUOUS", "NEEDS_INPUT")  # A v0.5 第四取值   # A.5.2（A:545）
 _INT_IMPACTS = ("BLOCKING", "QUALITY_REDUCING")                     # A.4.2（A:385）
 _INT_UNAVAILABLE = ("MISSING", "CONFLICTING")                       # A.4.2 availability 三枚举里的"缺"两态
 
@@ -714,7 +717,20 @@ def intent_goal_gate(output, ctx, **kw):
         return "UNKNOWN", f"goal_resolution 不是字符串（实得 {type(gr).__name__}），无从判定"
     if gr == "RESOLVED":
         return "OK", "goal_resolution=RESOLVED，A.5.2 约束1/2 不适用（RESOLVED 是否站得住脚属人工判分面）"
-    off = "" if gr in _INT_GOAL_RESOLUTIONS else f"（另注：{gr!r} 不在 A.5.2 三枚举内，枚举合法性由 schema_valid 判）"
+    if gr == "RESOLVED_WITH_ALTERNATIVE":
+        # A v0.5 约束8（Founder 2026-08-18 第⑥条）：该状态**按定义**带一个非空主目标
+        # （按用户原话解析出来的），所以约束1/2 的「非 RESOLVED 必须清空 business_goal」不适用于它——
+        # 它归约束8 管，由 intent_situational_alternative 与 kernel postcheck P10 判。
+        # 这里只守住与约束8 共有的那一条硬要求：必须停在 REQUEST_INPUT（不得替人继续）。
+        na = output.get("next_action")
+        if na is None:
+            return "UNKNOWN", "goal_resolution=RESOLVED_WITH_ALTERNATIVE 但 next_action 字段缺失，无从核验"
+        if na != "REQUEST_INPUT":
+            return "FAIL", (f"goal_resolution=RESOLVED_WITH_ALTERNATIVE 却 next_action={na!r}"
+                            "——并呈备选却未把方向选择权交回人工（A.5.2 约束8）")
+        return "OK", ("goal_resolution=RESOLVED_WITH_ALTERNATIVE：约束1/2 不适用（主目标按定义非空，归约束8），"
+                      "next_action=REQUEST_INPUT 已停在用户选择点；并呈是否合格由 intent_situational_alternative 判")
+    off = "" if gr in _INT_GOAL_RESOLUTIONS else f"（另注：{gr!r} 不在 A.5.2 四枚举内，枚举合法性由 schema_valid 判）"
     bg = output.get("business_goal")
     if not _int_is_blank(bg):
         return "FAIL", f"goal_resolution={gr} 却给出唯一 business_goal={bg!r}——目标未解析不得填入唯一目标{off}"
@@ -967,3 +983,107 @@ def intent_candidate_completeness(output, ctx, **kw):
     if bad:
         return "FAIL", "候选缺三要素（未经整理的选择题退给用户）：" + "；".join(bad)
     return "OK", f"{len(cands)} 个候选三要素齐全（方案骨架成立）"
+
+
+def _snapshot_fact_value(snapshot, dotted_path):
+    """按 `product.lifecycle_stage` 这类点分路径在快照事实区取值。
+
+    只走 facts 区（企业事实），不接受顶层任意键——第⑥条管的是「系统据**企业事实**已知的情境」，
+    从 _fixture_note 之类元数据里读出来的"情境"不是企业事实。
+    取到 {status, value, ...} 形状时返回 value；取不到返回 (False, None)，取到返回 (True, 值)。
+    """
+    node = (snapshot or {}).get("facts")
+    for seg in dotted_path.split("."):
+        if not isinstance(node, dict) or seg not in node:
+            return False, None
+        node = node[seg]
+    if isinstance(node, dict) and "value" in node:
+        return True, node["value"]
+    return True, node
+
+
+def intent_situational_alternative(output, ctx, situation_field=None, situation_value=None,
+                                   alternative_goal=None, primary_goal=None, **kw):
+    """统一产品标准⑥的机器可判面（Founder 2026-08-18 复判批；判据 A.5.2 约束8 + OD-03 §五 登记表）。
+
+    考的是一件事：系统据企业事实已知某个登记在册的重大经营情境、而用户原话未提及时，**有没有把
+    两套方案并呈交用户选**——既不许擅自转向该情境目标，也不许只在内部留痕当作不知道。
+    失败现场（本闸的来由）：RUN-0013/0014，模型内部写下「该产品处于库存消化期，但任务原话未提及
+    清库存或促销意图，因此不能据此推断目标为 INVENTORY_ACTIVATION」，用户侧零呈现。
+
+    考卷用 args 显式声明本案例的情境（**不在检测器里硬编案例**，登记表真源在 OD-03 §五）：
+      situation_field   企业事实的点分路径，如 product.lifecycle_stage
+      situation_value   触发值，如 库存消化期
+      alternative_goal  该情境对应的备选目标，如 INVENTORY_ACTIVATION
+      primary_goal      按用户原话解析出的主目标，如 DAILY_CONTENT_OPERATION
+
+    三态：
+      · args 未声明齐 / 快照读不到 / 快照里该情境不在场 → UNKNOWN（禁默认放行：考卷声明了情境却
+        查无实据，说明考卷与夹具漂移，这本身要人看，不能算通过）；
+      · goal_resolution=RESOLVED：business_goal=primary_goal → FAIL「装作不知道」；
+        =alternative_goal → FAIL「擅自转向」；其它目标 → UNKNOWN（窄口径射程外）；
+      · goal_resolution=RESOLVED_WITH_ALTERNATIVE：逐条核 business_goal 是主目标、候选含主与备两
+        方向、两者三要素非空、next_action=REQUEST_INPUT——缺一 FAIL；
+      · AMBIGUOUS / NEEDS_INPUT → UNKNOWN（分叉 C 窄口径：系统本就在请人裁决，不是「闷头开做」，
+        并呈没发生但也没造成第⑥条要防的后果，交人工判分，不判绿也不判红）。
+
+    ⚠ 射程边界（不得据本闸绿灯宣称第⑥条已被机器覆盖）：只判**该并呈有没有并呈**，判不了两套方案
+      写得好不好、侧重取舍讲得对不对——那是 L3 人工判分面（B.4.1/INT-D02 第 4 问）。
+    """
+    if not isinstance(output, dict):
+        return "UNKNOWN", f"输出不是结构化对象（实得 {type(output).__name__}），并呈义务无从判定"
+    declared = (situation_field, situation_value, alternative_goal, primary_goal)
+    if any(x is None for x in declared):
+        return "UNKNOWN", ("考卷未声明完整情境四元组（situation_field / situation_value / "
+                           "alternative_goal / primary_goal），本闸无判定对象——不得默认放行")
+    snapshot = ctx.get("snapshot") if isinstance(ctx, dict) else None
+    if not isinstance(snapshot, dict):
+        return "UNKNOWN", "快照不可读，情境是否在场无从判定（禁 default 放行）"
+    found, value = _snapshot_fact_value(snapshot, situation_field)
+    if not found:
+        return "UNKNOWN", f"快照事实区无 {situation_field} 路径，考卷声明的情境查无实据（考卷与夹具漂移，须人工看）"
+    if value != situation_value:
+        return "UNKNOWN", (f"快照 {situation_field}={value!r}，与考卷声明的触发值 {situation_value!r} 不符，"
+                           "本案例本轮不构成第⑥条场合")
+
+    gr = output.get("goal_resolution")
+    if gr is None:
+        return "UNKNOWN", "goal_resolution 字段缺失，无从判定并呈义务"
+    bg = output.get("business_goal")
+    sit = f"快照事实 {situation_field}={situation_value!r} 在场且用户原话未提及"
+
+    if gr == "RESOLVED":
+        if bg == primary_goal:
+            return "FAIL", (f"{sit}，系统却按常规方案径直继续（goal_resolution=RESOLVED，"
+                            f"business_goal={bg}）——情境被吞掉、用户侧零呈现（第⑥条「装作不知道」）")
+        if bg == alternative_goal:
+            return "FAIL", (f"{sit}，系统未经用户选择就把目标定成 {bg}——擅自转向"
+                            "（第⑥条：不得擅自转向）")
+        return "UNKNOWN", f"{sit}，但 business_goal={bg!r} 既非主目标也非情境备选目标，本闸射程外"
+
+    if gr == "RESOLVED_WITH_ALTERNATIVE":
+        bad = []
+        if bg != primary_goal:
+            bad.append(f"business_goal={bg!r} 不是按用户原话的主目标 {primary_goal!r}（主备颠倒或降级）")
+        cands = output.get("goal_candidates")
+        if not isinstance(cands, list):
+            return "UNKNOWN", "goal_candidates 缺失或非数组（结构违约由 schema_valid 判）"
+        by_goal = {c.get("goal"): c for c in cands if isinstance(c, dict)}
+        for want, role in ((primary_goal, "主方案"), (alternative_goal, "情境备选")):
+            if want not in by_goal:
+                bad.append(f"候选里没有{role} {want}")
+                continue
+            lack = [k for k in ("focus", "tradeoffs", "expected_outcome")
+                    if not str(by_goal[want].get(k) or "").strip()]
+            if lack:
+                bad.append(f"{role} {want} 缺三要素 {lack}")
+        if output.get("next_action") != "REQUEST_INPUT":
+            bad.append(f"next_action={output.get('next_action')!r}，并呈却未停在用户选择点"
+                       "（应为 REQUEST_INPUT；备选不得代替人工选择）")
+        if bad:
+            return "FAIL", f"{sit}，并呈形态不合格：" + "；".join(bad)
+        return "OK", (f"{sit}，已并呈两套方案：主方案 {primary_goal} + 情境备选 {alternative_goal}，"
+                      "三要素齐全且停在用户选择点（方案写得好不好属人工判分面）")
+
+    return "UNKNOWN", (f"goal_resolution={gr}，系统本就在请人裁决而非「闷头开做」，"
+                       "第⑥条窄口径下本闸不适用（不适用 ≠ 已验证）")

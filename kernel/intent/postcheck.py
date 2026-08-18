@@ -4,7 +4,7 @@
 定位（G.2 第 4 条纪律，逐条对齐）：
   ① 三件套，**不造约束 DSL**——本文件只用 JSON Schema（P1）+ 词表/正则（P8/P9）+ Python 谓词（P2-P7）；
   ② **双阶段命名**：本文件是 Preflight（生成前，落 A.5.2 既有语义），Delivery（生成后，A.7.2 validation）不在此；
-  ③ **逐条标注 machine_checkable**——首批 P1-P9 全部 true；不得用一个全局合规图章掩盖语义盲区；
+  ③ **逐条标注 machine_checkable**——首批 P1-P10 全部 true；不得用一个全局合规图章掩盖语义盲区；
   ④ 首批规则按既有合同落点实现，不新增 Gate、不新增模块、不扩 A.9.1 冻结字段。
 
 三态契约（对齐 acceptance/detectors/checks.py 的 L1 口径，C.4 铁律1）：
@@ -364,7 +364,7 @@ def _p4_constraint5(plan, ctx):
     if bad:
         return "UNKNOWN", f"缺失项 impact 非法/缺失（{bad}），是否有 BLOCKING 缺失无从核验"
     gr = plan.get("goal_resolution")
-    if gr not in ("RESOLVED", "AMBIGUOUS", "NEEDS_INPUT"):
+    if gr not in ("RESOLVED", "RESOLVED_WITH_ALTERNATIVE", "AMBIGUOUS", "NEEDS_INPUT"):
         # 先判 goal_resolution 合法性再谈分支：标签认不出来时，"有没有 BLOCKING"这件事再清楚
         # 也推不出结论，只能 UNKNOWN（不是 OK 也不是 FAIL）。
         return "UNKNOWN", f"goal_resolution 缺失或非法（{gr!r}），约束5 无从核验"
@@ -373,8 +373,10 @@ def _p4_constraint5(plan, ctx):
         return "OK", f"无 BLOCKING 缺失（缺失共 {len(items)} 项），约束5 不触发"
     if gr == "NEEDS_INPUT":
         return "OK", f"BLOCKING 缺失 {blocking} 已进入 NEEDS_INPUT"
-    if gr == "RESOLVED":
-        return "FAIL", (f"存在 BLOCKING 缺失 {blocking}，但 goal_resolution=RESOLVED"
+    if gr in ("RESOLVED", "RESOLVED_WITH_ALTERNATIVE"):
+        # RESOLVED_WITH_ALTERNATIVE 与 RESOLVED 同判：它同样声称"目标已解析"，
+        # 阻断缺失在场时照样必须进 NEEDS_INPUT（约束8 不豁免约束5；runner G2 已同口径拦过一道）。
+        return "FAIL", (f"存在 BLOCKING 缺失 {blocking}，但 goal_resolution={gr}"
                         "（约束5：任何模式都必须进入 NEEDS_INPUT）")
     # 剩下只有 AMBIGUOUS：按仲裁1，只有当阻断缺失全部落在 business_goal 这一项上时才放行。
     others = [fp for fp in blocking if fp != BUSINESS_GOAL_FIELD_PATH]
@@ -499,7 +501,7 @@ def _p7_confidence_ceiling(plan, ctx):
     不臆造 confidence_level 之类的别名。语义依据：目标都没解析清楚还自称高置信 = 伪确定性表述（北极星1）。
     """
     gr = plan.get("goal_resolution")
-    if gr not in ("RESOLVED", "AMBIGUOUS", "NEEDS_INPUT"):
+    if gr not in ("RESOLVED", "RESOLVED_WITH_ALTERNATIVE", "AMBIGUOUS", "NEEDS_INPUT"):
         return "UNKNOWN", f"goal_resolution 缺失或非法（{gr!r}），置信上限无从核验"
     conf = plan.get("confidence")
     if not isinstance(conf, dict) or conf.get("level") not in ("HIGH", "MEDIUM", "LOW"):
@@ -618,6 +620,64 @@ def _p9_numeric_grounding(plan, ctx):
 # ============================ 检查表与入口 ============================
 # item 文本里内嵌出处（A 行号 / OD-03 章节）——接口规格把 checks 条目键钉死为五个，
 # 不另加 source 键，所以出处随 item 一起走，report 落盘后仍能逐条追到合同原文。
+def _p10_constraint8(plan, ctx):
+    """P10 = A.5.2 约束8（A v0.5；Founder 2026-08-18 第⑥条产品标准 + OD-03 §五）。
+
+    只在 goal_resolution=RESOLVED_WITH_ALTERNATIVE 时触发，逐条核：
+      ① business_goal 非空（主目标按用户原话保留，不得降级成 null）；
+      ② goal_candidates 里恰有一个等于该主目标（常规／主题方案骨架），且至少一个是别的目标（情境备选）；
+      ③ 上述两个候选的 focus / tradeoffs / expected_outcome 均非空（方案骨架，不是光秃标签）；
+      ④ next_action=REQUEST_INPUT（停在用户选择点，备选不得代替人工继续）；
+      ⑤ 那句"请在两个方向之间择一"的问题有落点——business_goal 项 ContextRequirement 的
+         resolution_question 非空（A.4.2 唯一承载"要问什么"的字段）。
+      ⑥ 若 ctx 给了本次确定性算出的 situations（runner always 传），则备选目标必须 ∈ 登记表的
+         alternative_goal 集合——防"自造情境目标"绕过 OD-03 §五 穷举表。ctx 没给时该项如实跳过并注明。
+    其它 goal_resolution 一律不触发（返回 OK 并注明"不适用 ≠ 已验证"）。
+    """
+    gr = plan.get("goal_resolution")
+    if gr != "RESOLVED_WITH_ALTERNATIVE":
+        return "OK", f"约束8 只约束 RESOLVED_WITH_ALTERNATIVE（当前 {gr!r}），本次不触发（不适用 ≠ 已验证）"
+    bad = []
+    bg = plan.get("business_goal")
+    if not isinstance(bg, str) or not bg.strip():
+        bad.append("business_goal 为空——「已解析＋情境备选」的主目标不得降级成 null")
+    cands = plan.get("goal_candidates")
+    if not isinstance(cands, list) or not cands:
+        return "UNKNOWN", "goal_candidates 缺失或非数组，约束8 无从核验（结构违约由 P1 判）"
+    by_goal = {c.get("goal"): c for c in cands if isinstance(c, dict)}
+    alts = [g for g in by_goal if g != bg]
+    if bg not in by_goal:
+        bad.append(f"候选里没有主方案骨架（goal={bg!r}）")
+    if not alts:
+        bad.append("候选里没有任何情境备选方向（只有主目标一个候选 = 没有并呈）")
+    for goal in ([bg] if bg in by_goal else []) + alts:
+        lack = [k for k in ("focus", "tradeoffs", "expected_outcome")
+                if not str(by_goal[goal].get(k) or "").strip()]
+        if lack:
+            bad.append(f"候选 {goal} 缺三要素 {lack}")
+    if plan.get("next_action") != "REQUEST_INPUT":
+        bad.append(f"next_action={plan.get('next_action')!r}（约束8 要求 REQUEST_INPUT，停在用户选择点）")
+    question = None
+    for item in (plan.get("required_context") or []):
+        if isinstance(item, dict) and item.get("field_path") == BUSINESS_GOAL_FIELD_PATH:
+            question = item.get("resolution_question")
+            break
+    if not (isinstance(question, str) and question.strip()):
+        bad.append(f"{BUSINESS_GOAL_FIELD_PATH} 项没有 resolution_question——请用户择一的问题没有落点")
+    registry_note = "（ctx 未给 situations，登记表归属项跳过）"
+    situations = ctx.get("situations")
+    if isinstance(situations, list):
+        registered = {s.get("alternative_goal") for s in situations if isinstance(s, dict)}
+        stray = [g for g in alts if g not in registered]
+        if stray:
+            bad.append(f"备选目标 {stray} 不在本次登记在册的情境备选集合 {sorted(registered)} 内（OD-03 §五 是穷举表）")
+        registry_note = f"（备选目标已核在册：{sorted(registered)}）"
+    if bad:
+        return "FAIL", "约束8 不成立：" + "；".join(bad)
+    return "OK", (f"约束8 成立：主目标 {bg} + 情境备选 {alts}，三要素齐全、停在 REQUEST_INPUT、"
+                  f"择一问题已落到 {BUSINESS_GOAL_FIELD_PATH} 项 {registry_note}")
+
+
 _CHECK_TABLE = (
     ("P1", "结构校验：IntentExecutionPlan Schema（内含 A.5.2 约束1/2 条件式）"
            "｜出处 A.5.2 A:540-564 + contracts/schemas/intent_execution_plan.schema.json + B PRE-01-I", _p1_schema),
@@ -640,6 +700,9 @@ _CHECK_TABLE = (
            "｜出处 OD-03 二（促销边界/禁用表达清单）+ 词表源 BD-D01 冻结 forbidden_expression", _p8_forbidden_lexicon),
     ("P9", "数字溯源：intent_summary 中的阿拉伯数字须在 ContextSnapshot 序列化文本中出现"
            "｜出处 A.1.2 FACT 必须来自当前 Snapshot（A:63-73）+ 项目宪法北极星1（数字必须溯源到快照）", _p9_numeric_grounding),
+    ("P10", "A.5.2 约束8（A v0.5）：RESOLVED_WITH_ALTERNATIVE → 主目标非空 + 并呈主方案与情境备选两套骨架"
+            "（三要素非空）+ REQUEST_INPUT + 择一问题落到 business_goal 项 + 备选目标在册"
+            "｜出处 Founder 2026-08-18 第⑥条产品标准 + OD-03 §五 重大经营情境登记", _p10_constraint8),
 )
 
 

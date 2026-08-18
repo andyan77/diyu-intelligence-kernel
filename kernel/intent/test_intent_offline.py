@@ -8,7 +8,7 @@ IntentExecutionPlan 与 Preflight 报告逐条断言。断言口径来自 A.5.2 
 + M1-EP02 修复批次的两条仲裁口径（见文末「规格偏离登记」），**不由本文件自造，也不为求绿放宽**。
 期望值只取真源推导值：跑出来与期望不符时，正确动作是回去查真源或改实现，不是改这里的期望。
 
-**正向对照组（本文件的自我拆台环节，务必保留）**：上面那类断言全是"跑通 + Preflight 九项全 OK"，
+**正向对照组（本文件的自我拆台环节，务必保留）**：上面那类断言全是"跑通 + Preflight 十项全 OK"，
 它们有一个共同弱点——**把某个检查项掏空成永远返回 OK，全部断言会更容易通过**，结论行照打 GREEN。
 所以文件末尾另有一组反向用例：直接 `import postcheck`，喂手造的坏 plan，断言指定项**必须 FAIL**，
 且每条都先核验"改坏之前该项是 OK"（否则断言 FAIL 什么都证明不了）。检查器被掏空时这一组立刻判红。
@@ -61,7 +61,7 @@ CASES_DIR = os.path.join(REPO_ROOT, "acceptance", "cases")
 # Preflight 应当给出的九项。写成常量并做**集合相等**断言，是为了拦一类假绿：
 # 把检查表删掉几项（比如去掉 P4），剩下的项全 OK，overall 照样是 OK——
 # "少考了"和"全考过了"在结论行上长得一模一样，只有比对项数才分得开。
-EXPECTED_CHECK_IDS = ("P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9")
+EXPECTED_CHECK_IDS = ("P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10")  # P10 = A.5.2 约束8（校准批二）
 
 # ======================================================================================
 # 零网络守卫
@@ -263,6 +263,11 @@ SCENARIOS = (
     _scn("NEG-02.out_of_pool_ref", "INT-D01", "quick", "NEG-02.out_of_pool_ref.model_reply.json"),
     _scn("NEG-03.candidate_ref_out_of_pool", "INT-D01", "quick",
          "NEG-03.candidate_ref_out_of_pool.model_reply.json"),
+    # NEG-04/05：G7 情境并呈闸的两侧（校准批二，Founder 第⑥条产品标准）。
+    #   04 用 **INT-D02** 快照（情境在场）——模型装作不知道径直继续；
+    #   05 用 INT-D01 快照（无任何登记情境）——模型自造情境把任务变成选择题。
+    _scn("NEG-04.situation_withheld", "INT-D02", "quick", "NEG-04.situation_withheld.model_reply.json"),
+    _scn("NEG-05.fabricated_situation", "INT-D01", "quick", "NEG-05.fabricated_situation.model_reply.json"),
 )
 
 # 只读取证清单：跑之前算一遍 sha256，跑完再算一遍。考卷区（acceptance/）被本模块写过一个字节，
@@ -328,7 +333,7 @@ def main(argv):
         item("%s confidence 非 HIGH（B v0.6：事实依据不足时不得 HIGH；表达面缺失在场）" % name, conf != "HIGH",
              "实得 %r" % conf)
         ok, bad = preflight_state(r)
-        item("%s Preflight 九项全 OK" % name, ok, "非 OK 项：%s" % bad)
+        item("%s Preflight 十项全 OK" % name, ok, "非 OK 项：%s" % bad)
 
     # ---- D02：春节＝主题不＝促销（B v0.6，Founder 判分批统一产品标准②③；SPEC-DEV-02 已撤代）----
     # 撤代记录：原期望「stated INVENTORY_ACTIVATION → 促销边界阻断 → NEEDS_INPUT」随 Founder
@@ -338,20 +343,41 @@ def main(argv):
     plan = r.plan or {}
     missing = plan.get("missing_context") or []
     blocking_paths = [m.get("field_path") for m in missing if m.get("impact") == "BLOCKING"]
+    # 复判批第⑥条改口径（Founder 2026-08-18）：D02 快照含 lifecycle_stage=库存消化期而用户原话未提及，
+    # 合格形态从「解析 DAILY 后直接继续」改为**并呈双方案停在用户选择点**（A.5.2 约束8 / B v0.7）。
+    cand_goals = [c.get("goal") for c in (plan.get("goal_candidates") or [])]
+    goal_req = next((it for it in (plan.get("required_context") or [])
+                     if it.get("field_path") == "business_goal"), {})
     d02_conditions = {
-        "goal_resolution=RESOLVED": plan.get("goal_resolution") == "RESOLVED",
-        "business_goal=DAILY_CONTENT_OPERATION": plan.get("business_goal") == "DAILY_CONTENT_OPERATION",
-        "next_action=CONTINUE_TO_DECISION（不被可选信息拦停）": plan.get("next_action") == "CONTINUE_TO_DECISION",
-        "无促销边界 BLOCKING（OD-03 v1.1 条件阻断：未明示促销意图不阻断）":
+        "goal_resolution=RESOLVED_WITH_ALTERNATIVE":
+            plan.get("goal_resolution") == "RESOLVED_WITH_ALTERNATIVE",
+        "business_goal 仍为 DAILY_CONTENT_OPERATION（听懂了就是听懂了，不降级成 null）":
+            plan.get("business_goal") == "DAILY_CONTENT_OPERATION",
+        "next_action=REQUEST_INPUT（停在用户选择点，备选不代选）":
+            plan.get("next_action") == "REQUEST_INPUT",
+        "并呈主方案与库存消化备选两个方向":
+            set(cand_goals) == {"DAILY_CONTENT_OPERATION", "INVENTORY_ACTIVATION"},
+        "两个候选三要素齐全（方案骨架，不是光秃标签）":
+            all(all(str(c.get(k) or "").strip() for k in ("focus", "tradeoffs", "expected_outcome"))
+                for c in (plan.get("goal_candidates") or [])) and bool(cand_goals),
+        "择一问题落到 business_goal 项的 resolution_question":
+            bool(str(goal_req.get("resolution_question") or "").strip()),
+        "无促销边界 BLOCKING（OD-03 条件阻断：未明示促销意图不阻断）":
             "brand.promotion_boundary" not in blocking_paths,
+        "出镜人/受众已移出缺失清单（OD-03 v1.2）":
+            not ({"persona", "audience"} & {m.get("field_path") for m in missing}),
     }
-    item("INT-D02.quick 春节主题正常制作（RESOLVED + DAILY_CONTENT_OPERATION + CONTINUE，促销边界不阻断）",
+    item("INT-D02.quick 第⑥条并呈双方案（RESOLVED_WITH_ALTERNATIVE + 主目标保留 + 停在选择点）",
          all(d02_conditions.values()),
-         "未成立的子条件：%s；实得 goal_resolution=%r business_goal=%r next_action=%r，BLOCKING 缺失=%s"
+         "未成立的子条件：%s；实得 goal_resolution=%r business_goal=%r next_action=%r 候选=%s，BLOCKING 缺失=%s"
          % ([k for k, v in d02_conditions.items() if not v], plan.get("goal_resolution"),
-            plan.get("business_goal"), plan.get("next_action"), blocking_paths))
+            plan.get("business_goal"), plan.get("next_action"), cand_goals, blocking_paths))
+    item("INT-D02.quick 自决/派生留痕在册（分叉 A：不问用户但留痕）",
+         {"ASSUMPTION:persona.on_camera_form", "ASSUMPTION:audience.derived"}
+         <= {a.get("trace_id") for a in (plan.get("assumptions") or [])},
+         "实得 assumptions：%s" % [a.get("trace_id") for a in (plan.get("assumptions") or [])])
     ok, bad = preflight_state(r)
-    item("INT-D02.quick Preflight 九项全 OK", ok, "非 OK 项：%s" % bad)
+    item("INT-D02.quick Preflight 十项全 OK", ok, "非 OK 项：%s" % bad)
     conf = (plan.get("confidence") or {}).get("level")
     item("INT-D02.quick 模型自报 HIGH 被压低（置信度只降不升）", conf in ("MEDIUM", "LOW"),
          "夹具自报 confidence_level=HIGH，最终实得 %r——G6 只降不升未生效" % conf)
@@ -365,6 +391,32 @@ def main(argv):
          r.code == (0 if (r.report or {}).get("overall") == "OK" else 1),
          "exit=%r overall=%r（overall!=OK 必须 exit 1，且 plan 照写盘便于取证）"
          % (r.code, (r.report or {}).get("overall")))
+
+    # ---- G7 情境并呈闸两侧（校准批二，Founder 第⑥条产品标准）----------------------
+    # NEG-04：情境在场、模型装作不知道 → 不许闷头继续，拦成 REQUEST_INPUT 且**系统不代生成备选骨架**。
+    r4 = results["NEG-04.situation_withheld"]
+    p4 = r4.plan or {}
+    basis4 = " ".join(str(b) for b in ((p4.get("confidence") or {}).get("basis") or []))
+    item("NEG-04 情境被吞 → G7 拦停为 REQUEST_INPUT（不许「装作不知道」径直继续）",
+         p4.get("next_action") == "REQUEST_INPUT",
+         "实得 next_action=%r goal_resolution=%r" % (p4.get("next_action"), p4.get("goal_resolution")))
+    item("NEG-04 系统不代生成备选方案骨架（候选保持空——生成即编造）",
+         not (p4.get("goal_candidates") or []),
+         "实得候选 %s" % [c.get("goal") for c in (p4.get("goal_candidates") or [])])
+    item("NEG-04 拦停理由写进产物 confidence.basis（红旗可从 plan 追溯，不只在 stderr）",
+         "系统拦停" in basis4 and "库存消化期" in basis4, "basis 实得：%s" % basis4[:300])
+    # NEG-05：模型自造情境 → 撤销备选、退回 RESOLVED 继续（防把可执行任务变成选择题）。
+    r5 = results["NEG-05.fabricated_situation"]
+    p5 = r5.plan or {}
+    basis5 = " ".join(str(b) for b in ((p5.get("confidence") or {}).get("basis") or []))
+    item("NEG-05 模型自造情境 → 撤销备选、退回 RESOLVED 并继续（快照里没有登记在册的情境）",
+         p5.get("goal_resolution") == "RESOLVED" and p5.get("next_action") == "CONTINUE_TO_DECISION"
+         and not (p5.get("goal_candidates") or []),
+         "实得 goal_resolution=%r next_action=%r 候选=%s"
+         % (p5.get("goal_resolution"), p5.get("next_action"),
+            [c.get("goal") for c in (p5.get("goal_candidates") or [])]))
+    item("NEG-05 撤销理由写进产物 confidence.basis",
+         "不接受模型自造情境" in basis5, "basis 实得：%s" % basis5[:300])
 
     # ---- D03：同一快照的目标迁移 --------------------------------------------------
     ra, rb = results["INT-D03.input-a"], results["INT-D03.input-b"]
@@ -414,7 +466,7 @@ def main(argv):
 
     ok_a, bad_a = preflight_state(ra)
     ok_b, bad_b = preflight_state(rb)
-    item("INT-D03 两侧 Preflight 九项全 OK", ok_a and ok_b,
+    item("INT-D03 两侧 Preflight 十项全 OK", ok_a and ok_b,
          "a 非 OK：%s；b 非 OK：%s" % (bad_a, bad_b))
 
     # B v0.6 D03-B（Founder 判分批标准④）：先做方案骨架再请人挑——AMBIGUOUS + 候选≥2 且
@@ -463,7 +515,7 @@ def main(argv):
          "实得 next_action=%r；stderr 含改判留痕=%s；confidence.basis 含改判留痕=%s"
          % (plan_n.get("next_action"), "系统改判" in rn.stderr, "系统改判" in neg1_basis))
     ok_n, bad_n = preflight_state(rn)
-    item("NEG-01 改判后 Preflight 九项全 OK 且 exit 0", ok_n and rn.code == 0,
+    item("NEG-01 改判后 Preflight 十项全 OK 且 exit 0", ok_n and rn.code == 0,
          "exit=%r；非 OK 项：%s" % (rn.code, bad_n))
 
     rp = results["NEG-02.out_of_pool_ref"]
@@ -489,7 +541,7 @@ def main(argv):
 
     # ---- 正向对照组：把 postcheck 掏空会不会更绿 -----------------------------------
     # 为什么必须有这一组（它堵的是本文件自身最大的一个漏洞）：
-    # 上面所有断言的形式都是「跑通 + Preflight 九项全 OK」。这类断言有一个致命的共同弱点——
+    # 上面所有断言的形式都是「跑通 + Preflight 十项全 OK」。这类断言有一个致命的共同弱点——
     # **把某个检查项改成永远返回 OK，全部断言会更容易通过**。删掉 P4 的判定逻辑、让它 return "OK"，
     # 上面每一项都会变绿，结论行照打 INTENT_OFFLINE_GREEN。也就是说：光看正向用例，
     # 分不清"系统真的守住了"和"检查器被掏空了"。
@@ -667,8 +719,12 @@ def main(argv):
         "SPEC-DEV-02｜**已撤代**（Founder 2026-08-18 判分批）：INT-D02 快速侧不再进 NEEDS_INPUT",
         "原仲裁2（快速侧被促销边界阻断=正确行为）已被五条统一产品标准取代：OD-03 v1.1 把促销边界改为"
         "条件阻断（仅用户明示促销/清库存/折扣意图时 BLOCKING），stated_business_goal 注入已从"
-        "task_input.json 撤除（四点批复2）。新预期=RESOLVED + DAILY_CONTENT_OPERATION + CONTINUE，"
-        "春节只作主题/场景。原口径原文见 git 历史与 acceptance/runs/L3-判分记录-INT-20260818.md；"
+        "task_input.json 撤除（四点批复2）。判分批当时的新预期=RESOLVED + DAILY_CONTENT_OPERATION + "
+        "CONTINUE；**该预期又被复判批第⑥条再次取代**（Founder 2026-08-18 复判：D02 不通过）——本案例"
+        "快照含 product.lifecycle_stage=库存消化期而用户原话未提及，现行合格形态＝"
+        "RESOLVED_WITH_ALTERNATIVE + 主目标仍为 DAILY_CONTENT_OPERATION + 并呈双方案骨架 + REQUEST_INPUT"
+        "（A v0.5 约束8 / B v0.7 / OD-03 v1.2 §五）。春节仍只作主题/场景、促销仍不得脑补，这两条未变。"
+        "原口径原文见 git 历史与 acceptance/runs/L3-判分记录-INT-20260818.md；"
         "「QUICK 跨过 QR 并逐项产生 ASSUMPTION」考点仍由 INT-D03.input-a 承载，考点未落空。")
     deviation(
         "SPEC-DEV-03｜**已退役**（Founder 2026-08-18 判分批）：INT-D03 input-b 侧新预期为 AMBIGUOUS 方案骨架",

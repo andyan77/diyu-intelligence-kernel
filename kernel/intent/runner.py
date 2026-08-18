@@ -22,6 +22,9 @@
   G4 next_action 裁定（A.5.2 约束3：RESOLVED + goal 非空 + 无 BLOCKING 才可 CONTINUE_TO_DECISION）
   G5 QUICK 跨过的 QUALITY_REDUCING 缺失逐项生成 ASSUMPTION（A.5.2 约束4 / A.4.2）
   G6 置信度只降不升（模型自报只作上限输入）
+  G7 情境并呈闸（A.5.2 约束8 / OD-03 §五，Founder 2026-08-18 第⑥条产品标准）：登记在册的重大经营情境
+     在场且主目标属触发面时，模型没并呈合格的双方案骨架 → 不许闷头继续，拦成 REQUEST_INPUT 留红旗；
+     模型自称有情境备选而快照里没有该情境 → 撤销备选退回 RESOLVED。**系统绝不代生成备选方案骨架**
 
 闸决定的留痕（M1-EP02 修复批次 K2，堵「改判只打 stderr、产物里查不到」的取证缺口）：
   G1-G6 每一次改判、每一处目标出处、每一次置信度下调，都会写进产物的
@@ -60,7 +63,7 @@ from .config import BUSINESS_GOAL_FIELD_PATH as GOAL_FIELD_PATH
 
 # 仓库根：kernel/intent/runner.py → parents[2]
 REPO_ROOT = Path(__file__).resolve().parents[2]
-PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "intent_v0.4.md"
+PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "intent_v0.5.md"
 _DEFAULT_PLAN_SCHEMA_PATH = REPO_ROOT / "contracts" / "schemas" / "intent_execution_plan.schema.json"
 
 # A:204 逐字七枚举（BusinessGoal，A v0.4 判分批新增 DAILY_CONTENT_OPERATION）。落在本文件是为了
@@ -72,7 +75,10 @@ BUSINESS_GOALS = (
     "INVENTORY_ACTIVATION", "BRAND_STORY", "CUSTOMER_EDUCATION",
 )
 EXECUTION_MODES = ("QUICK", "ENHANCED")          # A:203 ExecutionMode
-GOAL_RESOLUTIONS = ("RESOLVED", "AMBIGUOUS", "NEEDS_INPUT")
+# A v0.5（Founder 2026-08-18 复判批第⑥条）：新增 RESOLVED_WITH_ALTERNATIVE = 「已解析＋另有情境备选」。
+# 它不是"没听懂"的变体——business_goal 按用户原话如实保留，只是系统据企业事实另呈一个方向请人选。
+GOAL_RESOLUTIONS = ("RESOLVED", "RESOLVED_WITH_ALTERNATIVE", "AMBIGUOUS", "NEEDS_INPUT")
+GOAL_WITH_ALT = "RESOLVED_WITH_ALTERNATIVE"
 TASK_TYPE = "VIDEO_CONTENT_CREATION"             # A.5.2 常量（Intent 只输出视频号内容任务计划，约束7）
 PLATFORM = "WECHAT_VIDEO"                        # A.5.2 常量
 ARTIFACT_TYPE = "IntentExecutionPlan"            # A.5.2 输出对象名
@@ -190,7 +196,26 @@ def format_rule_pool(rule_pool):
     return "\n".join(lines)
 
 
-def render_prompt(template, task_statement, execution_mode, stated_goal, fact_pool, rule_pool):
+def format_situations(situations):
+    """把确定性算出的重大经营情境渲染成 prompt 输入区（OD-03 §五 / A.5.2 约束8）。
+
+    只陈述**事实与登记结论**（哪个字段是什么值、按登记表对应哪个备选目标），不替模型判"用户提没提"，
+    也不写"所以你应该并呈"之外的任何指令性内容——判定纪律写在 prompt 正文里，输入区只给料。
+    """
+    if not situations:
+        return "（本次快照中没有登记在册的重大经营情境。）"
+    lines = []
+    for s in situations:
+        lines.append(
+            "- 情境：%s（企业事实 %s = %s，可引用 ID：%s）；登记在册的对应备选目标：%s（真源 %s）"
+            % (s["label"], s["field_path"], s["observed_value"], s["fact_id"],
+               s["alternative_goal"], s["od03"])
+        )
+    return "\n".join(lines)
+
+
+def render_prompt(template, task_statement, execution_mode, stated_goal, fact_pool, rule_pool,
+                  situations=()):
     """逐字替换占位符（不改写、不摘要、不补写——对齐 contracts/interaction 的替换纪律）。"""
     stated_text = (
         f"用户已显式声明商业目标：{stated_goal}。"
@@ -207,6 +232,7 @@ def render_prompt(template, task_statement, execution_mode, stated_goal, fact_po
         ("{{BUSINESS_GOAL_ENUM}}", "\n".join(f"- {g}" for g in BUSINESS_GOALS)),
         ("{{FACT_POOL}}", format_fact_pool(fact_pool)),
         ("{{RULE_POOL}}", format_rule_pool(rule_pool)),
+        ("{{SITUATIONAL_CONTEXT}}", format_situations(situations)),
     ):
         rendered = rendered.replace(placeholder, value)
     if "{{" in rendered:
@@ -260,7 +286,7 @@ def resolve_goal(model_out, stated_goal):
     model_resolution = model_out.get("goal_resolution")
     if model_resolution not in GOAL_RESOLUTIONS:
         notes.append(
-            f"系统改判：模型 goal_resolution={model_resolution!r} 不在三枚举内，按最保守方向改为 NEEDS_INPUT"
+            f"系统改判：模型 goal_resolution={model_resolution!r} 不在四枚举内，按最保守方向改为 NEEDS_INPUT"
         )
         model_resolution = "NEEDS_INPUT"
     model_goal = model_out.get("business_goal")
@@ -280,20 +306,29 @@ def resolve_goal(model_out, stated_goal):
         )
         return "RESOLVED", stated_goal, notes
 
-    if model_resolution == "RESOLVED" and model_goal is None:
+    # RESOLVED 与 RESOLVED_WITH_ALTERNATIVE 都必须带一个七枚举之一的主目标：后者的语义是
+    # 「按用户原话已解析出主目标 ＋ 系统另呈情境备选」，主目标为空就不成其为「已解析」（A.5.2 约束8）。
+    if model_resolution in ("RESOLVED", GOAL_WITH_ALT) and model_goal is None:
         notes.append(
-            "系统改判：模型自称 RESOLVED 却没给出六枚举之一的 business_goal——不代它挑一个，改为 NEEDS_INPUT"
+            f"系统改判：模型自称 {model_resolution} 却没给出七枚举之一的 business_goal——不代它挑一个，改为 NEEDS_INPUT"
         )
         return "NEEDS_INPUT", None, notes
-    if model_resolution != "RESOLVED":
-        notes.append(f"business_goal 来源：模型解析结果 goal_resolution={model_resolution}（目标未落到六选一）")
+    if model_resolution not in ("RESOLVED", GOAL_WITH_ALT):
+        notes.append(f"business_goal 来源：模型解析结果 goal_resolution={model_resolution}（目标未落到七选一）")
         return model_resolution, None, notes
+    if model_resolution == GOAL_WITH_ALT:
+        notes.append(f"business_goal 来源：模型解析结果（{model_goal}，按用户原话的主目标），"
+                     "并自报另有情境备选方向——是否成立由 G7 按 OD-03 §五 登记表核验")
+        return GOAL_WITH_ALT, model_goal, notes
     notes.append(f"business_goal 来源：模型解析结果（{model_goal}），未使用 --stated-goal")
     return "RESOLVED", model_goal, notes
 
 
-def apply_hard_gates(goal_resolution, business_goal, candidates, missing, execution_mode):
-    """G2-G4：把 A.5.2 约束 1/2/3/5 写成代码，模型说什么都拦得住。返回状态 dict。"""
+def apply_hard_gates(goal_resolution, business_goal, candidates, missing, execution_mode, situations=()):
+    """G2-G4 + G7：把 A.5.2 约束 1/2/3/5/8 写成代码，模型说什么都拦得住。返回状态 dict。
+
+    situations：preprocess.detect_situations() 的返回值（确定性算出的「登记在册的重大经营情境是否在场」）。
+    """
     notes = []
     blocking = [m for m in missing if m.get("impact") == "BLOCKING"]
 
@@ -306,9 +341,9 @@ def apply_hard_gates(goal_resolution, business_goal, candidates, missing, execut
     #   ③ 模型判 AMBIGUOUS 且阻断缺失 ⊆ {business_goal}（含空集）→ **不改判**，保留 AMBIGUOUS。
     #      依据 B:285-286「用户明确选择快速模式时…但必须保留 AMBIGUOUS、missing_context、assumptions
     #      和非高置信度」——INT-D01 正是这一格。改判会抹掉候选与澄清问题，把 B 那句写成死条文。
-    if blocking and goal_resolution == "RESOLVED":
+    if blocking and goal_resolution in ("RESOLVED", GOAL_WITH_ALT):
         notes.append(
-            "系统改判：模型判 RESOLVED，存在阻断缺失 "
+            f"系统改判：模型判 {goal_resolution}，存在阻断缺失 "
             + "、".join(m["field_path"] for m in blocking)
             + "，改为 NEEDS_INPUT（A.5.2 约束5 / A.4.2）"
         )
@@ -331,8 +366,11 @@ def apply_hard_gates(goal_resolution, business_goal, candidates, missing, execut
             "改为 NEEDS_INPUT，不补候选（A.5.2 约束1）"
         )
         goal_resolution = "NEEDS_INPUT"
-    if goal_resolution != "RESOLVED":
+    if goal_resolution not in ("RESOLVED", GOAL_WITH_ALT):
         business_goal = None
+        next_action = "REQUEST_INPUT"
+    elif goal_resolution == GOAL_WITH_ALT:
+        # A.5.2 约束8：已解析＋情境备选一律停在用户选择点（备选不得代替人工选择继续 Decision）。
         next_action = "REQUEST_INPUT"
     else:
         # ---- G4 约束3：只有 RESOLVED + goal 非空 + 无 BLOCKING 才可能继续 ----
@@ -352,9 +390,56 @@ def apply_hard_gates(goal_resolution, business_goal, candidates, missing, execut
                 notes.append("增强模式（B v0.6）：剩余缺失均为非阻断可选信息（%d 项），不作执行前障碍，"
                              "逐项留假设并降置信，交付后提示补充" % len(missing))
 
-    # 候选只在 AMBIGUOUS 下保留：目标已解析还挂着候选，会诱导下游把候选当"可选方案"接着跑
-    # （B.4.1 INT-D01 禁止结果：以"已给出两个目标候选"为由设置 CONTINUE_TO_DECISION）。
-    kept_candidates = candidates if goal_resolution == "AMBIGUOUS" else []
+    # ---- G7 情境并呈闸（A.5.2 约束8 / OD-03 §五；Founder 2026-08-18 第⑥条产品标准）----
+    # 三支，各自都遵守同一条纪律：**系统绝不代生成备选方案骨架**（三要素得编内容，编＝造）。
+    #   ① 情境在场（且主目标属触发面）+ 模型没并呈 → 不许闷头继续：next_action 拦成 REQUEST_INPUT
+    #      并留红旗。为什么不改判 NEEDS_INPUT：那会抹掉「用户原话已被听懂」这件事实（Founder 分叉 B
+    #      「账本必须如实」）；为什么不放它 CONTINUE：那正是第⑥条要防的「装作不知道就做了」。
+    #   ② 模型自称有情境备选、但快照里没有登记在册的情境 → 撤销备选、退回 RESOLVED（防模型自造情境
+    #      把可执行任务变成选择题，违标准①③⑤）。
+    #   ③ 模型并呈了但候选凑不齐（缺主方案或缺备选方向）→ 同 ①，退回「已解析但拦停」并留红旗，
+    #      不补候选。
+    # **确定性层的射程边界（如实登记）**：「用户原话提没提这个情境」是语义判断，本层不判——
+    # 因此「用户没提却把目标直接定成情境目标」（擅自转向）本层看不见，由考卷侧
+    # acceptance/detectors/checks.py::intent_situational_alternative（案例声明主目标）判。
+    situations = list(situations or [])
+    triggered = [s for s in situations if business_goal in tuple(s.get("trigger_primary_goals") or ())]
+    if goal_resolution == GOAL_WITH_ALT and not triggered:
+        notes.append(
+            "系统改判：模型自称「已解析＋情境备选」，但快照里没有 OD-03 §五 登记在册、且对当前主目标 %r "
+            "触发的重大经营情境——不接受模型自造情境，撤销备选、退回 RESOLVED（A.5.2 约束8 触发面）" % business_goal
+        )
+        goal_resolution = "RESOLVED"
+        next_action = "CONTINUE_TO_DECISION" if not blocking else "REQUEST_INPUT"
+    elif triggered:
+        want_goals = {s["alternative_goal"] for s in triggered}
+        have = {c["goal"] for c in candidates}
+        complete = {c["goal"] for c in candidates
+                    if all(str(c.get(k) or "").strip() for k in ("focus", "tradeoffs", "expected_outcome"))}
+        ok = (goal_resolution == GOAL_WITH_ALT
+              and business_goal in complete
+              and want_goals.issubset(complete))
+        label = "、".join("%s=%s" % (s["field_path"], s["observed_value"]) for s in triggered)
+        if ok:
+            notes.append(
+                "G7 情境并呈成立：企业事实 %s 在场且用户原话未提及（模型判定），已并呈主方案 %s 与情境备选 %s，"
+                "三要素齐全，停在用户选择点（第⑥条 / A.5.2 约束8）" % (label, business_goal, "、".join(sorted(want_goals)))
+            )
+        else:
+            notes.append(
+                "系统拦停：企业事实 %s 在场（OD-03 §五 登记的重大经营情境），主目标 %s 正要直接开做，"
+                "但模型未并呈合格的情境备选方案骨架（自报 goal_resolution=%s，候选=%s）——按第⑥条不得"
+                "「装作不知道」径直继续，改为停在用户选择点；**系统不代生成备选方案骨架**（生成即编造），"
+                "本次并呈义务未完成，红旗如实留痕，机器判红由考卷 A9 承担"
+                % (label, business_goal, goal_resolution, sorted(have) or "空")
+            )
+            next_action = "REQUEST_INPUT"
+
+    # 候选只在 AMBIGUOUS / RESOLVED_WITH_ALTERNATIVE 下保留：目标已解析还挂着候选，会诱导下游把候选
+    # 当"可选方案"接着跑（B.4.1 INT-D01 禁止结果：以"已给出两个目标候选"为由设置 CONTINUE_TO_DECISION）。
+    # RESOLVED_WITH_ALTERNATIVE 是例外中的例外——它的候选正是要交给用户选的两套方案骨架，且
+    # next_action 恒为 REQUEST_INPUT（人工门在），不存在"候选替人继续"的通道。
+    kept_candidates = candidates if goal_resolution in ("AMBIGUOUS", GOAL_WITH_ALT) else []
     return {
         "goal_resolution": goal_resolution,
         "business_goal": business_goal,
@@ -455,15 +540,20 @@ def apply_clarification_question(missing, model_out, state):
     preprocess 的模板句「这条视频想达成什么？六选一：…」。模板句不是错的，但它不针对这次任务；
     模型定制问题优先，正是为了减少 Founder 的认知负担（北极星②）。
 
-    只在 AMBIGUOUS 下替换：其它状态下模型按 Prompt 契约本就该给 null，若给了也不采纳
-    （RESOLVED 还问"你到底要什么"是自相矛盾的产物）。
+    只在 AMBIGUOUS 与 RESOLVED_WITH_ALTERNATIVE 下替换：其它状态下模型按 Prompt 契约本就该给 null，
+    若给了也不采纳（RESOLVED 还问"你到底要什么"是自相矛盾的产物）。
+    RESOLVED_WITH_ALTERNATIVE 为什么也落这里（A v0.5 约束8）：那句"这次先按常规春节主题做，还是先按
+    库存消化做"同样是"要问用户什么"，A.4.2 唯一承载它的字段仍是 ContextRequirement.resolution_question；
+    区别只在此时 business_goal 项 **availability=AVAILABLE**（目标听懂了、只是另有方向要人选），
+    所以查找面从 missing 扩到 **required**——两者元素是同一批 dict 对象（resolve_requirements 的
+    missing 由 required 过滤而来），改一处两处同步。
 
     **原地改 missing 里的那个 dict**——它与 required_context 里的同一条是同一个对象（见
     preprocess.resolve_requirements 文档串"共享同一批 dict 对象"），所以两处会同步变，
     不会出现"required 里问模板句、missing 里问定制句"的自相矛盾。
     返回一条留痕字符串（无替换发生时返回 None）。
     """
-    if state["goal_resolution"] != "AMBIGUOUS":
+    if state["goal_resolution"] not in ("AMBIGUOUS", GOAL_WITH_ALT):
         return None
     question = model_out.get("clarification_question")
     if not isinstance(question, str) or not question.strip():
@@ -474,8 +564,9 @@ def apply_clarification_question(missing, model_out, state):
         template = item.get("resolution_question")
         item["resolution_question"] = question.strip()
         return (
-            "clarification_question 落点：AMBIGUOUS，已用模型给出的澄清问题替换 %s 项的模板问句"
-            "（B:285-286「提出一个最关键澄清问题」；被替换的模板句：%r）" % (GOAL_FIELD_PATH, template)
+            "clarification_question 落点：%s，已用模型给出的问题替换 %s 项的模板问句"
+            "（B:285-286「提出一个最关键澄清问题」/ A.5.2 约束8「请用户在两个方向之间择一」；"
+            "被替换的模板句：%r）" % (state["goal_resolution"], GOAL_FIELD_PATH, template)
         )
     return None
 
@@ -586,13 +677,13 @@ def assemble_plan(artifact, state, model_out, required, missing, assumptions, co
 # ============================ 四、CLI ============================
 
 def _load_plan_schema(schema_path):
-    """读输出契约，并把本文件的六枚举与契约里的 enum 实时比对（常量漂移当场报错，不替谁拍板）。"""
+    """读输出契约，并把本文件的七枚举与契约里的 enum 实时比对（常量漂移当场报错，不替谁拍板）。"""
     with open(schema_path, encoding="utf-8") as f:
         schema = json.load(f)
     contract_goals = [g for g in schema["properties"]["business_goal"]["enum"] if g is not None]
     if sorted(contract_goals) != sorted(BUSINESS_GOALS):
         raise RuntimeError(
-            f"BusinessGoal 六枚举与冻结契约不一致：代码 {sorted(BUSINESS_GOALS)} vs 契约 {sorted(contract_goals)}"
+            f"BusinessGoal 七枚举与冻结契约不一致：代码 {sorted(BUSINESS_GOALS)} vs 契约 {sorted(contract_goals)}"
         )
     return schema
 
@@ -619,7 +710,7 @@ def parse_args(argv=None):
 def run(args):
     """一次完整编排。返回 (plan, report)；异常一律向上抛（由 main 归到退出码 2）。"""
     schema_path = str(_from_config(_DEFAULT_PLAN_SCHEMA_PATH, "INTENT_PLAN_SCHEMA_PATH", "INTENT_EXECUTION_PLAN_SCHEMA"))
-    _load_plan_schema(schema_path)                       # 启动即比对六枚举，别等组装完才发现契约对不上
+    _load_plan_schema(schema_path)                       # 启动即比对七枚举，别等组装完才发现契约对不上
 
     # --- 前处理（确定性）---
     snapshot = preprocess.load_snapshot(args.snapshot)
@@ -629,8 +720,12 @@ def run(args):
     rule_pool = filter_rule_pool_by_brand(preprocess.load_rule_pool(), snapshot.get("brand_id"))
 
     # --- 1 步 LLM ---
+    # 重大经营情境（OD-03 §五）：确定性算"在不在场"，语义面（用户提没提）交模型，
+    # "该并呈有没有并呈"由 G7 与考卷 A9 判——三方分工写在 preprocess.detect_situations 文档串。
+    situations = preprocess.detect_situations(snapshot)
     template, prompt_version = load_prompt()
-    prompt_text = render_prompt(template, args.task, args.mode, args.stated_goal, fact_pool, rule_pool)
+    prompt_text = render_prompt(template, args.task, args.mode, args.stated_goal, fact_pool, rule_pool,
+                                situations)
     mode = "live" if args.live else f"replay:{args.replay}"
     print(f"[intent.runner] prompt_version={prompt_version} mode={args.mode} llm_mode={mode.split(':')[0]}", file=sys.stderr)
     raw_reply = llm.call_llm(prompt_text, mode)
@@ -643,16 +738,21 @@ def run(args):
     # 这样"因为这个目标才缺这几项"才有证据；G2 事后改判 NEEDS_INPUT 时**不重算**——
     # 重算成通用四项会把"到底为什么被拦"的那几条缺失抹掉。
     required, missing = preprocess.resolve_requirements(business_goal, snapshot, args.task)
-    state = apply_hard_gates(goal_resolution, business_goal, normalize_candidates(model_out), missing, args.mode)
+    state = apply_hard_gates(goal_resolution, business_goal, normalize_candidates(model_out), missing,
+                             args.mode, situations)
     state["gate_notes"] = goal_notes + state["gate_notes"]
 
     # 澄清问题落点：必须在硬闸之后（要先知道最终是不是 AMBIGUOUS），且在组装 plan 之前
     # （它改的是 missing/required 里同一个 dict 的 resolution_question）。
-    clarification_note = apply_clarification_question(missing, model_out, state)
+    # 查找面用 required（而非 missing）：RESOLVED_WITH_ALTERNATIVE 下 business_goal 项是 AVAILABLE，
+    # 不在 missing 里；两者是同一批 dict 对象，改一处两处同步（见函数文档串）。
+    clarification_note = apply_clarification_question(required, model_out, state)
     if clarification_note:
         state["gate_notes"].append(clarification_note)
 
+    # G5 假设 + OD-03 v1.2 自决/派生留痕（后者与是否继续无关：停在选择点时同样要留痕，Founder 分叉 A）
     assumptions = build_assumption_entries(missing, args.mode, state["next_action"])
+    assumptions += preprocess.build_self_decided_entries()
     model_judgments = build_model_judgment_entries(model_out)
 
     # 池外引用不在这层丢弃（丢了 postcheck P6 就看不见幻觉引用），只用来压置信度并如实登记
@@ -688,6 +788,7 @@ def run(args):
         "rule_pool": rule_pool,
         "snapshot": snapshot,
         "execution_mode": args.mode,
+        "situations": situations,          # P10 用它核验备选目标在 OD-03 §五 登记表内
     })
     return plan, report
 

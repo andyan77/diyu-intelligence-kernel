@@ -9,7 +9,7 @@
     "artifact": {"$ref": "common.defs.json#/definitions/ArtifactEnvelope"},
     "task_type": {"const": "VIDEO_CONTENT_CREATION"},
     "platform": {"const": "WECHAT_VIDEO"},
-    "goal_resolution": {"enum": ["RESOLVED", "AMBIGUOUS", "NEEDS_INPUT"]},
+    "goal_resolution": {"enum": ["RESOLVED", "RESOLVED_WITH_ALTERNATIVE", "AMBIGUOUS", "NEEDS_INPUT"]},
     "business_goal": {"enum": ["DAILY_CONTENT_OPERATION", "BRAND_AWARENESS", "PRODUCT_LAUNCH", "CONVERSION", "INVENTORY_ACTIVATION", "BRAND_STORY", "CUSTOMER_EDUCATION", null]},
     "goal_candidates": {"type": "array", "items": {"type": "object", "required": ["goal", "rationale", "focus", "tradeoffs", "expected_outcome"], "$comment": "A v0.4（Founder 2026-08-18 判分批）：候选必须是方案骨架——focus/tradeoffs/expected_outcome 三要素必填非空，光秃标签选择题判红（INT_TASK_ESCALATED）", "properties": {"goal": {"enum": ["DAILY_CONTENT_OPERATION", "BRAND_AWARENESS", "PRODUCT_LAUNCH", "CONVERSION", "INVENTORY_ACTIVATION", "BRAND_STORY", "CUSTOMER_EDUCATION"]}, "rationale": {"type": "string"}, "focus": {"type": "string", "minLength": 1}, "tradeoffs": {"type": "string", "minLength": 1}, "expected_outcome": {"type": "string", "minLength": 1}, "supporting_trace_refs": {"type": "array", "items": {"type": "string"}}}}},
     "intent_summary": {"type": "string"},
@@ -32,6 +32,10 @@
     {"$comment": "A.5.2 约束3（必要条件部分）：CONTINUE_TO_DECISION → RESOLVED 且 business_goal 非空。then 里必须显式写 required[business_goal]（M1-EP02 修复批次补，同型真洞）：business_goal 不在顶层 required，只写 {type:string} 时一份 CONTINUE 却整个不写 business_goal 的 plan 会静默过闸——而此处键缺席 = 空 = 恰恰违反 A:565「business_goal 非空」。空串不必另设 minLength：顶层 business_goal 的 enum 只收六枚举 + null，\"\" 已被 enum 拦下。goal_resolution 已在顶层 required，不必重列。",
      "if": {"properties": {"next_action": {"const": "CONTINUE_TO_DECISION"}}},
      "then": {"required": ["business_goal"],
-              "properties": {"goal_resolution": {"const": "RESOLVED"}, "business_goal": {"type": "string"}}}}
+              "properties": {"goal_resolution": {"const": "RESOLVED"}, "business_goal": {"type": "string"}}}},
+    {"$comment": "A.5.2 约束8（A v0.5，Founder 2026-08-18 复判批第⑥条）：RESOLVED_WITH_ALTERNATIVE → business_goal 非空（＝按用户原话解析出的主目标，不降级成 null）+ goal_candidates≥2（主方案骨架 + 情境备选骨架，三要素由 items.required 与 minLength 保证）+ REQUEST_INPUT（停在用户选择点，不得继续 Decision）。business_goal 与 goal_candidates 都进 required：两者都不在顶层 required，只写 properties 会留「键缺席=空操作」的静默过闸洞（同约束1/3 的修复口径）。**Schema 管不到的那一半如实登记**：「请用户择一的问题必须落在 business_goal 项的 resolution_question 上」与「候选里必须恰有一个等于 business_goal、其余等于登记在册的情境备选目标」是跨字段判据，由 postcheck 与检测器 intent_situational_alternative 承担，不在此处假装覆盖。",
+     "if": {"properties": {"goal_resolution": {"const": "RESOLVED_WITH_ALTERNATIVE"}}},
+     "then": {"required": ["business_goal", "goal_candidates"],
+              "properties": {"business_goal": {"type": "string"}, "goal_candidates": {"minItems": 2}, "next_action": {"const": "REQUEST_INPUT"}}}}
   ]
 }

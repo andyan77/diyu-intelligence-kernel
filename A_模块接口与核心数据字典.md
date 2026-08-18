@@ -5,9 +5,10 @@
 | 项目 | 内容 |
 |---|---|
 | 文档编号 | DIYU-MVP-V3-A |
-| 版本 | v0.4 |
+| 版本 | v0.5 |
 | 状态 | **EFFECTIVE（已批准生效）** |
-| 批准 | Founder（Faye）2026-08-17 批准；2026-08-18 内容真实性三层边界修订批次（Founder R1-R7 裁决，台账 08-18 块 C 行）三份同批升版；2026-08-18 校准修订批（Founder L3 判分裁决 + 四点批复，台账 08-18 判分行）A v0.4 + B v0.6 + OD-03 v1.1 同批升版；历次修订均经 Founder 批准 |
+| 批准 | Founder（Faye）2026-08-17 批准；2026-08-18 内容真实性三层边界修订批次（Founder R1-R7 裁决，台账 08-18 块 C 行）三份同批升版；2026-08-18 校准修订批（Founder L3 判分裁决 + 四点批复，台账 08-18 判分行）A v0.4 + B v0.6 + OD-03 v1.1 同批升版；2026-08-18 校准批二（Founder 复判裁定 + 第⑥条产品标准 + 三分叉批复，台账 08-18 复判行/三分叉行）A v0.5 + B v0.7 + OD-03 v1.2 同批升版；历次修订均经 Founder 批准 |
+| v0.4→v0.5 修订 | Founder 2026-08-18 复判批裁决（**第⑥条产品标准**＋分叉 B「乙」＋分叉 C「窄」，原文见 acceptance/runs/L3-判分记录-INT-20260818.md 复判节）：① A.5.2 goal_resolution 新增第四取值 **RESOLVED_WITH_ALTERNATIVE**（已解析＋另有情境备选）——用户原话已解析出主目标、系统又据企业事实发现用户未提及的重大经营情境时的合法终态，Founder 批复原文「账本必须如实，听懂了就是听懂了」（不把已听懂降级成没听懂）；② 新增约束 8（该状态的完整判据与触发面）；③ 约束 3 措辞明确 CONTINUE_TO_DECISION 不含该新状态。其余条款不变 |
 | v0.3→v0.4 修订 | Founder 2026-08-18 判分批裁决（五条统一产品标准 + 四点批复 1/3）：① A.2.6 BusinessGoal 新增第七枚举 DAILY_CONTENT_OPERATION（日常内容经营，正面定义见枚举表后注）；② A.5.2 goal_candidates 新增三个机器可判字段 focus / tradeoffs / expected_outcome（候选必须是方案骨架）；③ 约束1 同步（AMBIGUOUS 时候选三要素非空）。裁决记录见《裁决台账》08-18 判分行 + acceptance/runs/L3-判分记录-INT-20260818.md |
 | v0.1→v0.2 修订 | Founder 2026-08-17 裁决：VoicePackage 补「emotion（情绪）」字段，对齐主 PRD 7.2 Voice Package 最小内容（完整口播、停顿、强调、语速和情绪）；其余条款不变。裁决记录见《裁决台账》 |
 | v0.2→v0.3 修订 | Founder 2026-08-18 裁决（内容真实性三层边界 R3）：A.3.5 PersonaFacts 新增 real_anchors「真实锚点清单」字段（完全选填）——人设＝真人成份与角色演绎的混合体，不设真人/虚构二分字段；锚点列出该人设必须如实的身份要素，锚点之外默认演绎自由；其余条款不变。裁决记录见《裁决台账》08-18 块 C 行 |
@@ -547,7 +548,7 @@ IntentExecutionPlan:
   artifact: ArtifactEnvelope
   task_type: VIDEO_CONTENT_CREATION
   platform: WECHAT_VIDEO
-  goal_resolution: RESOLVED | AMBIGUOUS | NEEDS_INPUT
+  goal_resolution: RESOLVED | RESOLVED_WITH_ALTERNATIVE | AMBIGUOUS | NEEDS_INPUT
   business_goal: BusinessGoal | null
   goal_candidates:
     - goal: BusinessGoal
@@ -570,11 +571,13 @@ IntentExecutionPlan:
 
 1. goal_resolution 为 AMBIGUOUS 时，business_goal 必须为空、goal_candidates 至少两个且每个候选的 focus / tradeoffs / expected_outcome 非空（先形成方案骨架、讲清侧重与取舍，再请用户选择——不得把未经整理的选择题退给用户）、next_action 必须为 REQUEST_INPUT，Task 必须进入 NEEDS_INPUT；候选只供人工明确目标，不能代替人工门继续 Decision。
 2. goal_resolution 为 NEEDS_INPUT 时，business_goal 必须为空、next_action 必须为 REQUEST_INPUT，Task 必须进入 NEEDS_INPUT。
-3. 只有 goal_resolution 为 RESOLVED、business_goal 非空且无 BLOCKING 缺失时，next_action 才能为 CONTINUE_TO_DECISION。
+3. 只有 goal_resolution 为 RESOLVED（**不含 RESOLVED_WITH_ALTERNATIVE**——该状态按约束 8 必须停在用户选择点）、business_goal 非空且无 BLOCKING 缺失时，next_action 才能为 CONTINUE_TO_DECISION。
 4. QUICK 继续时，跨过的缺失项必须为 QUALITY_REDUCING，并产生对应 ASSUMPTION。
 5. BLOCKING 缺失时 goal_resolution 为 NEEDS_INPUT。
 6. 同一事实快照只改变目标时，business_goal、required_context 和下游重点应变化；未改变事实必须保持。
 7. Intent 只输出视频号内容任务计划。
+8. goal_resolution 为 **RESOLVED_WITH_ALTERNATIVE**（已解析＋另有情境备选）时：business_goal 必须非空且等于**按用户原话解析出的主目标**；goal_candidates 至少两个——其中恰有一个 goal 等于该主目标（＝按用户原话的常规／主题方案骨架），其余为触发本状态的重大经营情境所对应的备选目标（登记表见 OD-03 §五）；每个候选的 focus / tradeoffs / expected_outcome 非空；必须给出一个请用户在两个方向之间择一的问题，落点＝ business_goal 那一项 ContextRequirement 的 resolution_question（A.4.2 里唯一承载「要问什么」的字段，与 AMBIGUOUS 的澄清问题同一落点）；next_action 必须为 REQUEST_INPUT，Task 必须进入 NEEDS_INPUT；备选不能代替人工门继续 Decision。
+   **触发面（Founder 2026-08-18 第⑥条产品标准 + 分叉 C「窄口径」批复）**：仅当①系统据企业事实已知某个登记在册的重大经营情境（如商品处于库存消化期）、②用户原话未提及该情境、③用户原话解析出的主目标属常规／主题类（即系统正准备直接开做）三条同时成立时，本状态才成立。此时系统**既不得擅自转向**备选目标（那是替用户改目标），**也不得只在内部留痕当作不知道**（那是把已知情境藏起来）。用户已明示该情境（情境即其目标）、或目标本身尚未解析（AMBIGUOUS／NEEDS_INPUT，系统本就在请人裁决）时，本状态不适用——后者再塞备选只会加重用户负担。
 
 ---
 
