@@ -196,8 +196,9 @@ statement_type: HARD_RULE_CANDIDATE
 applies_when: "委托范围明确到『拍摄并发布／可继续运营』"
 does_not_apply_when: "合同明确只交原始素材"
 counterexample: "无字幕、封面、发布文案和评论口径仍宣称成品可用；或结尾邀请咨询却无人值守"
-candidate_destination: RULE_CANDIDATE
+candidate_destination: CONTRACT_PROPOSAL
 review_status: ROUTED
+founder_ruling: "2026-08-18 内容真实性三层边界裁决 R5：本条改判『不作规则候选』——系统不替用户承担兑现责任，虚假承接不立系统规则；降级为上下文采集项（生成含承接承诺的内容前向用户询问/读取其承接方式，内容照用户口径写），归 CONTRACT_PROPOSAL（合同上下文字段域）。原 candidate_destination=RULE_CANDIDATE 见 git 历史"
 provenance: AI_PROPOSAL_FOUNDER_APPROVED
 source_ref: "候选包 HR-S06-R01-07；S-06.txt 甲 L14、L60、L120；乙 L326–L369；丙 L671–L687（『前提是门店确实准备继续回复，不得使用虚假承接』）、L665。发布包与置顶评论／FAQ 的归属边界属产品合同，已路由 PCR-06，本卡不作裁断"
 ```

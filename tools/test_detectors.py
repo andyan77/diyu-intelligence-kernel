@@ -143,6 +143,17 @@ check("⑥-note 注释里的数字不给输出背书",
       ng({"copy": "库存 4321 件"}, {"_fixture_note": "库存 4321 件", "facts": {"inventory": {"value": 800}}}),
       "FAIL", "4321")
 
+# ============ ⑥-x 明示夸张标注通道（Founder 2026-08-18 内容真实性三层边界 R2；只做标注位零识别智能）============
+check("⑥-x1 标注的夸张数字放行且留痕",
+      ng({"copy": "这件大衣暖到能卖一百万件", "_explicit_exaggeration": [1000000]}, SNAP),
+      "OK", "明示夸张标注豁免")
+check("⑥-x2 同一数字未标注照拦（标注通道不是默认放行）",
+      ng({"copy": "这件大衣暖到能卖一百万件"}, SNAP),
+      "FAIL", "无")
+check("⑥-x3 标注项解析不出数值→UNKNOWN（禁整句豁免）",
+      ng({"copy": "库存 4321 件", "_explicit_exaggeration": ["整句都算夸张"]}, SNAP),
+      "UNKNOWN", "解析不出数值")
+
 # ============================ ⑦ UNKNOWN 冒泡（禁 default:false）============================
 check("⑦-a 快照缺失→UNKNOWN", checks.numeric_grounding({"copy": "库存 800 件"}, {"repo_root": ROOT}), "UNKNOWN", "未加载")
 check("⑦-b 守卫字段缺失→UNKNOWN", ng({"copy": "库存 800 件"}, SNAP, snapshot_fields=["nonexistent_field"]), "UNKNOWN", "守卫字段")

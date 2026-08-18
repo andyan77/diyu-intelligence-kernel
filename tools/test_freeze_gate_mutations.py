@@ -481,10 +481,11 @@ def m23_edit_exam_keep_signature(tree):
 
 
 def m24_contract_version_pointer_drift(tree):
-    """M24 把 E2E-01 Manifest 的 acceptance_contract_version 从 v0.4 改成 v0.3（B 真源实为 v0.4）。
+    """M24 把 E2E-01 Manifest 的 acceptance_contract_version 从 v0.5 改成 v0.4（B 真源实为 v0.5；
+    锚点随 2026-08-18 块 C B v0.5 升版同步）。
     期望：R7 红。R7（PRD/A/B 版本指针实时核验）此前从未有负向活体证据——
     IA-0 签字包自认「三把没试过撬的锁」之一，本条补上。"""
-    sub_once(tree, E2E01_MF, r'^acceptance_contract_version: "v0\.4"', 'acceptance_contract_version: "v0.3"')
+    sub_once(tree, E2E01_MF, r'^acceptance_contract_version: "v0\.5"', 'acceptance_contract_version: "v0.4"')
 
 
 def m25_model_identity_drift(tree):
