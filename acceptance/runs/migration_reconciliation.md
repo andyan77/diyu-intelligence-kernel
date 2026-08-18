@@ -1,6 +1,6 @@
-# 块 E ① 迁移值级对账表（机器生成 —— `python3 tools/migrate_snapshots.py verify --old-ref HEAD`）
+# 块 E ① 迁移值级对账表（机器生成 —— `python3 tools/migrate_snapshots.py verify --old-ref 4fdf258`）
 
-- 旧树基线：`HEAD`；新树：工作区当前内容
+- 旧树基线：`4fdf258`（= origin/main「块C 批次签字生效 #14」，main 永久可达；其 15 份快照内容即迁移前态）；新树：块 E 迁移后工作区（与 fe12578 提交内容全等，见「生成面↔磁盘全等」行）
 - 生成面↔磁盘全等：PASS（77 文件）
 - 账本条目：991；恒等/搬运回读相等：991；不等：0
 - 等值判据：identity/搬运类逐字节比对；形状适配类（wrap-array/money/quantity/range/sourceref 派生）由 transform 语义承担、原文留注解，逐行标注类型如下。
