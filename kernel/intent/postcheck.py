@@ -350,8 +350,8 @@ def _p4_constraint5(plan, ctx):
        分支与 B:285 变成死条文——一条冻结合同不会写一格自己永远走不到的分支。
 
     ============================ 台账登记 ============================
-    本判据是执行侧对两条冻结真源的**自洽解释**，不是真源原文。已登记裁决台账「待 Founder 裁决」表
-    （M1-EP02 · SPEC-DEV-01）；Founder 可推翻——推翻后改的是本函数与 runner.apply_hard_gates 的
+    本判据是执行侧对两条冻结真源的**自洽解释**，不是真源原文。已获 Founder 认可
+    （2026-08-17 裁决，台账 SPEC-DEV-01 行）；日后若推翻，改的是本函数与 runner.apply_hard_gates 的
     G2 分支两处（口径同源，见 config.BUSINESS_GOAL_FIELD_PATH 注释），不改考卷。
 
     诚实边界：AMBIGUOUS 分支判 OK **不代表**"目标已解析"或"这次运行可以继续"——
@@ -578,6 +578,9 @@ def _p9_numeric_grounding(plan, ctx):
       不认中文数字。因此：把 A 款的价格安到 B 款上、把 as_of 日期当价格背书、"3980 件"配"3980 元"，
       本项一律看不见。字段/单位级的绑定判定在 acceptance/detectors/checks.py::numeric_grounding v0.3
       （考卷区，L1），本模块不复制它、也不假装等价——Preflight 全 OK ≠ 数字已被字段级溯源。
+    命中口径（ATT-0005 收紧）：**独立数字串**才算命中——命中位置两侧不得紧贴字母或数字，
+      否则"7天内"的 7 会借 SKU `1G9971081` 内部的 7 过溯源（修复前实测判 OK，假绿）。
+      仍在盲区：千分位串内部借位（快照散文里的 "3,980" 之于摘要 token "3"）等文本级歧义，不假装覆盖。
     找不到即 FAIL 而不是 UNKNOWN：快照在手、数字在手，比对是做得成的，"比对不上"就是实打实的违约证据。
     """
     snap = ctx.get("snapshot")
@@ -596,16 +599,20 @@ def _p9_numeric_grounding(plan, ctx):
         # "这段摘要里没有需要溯源的数字"——而中文数字（"三千九百八"）本项根本扫不到，
         # 它不是"没有数字"，是"本项看不见这种数字"。两者的处置完全不同，不能用同一句话盖过去。
         return "OK", "intent_summary 未发现阿拉伯数字；中文数字不在本项射程（本项看不见，≠ 摘要里没有数字）"
+    def _independent_hit(needle):
+        # 独立数字串命中（ATT-0005）：两侧不得紧贴字母或数字——"7" 不得借 "1G9971081" 内部的 7。
+        return re.search(r"(?<![0-9A-Za-z])" + re.escape(needle) + r"(?![0-9A-Za-z])", hay) is not None
+
     ungrounded = []
     for t in sorted(set(tokens)):
         # 两种写法都试：原串（"3,980"）与去千分位（"3980"）——快照 JSON 里数值不带千分位，
         # 只归一"待查串"而**不**改造快照文本：把快照里的逗号删掉会让 [1,2] 变成 12，凭空造出可命中的数字（假绿）。
-        if t in hay or t.replace(",", "") in hay:
+        if _independent_hit(t) or _independent_hit(t.replace(",", "")):
             continue
         ungrounded.append(t)
     if ungrounded:
-        return "FAIL", f"这些数字在快照中找不到出处: {ungrounded}（文本级比对，快照序列化 {len(hay)} 字符）"
-    return "OK", f"{len(set(tokens))} 个数字均可在快照文本中找到（文本级，非字段级溯源）"
+        return "FAIL", f"这些数字在快照中找不到独立出处: {ungrounded}（文本级独立串比对，快照序列化 {len(hay)} 字符）"
+    return "OK", f"{len(set(tokens))} 个数字均有独立出处（文本级独立串命中，非字段级溯源）"
 
 
 # ============================ 检查表与入口 ============================
@@ -620,7 +627,7 @@ _CHECK_TABLE = (
            " ASSUMPTION，且 confidence 不得停在 HIGH｜出处 A:393 + OD-03 四-1 + OD-03 三（非阻断项白名单）",
      _p3_constraint4),
     ("P4", "A.5.2 约束5（A:567）：存在 BLOCKING 缺失 → goal_resolution=NEEDS_INPUT；"
-           "AMBIGUOUS 且阻断缺失仅 business_goal 时放行（M1-EP02 仲裁1 自洽解，已登记台账待 Founder 裁决）"
+           "AMBIGUOUS 且阻断缺失仅 business_goal 时放行（M1-EP02 仲裁1 自洽解，Founder 2026-08-17 已认可，台账 SPEC-DEV-01 行）"
            "｜阻断项清单 OD-03 一（通用四项）+ OD-03 二（分目标追加）", _p4_constraint5),
     ("P5", "A.5.2 约束7（A:569）+ 常量（A:543-544）：task_type=VIDEO_CONTENT_CREATION、platform=WECHAT_VIDEO"
            "｜出处 OD-03 一-4（本期仅视频号，其他平台不得静默适配）", _p5_scope_constants),

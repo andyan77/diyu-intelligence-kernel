@@ -1,0 +1,22 @@
+{
+  "goal_resolution": "AMBIGUOUS",
+  "business_goal": null,
+  "goal_candidates": [
+    {
+      "goal": "PRODUCT_LAUNCH",
+      "rationale": "任务提到推广一款具体产品（10%羊绒风衣式大衣），且提供了完整的产品信息如价格、材质、款式等，符合新品上市推广的特征。",
+      "referenced_fact_ids": ["FACT:product.name", "FACT:product.price", "FACT:product.material", "FACT:product.style_attributes"]
+    },
+    {
+      "goal": "INVENTORY_ACTIVATION",
+      "rationale": "推广已有明确SKU和价格结构的在售商品，可能意在加速现有库存周转，尤其当该款非全新上市时。",
+      "referenced_fact_ids": ["FACT:product.sku", "FACT:product.price", "FACT:product.size_range"]
+    }
+  ],
+  "intent_summary": "本次任务要求推广一款名为“10%羊绒风衣式大衣”的具体产品，提供了详细的产品参数与视觉素材，但未说明推广背后的商业目标。无法从原话中确定是新品上市、清库存、提升转化还是其他目标。",
+  "clarification_question": "这次推广羊绒大衣，主要是为了推新品上市，还是为了加快现有库存的销售？",
+  "referenced_fact_ids": ["FACT:product.name", "FACT:product.sku", "FACT:product.price", "FACT:product.material", "FACT:product.style_attributes", "FACT:product.size_range"],
+  "model_judgments": [],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "任务原话虽未明示目标，但结合产品信息完整度可合理推测出两个常见可能性，但无法进一步确认。"
+}
