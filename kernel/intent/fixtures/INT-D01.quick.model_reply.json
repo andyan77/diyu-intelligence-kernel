@@ -1,0 +1,32 @@
+{
+  "goal_resolution": "AMBIGUOUS",
+  "business_goal": null,
+  "goal_candidates": [
+    {
+      "goal": "PRODUCT_LAUNCH",
+      "rationale": "任务原话只说「推广」。若这件大衣是本季新上架的款，推广通常指把它讲清楚、让更多人看到；但原话没有说明它是不是新品。",
+      "referenced_fact_ids": ["FACT:product.name", "FACT:product.selling_points"]
+    },
+    {
+      "goal": "CONVERSION",
+      "rationale": "「推广」也可能是希望直接促成下单。事实池里款号与价格都在场，具备把成交所需信息讲清楚的条件；但原话同样没有说要以成交为准。",
+      "referenced_fact_ids": ["FACT:product.sku", "FACT:product.price"]
+    }
+  ],
+  "intent_summary": "这次任务是为一件羊绒风衣式大衣做视频号内容。任务原话只说「推广」，没有说明是想让更多人认识这件商品、直接促成下单，还是要讲品牌，因此商业目标还没有明确到六选一的程度。品牌、人设、账号与受众事实本次都不在场，未提供的内容一律没有补写。",
+  "clarification_question": "这次推广最想拿到的结果是哪一个：让更多人认识这件大衣、直接促成下单，还是把品牌讲清楚？",
+  "referenced_fact_ids": [
+    "FACT:product.name",
+    "FACT:product.sku",
+    "FACT:product.price",
+    "FACT:product.selling_points"
+  ],
+  "model_judgments": [
+    {
+      "text": "「推广」在这里是口语说法，落到六个商业目标上至少对应两种不同做法，不能替用户择一。",
+      "referenced_fact_ids": ["FACT:product.name"]
+    }
+  ],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "商品事实清楚，但商业目标尚未确定，只能给中档。"
+}

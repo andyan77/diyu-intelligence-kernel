@@ -1,0 +1,21 @@
+{
+  "goal_resolution": "RESOLVED",
+  "business_goal": "BRAND_STORY",
+  "goal_candidates": [],
+  "intent_summary": "任务原话要用同一件羊绒风衣式大衣建立品牌的长期价值，并明说不以本期销量为主要目标，商业目标是品牌故事。品牌定位与价值主张在场；主理人人设事实不在场，本次没有补写任何创始人经历或个人故事。",
+  "clarification_question": null,
+  "referenced_fact_ids": [
+    "FACT:brand.positioning",
+    "FACT:brand.values",
+    "FACT:brand.tone",
+    "FACT:persona"
+  ],
+  "model_judgments": [
+    {
+      "text": "任务原话「不以本期销量为主要目标」把库存与成交类目标排除掉了，剩下的落点是讲品牌本身。",
+      "referenced_fact_ids": ["FACT:brand.positioning"]
+    }
+  ],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "目标由任务原话直接给出，但讲品牌故事所需的人设事实标为缺失。"
+}
