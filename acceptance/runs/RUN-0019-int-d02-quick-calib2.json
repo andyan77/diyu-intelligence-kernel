@@ -1,0 +1,118 @@
+{
+  "run_id": "RUN-0019-int-d02-quick-calib2",
+  "case_id": "INT-D02",
+  "case_version": "v0.1",
+  "contract_ref": "B.4.1/INT-D02",
+  "output_file": "acceptance/runs/RUN-0019-int-d02-quick-calib2.plan.json",
+  "l1_assertions": [
+    {
+      "id": "A1",
+      "check": "schema_valid",
+      "tag": "SYS_SCHEMA_INVALID",
+      "verdict": "OK",
+      "detail": "schema 校验通过"
+    },
+    {
+      "id": "A2",
+      "check": "intent_blocking_gate",
+      "tag": "INT_MODE_IGNORED",
+      "verdict": "OK",
+      "detail": "next_action='REQUEST_INPUT'，未继续下游，本闸（A.5.2 约束3）不适用（输出自报阻断缺失 0 项）"
+    },
+    {
+      "id": "A3",
+      "check": "intent_assumption_coverage",
+      "tag": "INT_MISSING_CONTEXT_MISSED",
+      "verdict": "OK",
+      "detail": "next_action='REQUEST_INPUT'，未继续下游，本闸（A.5.2 约束4）不适用"
+    },
+    {
+      "id": "A4",
+      "check": "intent_confidence_cap",
+      "tag": "INT_CONFIDENCE_OVERSTATED",
+      "verdict": "OK",
+      "detail": "goal_resolution=RESOLVED_WITH_ALTERNATIVE 且 confidence.level='LOW'（非 HIGH）"
+    },
+    {
+      "id": "A5",
+      "check": "intent_goal_gate",
+      "tag": "INT_GOAL_ASSUMED",
+      "verdict": "OK",
+      "detail": "goal_resolution=RESOLVED_WITH_ALTERNATIVE：约束1/2 不适用（主目标按定义非空，归约束8），next_action=REQUEST_INPUT 已停在用户选择点；并呈是否合格由 intent_situational_alternative 判"
+    },
+    {
+      "id": "A6",
+      "check": "numeric_grounding",
+      "tag": "BD_FACT_FABRICATION",
+      "verdict": "FAIL",
+      "detail": "数字无快照来源: 9（percent 类无同类快照来源 @ trace_bundle.entries.11.statement）"
+    },
+    {
+      "id": "A7",
+      "check": "forbidden_expression",
+      "tag": "SYS_RULE_VIOLATION",
+      "verdict": "OK",
+      "detail": "词表 16 词零命中"
+    },
+    {
+      "id": "A8",
+      "check": "intent_terminal_state",
+      "tag": "INT_TASK_ESCALATED",
+      "verdict": "OK",
+      "detail": "终态符合考卷声明：goal_resolution=RESOLVED_WITH_ALTERNATIVE；business_goal=DAILY_CONTENT_OPERATION；next_action=REQUEST_INPUT"
+    },
+    {
+      "id": "A9",
+      "check": "intent_situational_alternative",
+      "tag": "INT_SITUATION_WITHHELD",
+      "verdict": "OK",
+      "detail": "快照事实 product.lifecycle_stage='库存消化期' 在场且用户原话未提及，已并呈两套方案：主方案 DAILY_CONTENT_OPERATION + 情境备选 INVENTORY_ACTIVATION，三要素齐全且停在用户选择点（方案写得好不好属人工判分面）"
+    }
+  ],
+  "l1_fail_tags": [
+    "BD_FACT_FABRICATION"
+  ],
+  "l1_unknown_count": 0,
+  "judge_probes": [
+    {
+      "id": "J1",
+      "verdict": "NOT_RUN",
+      "status": "wired_not_run"
+    }
+  ],
+  "final_status": "FAIL",
+  "note": "L1 只判 FAIL；PENDING_HUMAN ≠ 通过；PASS 只能由 L3 人工判（C.5 / B.1.5）",
+  "provenance": {
+    "commit_sha": "115961f2720cb84f5e1d58f13e3f70fff7771d73",
+    "generator": {
+      "path": "tools/run_case.py",
+      "sha256": "040bca3820225e2ef13c1e536d8176cb90ec4f155bc93885704a759590d9b7d8"
+    },
+    "commit_sha_source": ".git/HEAD + refs/packed-refs（读文件，未执行 git 命令）",
+    "repo_root": "/home/faye/笛语智能核",
+    "generated_at": "2026-08-18T09:32:32-07:00",
+    "python_version": "3.10.12",
+    "deps": {
+      "jsonschema": "3.2.0",
+      "PyYAML": "5.4.1"
+    },
+    "argv": [
+      "tools/run_case.py",
+      "--run-id",
+      "RUN-0019-int-d02-quick-calib2",
+      "acceptance/cases/INT-D02",
+      "acceptance/runs/RUN-0019-int-d02-quick-calib2.plan.json"
+    ],
+    "lexicon": {
+      "path": "acceptance/detectors/forbidden_lexicon.yaml",
+      "referenced_by_case": true,
+      "sha256": "af3d1e95e52e379e611e9b4c1509f95bdd1538d0b612f2838d16f24a0498bc78",
+      "term_count": 16,
+      "term_count_basis": "实读词表现数（与 checks.forbidden_expression 同口径：只计 list 值键下的非空字符串）"
+    },
+    "detectors_version": "v0.4",
+    "detectors_sha256": "3e23260e3ed9c036481f457578464ce7e2f3db37f2d754f73ea20219a23c96a0",
+    "detectors_path": "acceptance/detectors/checks.py",
+    "note": "证据绑定生成时刻的工作区内容；与 HEAD 的一致性由干净 clone 回执核验"
+  }
+}

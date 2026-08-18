@@ -1,0 +1,33 @@
+{
+  "goal_resolution": "RESOLVED_WITH_ALTERNATIVE",
+  "business_goal": "DAILY_CONTENT_OPERATION",
+  "goal_candidates": [
+    {
+      "goal": "DAILY_CONTENT_OPERATION",
+      "rationale": "任务原话为‘为这件羊绒大衣制作春节前视频号内容’，属于典型的日常内容经营表述，未明示任何特殊经营意图，符合日常内容经营的定义：让商品被看见、被理解。",
+      "focus": "围绕产品本身，在春节前时间节点下展示其设计、材质与穿着方式，维持常规内容输出节奏。",
+      "tradeoffs": "优点是执行路径清晰、风险低，符合品牌日常沟通节奏；代价是可能错失利用库存消化期推动销售的机会窗口。",
+      "expected_outcome": "适用于维持产品曝光、强化用户对单品的认知，不以短期销量或库存动作为核心目标。",
+      "referenced_fact_ids": ["FACT:product.name", "FACT:product.material", "FACT:product.style_attributes", "FACT:product.selling_points"]
+    },
+    {
+      "goal": "INVENTORY_ACTIVATION",
+      "rationale": "系统已知该产品处于‘库存消化期’（FACT:product.lifecycle_stage），且登记在册的对应备选目标为 INVENTORY_ACTIVATION，尽管用户原话未明示此意图，但存在经营情境支持该方向。",
+      "focus": "以加速库存周转为核心，通过内容引导用户关注该款大衣的稀缺性、经典性或节日穿搭价值，间接促进购买决策。",
+      "tradeoffs": "优点是契合当前产品生命周期阶段，有助于释放库存压力；代价是需谨慎避免触碰品牌禁令（如低价叫卖），创意空间受限于高端调性。",
+      "expected_outcome": "适用于希望在春节消费季前有效降低库存水位，同时保持品牌调性的场景。",
+      "referenced_fact_ids": ["FACT:product.lifecycle_stage"]
+    }
+  ],
+  "intent_summary": "任务要求为一件羊绒大衣制作春节前的视频号内容，原话属于日常内容经营表述，未明示促销、清库存或品牌建设等特殊意图。但系统已知该产品处于库存消化期，存在一个未被用户提及的经营情境。",
+  "clarification_question": "这次春节前视频内容，是以日常展示产品为主，还是希望借节日契机重点推动这款大衣的库存消化？",
+  "referenced_fact_ids": ["FACT:product.name", "FACT:product.material", "FACT:product.style_attributes", "FACT:product.selling_points", "FACT:product.lifecycle_stage"],
+  "model_judgments": [
+    {
+      "text": "该产品含9%以上山羊绒，结合3980元定价，符合高端基础款定位。",
+      "referenced_fact_ids": ["FACT:product.material", "FACT:product.price"]
+    }
+  ],
+  "confidence_level": "MEDIUM",
+  "confidence_reason": "用户原话明确指向日常内容经营，但系统提供的库存消化期情境构成合理备选，需用户确认优先级。"
+}
